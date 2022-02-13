@@ -1,0 +1,30 @@
+server:
+  port: 8080
+  shutdown: graceful
+
+spring:
+
+  profiles:
+    active: dev
+
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+    format:
+      date-time: yyyy-MM-dd HH:mm:ss
+      date: yyyy-MM-dd
+      time: HH:mm:ss
+
+#电子口岸u-key的配置参数
+eport:
+  signature:
+    ukey:
+      #u-key的.cer证书在classpath的路径
+      cert-path: cert/01691fe9.cer
+      ws-url: ws://127.0.0.1:61232
+      password: 88888888

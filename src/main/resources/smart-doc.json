@@ -1,0 +1,35 @@
+{
+  "serverUrl": "http://localhost:8080",
+  "isStrict": false,
+  "allInOne": true,
+  "outPath": "src/main/resources/static",
+  "coverOld": true,
+  "createDebugPage": true,
+  "packageFilters": "cn.alphahub.*.controller.rpc.*Controller",
+  "md5EncryptedHtmlName": false,
+  "style": "xt256",
+  "projectName": "中国电子口岸[海口海关CEBXxxMessage.xml]加签后端接口文档",
+  "skipTransientField": true,
+  "sortByTitle": false,
+  "showAuthor": true,
+  "requestFieldToUnderline": false,
+  "responseFieldToUnderline": false,
+  "inlineEnum": true,
+  "recursionLimit": 7,
+  "allInOneDocFileName": "index.html",
+  "requestExample": "true",
+  "responseExample": "true",
+  "displayActualType": false,
+  "ignoreRequestParams": [
+    "org.springframework.ui.ModelMap"
+  ],
+  "revisionLogs": [
+    {
+      "version": "1.0",
+      "revisionTime": "2022-02-12 10:30",
+      "status": "创建",
+      "author": "Weasley J",
+      "remarks": "创建api文档"
+    }
+  ]
+}

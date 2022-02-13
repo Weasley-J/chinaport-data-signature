@@ -1,0 +1,115 @@
+<ceb:CEB621Message xmlns:ceb="http://www.chinaport.gov.cn/ceb" guid="CEB621_HNZB_FXJK_20220208175054_0034"
+                   version="v1.0">
+    <ceb:Inventory>
+        <ceb:InventoryHead>
+            <ceb:guid>CEB621_HNZB_FXJK_20220208175055_0035</ceb:guid>
+            <ceb:appType>1</ceb:appType>
+            <ceb:appTime>20220208175055</ceb:appTime>
+            <ceb:appStatus>2</ceb:appStatus>
+            <ceb:orderNo>48037605991776256</ceb:orderNo>
+            <ceb:ebpCode>46121601BC</ceb:ebpCode>
+            <ceb:ebpName>海南星创互联网医药有限公司</ceb:ebpName>
+            <ceb:ebcCode>46121601BC</ceb:ebcCode>
+            <ceb:ebcName>海南星创互联网医药有限公司</ceb:ebcName>
+            <ceb:logisticsNo>2222222</ceb:logisticsNo>
+            <ceb:logisticsCode>4101986180</ceb:logisticsCode>
+            <ceb:logisticsName>圆通</ceb:logisticsName>
+            <ceb:copNo>4101W68006</ceb:copNo>
+            <ceb:assureCode>4101960AGP</ceb:assureCode>
+            <ceb:ieFlag>I</ceb:ieFlag>
+            <ceb:declTime>20220208</ceb:declTime>
+            <ceb:customsCode>4601</ceb:customsCode>
+            <ceb:portCode>4601</ceb:portCode>
+            <ceb:ieDate>20220208</ceb:ieDate>
+            <ceb:buyerIdType>1</ceb:buyerIdType>
+            <ceb:buyerIdNumber>612326199005306719</ceb:buyerIdNumber>
+            <ceb:buyerName>用户_15150368</ceb:buyerName>
+            <ceb:buyerTelephone>18209182500</ceb:buyerTelephone>
+            <ceb:consigneeAddress>哈布斯堡</ceb:consigneeAddress>
+            <ceb:agentCode>46121601BC</ceb:agentCode>
+            <ceb:agentName>海南星创互联网医药有限公司</ceb:agentName>
+            <ceb:tradeMode>9610</ceb:tradeMode>
+            <ceb:trafMode>W</ceb:trafMode>
+            <ceb:country>142</ceb:country>
+            <ceb:freight>0.00</ceb:freight>
+            <ceb:insuredFee>0</ceb:insuredFee>
+            <ceb:currency>142</ceb:currency>
+            <ceb:packNo>1</ceb:packNo>
+            <ceb:grossWeight>0.07</ceb:grossWeight>
+            <ceb:netWeight>0.06</ceb:netWeight>
+        </ceb:InventoryHead>
+        <ceb:InventoryList>
+            <ceb:gnum>1</ceb:gnum>
+            <ceb:itemRecordNo>0797776159482</ceb:itemRecordNo>
+            <ceb:itemNo>HNGGKJ00000057</ceb:itemNo>
+            <ceb:itemName>通用铁剂胶囊</ceb:itemName>
+            <ceb:gcode>2106909090</ceb:gcode>
+            <ceb:gname>ACTIVE IRON</ceb:gname>
+            <ceb:gmodel>4|3|乳清蛋白(牛奶)65%,胶囊壳(羟苯基甲基纤维素)21%,硫酸亚铁1.2%,酸度调节剂2%,填充剂 10.8%|30粒/盒|无中文名称/ACTIVE IRON</ceb:gmodel>
+            <ceb:country>306</ceb:country>
+            <ceb:currency>142</ceb:currency>
+            <ceb:qty>1</ceb:qty>
+            <ceb:unit>140</ceb:unit>
+            <ceb:qty1>0.06</ceb:qty1>
+            <ceb:unit1>035</ceb:unit1>
+            <ceb:price>0.01</ceb:price>
+            <ceb:totalPrice>0.01</ceb:totalPrice>
+        </ceb:InventoryList>
+    </ceb:Inventory>
+    <ceb:BaseTransfer>
+        <ceb:copCode>46121601BC</ceb:copCode>
+        <ceb:copName>海南星创互联网医药有限公司</ceb:copName>
+        <ceb:dxpMode>DXP</ceb:dxpMode>
+        <ceb:dxpId>DXPENT0000458763</ceb:dxpId>
+    </ceb:BaseTransfer>
+    <ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+        <ds:SignedInfo>
+            <ds:CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
+            <ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
+            <ds:Reference URI="">
+                <ds:Transforms>
+                    <ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+                </ds:Transforms>
+                <ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+                <ds:DigestValue>b2FtM/jHvW4fnJpMMPWk/177RwA=</ds:DigestValue>
+            </ds:Reference>
+        </ds:SignedInfo>
+        <ds:SignatureValue>
+            mhWpJI3RsJZGiR8MqI3kcJAJPqgVOQi0IFJzp0CBWLG+Qa7ZnYJX+hi70J+/09diHYkCMDxcKuT5uogbFvi/9rOZnrn+YsL0h0/nGcO31lx/RpqT8i5GoSt/UcZe9COIbnrKwdh+90FLYIW4xS3Rsglv4CDL+e53GGmSdduSTUU=
+        </ds:SignatureValue>
+        <ds:KeyInfo>
+            <ds:KeyName>01691fe9</ds:KeyName>
+            <ds:X509Data>
+                <ds:X509Certificate>
+                    bjEVMBMGA1UECh4MTi1W/XU1W1BT41y4MRUwEwYDVQQLHgyLwU5me6F0Bk4tX8Mx
+                    wzENMAsGA1UEBx4EUxdOrDAeFw0yMTA1MzEwMDAwMDBaFw0zMTA1MzEwMDAwMDBa
+                    MIIE+TCCBGKgAwIBAgIEAWkf6TANBgkqhkiG9w0BAQUFADB8MQswCQYDVQQGEwJj
+                    DTALBgNVBAgeBFMXTqwxITAfBgNVBAMeGE4tVv11NVtQThpSoYvBTmZ7oXQGTi1f
+                    A4GNADCBiQKBgQDt9T7JOQikKKL7oY7RWbRMp7y2VsrXIbFzSDh5DZQPimduUijZ
+                    xgG4Kdr0TwxAQ+s3H85fCU81ROgqAS05/IzOR7eDSEYYT9CRmNYXIRTPVwIDAQAB
+                    MBwxDTALBgNVBAMeBH8qdDMxCzAJBgNVBBIeAgAxMIGfMA0GCSqGSIb3DQEBAQUA
+                    o4IC5jCCAuIwCwYDVR0PBAQDAgbAMAkGA1UdEwQCMAAwgacGA1UdIwSBnzCBnIAU
+                    zZlK6AkZMDYJBM2/IJGI0QjWjBJVZ8hEUkgJb4UOOBCBM+cCGFCNY5LX/mAo5Boe
+                    Ch4MTi1W/XU1W1BT41y4MRUwEwYDVQQLHgyLwU5me6F0Bk4tX8MxDTALBgNVBAge
+                    Bx4EUxdOrIIBADAdBgNVHQ4EFgQU1eAz50lwZ6gidtkJNPIr7O0jKvUwQgYDVR0g
+                    BDswOTA3BgYrgQcBAQIwLTArBggrBgEFBQcCARYfaHR0cDovL2Nwcy5jaGluYXBv
+                    +XWjeEULQmjCBFOr68NOPlR4dGChgYCkfjB8MQswCQYDVQQGEwJjbjEVMBMGA1UE
+                    BFMXTqwxITAfBgNVBAMeGE4tVv11NVtQThpSoYvBTmZ7oXQGTi1fwzENMAsGA1UE
+                    cnQuZ292LmNuL0NQUzByBgNVHR8EazBpMDCgLqAshipsZGFwOi8vbGRhcC5jaGlu
+                    YXBvcnQuZ292LmNuOjM4OS8wMDAtMS5jcmwwNaAzoDGGL2h0dHA6Ly9sZGFwLmNo
+                    aW5hcG9ydC5nb3YuY246ODA4OC9kemthMDAwLTEuY3JsMG0GCCsGAQUFBwEBBGEw
+                    LzAtBggrBgEFBQcwAYYhaHR0cDovL29jc3AuY2hpbmFwb3J0Lmdvdi5jbjo4MDg4
+                    XzAuBggrBgEFBQcwAYYiaHR0cDovL29jc3AuY2hpbmFwb3J0Lmdvdi5jbjo4ODAw
+                    KwYBBAGpQ2QFAwQEFgIwMTAiBgorBgEEAalDZAUIBBQWEjMxMDEwMjE5ODAwNzI0
+                    MCoGCisGAQQBqUNkBQEEHBYauqPEz9DHtLS7pcGqzfjSvdKp09DP3rmry74wEgYK
+                    CwQLFglNQTVUTFVBNTMwEgYKKwYBBAGpQ2QFDAQEFgIwMDASBgorBgEEAalDZAIE
+                    MzIxNDAdBgorBgEEAalDZAUJBA8WDUpKMEc5MDAxNTkyNzIwGQYKKwYBBAGpQ2QF
+                    MxAzM4bXvdlDcE6fODsCvQMFKctlA+LCllFQwl58HaBmcWx4T/ddKF9LBYc8A986
+                    BAQWAjE0MBIGCisGAQQBqUNkAgEEBBYCMTIwDQYJKoZIhvcNAQEFBQADgYEAqSuO
+                    LlcUw6Mkwxraj2WO+meXdDzRLEO8t3gyZk7tYp5aneV4zGYUsphwyMdLt8N8o4kV
+                    gg16bQy43XgA1jRMv8nvhb908IqQQBxwv0SIuXU=
+                </ds:X509Certificate>
+            </ds:X509Data>
+        </ds:KeyInfo>
+    </ds:Signature>
+</ceb:CEB621Message>

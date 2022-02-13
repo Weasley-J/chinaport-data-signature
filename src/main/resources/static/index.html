@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="smart-doc" name="generator">
+    <title>chinaport-data-signature</title>
+    <link href="font.css" rel="stylesheet">
+    <link href="AllInOne.css?v=1644762480925" rel="stylesheet"/>
+    <link href="xt256.min.css" rel="stylesheet">
+    <style>.literalblock pre, .listingblock pre:not(.highlight), .listingblock pre[class="highlight"], .listingblock pre[class^="highlight "], .listingblock pre.CodeRay, .listingblock pre.prettyprint {
+        background: #000
+    }
+
+    .hljs {
+        padding: 0
+    }</style>
+    <script src="highlight.min.js"></script>
+    <script src="jquery.min.js"></script>
+</head>
+<body class="book toc2 toc-left">
+<div id="header"><h1>chinaport-data-signature</h1>
+    <div class="toc2" id="toc">
+        <div id="book-search-input"><input id="search" placeholder="Type to search" type="text"></div>
+        <div id="toctitle"><span>API Reference</span></div>
+        <ul class="sectlevel1" id="accordion">
+            <li class="open"><a class="dd" href="#_1_1_电子口岸报文加签Controller">1.&nbsp;电子口岸报文加签Controller</a>
+                <ul class="sectlevel2">
+                    <li><a href="#_1_1_1_CEBXxxMessage.xml加签">1.1.&nbsp;CEBXxxMessage.xml加签</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+<div id="content">
+    <div id="preamble">
+        <div class="sectionbody">
+            <table class="tableblock frame-all grid-all spread">
+                <colgroup>
+                    <col style="width: 20%;">
+                    <col style="width: 20%;">
+                    <col style="width: 20%;">
+                    <col style="width: 20%;">
+                    <col style="width: 20%;">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th class="tableblock halign-left valign-top">Version</th>
+                    <th class="tableblock halign-left valign-top">Update Time</th>
+                    <th class="tableblock halign-left valign-top">Status</th>
+                    <th class="tableblock halign-left valign-top">Author</th>
+                    <th class="tableblock halign-left valign-top">Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">1.0</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">2022-02-12 10:30</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">创建</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">Weasley J</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">创建api文档</p></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="sect1"><h2 id="_1_1_电子口岸报文加签Controller"><a class="anchor" href="#_1_1_电子口岸报文加签Controller"></a><a
+            class="link" href="#_1_1_电子口岸报文加签Controller">1.&nbsp;电子口岸报文加签Controller</a></h2>
+        <div class="sectionbody">
+            <div class="sect2" id="cd4a9d8b61452c6393010d5e007607df"><h3 id="_1_1_1_CEBXxxMessage.xml加签"><a
+                    class="anchor" href="#_1_1_1_CEBXxxMessage.xml加签"></a><a class="link"
+                                                                             href="#_1_1_1_CEBXxxMessage.xml加签">1.1.&nbsp;CEBXxxMessage.xml加签</a>
+            </h3>
+                <div class="paragraph" data-download="false" data-page=""
+                     data-url="http://localhost:8080/rpc/eport/signature" id="cd4a9d8b61452c6393010d5e007607df-url"><p>
+                    <strong>URL:</strong><a class="bare" href="http://localhost:8080/rpc/eport/signature">&nbsp;http://localhost:8080/rpc/eport/signature</a>
+                </p></div>
+                <div class="paragraph" data-method="POST" id="cd4a9d8b61452c6393010d5e007607df-method"><p>
+                    <strong>Type:</strong>&nbsp;POST</p></div>
+                <div class="paragraph"><p><strong>Author:</strong>&nbsp;lwj</p></div>
+                <div class="paragraph" data-content-type="application/json; charset=utf-8"
+                     id="cd4a9d8b61452c6393010d5e007607df-content-type"><p><strong>Content-Type:</strong>&nbsp;application/json;
+                    charset=utf-8</p></div>
+                <div class="paragraph"><p><strong>Description:</strong>&nbsp;CEBXxxMessage.xml加签</p></div>
+                <div class="paragraph"><p><strong>Body-parameters:</strong></p></div>
+                <table class="tableblock frame-all grid-all spread">
+                    <colgroup>
+                        <col style="width: 20%;">
+                        <col style="width: 20%;">
+                        <col style="width: 20%;">
+                        <col style="width: 20%;">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th class="tableblock halign-left valign-top">Parameter</th>
+                        <th class="tableblock halign-left valign-top">Type</th>
+                        <th class="tableblock halign-left valign-top">Required</th>
+                        <th class="tableblock halign-left valign-top">Description</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">唯一id,
+                            用来区分是哪一次发送的消息，默认值=1，从1开始，{@code int} 最大, 2<sup>31</sup>-1.</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">sourceXml</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">string</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">
+                            不带ds:Signature节点的CEbXXXMessage.xml原文</p></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="paragraph"><p><strong>Request-body:</strong></p></div>
+                <div class="listingblock">
+                    <div class="content"><pre><code contenteditable="plaintext-only"
+                                                    id="cd4a9d8b61452c6393010d5e007607df-body">{
+  "id": 399,
+  "sourceXml": "j5z71j"
+}</code></pre>
+                    </div>
+                </div>
+                <div class="paragraph"><p><strong>Response-fields:</strong></p></div>
+                <table class="tableblock frame-all grid-all spread">
+                    <colgroup>
+                        <col style="width: 25%;">
+                        <col style="width: 25%;">
+                        <col style="width: 25%;">
+                        <col style="width: 25%;">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th class="tableblock halign-left valign-top">Field</th>
+                        <th class="tableblock halign-left valign-top">Type</th>
+                        <th class="tableblock halign-left valign-top">Description</th>
+                        <th class="tableblock halign-left valign-top">Since</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">string</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">返回消息</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">success</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">是否成功</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">timestamp</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">string</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">响应时间戳</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">code</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">状态码</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">data</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">object</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">响应数据</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">└─success</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">本次是否加签成功</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">└─certNo</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">string</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">签名的ukey的卡序列号,需要用专用的工具导出</p>
+                        </td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">└─x509Certificate</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">string</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">签名的ukey证书,需要用专用工具导出</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">└─digestValue</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">string</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">
+                            xml的数字摘要，先对不包含Signature节点的原始报文,进行C14n格式化，然后取shal二进制摘要，然后对sha1的值进行base64编码<br>
+                            <ul><br>
+                                <li><a href='http://tool.qdhuaxun.cn/ceb/CEB311Message.xml'> 待加签报文样例</a></li>
+                                <br></ul>
+                            </p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">└─signatureValue</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">string</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">调用ukey获取的签名值</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="paragraph">
+                    <p><strong>
+                        <button class="send-button" data-id="cd4a9d8b61452c6393010d5e007607df">Send Request</button>
+                    </strong><span id="cd4a9d8b61452c6393010d5e007607df-resp-status"></span></p>
+                </div>
+                <div class="paragraph"><p><strong>Response-example:</strong></p></div>
+                <div class="listingblock">
+                    <div class="content" id="cd4a9d8b61452c6393010d5e007607df-response"><pre><code class="json">{
+  "message": "success",
+  "success": true,
+  "timestamp": "2022-02-13 22:28:01",
+  "code": 633,
+  "data": {
+    "success": true,
+    "certNo": "l2nbfn",
+    "x509Certificate": "6y72t7",
+    "digestValue": "s8e5nj",
+    "signatureValue": "gvl2bx"
+  }
+}</code></pre>
+                    </div>
+                </div>
+                <div class="paragraph"><p><strong>Curl-example:</strong></p></div>
+                <div class="listingblock">
+                    <div class="content" id="cd4a9d8b61452c6393010d5e007607df-curl"><pre><code class="bash">curl -X POST -H 'Content-Type: application/json; charset=utf-8' -i http://localhost:8080/rpc/eport/signature --data '{
+  "id": 399,
+  "sourceXml": "j5z71j"
+}'</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="page-footer"><span class="copyright">Generated by smart-doc at 2022-02-13 22:28:00</span><span
+            class="footer-modification">Suggestions,contact,support and error reporting on<a
+            href="https://gitee.com/smart-doc-team/smart-doc" target="_blank">&nbsp;Gitee</a>&nbsp;or<a
+            href="https://github.com/smart-doc-group/smart-doc.git" target="_blank">&nbsp;Github</a></span></footer>
+    <div href="javascript:void(0)" id="toTop"><img id="upArrow"
+                                                   src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABlUlEQVRIS+2UvUvDQBiH398Rly4udnARwUXs4qAIOigI4iL30dTZ2T9AcNPVvUsXF7uYttdScNDFRRAnB11cFFwKxcXBJTQnJ6lEbRI/CIiY9e6e5/e+9+ZAGX/ImE9/QKCU2jfGbGTQqq4xZgtSyisiKmQgIAAVCCFWAGxnIOhqrdd/xyUrpRZsP40xSwA6AI57vd5eq9W6T6s8tQIppSKi+gDQNREprfVNkiRRwDlfY4xZ+FAIuSOi8Qjw0nEc5XnebZwkViClXA2T5+xhY8xus9ncEUJMAziITN5FEARuXLsGCoQQywBs8uEovJ+Scz7FGDuMSM4cx3E9z+u8r+SDQEq5SEQ1IhoZBE+QnBKRq7V+iEreCDjn84wxCx9NgidITnK5nFutVh/7e14FSqnZIAhqAMY+A4+TADjyfb/Ubref7J4XQXhxNvnEV+AJlbTy+XypUqn4KBaLBZuciCa/A0+opN5oNFz7FpUBbP4EHicxxsyAcz7HGDvvz3nar5+2Ho5wOQwsU5+KNGDa+r8grUP0DBLjtRtNKEliAAAAAElFTkSuQmCC"><span
+            id="upText">Top</span></div>
+</div>
+<script src="debug.js?v=1644762480925"></script>
+<script src="search.js?v=1644762480925"></script>
+<script>$(function () {
+    $(window).scroll(function () {
+        if ($(window).scrollTop() > 100) {
+            $("#toTop").fadeIn(1500);
+            $("#toTop").hover(function () {
+                $("#upArrow").hide();
+                $("#upText").show()
+            }, function () {
+                $("#upArrow").show();
+                $("#upText").hide()
+            })
+        } else {
+            $("#toTop").fadeOut(1500)
+        }
+    });
+    $("#toTop").click(function () {
+        $("body, html").animate({scrollTop: 0}, 1000);
+        return false
+    })
+});</script>
+</body>
+</html>
