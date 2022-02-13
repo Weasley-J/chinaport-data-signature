@@ -25,6 +25,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Accessors(chain = true)
 public class SignRequest implements Serializable {
+
     /**
      * 唯一id, 用来区分是哪一次发送的消息，默认值=1，从1开始，{@code int} 最大, 2<sup>31</sup>-1.
      */
@@ -34,8 +35,11 @@ public class SignRequest implements Serializable {
     private Integer id = 1;
     /**
      * 不带ds:Signature节点的CEbXXXMessage.xml原文
+     * <ul>
+     *     <li><a href='http://tool.qdhuaxun.cn/ceb/CEB311Message.xml'>待加签xml报文样例</a></li>
+     * </ul>
      */
-    @NotBlank(message = "不带<ds:Signature></ds:Signature>节点的CEbXXXMessage.xml原文不能为空")
+    @NotBlank(message = "不带ds:Signature节点的CEbXXXMessage.xml原文不能为空")
     private String sourceXml;
 
     @Nullable

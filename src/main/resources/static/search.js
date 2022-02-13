@@ -19,7 +19,6 @@ api[0].list[0].list.push({
     desc: 'CEBXxxMessage.xml加签',
 });
 document.onkeydown = keyDownSearch;
-
 function keyDownSearch(e) {
     const theEvent = e;
     const code = theEvent.keyCode || theEvent.which || theEvent.charCode;

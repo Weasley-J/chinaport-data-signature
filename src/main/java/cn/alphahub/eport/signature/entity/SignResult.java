@@ -22,15 +22,15 @@ import java.io.Serializable;
 @Accessors(chain = true)
 public class SignResult implements Serializable {
     /**
-     * 本次是否加签成功
+     * 本次加签是否成功
      */
     private Boolean success = false;
     /**
-     * 签名的ukey的卡序列号,需要用专用的工具导出
+     * 签名的ukey的卡序列号
      */
     private String certNo;
     /**
-     * 签名的ukey证书,需要用专用工具导出
+     * 签名的ukey证书
      */
     private String x509Certificate;
     /**
