@@ -25,7 +25,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Accessors(chain = true)
 public class SignRequest implements Serializable {
-
     /**
      * 唯一id, 用来区分是哪一次发送的消息，默认值=1，从1开始，{@code int} 最大, 2<sup>31</sup>-1.
      */
