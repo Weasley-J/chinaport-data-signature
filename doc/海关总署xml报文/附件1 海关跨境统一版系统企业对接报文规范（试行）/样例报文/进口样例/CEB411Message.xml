@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ceb:CEB411Message guid="4CDE1CFD-EDED-46B1-946C-B8022E42FC94" version="1.0"  xmlns:ceb="http://www.chinaport.gov.cn/ceb" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<ceb:Payment>
+		<ceb:PaymentHead>
+			<ceb:guid>4CDE1CFD-EDED-46B1-946C-B8022E42FC94</ceb:guid>
+			<ceb:appType>1</ceb:appType>
+			<ceb:appTime>20160308112745</ceb:appTime>
+			<ceb:appStatus>2</ceb:appStatus>
+			<ceb:payCode>1101110323</ceb:payCode>
+			<ceb:payName>测试企业</ceb:payName>
+			<ceb:payTransactionId>P0242250007</ceb:payTransactionId>
+			<ceb:orderNo>order2016030811340007</ceb:orderNo>
+			<ceb:ebpCode>1101110325</ceb:ebpCode>
+			<ceb:ebpName>测试企业</ceb:ebpName>
+			<ceb:payerIdType>1</ceb:payerIdType>
+			<ceb:payerIdNumber>130625021345225322</ceb:payerIdNumber>
+			<ceb:payerName>支付人</ceb:payerName>
+			<ceb:telephone>13256254445</ceb:telephone>
+			<ceb:amountPaid>19050</ceb:amountPaid>
+			<ceb:currency>142</ceb:currency>
+			<ceb:payTime>20160315153555</ceb:payTime>
+			<ceb:note></ceb:note>
+		</ceb:PaymentHead>
+	</ceb:Payment>
+	<ceb:Payment>
+		<ceb:PaymentHead>
+			<ceb:guid>4CDE1CFD-EDED-46B1-946C-B8022E42FC95</ceb:guid>
+			<ceb:appType>1</ceb:appType>
+			<ceb:appTime>20160308112745</ceb:appTime>
+			<ceb:appStatus>2</ceb:appStatus>
+			<ceb:payCode>1101110323</ceb:payCode>
+			<ceb:payName>测试企业</ceb:payName>
+			<ceb:payTransactionId>P0242250008</ceb:payTransactionId>
+			<ceb:orderNo>order2016030811340008</ceb:orderNo>
+			<ceb:ebpCode>1101110325</ceb:ebpCode>
+			<ceb:ebpName>测试企业</ceb:ebpName>
+			<ceb:payerIdType>1</ceb:payerIdType>
+			<ceb:payerIdNumber>130625021345225322</ceb:payerIdNumber>
+			<ceb:payerName>支付人</ceb:payerName>
+			<ceb:telephone>13256254445</ceb:telephone>
+			<ceb:amountPaid>19050</ceb:amountPaid>
+			<ceb:currency>142</ceb:currency>
+			<ceb:payTime>20160315153555</ceb:payTime>
+			<ceb:note></ceb:note>
+		</ceb:PaymentHead>
+	</ceb:Payment>
+	<ceb:Payment>
+		<ceb:PaymentHead>
+			<ceb:guid>4CDE1CFD-EDED-46B1-946C-B8022E42FC94</ceb:guid>
+			<ceb:appType>1</ceb:appType>
+			<ceb:appTime>20160308112745</ceb:appTime>
+			<ceb:appStatus>2</ceb:appStatus>
+			<ceb:payCode>1101110323</ceb:payCode>
+			<ceb:payName>测试企业</ceb:payName>
+			<ceb:payTransactionId>P0242250007</ceb:payTransactionId>
+			<ceb:orderNo>order2016030811340007</ceb:orderNo>
+			<ceb:ebpCode>1101110325</ceb:ebpCode>
+			<ceb:ebpName>测试企业</ceb:ebpName>
+			<ceb:payerIdType>1</ceb:payerIdType>
+			<ceb:payerIdNumber>130625021345225322</ceb:payerIdNumber>
+			<ceb:payerName>支付人</ceb:payerName>
+			<ceb:telephone>13256254445</ceb:telephone>
+			<ceb:amountPaid>19050</ceb:amountPaid>
+			<ceb:currency>142</ceb:currency>
+			<ceb:payTime>20160315153555</ceb:payTime>
+			<ceb:note></ceb:note>
+		</ceb:PaymentHead>
+	</ceb:Payment>
+	<ceb:Payment>
+		<ceb:PaymentHead>
+			<ceb:guid>4CDE1CFD-EDED-46B1-946C-B8022E42FC95</ceb:guid>
+			<ceb:appType>1</ceb:appType>
+			<ceb:appTime>20160308112745</ceb:appTime>
+			<ceb:appStatus>2</ceb:appStatus>
+			<ceb:payCode>1101110323</ceb:payCode>
+			<ceb:payName>测试企业</ceb:payName>
+			<ceb:payTransactionId>P0242250008</ceb:payTransactionId>
+			<ceb:orderNo>order2016030811340008</ceb:orderNo>
+			<ceb:ebpCode>1101110325</ceb:ebpCode>
+			<ceb:ebpName>测试企业</ceb:ebpName>
+			<ceb:payerIdType>1</ceb:payerIdType>
+			<ceb:payerIdNumber>130625021345225322</ceb:payerIdNumber>
+			<ceb:payerName>支付人</ceb:payerName>
+			<ceb:telephone>13256254445</ceb:telephone>
+			<ceb:amountPaid>19050</ceb:amountPaid>
+			<ceb:currency>142</ceb:currency>
+			<ceb:payTime>20160315153555</ceb:payTime>
+			<ceb:note></ceb:note>
+		</ceb:PaymentHead>
+	</ceb:Payment>
+	<ceb:Payment>
+		<ceb:PaymentHead>
+			<ceb:guid>4CDE1CFD-EDED-46B1-946C-B8022E42FC94</ceb:guid>
+			<ceb:appType>1</ceb:appType>
+			<ceb:appTime>20160308112745</ceb:appTime>
+			<ceb:appStatus>2</ceb:appStatus>
+			<ceb:payCode>1101110323</ceb:payCode>
+			<ceb:payName>测试企业</ceb:payName>
+			<ceb:payTransactionId>P0242250007</ceb:payTransactionId>
+			<ceb:orderNo>order2016030811340007</ceb:orderNo>
+			<ceb:ebpCode>1101110325</ceb:ebpCode>
+			<ceb:ebpName>测试企业</ceb:ebpName>
+			<ceb:payerIdType>1</ceb:payerIdType>
+			<ceb:payerIdNumber>130625021345225322</ceb:payerIdNumber>
+			<ceb:payerName>支付人</ceb:payerName>
+			<ceb:telephone>13256254445</ceb:telephone>
+			<ceb:amountPaid>19050</ceb:amountPaid>
+			<ceb:currency>142</ceb:currency>
+			<ceb:payTime>20160315153555</ceb:payTime>
+			<ceb:note></ceb:note>
+		</ceb:PaymentHead>
+	</ceb:Payment>
+	<ceb:Payment>
+		<ceb:PaymentHead>
+			<ceb:guid>4CDE1CFD-EDED-46B1-946C-B8022E42FC95</ceb:guid>
+			<ceb:appType>1</ceb:appType>
+			<ceb:appTime>20160308112745</ceb:appTime>
+			<ceb:appStatus>2</ceb:appStatus>
+			<ceb:payCode>1101110323</ceb:payCode>
+			<ceb:payName>测试企业</ceb:payName>
+			<ceb:payTransactionId>P0242250008</ceb:payTransactionId>
+			<ceb:orderNo>order2016030811340008</ceb:orderNo>
+			<ceb:ebpCode>1101110325</ceb:ebpCode>
+			<ceb:ebpName>测试企业</ceb:ebpName>
+			<ceb:payerIdType>1</ceb:payerIdType>
+			<ceb:payerIdNumber>130625021345225322</ceb:payerIdNumber>
+			<ceb:payerName>支付人</ceb:payerName>
+			<ceb:telephone>13256254445</ceb:telephone>
+			<ceb:amountPaid>19050</ceb:amountPaid>
+			<ceb:currency>142</ceb:currency>
+			<ceb:payTime>20160315153555</ceb:payTime>
+			<ceb:note></ceb:note>
+		</ceb:PaymentHead>
+	</ceb:Payment>
+	<ceb:Payment>
+		<ceb:PaymentHead>
+			<ceb:guid>4CDE1CFD-EDED-46B1-946C-B8022E42FC94</ceb:guid>
+			<ceb:appType>1</ceb:appType>
+			<ceb:appTime>20160308112745</ceb:appTime>
+			<ceb:appStatus>2</ceb:appStatus>
+			<ceb:payCode>1101110323</ceb:payCode>
+			<ceb:payName>测试企业</ceb:payName>
+			<ceb:payTransactionId>P0242250007</ceb:payTransactionId>
+			<ceb:orderNo>order2016030811340007</ceb:orderNo>
+			<ceb:ebpCode>1101110325</ceb:ebpCode>
+			<ceb:ebpName>测试企业</ceb:ebpName>
+			<ceb:payerIdType>1</ceb:payerIdType>
+			<ceb:payerIdNumber>130625021345225322</ceb:payerIdNumber>
+			<ceb:payerName>支付人</ceb:payerName>
+			<ceb:telephone>13256254445</ceb:telephone>
+			<ceb:amountPaid>19050</ceb:amountPaid>
+			<ceb:currency>142</ceb:currency>
+			<ceb:payTime>20160315153555</ceb:payTime>
+			<ceb:note></ceb:note>
+		</ceb:PaymentHead>
+	</ceb:Payment>
+	<ceb:Payment>
+		<ceb:PaymentHead>
+			<ceb:guid>4CDE1CFD-EDED-46B1-946C-B8022E42FC95</ceb:guid>
+			<ceb:appType>1</ceb:appType>
+			<ceb:appTime>20160308112745</ceb:appTime>
+			<ceb:appStatus>2</ceb:appStatus>
+			<ceb:payCode>1101110323</ceb:payCode>
+			<ceb:payName>测试企业</ceb:payName>
+			<ceb:payTransactionId>P0242250008</ceb:payTransactionId>
+			<ceb:orderNo>order2016030811340008</ceb:orderNo>
+			<ceb:ebpCode>1101110325</ceb:ebpCode>
+			<ceb:ebpName>测试企业</ceb:ebpName>
+			<ceb:payerIdType>1</ceb:payerIdType>
+			<ceb:payerIdNumber>130625021345225322</ceb:payerIdNumber>
+			<ceb:payerName>支付人</ceb:payerName>
+			<ceb:telephone>13256254445</ceb:telephone>
+			<ceb:amountPaid>19050</ceb:amountPaid>
+			<ceb:currency>142</ceb:currency>
+			<ceb:payTime>20160315153555</ceb:payTime>
+			<ceb:note></ceb:note>
+		</ceb:PaymentHead>
+	</ceb:Payment>
+	<ceb:Payment>
+		<ceb:PaymentHead>
+			<ceb:guid>4CDE1CFD-EDED-46B1-946C-B8022E42FC94</ceb:guid>
+			<ceb:appType>1</ceb:appType>
+			<ceb:appTime>20160308112745</ceb:appTime>
+			<ceb:appStatus>2</ceb:appStatus>
+			<ceb:payCode>1101110323</ceb:payCode>
+			<ceb:payName>测试企业</ceb:payName>
+			<ceb:payTransactionId>P0242250007</ceb:payTransactionId>
+			<ceb:orderNo>order2016030811340007</ceb:orderNo>
+			<ceb:ebpCode>1101110325</ceb:ebpCode>
+			<ceb:ebpName>测试企业</ceb:ebpName>
+			<ceb:payerIdType>1</ceb:payerIdType>
+			<ceb:payerIdNumber>130625021345225322</ceb:payerIdNumber>
+			<ceb:payerName>支付人</ceb:payerName>
+			<ceb:telephone>13256254445</ceb:telephone>
+			<ceb:amountPaid>19050</ceb:amountPaid>
+			<ceb:currency>142</ceb:currency>
+			<ceb:payTime>20160315153555</ceb:payTime>
+			<ceb:note></ceb:note>
+		</ceb:PaymentHead>
+	</ceb:Payment>
+	<ceb:Payment>
+		<ceb:PaymentHead>
+			<ceb:guid>4CDE1CFD-EDED-46B1-946C-B8022E42FC95</ceb:guid>
+			<ceb:appType>1</ceb:appType>
+			<ceb:appTime>20160308112745</ceb:appTime>
+			<ceb:appStatus>2</ceb:appStatus>
+			<ceb:payCode>1101110323</ceb:payCode>
+			<ceb:payName>测试企业</ceb:payName>
+			<ceb:payTransactionId>P0242250008</ceb:payTransactionId>
+			<ceb:orderNo>order2016030811340008</ceb:orderNo>
+			<ceb:ebpCode>1101110325</ceb:ebpCode>
+			<ceb:ebpName>测试企业</ceb:ebpName>
+			<ceb:payerIdType>1</ceb:payerIdType>
+			<ceb:payerIdNumber>130625021345225322</ceb:payerIdNumber>
+			<ceb:payerName>支付人</ceb:payerName>
+			<ceb:telephone>13256254445</ceb:telephone>
+			<ceb:amountPaid>19050</ceb:amountPaid>
+			<ceb:currency>142</ceb:currency>
+			<ceb:payTime>20160315153555</ceb:payTime>
+			<ceb:note></ceb:note>
+		</ceb:PaymentHead>
+	</ceb:Payment>
+	<ceb:BaseTransfer>
+		<ceb:copCode>1101180326</ceb:copCode>
+		<ceb:copName>物流企业</ceb:copName>
+		<ceb:dxpMode>DXP</ceb:dxpMode>
+		<ceb:dxpId>DXPLGS0000000001</ceb:dxpId>
+		<ceb:note></ceb:note>
+	</ceb:BaseTransfer>
+	<ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+<ds:SignedInfo>
+<ds:CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"></ds:CanonicalizationMethod>
+<ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"></ds:SignatureMethod>
+<ds:Reference URI="">
+<ds:Transforms>
+<ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"></ds:Transform>
+</ds:Transforms>
+<ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"></ds:DigestMethod>
+<ds:DigestValue>SF/P+2sVsRQ9dJIqJSroW6ajb0Y=</ds:DigestValue>
+</ds:Reference>
+</ds:SignedInfo>
+<ds:SignatureValue>
+AI0wdcUHaaOR+FZ7W8lN6FrjzS+iru1qoBTCxm4S6knmLFLunPkLueELV69nYZr4x+uCPnNDD/wq
+jSqyPnH2xrrx8EFvsIhxNMCi+IlfS1z440YmeMEXnhff0pxSBGgrhETrq1tqp6QBZE5siBF4ow10
+0Q9RKaB+OMs4AB6I+0g=
+</ds:SignatureValue>
+<ds:KeyInfo>
+<ds:KeyName>0001</ds:KeyName>
+<ds:X509Data>
+<ds:X509Certificate>
+MIIEWzCCA8SgAwIBAgIDAJknMA0GCSqGSIb3DQEBBQUAMHYxCzAJBgNVBAYTAmNuMREwDwYDVQQK
+Hgh1NVtQU+NcuDENMAsGA1UECx4EAEMAQTENMAsGA1UECB4EUxdOrDEjMCEGA1UEAx4aTi1W/XU1
+W1BT41y4ZXBjbk4tX8NfAFPRUzoxETAPBgNVBAceCE4cZblef1c6MB4XDTE1MDUxOTAwMDAwMFoX
+DTQ5MTIwODAwMDAwMFowJTEjMCEGA1UEAx4aADEAM1P3W8aUpW1Li9VnDVKhVmhfAFPRUzowgZ8w
+DQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBAKoQc7txXMb5VuXJnALpKQ1mAxFW2hxPwRhXY0mirNIL
+2gLY2z7ysqRvkpSRzr3BEq97xWLlXkQDG1QnzvTvh1YQzrffARSlCy6dYJ3YgM+Bps2NsPXhw1Lk
+vk0wn7LXAskEbwRgLihu1pH6/IGEocgeFusWTXT6B/ppTiEXL/87AgMBAAGjggJGMIICQjALBgNV
+HQ8EBAMCBsAwCQYDVR0TBAIwADCBoAYDVR0jBIGYMIGVgBQsaDiQrlh9ryILr2BYMK/wvmRvlqF6
+pHgwdjELMAkGA1UEBhMCY24xETAPBgNVBAoeCHU1W1BT41y4MQ0wCwYDVQQLHgQAQwBBMQ0wCwYD
+VQQIHgRTF06sMSMwIQYDVQQDHhpOLVb9dTVbUFPjXLhlcGNuTi1fw18AU9FTOjERMA8GA1UEBx4I
+ThxluV5/VzqCASUwHQYDVR0OBBYEFPcD90hfpSLKzuhaE3NvhU1xwHDAMEIGA1UdIAQ7MDkwNwYG
+K4EHAQECMC0wKwYIKwYBBQUHAgEWH2h0dHA6Ly9jcHMuY2hpbmFwb3J0Lmdvdi5jbi9DUFMwQgYD
+VR0fBDswOTA3oDWgM4YxaHR0cDovL2xkYXAuY2hpbmFwb3J0Lmdvdi5jbjo4MDg4L2R6a2EwMDAt
+MTk2LmNybDA9BggrBgEFBQcBAQQxMC8wLQYIKwYBBQUHMAGGIWh0dHA6Ly9vY3NwLmNoaW5hcG9y
+dC5nb3YuY246ODA4ODAqBgorBgEEAalDZAUBBBwWGtbQufq159fTv9qwtsr9vt3W0NDEv6q3osf4
+MBoGCisGAQQBqUNkBQYEDBYKUzAyMDEyMDAzODAaBgorBgEEAalDZAUJBAwWClMwMjAxMjAwMzgw
+EgYKKwYBBAGpQ2QCBAQEFgJDQTASBgorBgEEAalDZAIBBAQWAjE5MBMGBSpWCwcFBAoWCLXn19O/
+2rC2MA0GCSqGSIb3DQEBBQUAA4GBAFqdOOqCs/0zfJj5NM3UPXzAK/yIyx6b8ZEQXuY/aojzE46Q
+QXX1/N+G3DsKPvUhXQj1mAsZQeT0aMiUa1aNCd0P8p+PsfrB9E5oZnFhp4cLDkkuh2gx+MCFOHe2
+oEbi2/nCZpvWRJ34id5szTIw1n96/nrrg2+qFk+ddFr0xRzz
+</ds:X509Certificate>
+</ds:X509Data>
+</ds:KeyInfo>
+</ds:Signature>
+</ceb:CEB411Message>

@@ -18,7 +18,7 @@ public class UkeyProperties {
     /**
      * u-key的.cer证书在classpath的路径
      */
-    private String certPath;
+    private String certPath = "";
     /**
      * socket链接url
      */

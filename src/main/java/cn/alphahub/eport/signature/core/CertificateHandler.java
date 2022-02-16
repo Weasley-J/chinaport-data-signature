@@ -21,7 +21,7 @@ import java.util.Map;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-public class X509CertificateHandler implements Serializable {
+public class CertificateHandler implements Serializable {
     /**
      * 从u-key读取含发送推送{@code <ds:X509Certificate>}(经HASH散列过)证书对应的方法
      */
@@ -48,8 +48,8 @@ public class X509CertificateHandler implements Serializable {
      */
     public String get509Certificate(String method) {
         return switch (method) {
-            case METHOD_OF_X509_WITH_HASH -> this.getX509Map().get(X509CertificateHandler.METHOD_OF_X509_WITH_HASH);
-            case METHOD_OF_X509_WITHOUT_HASH -> this.getX509Map().get(X509CertificateHandler.METHOD_OF_X509_WITHOUT_HASH);
+            case METHOD_OF_X509_WITH_HASH -> this.getX509Map().get(METHOD_OF_X509_WITH_HASH);
+            case METHOD_OF_X509_WITHOUT_HASH -> this.getX509Map().get(METHOD_OF_X509_WITHOUT_HASH);
             default -> throw new IllegalStateException("Unexpected value: " + method);
         };
     }

@@ -43,9 +43,9 @@ public final class SignatureHandler {
     @SuppressWarnings("restriction")
     private static final IgnoreAllErrorHandler IGNORE_ALL_ERROR_HANDLER = new IgnoreAllErrorHandler();
 
-    public static DocumentBuilderFactory documentBuilderFactory;
+    private static final DocumentBuilderFactory documentBuilderFactory;
 
-    public static Transformer transFormer;
+    private static Transformer transFormer;
 
     static {
         documentBuilderFactory = DocumentBuilderFactory.newInstance();
@@ -76,7 +76,7 @@ public final class SignatureHandler {
         long start = System.currentTimeMillis();
         DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
         documentBuilder.setErrorHandler(IGNORE_ALL_ERROR_HANDLER);
-        Document document = documentBuilder.parse(new InputSource(new StringReader(request.getSourceXml())));
+        Document document = documentBuilder.parse(new InputSource(new StringReader(request.getData())));
 
         // 原始xml摘要
         DOMSource ds = new DOMSource(document);
@@ -87,7 +87,7 @@ public final class SignatureHandler {
         Canonicalizer canon = Canonicalizer.getInstance("http://www.w3.org/TR/2001/REC-xml-c14n-20010315");
         canon.canonicalize(sw.toString().getBytes(), new ByteArrayOutputStream(), true);
 
-        String digestValue = getDigestValueOfCEBXxxMessage(request.getSourceXml());
+        String digestValue = getDigestValueOfCEBXxxMessage(request.getData());
 
         // document增加signature节点
         createSignatureElement(document, digestValue);

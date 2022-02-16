@@ -41,7 +41,7 @@ function init(i) {
  * 返回值是一个元素节点或一个包含所有元素节点的value值的数组
  */
 function $V() {
-    var values = new Array();
+    var values = [];
     for (var i = 0; i < arguments.length; i++) {
         var value = arguments[i];
         if (typeof value == 'string') {
@@ -76,7 +76,7 @@ function $CT(content) {
  * 返回值是一个元素节点或一个包含所有元素节点内部的唯一为本节点内容的数据
  */
 function $T() {
-    var texts = new Array();
+    var texts = [];
     for (var i = 0; i < arguments.length; i++) {
         var text = arguments[i];
         if (typeof text == 'string') {
@@ -237,7 +237,7 @@ function clearinfo() {
 
 //校验密码
 function checkPwd(strPwd) {
-    var cPw = new Array("0", "1", "2", "3", "4", "5", "6", "7", "8"); //密码组
+    var cPw = ["0", "1", "2", "3", "4", "5", "6", "7", "8"]; //密码组
     var Max = 8;
     if (strPwd == "") {
         alert("您输入的IC卡/Key密码不能为空");
@@ -331,7 +331,7 @@ function HandleCheckPwdResult(msg) {
             upnode.value = "";
             upnode.focus();
             isLoginButtonPressed = false;
-            return;
+
         } else {
             window.opener = null;
             window.open('', '_self', '');
@@ -355,7 +355,7 @@ function HandleSignResult(msg) {
             isLoginButtonPressed = false;
             upnode.value = "";
             upnode.focus();
-            return;
+
         } else {
             window.opener = null;
             window.open('', '_self', '');
@@ -378,7 +378,7 @@ function HandleCardUerInfoResult(msg) {
             upnode.value = "";
             upnode.focus();
             isLoginButtonPressed = false;
-            return;
+
         } else {
             window.opener = null;
             window.open('', '_self', '');
@@ -483,7 +483,7 @@ function downEportIkeySetup() {
 
 //开始登录
 function startLogin(msg) {
-    var ary = new Array();
+    var ary = [];
     var user = (msg.Data)[0];
     ary = user.split("||");
     //$("icCard").value=ary[5];
@@ -675,7 +675,7 @@ function VerifyPinAndGetCardUserInfo() {
 function RAIs903GetCert(msg, msgJson) {
     if (msg.Result) {
         if ((msg.Data)[1].VerifyPINSuccess) {
-            var ary = new Array();
+            var ary = [];
             var user = (msg.Data)[0];
             ary = user.split("||");
             var szEndTime = ary[12];//20190120195948

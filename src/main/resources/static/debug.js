@@ -374,7 +374,7 @@ function toCurl(request) {
 }
 
 function isEmpty(obj) {
-    return obj === undefined || obj === null || new String(obj).trim() === '';
+    return obj === undefined || obj === null || String(obj).trim() === '';
 }
 
 function hasChinese(_string) {

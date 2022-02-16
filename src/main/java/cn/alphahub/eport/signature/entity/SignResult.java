@@ -30,13 +30,13 @@ public class SignResult implements Serializable {
      */
     private String certNo;
     /**
-     * 签名的ukey证书
+     * 签名的ukey证书，如需导出.cer证书,<a href=http://tool.qdhuaxun.cn/?getcert''>帮助连接</a>,文件格式:卡序列号.cer
      */
     private String x509Certificate;
     /**
      * xml的数字摘要，先对不包含Signature节点的原始报文,进行C14n格式化，然后取shal二进制摘要，然后对sha1的值进行base64编码
      * <ul>
-     *     <li><a href='http://tool.qdhuaxun.cn/ceb/CEB311Message.xml'> 待加签报文样例</a></li>
+     *     <li><a href='http://tool.qdhuaxun.cn/ceb/CEB311Message.xml'>待加签报文样例</a></li>
      * </ul>
      */
     private String digestValue;

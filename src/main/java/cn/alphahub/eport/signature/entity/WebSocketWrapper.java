@@ -1,6 +1,7 @@
 package cn.alphahub.eport.signature.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
@@ -10,13 +11,14 @@ import java.util.concurrent.atomic.AtomicReference;
 
 
 /**
- * WebSocket包装类
+ * WebSocket上下文包装类
  *
  * @author weasley
  * @version 1.0
  * @date 2022/2/13
  */
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
@@ -28,13 +30,13 @@ public class WebSocketWrapper implements Serializable {
     /**
      * 当前线程
      */
-    private AtomicReference<Thread> threadAtomicReference = new AtomicReference<>();
+    private AtomicReference<Thread> threadReference;
     /**
      * CEBXxxMessage加签请求入参
      */
-    private SignRequest request = new SignRequest();
+    private SignRequest request;
     /**
      * 加签结果
      */
-    private SignResult signResult = new SignResult();
+    private SignResult signResult;
 }

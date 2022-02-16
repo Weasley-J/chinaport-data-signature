@@ -52,12 +52,12 @@ public class InitialConfigTest {
 
     @Test
     void getSignatureValueParameter() {
-        System.err.println(InitialConfig.getSignDataAsPEMParameter(new SignRequest(1, CEB621Message)));
+        System.err.println(InitialConfig.getSignDataAsPEMParameter(new SignRequest(CEB621Message)));
     }
 
     @Test
     void getSignDataNoHashAsPEMParameter() {
-        System.err.println(InitialConfig.getSignDataNoHashAsPEMParameter(new SignRequest(1, CEB621Message)));
+        System.err.println(InitialConfig.getSignDataNoHashAsPEMParameter(new SignRequest(CEB621Message)));
     }
 
     @Test

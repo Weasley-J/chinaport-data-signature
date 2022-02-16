@@ -1,4 +1,4 @@
-# 中国电子口岸CEBXXXMessage进口单报文加签
+# 中国电子口岸CEBXxxMessage进口单报文加签
 
 > China E-Port data signature，中国电子口岸（海口海关CEBXxxMessage）末三段加签服务，开箱即用，无任何中间件。本项目遵守`GNU 3.0`协议。本项目里面所有到的`x509`证书不具有任何真实性、合法性，企业根据自己的情况替换成自己真实的证书，`ukey`加签直接直接下载`release`运行修改参数运行既可。不需要导出`.cer`证书
 

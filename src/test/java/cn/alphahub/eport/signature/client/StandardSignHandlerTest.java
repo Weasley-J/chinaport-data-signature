@@ -2,7 +2,7 @@ package cn.alphahub.eport.signature.client;
 
 import cn.alphahub.eport.signature.config.InitialConfig;
 import cn.alphahub.eport.signature.config.InitialConfigTest;
-import cn.alphahub.eport.signature.core.EportSignHandler;
+import cn.alphahub.eport.signature.core.SignHandler;
 import cn.alphahub.eport.signature.entity.SignRequest;
 import cn.alphahub.eport.signature.entity.SignResult;
 import cn.hutool.json.JSONUtil;
@@ -20,22 +20,22 @@ import org.springframework.boot.test.context.SpringBootTest;
  */
 @Slf4j
 @SpringBootTest
-class StandardEportSignHandlerTest {
+class StandardSignHandlerTest {
 
     @Test
     void sendInitDataAsPEMWithHashPTest() {
-        SignRequest request = new SignRequest(null, InitialConfigTest.CEB621Message);
+        SignRequest request = new SignRequest(InitialConfigTest.CEB621Message);
         String parameter = InitialConfig.getSignDataAsPEMParameter(request);
-        EportSignHandler client = new EportSignHandler();
+        SignHandler client = new SignHandler();
         SignResult result = client.sign(request, parameter);
         System.out.println(JSONUtil.toJsonPrettyStr(result));
     }
 
     @Test
     void sendInitDataNoHashAsPEMParameterTest() {
-        SignRequest request = new SignRequest(null, InitialConfigTest.CEB621Message);
+        SignRequest request = new SignRequest(InitialConfigTest.CEB621Message);
         String parameter = InitialConfig.getSignDataNoHashAsPEMParameter(request);
-        EportSignHandler client = new EportSignHandler();
+        SignHandler client = new SignHandler();
         SignResult result = client.sign(request, parameter);
         System.out.println(JSONUtil.toJsonPrettyStr(result));
     }

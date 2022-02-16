@@ -1,7 +1,7 @@
 package cn.alphahub.eport.signature.controller.rpc;
 
 import cn.alphahub.eport.signature.basic.domain.Result;
-import cn.alphahub.eport.signature.core.EportSignHandler;
+import cn.alphahub.eport.signature.core.SignHandler;
 import cn.alphahub.eport.signature.entity.SignRequest;
 import cn.alphahub.eport.signature.entity.SignResult;
 import cn.hutool.json.JSONUtil;
@@ -27,32 +27,35 @@ import org.springframework.web.bind.annotation.RestController;
 public class EportSignController {
 
     @Resource
-    private EportSignHandler eportSignHandler;
+    private SignHandler signHandler;
 
     /**
-     * CEBXxxMessage.xml加签
+     * 海关数据加签
      *
-     * @param request CEBXxxMessage XML加签请求入参
+     * @param request 加签数据请求入参
      * @return 签名结果
+     * @implNote <ul><b>支持的加签类型</b><li>1. 海关CEBXxxMessage XML数据加签</li><li>2. 海关179数据加签</li></ul>
+     * @apiNote 此接口已经整合"海关总署XML"和"海关179数据抓取"的加签
      */
     @PostMapping("/signature")
     public Result<SignResult> signature(@RequestBody @Validated SignRequest request) {
-        log.info("加签请求参数 {}", JSONUtil.toJsonStr(request));
-        SignResult sign = eportSignHandler.sign(request, eportSignHandler.getDynamicSignDataParameter(request));
-        log.info("加签结果响应体 {}", JSONUtil.toJsonStr(sign));
-        if (sign.getSuccess().equals(false)) {
+        String payload = signHandler.getDynamicSignDataParameter(request);
+        SignResult signed = signHandler.sign(request, payload);
+        log.info("加签响应 {}", JSONUtil.toJsonStr(signed));
+        if (signed.getSuccess().equals(false)) {
             return Result.error("加签失败");
         }
-        return Result.success(sign);
+        return Result.success(signed);
     }
 
     /**
-     * 加签测试接口
+     * 海关总署XML数据（CEBXxxMessage）加签测试
      *
      * @return 签名结果
+     * @apiNote 非正式调用API，只为了让你看到海关总署XML加密的数据返回格式
      */
-    @GetMapping("/signature/test")
-    public Result<SignResult> signatureTest() {
+    @GetMapping("/signature/test/ceb")
+    public Result<SignResult> signatureCEBXxxMessageTest() {
         String sourceXml = """
                 <ceb:CEB621Message xmlns:ceb="http://www.chinaport.gov.cn/ceb" guid="CEB621_HNZB_FXJK_20220208175054_0034"
                                    version="v1.0">
@@ -120,13 +123,34 @@ public class EportSignController {
                     </ceb:BaseTransfer>
                 </ceb:CEB621Message>
                 """;
-        SignRequest request = new SignRequest();
-        request.setSourceXml(sourceXml);
-        SignResult sign = eportSignHandler.sign(request, eportSignHandler.getDynamicSignDataParameter(request));
-        log.info("加签结果响应体 {}", JSONUtil.toJsonStr(sign));
-        if (sign.getSuccess().equals(false)) {
+        SignRequest request = new SignRequest(sourceXml);
+        String payload = signHandler.getDynamicSignDataParameter(request);
+        SignResult signed = signHandler.sign(request, payload);
+        log.info("加签结果响应体 {}", JSONUtil.toJsonStr(signed));
+        if (signed.getSuccess().equals(false)) {
             return Result.error("加签失败");
         }
-        return Result.success(sign);
+        return Result.success(signed);
+    }
+
+    /**
+     * 海关179数据加签测试
+     *
+     * @return 签名结果
+     * @apiNote 非正式调用API，只为了让你看到179加密的数据返回格式
+     */
+    @GetMapping("/signature/test/179")
+    public Result<SignResult> signature179Test() {
+        String sign179String = """
+                "sessionID":"ad2254-8hewyf32-55616249"||"payExchangeInfoHead":"{"guid":"9D55BA71-22DE-41F4-8B50-C36C83B3B530","initalRequest":"原始请求","initalResponse":"ok","ebpCode":"4404840022","payCode":"312226T001","payTransactionId":"2018121222001354081010726129","totalAmount":100,"currency":"142","verDept":"3","payType":"1","tradingTime":"20181212041803","note":"批量订单，测试订单优化,生成多个so订单"}"||"payExchangeInfoLists":"[{"orderNo":"SO1710301150602574003","goodsInfo":[{"gname":"lhy-gnsku3","itemLink":"http://m.yunjiweidian.com/yunjibuyer/static/vue-buyer/idc/index.html#/detail?itemId=999761&shopId=453"},{"gname":"lhy-gnsku2","itemLink":"http://m.yunjiweidian.com/yunjibuyer/static/vue-buyer/idc/index.html#/detail?itemId=999760&shopId=453"}],"recpAccount":"OSA571908863132601","recpCode":"","recpName":"YUNJIHONGKONGLIMITED"}]"||"serviceTime":"1544519952469"
+                """;
+        SignRequest request = new SignRequest(sign179String);
+        String payload = signHandler.getDynamicSignDataParameter(request);
+        SignResult signed = signHandler.sign(request, payload);
+        log.info("加签响应 {}", JSONUtil.toJsonStr(signed));
+        if (signed.getSuccess().equals(false)) {
+            return Result.error("加签失败");
+        }
+        return Result.ok(signed);
     }
 }
