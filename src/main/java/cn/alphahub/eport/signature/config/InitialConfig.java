@@ -192,7 +192,7 @@ public class InitialConfig implements ApplicationRunner {
             return;
         }
 
-        //使用类加载器读取打打包成jar之后resources下的文件
+        //使用类加载器读取打包成jar之后resources下的文件
         /*
         InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(ukeyProperties.getCertPath());
         if (inputStream == null) {

@@ -25,8 +25,6 @@ public class CertificateHandler implements Serializable {
      */
     public static final String METHOD_OF_X509_WITHOUT_HASH = "cus-sec_SpcSignDataNoHashAsPEM";
 
-    public static String x509CertificateWithHash;
-
     /**
      * u-key的.cer证书是否存在
      */
