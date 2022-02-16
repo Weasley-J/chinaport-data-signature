@@ -1,62 +1,35 @@
-package cn.alphahub.eport.signature.controller.rpc;
+package cn.alphahub.eport.signature.core;
 
-import cn.alphahub.eport.signature.basic.domain.Result;
-import cn.alphahub.eport.signature.core.SignHandler;
 import cn.alphahub.eport.signature.entity.SignRequest;
-import cn.alphahub.eport.signature.entity.SignResult;
 import cn.hutool.json.JSONUtil;
 import jakarta.annotation.Resource;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
-/**
- * 电子口岸报文加签Controller
- *
- * @author lwj
- * @version 1.0
- * @date 2022-01-11 15:29
- */
-@Slf4j
-@RestController
-@RequestMapping("/rpc/eport")
-public class EportSignController {
+
+@SpringBootTest
+class SignHandlerTest {
 
     @Resource
-    private SignHandler signHandler;
+    SignHandler signHandler;
 
-    /**
-     * 海关数据加签
-     *
-     * @param request 加签数据请求入参
-     * @return 签名结果
-     * @implNote <ul><b>支持的加签类型</b><li>1. 海关CEBXxxMessage XML数据加签</li><li>2. 海关179数据加签</li></ul>
-     * @apiNote 此接口已经整合"海关总署XML"和"海关179数据抓取"的加签
-     */
-    @PostMapping("/signature")
-    public Result<SignResult> signature(@RequestBody @Validated SignRequest request) {
-        String payload = signHandler.getDynamicSignDataParameter(request);
-        SignResult signed = signHandler.sign(request, payload);
-        log.info("加签响应 {}", JSONUtil.toJsonStr(signed));
-        if (signed.getSuccess().equals(false)) {
-            return Result.error("加签失败");
-        }
-        return Result.success(signed);
+    @Resource
+    CertificateHandler certificateHandler;
+
+
+    @BeforeEach
+    void setUp() {
     }
 
-    /**
-     * 海关总署XML数据加签测试
-     *
-     * @return 签名结果
-     * @apiNote 非正式调用API，只为了让你看到海关总署XML加密的数据返回格式
-     */
-    @GetMapping("/signature/test/ceb")
-    public Result<Object> signatureCEBXxxMessageTest() {
-        String sourceXml = """
+    @AfterEach
+    void tearDown() {
+    }
+
+    @Test
+    void dynamicSignDataParameterTest() {
+        String xml = """
                 <ceb:CEB621Message xmlns:ceb="http://www.chinaport.gov.cn/ceb" guid="CEB621_HNZB_FXJK_20220208175054_0034"
                                    version="v1.0">
                     <ceb:Inventory>
@@ -123,34 +96,14 @@ public class EportSignController {
                     </ceb:BaseTransfer>
                 </ceb:CEB621Message>
                 """;
-        SignRequest request = new SignRequest(sourceXml);
-        String payload = signHandler.getDynamicSignDataParameter(request);
-        SignResult signed = signHandler.sign(request, payload);
-        log.info("加签结果响应体 {}", JSONUtil.toJsonStr(signed));
-        if (signed.getSuccess().equals(false)) {
-            return Result.error("加签失败");
-        }
-        return Result.success(signed);
-    }
+        String dynamicSignDataParameter = signHandler.getDynamicSignDataParameter(new SignRequest(xml));
+        String method = JSONUtil.parseObj(dynamicSignDataParameter).getStr("_method");
+        String x509Certificate = certificateHandler.getX509Certificate(method);
+        System.err.println("\t\t\t\t" + x509Certificate + "\n");
 
-    /**
-     * 海关179数据抓取加签测试
-     *
-     * @return 签名结果
-     * @apiNote 非正式调用API，只为了让你看到179加密的数据返回格式
-     */
-    @GetMapping("/signature/test/179")
-    public Result<Object> signature179Test() {
-        String sign179String = """
-                "sessionID":"ad2254-8hewyf32-55616249"||"payExchangeInfoHead":"{"guid":"9D55BA71-22DE-41F4-8B50-C36C83B3B530","initalRequest":"原始请求","initalResponse":"ok","ebpCode":"4404840022","payCode":"312226T001","payTransactionId":"2018121222001354081010726129","totalAmount":100,"currency":"142","verDept":"3","payType":"1","tradingTime":"20181212041803","note":"批量订单，测试订单优化,生成多个so订单"}"||"payExchangeInfoLists":"[{"orderNo":"SO1710301150602574003","goodsInfo":[{"gname":"lhy-gnsku3","itemLink":"http://m.yunjiweidian.com/yunjibuyer/static/vue-buyer/idc/index.html#/detail?itemId=999761&shopId=453"},{"gname":"lhy-gnsku2","itemLink":"http://m.yunjiweidian.com/yunjibuyer/static/vue-buyer/idc/index.html#/detail?itemId=999760&shopId=453"}],"recpAccount":"OSA571908863132601","recpCode":"","recpName":"YUNJIHONGKONGLIMITED"}]"||"serviceTime":"1544519952469"
-                """;
-        SignRequest request = new SignRequest(sign179String);
-        String payload = signHandler.getDynamicSignDataParameter(request);
-        SignResult signed = signHandler.sign(request, payload);
-        log.info("加签响应 {}", JSONUtil.toJsonStr(signed));
-        if (signed.getSuccess().equals(false)) {
-            return Result.error("加签失败");
-        }
-        return Result.ok(signed);
+        dynamicSignDataParameter = signHandler.getDynamicSignDataParameter(new SignRequest(xml));
+        method = JSONUtil.parseObj(dynamicSignDataParameter).getStr("_method");
+        x509Certificate = certificateHandler.getX509Certificate(method);
+        System.err.println("\t\t\t\t" + x509Certificate);
     }
 }

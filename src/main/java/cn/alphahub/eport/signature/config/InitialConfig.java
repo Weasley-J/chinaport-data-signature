@@ -7,6 +7,7 @@ import cn.alphahub.eport.signature.core.WebSocketClientHandler;
 import cn.alphahub.eport.signature.entity.SignRequest;
 import cn.alphahub.eport.signature.entity.UkeyResponse;
 import cn.alphahub.eport.signature.entity.WebSocketWrapper;
+import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.lang.TypeReference;
 import cn.hutool.extra.spring.SpringUtil;
 import cn.hutool.json.JSONUtil;
@@ -24,6 +25,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.lang.Nullable;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -31,6 +33,7 @@ import org.springframework.web.socket.client.WebSocketConnectionManager;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -59,10 +62,6 @@ public class InitialConfig implements ApplicationRunner {
      * ukey默认密码8个8不要修改
      */
     private static final String DEFAULT_PASSWORD = "88888888";
-    /**
-     * u-key的.cer证书是否存在
-     */
-    private Boolean certExists = false;
 
 
     /* *********************** 获取入参方法开始,已下方法的返回值最为参数连接好海关u-key通过socket实例发送给[ws://127.0.0.1:61232] *********************** */
@@ -180,10 +179,51 @@ public class InitialConfig implements ApplicationRunner {
      * @param args incoming application arguments
      */
     @Override
-    public void run(ApplicationArguments args) {
+    public void run(ApplicationArguments args) throws IOException {
         org.apache.xml.security.Init.init();
         if (log.isDebugEnabled()) {
             log.debug("XMl output format with C14n Initial Succeed.");
+        }
+
+        CertificateHandler certificateHandler = SpringUtil.getBean(CertificateHandler.class);
+        UkeyProperties ukeyProperties = SpringUtil.getBean(UkeyProperties.class);
+        if (StringUtils.isBlank(ukeyProperties.getCertPath())) {
+            certificateHandler.setCertExists(false);
+            return;
+        }
+
+        //使用类加载器读取打打包成jar之后resources先的文件
+        /*
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(ukeyProperties.getCertPath());
+        if (inputStream == null) {
+            certificateHandler.setCertExists(false);
+            return;
+        }
+        */
+
+        ClassPathResource resource = new ClassPathResource("/" + ukeyProperties.getCertPath());
+        if (resource.exists() || resource.isFile() && resource.isReadable()) {
+            String x509CertificateWithHash = IoUtil.readUtf8(resource.getInputStream());
+            x509CertificateWithHash = x509CertificateWithHash.replace("-----BEGIN CERTIFICATE-----", "");
+            x509CertificateWithHash = x509CertificateWithHash.replace("-----END CERTIFICATE-----", "");
+            // Windows
+            if (StringUtils.startsWith(x509CertificateWithHash, "\r\n")) {
+                x509CertificateWithHash = StringUtils.removeStart(x509CertificateWithHash, "\r\n");
+            }
+            if (x509CertificateWithHash.startsWith("\n")) {
+                x509CertificateWithHash = StringUtils.replaceOnce(x509CertificateWithHash, "\n", "");
+            }
+            if (x509CertificateWithHash.endsWith("\n\n")) {
+                x509CertificateWithHash = StringUtils.substring(x509CertificateWithHash, 0, x509CertificateWithHash.length() - 4);
+            }
+            if (x509CertificateWithHash.endsWith("\n")) {
+                x509CertificateWithHash = StringUtils.substring(x509CertificateWithHash, 0, x509CertificateWithHash.length() - 2);
+            }
+
+            certificateHandler.setCertExists(true);
+            certificateHandler.getX509Map().put(CertificateHandler.METHOD_OF_X509_WITH_HASH, x509CertificateWithHash);
+
+            log.warn("METHOD_OF_X509_WITH_HASH:\n{}", x509CertificateWithHash);
         }
     }
 
@@ -203,6 +243,7 @@ public class InitialConfig implements ApplicationRunner {
      * @return An instance of StandardWebSocketClient
      */
     @Bean
+    @ConditionalOnMissingBean({StandardWebSocketClient.class})
     public StandardWebSocketClient standardWebSocketClient() {
         return new StandardWebSocketClient();
     }
@@ -216,35 +257,6 @@ public class InitialConfig implements ApplicationRunner {
     public CertificateHandler certificateHandler(UkeyProperties properties, StandardWebSocketClient standardWebSocketClient) {
         CertificateHandler certificateHandler = new CertificateHandler();
         Map<String, String> x509Map = new ConcurrentHashMap<>(2);
-
-        /*ClassPathResource resource = new ClassPathResource(properties.getCertPath());
-        if (resource.exists()) {
-            this.certExists = true;
-            try {
-                String x509CertificateWithHash = IoUtil.readUtf8(resource.getInputStream());
-                x509CertificateWithHash = x509CertificateWithHash.replace("-----BEGIN CERTIFICATE-----", "");
-                x509CertificateWithHash = x509CertificateWithHash.replace("-----END CERTIFICATE-----", "");
-                // Windows
-                if (StringUtils.startsWith(x509CertificateWithHash, "\r\n")) {
-                    x509CertificateWithHash = StringUtils.removeStart(x509CertificateWithHash, "\r\n");
-                }
-                if (x509CertificateWithHash.startsWith("\n")) {
-                    x509CertificateWithHash = StringUtils.replaceOnce(x509CertificateWithHash, "\n", "");
-                }
-                if (x509CertificateWithHash.endsWith("\n\n")) {
-                    x509CertificateWithHash = StringUtils.substring(x509CertificateWithHash, 0, x509CertificateWithHash.length() - 4);
-                }
-                if (x509CertificateWithHash.endsWith("\n")) {
-                    x509CertificateWithHash = StringUtils.substring(x509CertificateWithHash, 0, x509CertificateWithHash.length() - 2);
-                }
-                if (StringUtils.isNotBlank(x509CertificateWithHash)) {
-                    x509Map.put(CertificateHandler.METHOD_OF_X509_WITH_HASH, x509CertificateWithHash);
-                    log.warn("METHOD_OF_X509_WITH_HASH:\n{}", x509Map.get(CertificateHandler.METHOD_OF_X509_WITH_HASH));
-                }
-            } catch (IOException e) {
-                log.error("读取类路径下x509证书异常 {}", e.getLocalizedMessage(), e);
-            }
-        }*/
 
         AtomicReference<Thread> reference = new AtomicReference<>();
         reference.set(Thread.currentThread());

@@ -1,9 +1,6 @@
 package cn.alphahub.eport.signature.core;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.Serializable;
@@ -18,9 +15,6 @@ import java.util.Map;
  */
 @Data
 @Slf4j
-@NoArgsConstructor
-@AllArgsConstructor
-@Accessors(chain = true)
 public class CertificateHandler implements Serializable {
     /**
      * 从u-key读取含发送推送{@code <ds:X509Certificate>}(经HASH散列过)证书对应的方法
@@ -31,6 +25,20 @@ public class CertificateHandler implements Serializable {
      */
     public static final String METHOD_OF_X509_WITHOUT_HASH = "cus-sec_SpcSignDataNoHashAsPEM";
 
+    public static String x509CertificateWithHash;
+
+    /**
+     * u-key的.cer证书是否存在
+     */
+    private Boolean certExists = false;
+
+    public CertificateHandler() {
+    }
+
+    public CertificateHandler(Map<String, String> x509Map) {
+        this.x509Map = x509Map;
+    }
+
     /**
      * 判断用那一个证书的集合
      * <ul>
@@ -40,13 +48,21 @@ public class CertificateHandler implements Serializable {
      */
     private Map<String, String> x509Map;
 
+    public Map<String, String> getX509Map() {
+        return x509Map;
+    }
+
+    public void setX509Map(Map<String, String> x509Map) {
+        this.x509Map = x509Map;
+    }
+
     /**
      * 获取509Certificate证书
      *
      * @param method 发送给电子口岸u-key的入参的[_method]字段的值
      * @return 509Certificate证书
      */
-    public String get509Certificate(String method) {
+    public String getX509Certificate(String method) {
         return switch (method) {
             case METHOD_OF_X509_WITH_HASH -> this.getX509Map().get(METHOD_OF_X509_WITH_HASH);
             case METHOD_OF_X509_WITHOUT_HASH -> this.getX509Map().get(METHOD_OF_X509_WITHOUT_HASH);

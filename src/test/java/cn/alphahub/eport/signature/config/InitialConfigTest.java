@@ -67,4 +67,5 @@ public class InitialConfigTest {
         sha1DigestOfSourceXml = org.apache.commons.codec.digest.DigestUtils.sha1Hex(CEB621Message);
         System.err.println(sha1DigestOfSourceXml.length() + " " + sha1DigestOfSourceXml + " " + InitialConfig.getVerifySignDataNoHashParameter(CEB621Message, "sv", null, 1));
     }
+
 }

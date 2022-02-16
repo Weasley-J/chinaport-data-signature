@@ -62,3 +62,5 @@ hs_err_pid*
 /release/
 /logs/
 /src/main/resources/cert/01691f7f.cer
+/logs/
+/src/main/resources/cert/01691f7f.cer

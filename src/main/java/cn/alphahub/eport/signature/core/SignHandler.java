@@ -33,10 +33,10 @@ import java.util.concurrent.locks.LockSupport;
 public class SignHandler {
 
     @Resource
-    private InitialConfig config;
+    private UkeyProperties properties;
 
     @Resource
-    private UkeyProperties properties;
+    private CertificateHandler certificateHandler;
 
     @Resource
     private WebSocketClientHandler webSocketClientHandler;
@@ -84,7 +84,7 @@ public class SignHandler {
      * @return 发送u-key的签名的入参
      */
     public String getDynamicSignDataParameter(@Valid SignRequest request) {
-        return config.getCertExists() ? InitialConfig.getSignDataAsPEMParameter(request) : InitialConfig.getSignDataNoHashAsPEMParameter(request);
+        return certificateHandler.getCertExists() ? InitialConfig.getSignDataAsPEMParameter(request) : InitialConfig.getSignDataNoHashAsPEMParameter(request);
     }
 
     /**

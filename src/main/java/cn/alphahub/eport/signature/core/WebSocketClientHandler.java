@@ -70,7 +70,7 @@ public class WebSocketClientHandler extends TextWebSocketHandler {
                     webSocketWrapper.getSignResult().setSignatureValue(responseArgs.getData().get(0));
                     webSocketWrapper.getSignResult().setCertNo(responseArgs.getData().get(1));
                     if (SignHandler.isSignXml(webSocketWrapper.getRequest())) {
-                        webSocketWrapper.getSignResult().setX509Certificate(certificateHandler.get509Certificate(response.get_method()));
+                        webSocketWrapper.getSignResult().setX509Certificate(certificateHandler.getX509Certificate(response.get_method()));
                     }
                 }
             } catch (Exception e) {

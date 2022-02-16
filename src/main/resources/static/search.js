@@ -22,16 +22,15 @@ api[0].list[0].list.push({
     order: '2',
     deprecated: 'false',
     url: 'http://localhost:8080/rpc/eport/signature/test/ceb',
-    desc: '海关总署XML数据（CEBXxxMessage）加签测试',
+    desc: '海关总署XML数据加签测试',
 });
 api[0].list[0].list.push({
     order: '3',
     deprecated: 'false',
     url: 'http://localhost:8080/rpc/eport/signature/test/179',
-    desc: '海关179数据加签测试',
+    desc: '海关179数据抓取加签测试',
 });
 document.onkeydown = keyDownSearch;
-
 function keyDownSearch(e) {
     const theEvent = e;
     const code = theEvent.keyCode || theEvent.which || theEvent.charCode;

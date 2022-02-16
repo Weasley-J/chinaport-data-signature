@@ -15,15 +15,6 @@ logging:
     jdbc.sqltiming: debug
     com.alibaba.cloud.nacos.client: error
     com.alibaba.nacos: error
-#  file:
-#    path: ./logs/
-#    name: ${logging.file.path}/${spring.application.name}.log
-#  charset:
-#    file: UTF-8
-#  logback:
-#    rollingpolicy:
-#      clean-history-on-start: false
-#      max-file-size: 5MB
 
 spring:
   jackson:
