@@ -89,7 +89,7 @@ public final class SignatureHandler {
 
         String digestValue = getDigestValueOfCEBXxxMessage(request.getData());
 
-        // document增加signature节点
+        // document增加ds:Signature节点
         createSignatureElement(document, digestValue);
 
         // 读取签名段的报文
@@ -170,7 +170,7 @@ public final class SignatureHandler {
         signedInfoElement.appendChild(referenceElement);
 
         Element signatureValueElement = document.createElement("ds:SignatureValue");
-        signatureValueElement.setTextContent("signaturValue");
+        signatureValueElement.setTextContent("signatureValue");
 
         Element x509Certificate = document.createElement("ds:X509Certificate");
         x509Certificate.setTextContent("");
