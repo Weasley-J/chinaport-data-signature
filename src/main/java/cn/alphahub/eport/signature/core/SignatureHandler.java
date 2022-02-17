@@ -3,6 +3,7 @@ package cn.alphahub.eport.signature.core;
 import cn.alphahub.eport.signature.basic.exception.SignException;
 import cn.alphahub.eport.signature.entity.SignRequest;
 import cn.alphahub.eport.signature.util.XMLUtils;
+import cn.hutool.core.util.XmlUtil;
 import jakarta.validation.constraints.NotBlank;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -73,7 +74,11 @@ public final class SignatureHandler {
      */
     @SneakyThrows
     public static String getSignatureValueBeforeSend(SignRequest request) {
-        long start = System.currentTimeMillis();
+
+        // or completely disable external entities declarations:
+        documentBuilderFactory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+        documentBuilderFactory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+
         DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
         documentBuilder.setErrorHandler(IGNORE_ALL_ERROR_HANDLER);
         Document document = documentBuilder.parse(new InputSource(new StringReader(request.getData())));
@@ -99,7 +104,7 @@ public final class SignatureHandler {
         canon.canonicalizeSubtree(node, writer);
         String canonicalizeStr = writer.toString(StandardCharsets.UTF_8);
 
-        log.info("\n<ds:DigestValue>{}</ds:DigestValue>\n{}\ntotal sign time：{}ms, content-length:{}", digestValue, canonicalizeStr, (System.currentTimeMillis() - start), canonicalizeStr.length());
+        log.info("\n总署XML加签报文:\n{}", XmlUtil.toStr(XmlUtil.parseXml(canonicalizeStr), true));
 
         return canonicalizeStr;
     }
@@ -170,7 +175,7 @@ public final class SignatureHandler {
         signedInfoElement.appendChild(referenceElement);
 
         Element signatureValueElement = document.createElement("ds:SignatureValue");
-        signatureValueElement.setTextContent("signaturValue");
+        signatureValueElement.setTextContent("signatureValue");
 
         Element x509Certificate = document.createElement("ds:X509Certificate");
         x509Certificate.setTextContent("");

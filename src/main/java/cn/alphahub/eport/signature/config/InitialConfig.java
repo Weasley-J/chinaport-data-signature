@@ -77,7 +77,6 @@ public class InitialConfig implements ApplicationRunner {
         parameterMap.put("_method", "cus-sec_SpcGetSignCertAsPEM");
         parameterMap.put("_id", 1);
         parameterMap.put("args", "{}");
-        log.warn("{}", MAPPER.writeValueAsString(parameterMap));
         return MAPPER.writeValueAsString(parameterMap);
     }
 
@@ -97,7 +96,6 @@ public class InitialConfig implements ApplicationRunner {
         parameterMap.put("_method", "cus-sec_SpcSHA1DigestAsPEM");
         parameterMap.put("_id", uniqueId);
         parameterMap.put("args", args);
-        log.warn("{}", MAPPER.writeValueAsString(parameterMap));
         return MAPPER.writeValueAsString(parameterMap);
     }
 
@@ -111,14 +109,13 @@ public class InitialConfig implements ApplicationRunner {
     public static String getSignDataAsPEMParameter(SignRequest request) {
         Map<String, Object> args = new LinkedHashMap<>(2);
         String initData = SignHandler.getInitData(request);
-        log.warn("发送给ukey的真正请求入参: {}\n原始报文: {}", initData, request.getData());
+        log.warn("发送给ukey的真正请求入参: {}\n原始报文:\n{}", initData, request.getData());
         args.put("inData", initData);
         args.put("passwd", ObjectUtils.defaultIfNull(SpringUtil.getBean(UkeyProperties.class).getPassword(), DEFAULT_PASSWORD));
         Map<String, Object> parameterMap = new LinkedHashMap<>(3);
         parameterMap.put("_method", CertificateHandler.METHOD_OF_X509_WITH_HASH);
         parameterMap.put("_id", request.getId());
         parameterMap.put("args", args);
-        log.warn("{}", MAPPER.writeValueAsString(parameterMap));
         return MAPPER.writeValueAsString(parameterMap);
     }
 
@@ -133,7 +130,7 @@ public class InitialConfig implements ApplicationRunner {
         String initData = SignHandler.getInitData(request);
         //对原文计算摘：SHA-1 digest as a hex string
         String sha1Hex = DigestUtils.sha1Hex(initData);
-        log.warn("发送给ukey的真正请求入参: {}\n原始报文:{}", sha1Hex, request.getData());
+        log.warn("发送给ukey的真正请求入参: {}\n原始报文:\n{}", sha1Hex, request.getData());
         Map<String, Object> args = new LinkedHashMap<>(2);
         args.put("inData", sha1Hex);
         args.put("passwd", ObjectUtils.defaultIfNull(SpringUtil.getBean(UkeyProperties.class).getPassword(), DEFAULT_PASSWORD));
@@ -141,7 +138,6 @@ public class InitialConfig implements ApplicationRunner {
         parameterMap.put("_method", CertificateHandler.METHOD_OF_X509_WITHOUT_HASH);
         parameterMap.put("_id", request.getId());
         parameterMap.put("args", args);
-        log.warn("{}", MAPPER.writeValueAsString(parameterMap));
         return MAPPER.writeValueAsString(parameterMap);
     }
 
@@ -167,7 +163,6 @@ public class InitialConfig implements ApplicationRunner {
         parameterMap.put("_method", "cus-sec_SpcVerifySignDataNoHash");
         parameterMap.put("_id", uniqueId);
         parameterMap.put("args", argsMap);
-        log.warn("{}", MAPPER.writeValueAsString(parameterMap));
         return MAPPER.writeValueAsString(parameterMap);
     }
 
@@ -191,16 +186,14 @@ public class InitialConfig implements ApplicationRunner {
             certificateHandler.setCertExists(false);
             return;
         }
-
-        //使用类加载器读取打包成jar之后resources下的文件
         /*
+        //使用类加载器读取打包成jar之后resources下的文件
         InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(ukeyProperties.getCertPath());
         if (inputStream == null) {
             certificateHandler.setCertExists(false);
             return;
         }
         */
-
         ClassPathResource resource = new ClassPathResource("/" + ukeyProperties.getCertPath());
         if (resource.exists() || resource.isFile() && resource.isReadable()) {
             String x509CertificateWithHash = IoUtil.readUtf8(resource.getInputStream());

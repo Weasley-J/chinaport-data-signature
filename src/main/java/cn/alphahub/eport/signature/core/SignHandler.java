@@ -94,7 +94,7 @@ public class SignHandler {
      * @param payload websocket发送的数据载荷
      */
     public SignResult sign(@Valid SignRequest request, @NotBlank(message = "websocket发送的数据载荷不能为空") String payload) {
-        log.info("\n收到加签数据: {}; 加签原始数据: {}", payload, request.getData());
+        log.info("收到u-key加签数据: {}", payload);
 
         WebSocketWrapper wrapper = webSocketClientHandler.getWebSocketWrapper();
         wrapper.setPayload(payload);

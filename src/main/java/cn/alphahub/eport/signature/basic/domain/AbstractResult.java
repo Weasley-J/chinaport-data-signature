@@ -8,7 +8,9 @@ import java.io.Serializable;
 
 /**
  * 数据返回封装顶层抽象类
- * <p>顶层抽象类, 可以使用我已经写好的BaseResult<T>, 也可以选择自己实现AbstractResult<T></p>
+ * <p>
+ * 顶层抽象类, 可以使用我已经写好的BaseResult<T>, 也可以选择自己实现AbstractResult<T>, {@code permits}关键字加上类名即可
+ * </p>
  *
  * @author liuwenjing
  * @version 1.2.0
