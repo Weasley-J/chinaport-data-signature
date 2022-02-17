@@ -8,5 +8,5 @@ ${AnsiColor.BRIGHT_YELLOW}
  ░ ░  ░░▒ ░       ░ ▒ ▒░   ░▒ ░ ▒░    ░       ░ ░▒  ░ ░ ▒ ░  ░   ░ ░ ░░   ░ ▒░  ▒   ▒▒ ░   ░    ░░▒░ ░ ░   ░▒ ░ ▒░ ░ ░  ░
    ░   ░░       ░ ░ ░ ▒    ░░   ░   ░         ░  ░  ░   ▒ ░░ ░   ░    ░   ░ ░   ░   ▒    ░       ░░░ ░ ░   ░░   ░    ░
    ░  ░             ░ ░     ░                       ░   ░        ░          ░       ░  ░           ░        ░        ░  ░
-${AnsiColor.BRIGHT_GREEN}${application.title} ${application.version}
+${AnsiColor.BRIGHT_GREEN}${application.title} ${application.formatted-version}
 Powered by Spring Boot ${spring-boot.formatted-version}${AnsiStyle.NORMAL}
