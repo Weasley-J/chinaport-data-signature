@@ -30,7 +30,11 @@ public class SignResult implements Serializable {
      */
     private String certNo;
     /**
-     * 签名的ukey证书，如需导出.cer证书,<a href=http://tool.qdhuaxun.cn/?getcert''>帮助连接</a>,文件格式:卡序列号.cer
+     * 签名的ukey证书
+     * <ul>
+     *     如需导出.cer证书,文件格式:卡序列号.cer
+     *     <li><a href=http://tool.qdhuaxun.cn/?getcert''>证书导出帮助连接</a></li>
+     * </ul>
      */
     private String x509Certificate;
     /**
