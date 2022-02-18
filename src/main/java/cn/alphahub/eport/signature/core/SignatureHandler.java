@@ -104,7 +104,7 @@ public final class SignatureHandler {
         canon.canonicalizeSubtree(node, writer);
         String canonicalizeStr = writer.toString(StandardCharsets.UTF_8);
 
-        log.warn("\n总署XML加签报文:\n{}", XmlUtil.toStr(XmlUtil.parseXml(canonicalizeStr), true));
+        log.warn("总署XML加签报文:\n{}", XmlUtil.toStr(XmlUtil.parseXml(canonicalizeStr), true));
 
         return canonicalizeStr;
     }
@@ -127,7 +127,7 @@ public final class SignatureHandler {
             log.info("c14n source xml result, sha1: {}, base64: {}", sha1, base64String);
             return base64String;
         } catch (Exception e) {
-            log.error("使用c14n格式化xml异常", e);
+            log.error("使用c14n格式化xml异常 {}", e.getMessage(), e);
             throw new SignException("使用c14n格式化xml异常: " + e.getMessage());
         }
     }

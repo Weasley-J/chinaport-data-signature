@@ -109,7 +109,7 @@ public class InitialConfig implements ApplicationRunner {
     public static String getSignDataAsPEMParameter(SignRequest request) {
         Map<String, Object> args = new LinkedHashMap<>(2);
         String initData = SignHandler.getInitData(request);
-        log.warn("发送给ukey的真正请求入参: {}\n原始报文:\n{}", initData, request.getData());
+        log.warn("发送给ukey的真正请求入参: {}, 原始报文:\n{}", initData, request.getData());
         args.put("inData", initData);
         args.put("passwd", ObjectUtils.defaultIfNull(SpringUtil.getBean(UkeyProperties.class).getPassword(), DEFAULT_PASSWORD));
         Map<String, Object> parameterMap = new LinkedHashMap<>(3);
@@ -130,7 +130,7 @@ public class InitialConfig implements ApplicationRunner {
         String initData = SignHandler.getInitData(request);
         //对原文计算摘：SHA-1 digest as a hex string
         String sha1Hex = DigestUtils.sha1Hex(initData);
-        log.warn("发送给ukey的真正请求入参: {}\n原始报文:\n{}", sha1Hex, request.getData());
+        log.warn("发送给ukey的真正请求入参: {}, 原始报文:\n{}", sha1Hex, request.getData());
         Map<String, Object> args = new LinkedHashMap<>(2);
         args.put("inData", sha1Hex);
         args.put("passwd", ObjectUtils.defaultIfNull(SpringUtil.getBean(UkeyProperties.class).getPassword(), DEFAULT_PASSWORD));
@@ -210,7 +210,7 @@ public class InitialConfig implements ApplicationRunner {
     @Bean
     @SneakyThrows
     public CertificateHandler certificateHandler(UkeyProperties ukeyProperties, StandardWebSocketClient standardWebSocketClient) {
-        CertificateHandler handler = new CertificateHandler();
+        CertificateHandler certificateHandler = new CertificateHandler();
         Map<String, String> x509Map = new ConcurrentHashMap<>(2);
 
         //使用类加载器{Thread.currentThread().getContextClassLoader().getResourceAsStream(ukeyProperties.getCertPath())}读取打包成jar之后resources下的文件
@@ -232,8 +232,8 @@ public class InitialConfig implements ApplicationRunner {
             if (certificateWithHash.endsWith("\n")) {
                 certificateWithHash = StringUtils.substring(certificateWithHash, 0, certificateWithHash.length() - 2);
             }
-            handler.setCertExists(true);
-            handler.getX509Map().put(CertificateHandler.METHOD_OF_X509_WITH_HASH, certificateWithHash);
+            certificateHandler.setCertExists(true);
+            certificateHandler.getX509Map().put(CertificateHandler.METHOD_OF_X509_WITH_HASH, certificateWithHash);
             log.warn("METHOD_OF_X509_WITH_HASH:\n{}", certificateWithHash);
         }
 
@@ -277,9 +277,9 @@ public class InitialConfig implements ApplicationRunner {
             manager.stop();
         }
 
-        handler.setX509Map(x509Map);
+        certificateHandler.setX509Map(x509Map);
 
-        return handler;
+        return certificateHandler;
     }
 
     /**
