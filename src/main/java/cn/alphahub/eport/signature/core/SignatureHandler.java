@@ -75,7 +75,7 @@ public final class SignatureHandler {
     @SneakyThrows
     public static String getSignatureValueBeforeSend(SignRequest request) {
 
-        // or completely disable external entities declarations:
+        //completely disable external entities declarations:
         documentBuilderFactory.setFeature("http://xml.org/sax/features/external-general-entities", false);
         documentBuilderFactory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
 
@@ -104,7 +104,7 @@ public final class SignatureHandler {
         canon.canonicalizeSubtree(node, writer);
         String canonicalizeStr = writer.toString(StandardCharsets.UTF_8);
 
-        log.info("\n总署XML加签报文:\n{}", XmlUtil.toStr(XmlUtil.parseXml(canonicalizeStr), true));
+        log.warn("\n总署XML加签报文:\n{}", XmlUtil.toStr(XmlUtil.parseXml(canonicalizeStr), true));
 
         return canonicalizeStr;
     }
