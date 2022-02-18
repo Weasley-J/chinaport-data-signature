@@ -41,6 +41,16 @@
 
 **开始进入正题 》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》**
 
+- [x] 电子口岸的操作员`u-key`长啥样:
+
+![IMG_0401](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/IMG_0401.jpg)
+
+- [x] 启动项目：`chinaport-data-signature`
+
+![image-20220219001115869](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20220219001115869.png)
+
+我这是在启动脚本里指定了`u-key`的`ip`为我与我`MacBookPro`处于统一局域网下面的`Windows`电脑的主机`ip`，`Windows`上你使用`git bash`也能达到我终端这样的效果。
+
 ## 1 `sonarqube`代码审查结果
 
 ![image-20220218023508803](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20220218023508803.png)
