@@ -27,7 +27,7 @@
         <spring-cloud.version>2022.0.0-M1</spring-cloud.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <sonar.host.url>http://192.168.31.105:9001</sonar.host.url>
+        <sonar.host.url>http://192.168.31.106:9001</sonar.host.url>
         <sonar.login>admin</sonar.login>
         <sonar.password>123456</sonar.password>
         <sonar.projectKey>${project.groupId}:${project.artifactId}</sonar.projectKey>

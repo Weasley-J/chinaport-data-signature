@@ -55,7 +55,7 @@ public class EportSignController {
      * @apiNote 非正式调用API，只为了让你看到海关总署XML加密的数据返回格式
      */
     @GetMapping("/signature/test/ceb")
-    public Result<Object> signatureCEBXxxMessageTest() {
+    public Result<Object> signatureCEBTest() {
         String sourceXml = """
                 <ceb:CEB621Message xmlns:ceb="http://www.chinaport.gov.cn/ceb" guid="CEB621_HNZB_FXJK_20220208175054_0034"
                                    version="v1.0">

@@ -2,21 +2,27 @@
 
 > **China e-port data signature**
 >
-> ​ 中国电子口岸海关总署[海口海关CEBXxxMessage]`XML末三段报文`和`海关179数据抓取报文`加签服务，开箱即用，无任何中间件；本项目遵守`GNU 3.0`协议，本项目里面所有到的`x509`证书不具有任何真实性、合法性，企业根据自己的情况替换成自己真实的证书，`ukey`加签直接直接下载`release`运行修改参数运行既可，不需要导出`.cer`证；
+>  中国电子口岸海关总署[海口海关CEBXxxMessage]`XML末三段报文`和`海关179数据抓取报文`加签服务，开箱即用，无任何中间件；本项目遵守`GNU 3.0`协议，本项目里面所有到的`x509`证书不具有任何真实性、合法性，企业根据自己的情况替换成自己真实的证书，`ukey`加签直接直接下载`release`运行修改参数运行既可，不需要导出`.cer`证；
 
 
 
 <u>在第一次提交代码之前，地球上的搜索引擎在那个时间点[**2022-02-14**]之前还找不到任何资料......</u>
 
-## 1 软件运行概况
+## 1 `sonarqube`代码审查结果
+
+![image-20220218023508803](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20220218023508803.png)
+
+![image-20220218023850014](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20220218023850014.png)
+
+## 2 软件运行概况
 
 todo
 
-## 2 运行参数配置
+## 3 运行参数配置
 
 todo
 
-## 3 启动脚本介绍
+## 4 启动脚本介绍
 
 本人已提供好`Windows`环境、`Linux`/`MacOS`的环境下的脚本，企业只需要修改**2**个参数既可**开箱即用**。
 
@@ -24,7 +30,7 @@ todo
 
 ![image-20220214002812928](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20220214002812928.png)
 
-#### 3.1 Windows环境
+#### 4.1 Windows环境
 
 > 运行方式：双击打开
 
@@ -68,7 +74,7 @@ pause >nul
 exit
 ```
 
-#### 3.2 Linux/MacOS环境
+#### 4.2 Linux/MacOS环境
 
 > 运行方式：终端执行`sh start.sh`启动程序
 
@@ -98,7 +104,7 @@ java ${JAVA_ARGS} -jar ${APP_NAME}.jar \
   --eport.signature.ukey.password=${UKEY_PASSWORD}
 ```
 
-## 4 访问开发接口文档
+## 5 开发接口文档
 
 浏览器输入: http://127.0.0.1:8080
 

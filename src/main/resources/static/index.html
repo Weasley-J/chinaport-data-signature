@@ -6,7 +6,7 @@
     <meta content="smart-doc" name="generator">
     <title>chinaport-data-signature</title>
     <link href="font.css" rel="stylesheet">
-    <link href="AllInOne.css?v=1645025483244" rel="stylesheet"/>
+    <link href="AllInOne.css?v=1645123383093" rel="stylesheet"/>
     <link href="xt256.min.css" rel="stylesheet">
     <style>.literalblock pre, .listingblock pre:not(.highlight), .listingblock pre[class="highlight"], .listingblock pre[class^="highlight "], .listingblock pre.CodeRay, .listingblock pre.prettyprint {
         background: #000
@@ -129,8 +129,8 @@
                 <div class="listingblock">
                     <div class="content"><pre><code contenteditable="plaintext-only"
                                                     id="cd4a9d8b61452c6393010d5e007607df-body">{
-  "id": 191,
-  "data": "ngvkgg"
+  "id": 149,
+  "data": "mx99rm"
 }</code></pre>
                     </div>
                 </div>
@@ -196,8 +196,11 @@
                     <tr>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">└─x509Certificate</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">string</p></td>
-                        <td class="tableblock halign-left valign-top"><p class="tableblock">签名的ukey证书，如需导出.cer证书,<a
-                                href=http://tool.qdhuaxun.cn/?getcert''>帮助连接</a>,文件格式:卡序列号.cer</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">签名的ukey证书<br>
+                            <ul><br> 如需导出.cer证书,文件格式:卡序列号.cer<br>
+                                <li><a href=http://tool.qdhuaxun.cn/?getcert''>证书导出帮助连接</a></li>
+                                <br></ul>
+                            </p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
                     </tr>
                     <tr>
@@ -229,14 +232,14 @@
                     <div class="content" id="cd4a9d8b61452c6393010d5e007607df-response"><pre><code class="json">{
   "message": "success",
   "success": true,
-  "timestamp": "2022-02-16 23:31:23",
-  "code": 133,
+  "timestamp": "2022-02-18 02:43:03",
+  "code": 48,
   "data": {
     "success": true,
-    "certNo": "cwwwfj",
-    "x509Certificate": "zlmz2b",
-    "digestValue": "p0wz7d",
-    "signatureValue": "ss41vs"
+    "certNo": "wrn19g",
+    "x509Certificate": "b775d6",
+    "digestValue": "yltbn9",
+    "signatureValue": "xabn0v"
   }
 }</code></pre>
                     </div>
@@ -244,25 +247,25 @@
                 <div class="paragraph"><p><strong>Curl-example:</strong></p></div>
                 <div class="listingblock">
                     <div class="content" id="cd4a9d8b61452c6393010d5e007607df-curl"><pre><code class="bash">curl -X POST -H 'Content-Type: application/json; charset=utf-8' -i http://localhost:8080/rpc/eport/signature --data '{
-  "id": 191,
-  "data": "ngvkgg"
+  "id": 149,
+  "data": "mx99rm"
 }'</code></pre>
                     </div>
                 </div>
             </div>
-            <div class="sect2" id="4ff83b079803fdf603a15af9fea04cb7"><h3 id="_1_1_2_海关总署XML数据加签测试"><a class="anchor"
+            <div class="sect2" id="8c8d04a55eca0923a50c6735e5a86ffe"><h3 id="_1_1_2_海关总署XML数据加签测试"><a class="anchor"
                                                                                                       href="#_1_1_2_海关总署XML数据加签测试"></a><a
                     class="link" href="#_1_1_2_海关总署XML数据加签测试">1.2.&nbsp;海关总署XML数据加签测试</a></h3>
                 <div class="paragraph" data-download="false" data-page=""
                      data-url="http://localhost:8080/rpc/eport/signature/test/ceb"
-                     id="4ff83b079803fdf603a15af9fea04cb7-url"><p><strong>URL:</strong><a class="bare"
+                     id="8c8d04a55eca0923a50c6735e5a86ffe-url"><p><strong>URL:</strong><a class="bare"
                                                                                           href="http://localhost:8080/rpc/eport/signature/test/ceb">&nbsp;http://localhost:8080/rpc/eport/signature/test/ceb</a>
                 </p></div>
-                <div class="paragraph" data-method="GET" id="4ff83b079803fdf603a15af9fea04cb7-method"><p>
+                <div class="paragraph" data-method="GET" id="8c8d04a55eca0923a50c6735e5a86ffe-method"><p>
                     <strong>Type:</strong>&nbsp;GET</p></div>
                 <div class="paragraph"><p><strong>Author:</strong>&nbsp;lwj</p></div>
                 <div class="paragraph" data-content-type="application/x-www-form-urlencoded;charset=utf-8"
-                     id="4ff83b079803fdf603a15af9fea04cb7-content-type"><p><strong>Content-Type:</strong>&nbsp;application/x-www-form-urlencoded;charset=utf-8
+                     id="8c8d04a55eca0923a50c6735e5a86ffe-content-type"><p><strong>Content-Type:</strong>&nbsp;application/x-www-form-urlencoded;charset=utf-8
                 </p></div>
                 <div class="paragraph"><p><strong>Description:</strong>&nbsp;非正式调用API，只为了让你看到海关总署XML加密的数据返回格式</p></div>
                 <div class="paragraph"><p><strong>Response-fields:</strong></p></div>
@@ -313,68 +316,32 @@
                         <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
                     </tr>
                     <tr>
-                        <td class="tableblock halign-left valign-top"><p class="tableblock">└─success</p></td>
-                        <td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-                        <td class="tableblock halign-left valign-top"><p class="tableblock">本次加签是否成功</p></td>
-                        <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
-                    </tr>
-                    <tr>
-                        <td class="tableblock halign-left valign-top"><p class="tableblock">└─certNo</p></td>
-                        <td class="tableblock halign-left valign-top"><p class="tableblock">string</p></td>
-                        <td class="tableblock halign-left valign-top"><p class="tableblock">签名的ukey的卡序列号</p></td>
-                        <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
-                    </tr>
-                    <tr>
-                        <td class="tableblock halign-left valign-top"><p class="tableblock">└─x509Certificate</p></td>
-                        <td class="tableblock halign-left valign-top"><p class="tableblock">string</p></td>
-                        <td class="tableblock halign-left valign-top"><p class="tableblock">签名的ukey证书，如需导出.cer证书,<a
-                                href=http://tool.qdhuaxun.cn/?getcert''>帮助连接</a>,文件格式:卡序列号.cer</p></td>
-                        <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
-                    </tr>
-                    <tr>
-                        <td class="tableblock halign-left valign-top"><p class="tableblock">└─digestValue</p></td>
-                        <td class="tableblock halign-left valign-top"><p class="tableblock">string</p></td>
-                        <td class="tableblock halign-left valign-top"><p class="tableblock">
-                            xml的数字摘要，先对不包含Signature节点的原始报文,进行C14n格式化，然后取shal二进制摘要，然后对sha1的值进行base64编码<br>
-                            <ul><br>
-                                <li><a href='http://tool.qdhuaxun.cn/ceb/CEB311Message.xml'>待加签报文样例</a></li>
-                                <br></ul>
-                            </p></td>
-                        <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
-                    </tr>
-                    <tr>
-                        <td class="tableblock halign-left valign-top"><p class="tableblock">└─signatureValue</p></td>
-                        <td class="tableblock halign-left valign-top"><p class="tableblock">string</p></td>
-                        <td class="tableblock halign-left valign-top"><p class="tableblock">调用ukey获取的签名值</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">└─any object</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">object</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">any object.</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
                     </tr>
                     </tbody>
                 </table>
                 <div class="paragraph">
                     <p><strong>
-                        <button class="send-button" data-id="4ff83b079803fdf603a15af9fea04cb7">Send Request</button>
-                    </strong><span id="4ff83b079803fdf603a15af9fea04cb7-resp-status"></span></p>
+                        <button class="send-button" data-id="8c8d04a55eca0923a50c6735e5a86ffe">Send Request</button>
+                    </strong><span id="8c8d04a55eca0923a50c6735e5a86ffe-resp-status"></span></p>
                 </div>
                 <div class="paragraph"><p><strong>Response-example:</strong></p></div>
                 <div class="listingblock">
-                    <div class="content" id="4ff83b079803fdf603a15af9fea04cb7-response"><pre><code class="json">{
+                    <div class="content" id="8c8d04a55eca0923a50c6735e5a86ffe-response"><pre><code class="json">{
   "message": "success",
   "success": true,
-  "timestamp": "2022-02-16 23:31:23",
-  "code": 698,
-  "data": {
-    "success": true,
-    "certNo": "gi53s8",
-    "x509Certificate": "tabtxu",
-    "digestValue": "qsmjqt",
-    "signatureValue": "ejait7"
-  }
+  "timestamp": "2022-02-18 02:43:03",
+  "code": 132,
+  "data": {}
 }</code></pre>
                     </div>
                 </div>
                 <div class="paragraph"><p><strong>Curl-example:</strong></p></div>
                 <div class="listingblock">
-                    <div class="content" id="4ff83b079803fdf603a15af9fea04cb7-curl">
+                    <div class="content" id="8c8d04a55eca0923a50c6735e5a86ffe-curl">
                         <pre><code class="bash">curl -X GET -i http://localhost:8080/rpc/eport/signature/test/ceb</code></pre>
                     </div>
                 </div>
@@ -459,8 +426,8 @@
                     <div class="content" id="1010e503289617e9a0156939e5815d0d-response"><pre><code class="json">{
   "message": "success",
   "success": true,
-  "timestamp": "2022-02-16 23:31:23",
-  "code": 68,
+  "timestamp": "2022-02-18 02:43:03",
+  "code": 349,
   "data": {}
 }</code></pre>
                     </div>
@@ -474,7 +441,7 @@
             </div>
         </div>
     </div>
-    <footer class="page-footer"><span class="copyright">Generated by smart-doc at 2022-02-16 23:31:23</span><span
+    <footer class="page-footer"><span class="copyright">Generated by smart-doc at 2022-02-18 02:43:03</span><span
             class="footer-modification">Suggestions,contact,support and error reporting on<a
             href="https://gitee.com/smart-doc-team/smart-doc" target="_blank">&nbsp;Gitee</a>&nbsp;or<a
             href="https://github.com/smart-doc-group/smart-doc.git" target="_blank">&nbsp;Github</a></span></footer>
@@ -482,8 +449,8 @@
                                                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABlUlEQVRIS+2UvUvDQBiH398Rly4udnARwUXs4qAIOigI4iL30dTZ2T9AcNPVvUsXF7uYttdScNDFRRAnB11cFFwKxcXBJTQnJ6lEbRI/CIiY9e6e5/e+9+ZAGX/ImE9/QKCU2jfGbGTQqq4xZgtSyisiKmQgIAAVCCFWAGxnIOhqrdd/xyUrpRZsP40xSwA6AI57vd5eq9W6T6s8tQIppSKi+gDQNREprfVNkiRRwDlfY4xZ+FAIuSOi8Qjw0nEc5XnebZwkViClXA2T5+xhY8xus9ncEUJMAziITN5FEARuXLsGCoQQywBs8uEovJ+Scz7FGDuMSM4cx3E9z+u8r+SDQEq5SEQ1IhoZBE+QnBKRq7V+iEreCDjn84wxCx9NgidITnK5nFutVh/7e14FSqnZIAhqAMY+A4+TADjyfb/Ubref7J4XQXhxNvnEV+AJlbTy+XypUqn4KBaLBZuciCa/A0+opN5oNFz7FpUBbP4EHicxxsyAcz7HGDvvz3nar5+2Ho5wOQwsU5+KNGDa+r8grUP0DBLjtRtNKEliAAAAAElFTkSuQmCC"><span
             id="upText">Top</span></div>
 </div>
-<script src="debug.js?v=1645025483244"></script>
-<script src="search.js?v=1645025483244"></script>
+<script src="debug.js?v=1645123383093"></script>
+<script src="search.js?v=1645123383093"></script>
 <script>$(function () {
     $(window).scroll(function () {
         if ($(window).scrollTop() > 100) {

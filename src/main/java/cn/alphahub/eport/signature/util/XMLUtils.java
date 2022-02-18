@@ -18,6 +18,10 @@
  */
 package cn.alphahub.eport.signature.util;
 
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Marshaller;
+import jakarta.xml.bind.Unmarshaller;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.xml.sax.EntityResolver;
@@ -30,11 +34,18 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.validation.Schema;
+import java.beans.BeanInfo;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.lang.ref.WeakReference;
+import java.lang.reflect.Method;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.WeakHashMap;
 import java.util.concurrent.BlockingQueue;
@@ -47,10 +58,6 @@ import java.util.concurrent.LinkedBlockingDeque;
 public final class XMLUtils {
 
     private static final WeakObjectPool<DocumentBuilder, ParserConfigurationException>[] pools = new WeakObjectPool[2];
-    private static final String dsPrefix = "ds";
-    private static final String ds11Prefix = "dsig11";
-    private static final String xencPrefix = "xenc";
-    private static final String xenc11Prefix = "xenc11";
 
     static {
         pools[0] = new DocumentBuilderPool(false);
@@ -62,6 +69,79 @@ public final class XMLUtils {
      */
     private XMLUtils() {
         // we don't allow instantiation
+    }
+
+    /**
+     * 由XML字符串 -> Java对象
+     *
+     * @param xml    XML字符串
+     * @param entity 返回的实体
+     * @return 实体对象
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> T xmlToObject(String xml, Class<T> entity) {
+        try {
+            JAXBContext context = JAXBContext.newInstance(entity);
+            Unmarshaller unmarshal = context.createUnmarshaller();
+            StringReader stringReader = new StringReader(xml);
+            return (T) unmarshal.unmarshal(stringReader);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * Java对象 -> XML字符串
+     *
+     * @param object 根节点对象
+     * @return xml字符串
+     */
+    public static <T> String objectToXml(T object) {
+        JAXBContext context;
+        try {
+            context = JAXBContext.newInstance(object.getClass());
+            Marshaller mar = context.createMarshaller();
+            mar.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            mar.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+            StringWriter writer = new StringWriter();
+            mar.marshal(object, writer);
+            return writer.toString();
+        } catch (JAXBException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * 对象 -> Map集合
+     *
+     * @param object 对象
+     * @return Map
+     * @apiNote 此方法不会返回null，转换出错会返回空集合，obj为null返回空集合
+     */
+    public static Map<String, Object> objectToMap(Object object) {
+        if (object == null) {
+            return Collections.emptyMap();
+        }
+        try {
+            Map<String, Object> map = new LinkedHashMap<>();
+            BeanInfo beanInfo = Introspector.getBeanInfo(object.getClass());
+            PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
+            for (PropertyDescriptor property : propertyDescriptors) {
+                String key = property.getName();
+                if (key.compareToIgnoreCase("class") == 0) {
+                    continue;
+                }
+                Method getter = property.getReadMethod();
+                Object value = getter != null ? getter.invoke(object) : null;
+                map.put(key, value);
+            }
+            return map;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Collections.emptyMap();
+        }
     }
 
     public static Document read(InputStream inputStream) throws ParserConfigurationException, SAXException, IOException {
@@ -138,30 +218,37 @@ public final class XMLUtils {
             return disAllowDocTypeDeclarations;
         }
 
+        @Override
         public void reset() {
             delegate.reset();
         }
 
+        @Override
         public Document parse(InputStream is) throws SAXException, IOException {
             return delegate.parse(is);
         }
 
+        @Override
         public Document parse(InputStream is, String systemId) throws SAXException, IOException {
             return delegate.parse(is, systemId);
         }
 
+        @Override
         public Document parse(String uri) throws SAXException, IOException {
             return delegate.parse(uri);
         }
 
+        @Override
         public Document parse(File f) throws SAXException, IOException {
             return delegate.parse(f);
         }
 
+        @Override
         public Schema getSchema() {
             return delegate.getSchema();
         }
 
+        @Override
         public boolean isXIncludeAware() {
             return delegate.isXIncludeAware();
         }
@@ -281,15 +368,12 @@ public final class XMLUtils {
          * @param obj the object to return to the pool
          * @return whether the object was successfully added as available
          */
-        public boolean repool(T obj) {
+        public synchronized boolean repool(T obj) {
             if (obj != null && onLoan.containsKey(obj)) {
-                //synchronize to protect against a caller returning the same object again...
-                synchronized (obj) {
-                    //...and check to see that it was removed
-                    if (onLoan.remove(obj) != null) {
-                        return available.offer(new WeakReference<T>(obj));
-                    }
+                if (onLoan.remove(obj) == null) {
+                    return false;
                 }
+                return available.offer(new WeakReference<>(obj));
             }
             return false;
         }
