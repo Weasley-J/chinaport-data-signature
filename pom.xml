@@ -11,7 +11,7 @@
 
     <groupId>cn.gov.chinaport</groupId>
     <artifactId>chinaport-data-signature</artifactId>
-    <version>1.0.5</version>
+    <version>1.0.6</version>
     <name>chinaport-data-signature</name>
     <url>https://github.com/Weasley-J/chinaport-data-signature.git</url>
 
