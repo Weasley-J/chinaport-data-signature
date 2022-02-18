@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.socket.client.WebSocketConnectionManager;
@@ -30,10 +31,11 @@ import java.util.concurrent.locks.LockSupport;
 @Slf4j
 @Service
 @Validated
+@RefreshScope
 public class SignHandler {
 
     @Resource
-    private UkeyProperties properties;
+    private UkeyProperties ukeyProperties;
 
     @Resource
     private CertificateHandler certificateHandler;
@@ -105,7 +107,7 @@ public class SignHandler {
             wrapper.getSignResult().setDigestValue(SignatureHandler.getDigestValueOfCEBXxxMessage(request.getData()));
         }
 
-        WebSocketConnectionManager manager = new WebSocketConnectionManager(standardWebSocketClient, webSocketClientHandler, properties.getWsUrl());
+        WebSocketConnectionManager manager = new WebSocketConnectionManager(standardWebSocketClient, webSocketClientHandler, ukeyProperties.getWsUrl());
         manager.start();
 
         try {

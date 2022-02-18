@@ -26,5 +26,9 @@ logging:
       clean-history-on-start: true
 
 spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 101.34.184.17:8848
   jackson:
     default-property-inclusion: non_null

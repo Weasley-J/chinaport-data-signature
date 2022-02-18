@@ -29,14 +29,6 @@ public class CertificateHandler implements Serializable {
      * u-key的.cer证书是否存在
      */
     private Boolean certExists = false;
-
-    public CertificateHandler() {
-    }
-
-    public CertificateHandler(Map<String, String> x509Map) {
-        this.x509Map = x509Map;
-    }
-
     /**
      * 判断用那一个证书的集合
      * <ul>
@@ -45,6 +37,13 @@ public class CertificateHandler implements Serializable {
      * </ul>
      */
     private Map<String, String> x509Map;
+
+    public CertificateHandler() {
+    }
+
+    public CertificateHandler(Map<String, String> x509Map) {
+        this.x509Map = x509Map;
+    }
 
     public Map<String, String> getX509Map() {
         return x509Map;

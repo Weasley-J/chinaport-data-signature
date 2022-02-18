@@ -1,3 +1,18 @@
 spring:
   application:
     name: chinaport-data-signature
+  cloud:
+    nacos:
+      server-addr: 101.34.184.17:8848
+      config:
+        server-addr: ${spring.cloud.nacos.server-addr}
+        group: DEFAULT_GROUP
+        namespace: 4c1c7eda-8937-4cff-9fcc-c96180fbc8ae
+        refresh-enabled: true
+        file-extension: yml
+        shared-configs:
+          - application.yml
+        extension-configs:
+          - data-id: eport-data-signature.yml
+            group: DEFAULT_GROUP
+            refresh: true

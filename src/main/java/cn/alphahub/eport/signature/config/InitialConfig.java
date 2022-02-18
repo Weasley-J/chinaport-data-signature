@@ -23,6 +23,7 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
@@ -33,7 +34,6 @@ import org.springframework.web.socket.client.WebSocketConnectionManager;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -62,7 +62,6 @@ public class InitialConfig implements ApplicationRunner {
      * ukey默认密码8个8不要修改
      */
     private static final String DEFAULT_PASSWORD = "88888888";
-
 
     /* *********************** 获取入参方法开始,已下方法的返回值最为参数连接好海关u-key通过socket实例发送给[ws://127.0.0.1:61232] *********************** */
 
@@ -174,49 +173,10 @@ public class InitialConfig implements ApplicationRunner {
      * @param args incoming application arguments
      */
     @Override
-    public void run(ApplicationArguments args) throws IOException {
+    public void run(ApplicationArguments args) {
         org.apache.xml.security.Init.init();
         if (log.isDebugEnabled()) {
             log.debug("XMl output format with C14n Initial Succeed.");
-        }
-
-        CertificateHandler certificateHandler = SpringUtil.getBean(CertificateHandler.class);
-        UkeyProperties ukeyProperties = SpringUtil.getBean(UkeyProperties.class);
-        if (StringUtils.isBlank(ukeyProperties.getCertPath())) {
-            certificateHandler.setCertExists(false);
-            return;
-        }
-        /*
-        //使用类加载器读取打包成jar之后resources下的文件
-        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(ukeyProperties.getCertPath());
-        if (inputStream == null) {
-            certificateHandler.setCertExists(false);
-            return;
-        }
-        */
-        ClassPathResource resource = new ClassPathResource("/" + ukeyProperties.getCertPath());
-        if (resource.exists() || resource.isFile() && resource.isReadable()) {
-            String x509CertificateWithHash = IoUtil.readUtf8(resource.getInputStream());
-            x509CertificateWithHash = x509CertificateWithHash.replace("-----BEGIN CERTIFICATE-----", "");
-            x509CertificateWithHash = x509CertificateWithHash.replace("-----END CERTIFICATE-----", "");
-            // Windows
-            if (StringUtils.startsWith(x509CertificateWithHash, "\r\n")) {
-                x509CertificateWithHash = StringUtils.removeStart(x509CertificateWithHash, "\r\n");
-            }
-            if (x509CertificateWithHash.startsWith("\n")) {
-                x509CertificateWithHash = StringUtils.replaceOnce(x509CertificateWithHash, "\n", "");
-            }
-            if (x509CertificateWithHash.endsWith("\n\n")) {
-                x509CertificateWithHash = StringUtils.substring(x509CertificateWithHash, 0, x509CertificateWithHash.length() - 4);
-            }
-            if (x509CertificateWithHash.endsWith("\n")) {
-                x509CertificateWithHash = StringUtils.substring(x509CertificateWithHash, 0, x509CertificateWithHash.length() - 2);
-            }
-
-            certificateHandler.setCertExists(true);
-            certificateHandler.getX509Map().put(CertificateHandler.METHOD_OF_X509_WITH_HASH, x509CertificateWithHash);
-
-            log.warn("METHOD_OF_X509_WITH_HASH:\n{}", x509CertificateWithHash);
         }
     }
 
@@ -247,9 +207,34 @@ public class InitialConfig implements ApplicationRunner {
      * @return X509Certificate证书判断
      */
     @Bean
-    public CertificateHandler certificateHandler(UkeyProperties properties, StandardWebSocketClient standardWebSocketClient) {
+    @SneakyThrows
+    @RefreshScope
+    public CertificateHandler certificateHandler(UkeyProperties ukeyProperties, StandardWebSocketClient standardWebSocketClient) {
         CertificateHandler certificateHandler = new CertificateHandler();
-        Map<String, String> x509Map = new ConcurrentHashMap<>(2);
+        Map<String, String> certificateMap = new ConcurrentHashMap<>(2);
+        //使用类加载器{Thread.currentThread().getContextClassLoader().getResourceAsStream("file/path")}也能读取SpringBoot打包成jar之后resources下的文件
+        ClassPathResource resource = new ClassPathResource("/" + ukeyProperties.getCertPath());
+        if (StringUtils.isNotBlank(ukeyProperties.getCertPath()) && resource.exists() && resource.isFile()) {
+            String x509CertificateWithHash = IoUtil.readUtf8(resource.getInputStream());
+            x509CertificateWithHash = x509CertificateWithHash.replace("-----BEGIN CERTIFICATE-----", "");
+            x509CertificateWithHash = x509CertificateWithHash.replace("-----END CERTIFICATE-----", "");
+            // Windows
+            if (StringUtils.startsWith(x509CertificateWithHash, "\r\n")) {
+                x509CertificateWithHash = StringUtils.removeStart(x509CertificateWithHash, "\r\n");
+            }
+            if (x509CertificateWithHash.startsWith("\n")) {
+                x509CertificateWithHash = StringUtils.replaceOnce(x509CertificateWithHash, "\n", "");
+            }
+            if (x509CertificateWithHash.endsWith("\n\n")) {
+                x509CertificateWithHash = StringUtils.substring(x509CertificateWithHash, 0, x509CertificateWithHash.length() - 4);
+            }
+            if (x509CertificateWithHash.endsWith("\n")) {
+                x509CertificateWithHash = StringUtils.substring(x509CertificateWithHash, 0, x509CertificateWithHash.length() - 2);
+            }
+            certificateHandler.setCertExists(true);
+            certificateMap.put(CertificateHandler.METHOD_OF_X509_WITH_HASH, x509CertificateWithHash);
+            log.warn("METHOD_OF_X509_WITH_HASH:\n{}", x509CertificateWithHash);
+        }
 
         AtomicReference<Thread> reference = new AtomicReference<>();
         reference.set(Thread.currentThread());
@@ -257,7 +242,7 @@ public class InitialConfig implements ApplicationRunner {
         WebSocketConnectionManager manager = new WebSocketConnectionManager(standardWebSocketClient, new TextWebSocketHandler() {
             @Override
             public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-                log.warn("已和[{}]建立websocket连接.", properties.getWsUrl());
+                log.warn("已和[{}]建立websocket连接.", ukeyProperties.getWsUrl());
                 session.sendMessage(new TextMessage(InitialConfig.getX509CertificateParameter()));
             }
 
@@ -269,8 +254,8 @@ public class InitialConfig implements ApplicationRunner {
                     if (Objects.equals(response.get_id(), 1)) {
                         UkeyResponse.Args responseArgs = response.get_args();
                         if (responseArgs.getResult().equals(true) && CollectionUtils.isNotEmpty(responseArgs.getData())) {
-                            x509Map.put(CertificateHandler.METHOD_OF_X509_WITHOUT_HASH, responseArgs.getData().get(0));
-                            log.warn("已从电子口岸u-key中获取到未经hash算法的x509Certificate证书: {}", MAPPER.writeValueAsString(x509Map));
+                            certificateMap.put(CertificateHandler.METHOD_OF_X509_WITHOUT_HASH, responseArgs.getData().get(0));
+                            log.warn("已从电子口岸u-key中获取到未经hash算法的x509Certificate证书: {}", MAPPER.writeValueAsString(certificateMap));
                         }
                     }
                 } catch (Exception e) {
@@ -279,7 +264,7 @@ public class InitialConfig implements ApplicationRunner {
                     LockSupport.unpark(reference.get());
                 }
             }
-        }, properties.getWsUrl());
+        }, ukeyProperties.getWsUrl());
 
         manager.start();
 
@@ -291,7 +276,7 @@ public class InitialConfig implements ApplicationRunner {
             manager.stop();
         }
 
-        certificateHandler.setX509Map(x509Map);
+        certificateHandler.setX509Map(certificateMap);
 
         return certificateHandler;
     }
@@ -300,11 +285,11 @@ public class InitialConfig implements ApplicationRunner {
      * @return An instance of WebSocketClientHandler
      */
     @Bean
+    @RefreshScope
     @ConditionalOnMissingBean({WebSocketClientHandler.class})
     public WebSocketClientHandler webSocketClientHandler(UkeyProperties ukeyProperties, WebSocketWrapper webSocketWrapper, CertificateHandler certificateHandler) {
         return new WebSocketClientHandler(ukeyProperties, webSocketWrapper, certificateHandler);
     }
-
 }
 
 
