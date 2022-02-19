@@ -51,6 +51,8 @@
 
 我这是在启动脚本里指定了`u-key`的`ip`为我与我`MacBookPro`处于统一局域网下面的`Windows`电脑的主机`ip`，`Windows`上你使用`git bash`也能达到我终端这样的效果。
 
+![image-20220219162400840](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20220219162400840.png)
+
 ## 1 `sonarqube`代码审查结果
 
 ![image-20220218023508803](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20220218023508803.png)
@@ -146,7 +148,7 @@ APP_NAME="chinaport-data-signature"
 UKEY_CERT_PATH=""
 UKEY_HOST="127.0.0.1"
 UKEY_PASSWORD="88888888"
-JAVA_ARGS="-Xms1g -Xmx1g"
+JAVA_ARGS="-Dfile.encoding=UTF-8 -Xms1g -Xmx1g"
 
 # ------ 全局参数配置 ------
 java ${JAVA_ARGS} -jar ${APP_NAME}.jar \
