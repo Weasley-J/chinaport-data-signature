@@ -30,8 +30,7 @@
 项目开始前我们先了解下海关总署XML报文的加签都在什么价位？顺便说下`海关179数据抓取`加签直接按要求拼参数即可，像百度、CSDN这种垃圾桶里面随处都有。**但唯独没有XML的加签，**
 2022-02-14之前。可见这XML报文加签在这之前有几毛钱的商业价值在里面，细品下图:
 
-<img src="https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/IMG_0373-side.jpg" alt="IMG_0373-side">
-海关总署XML价位</img>
+<img src="https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/IMG_0373-side.jpg" alt="IMG_0373-side"/>
 
 
 
@@ -39,7 +38,7 @@
 
 
 
-**开始进入正题 》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》**
+**>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 开始进入正题 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>**
 
 - [x] 电子口岸的操作员`u-key`长啥样:
 
@@ -61,11 +60,10 @@
 
 | 序号 | 类目             | 版本                                                         | 备注                 |
 | ---- | ---------------- | ------------------------------------------------------------ | -------------------- |
-| 1    | 软件运行环境     | [Java SE Development Kit 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)，jdk17 | 基础软件最低运行要求 |
-| 2    | 硬件运行环境     | Windows-10-x64/Windows-11-x64/Windows-server-x64-2007+/Linux-x86-x64(自行解决内网穿透问题，**
-ukey只能插在Windows电脑上**) |                      |
+| 1    | 软件运行环境     | [Java SE Development Kit 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html) | 基础软件最低运行要求 |
+| 2    | 硬件运行环境     | `Windows-10-x64`/`Windows-11-x64`/`Windows-server-x64`/`Linux`(自行解决内网穿透问题,ukey只能插Windows电脑上) |                      |
 | 3    | 硬件性能要求     | > =1核CPU+2G运行内存                                          | 不能比这小了         |
-| 4    | 对技术人员的要求 | 会把电子口岸的ukey插入安装好[电子口岸控件]([中国国际贸易单一窗口登录管理 (singlewindow.cn)](https://app.singlewindow.cn/cas/login?service=http%3A%2F%2Fwww.singlewindow.cn%2Fsinglewindow%2Flogin.jspx))Windows电脑，会改启动脚本里面的参数，会用鼠标双击启动脚本 |                      |
+| 4    | 对技术人员的要求 | 会把电子口岸ukey插入安装好[电子口岸控件]([中国国际贸易单一窗口登录管理 (singlewindow.cn)](https://app.singlewindow.cn/cas/login?service=http%3A%2F%2Fwww.singlewindow.cn%2Fsinglewindow%2Flogin.jspx))Windows电脑上，会改启动脚本里面的参数，会用鼠标双击启动脚本 |                      |
 
 ## 3 运行参数概况
 
