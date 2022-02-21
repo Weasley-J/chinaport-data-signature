@@ -240,16 +240,16 @@ String.prototype.format = function (args) {
 
 function download(url, headersData, pathParamData, queryParamData,
                   bodyParamData, method, contentType) {
-  url = castToGetUri(url, pathParamData, queryParamData)
-  const xmlRequest = new XMLHttpRequest();
-  xmlRequest.open(method, url, true);
-  xmlRequest.setRequestHeader("Content-type", contentType);
-  for (let key in headersData) {
-    xmlRequest.setRequestHeader(key, headersData[key])
-  }
-  xmlRequest.responseType = "blob";
-  xmlRequest.onload = function () {
-    if (this.status === 200) {
+    url = castToGetUri(url, pathParamData, queryParamData)
+    const xmlRequest = new XMLHttpRequest();
+    xmlRequest.open(method, url, true);
+    xmlRequest.setRequestHeader("Content-type", contentType);
+    for (let key in headersData) {
+        xmlRequest.setRequestHeader(key, headersData[key])
+    }
+    xmlRequest.responseType = "blob";
+    xmlRequest.onload = function () {
+        if (this.status === 200) {
       let fileName = "";
       const disposition = xmlRequest.getResponseHeader('Content-Disposition');
       if (disposition && disposition.indexOf('attachment') !== -1) {

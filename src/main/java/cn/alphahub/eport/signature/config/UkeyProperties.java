@@ -16,7 +16,7 @@ import org.springframework.validation.annotation.Validated;
 @ConfigurationProperties(prefix = "eport.signature.ukey")
 public class UkeyProperties {
     /**
-     * u-key的.cer证书在classpath的路径
+     * u-key的.cer证书在classpath的相对路径
      */
     private String certPath = "";
     /**

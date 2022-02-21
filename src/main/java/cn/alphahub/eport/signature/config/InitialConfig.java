@@ -108,7 +108,7 @@ public class InitialConfig implements ApplicationRunner {
     public static String getSignDataAsPEMParameter(SignRequest request) {
         Map<String, Object> args = new LinkedHashMap<>(2);
         String initData = SignHandler.getInitData(request);
-        log.warn("发送给ukey的真正请求入参: {}\n原始报文:\n{}", initData, request.getData());
+        log.warn("发送给ukey的真正请求入参: {}, 原始报文:\n{}", initData, request.getData());
         args.put("inData", initData);
         args.put("passwd", ObjectUtils.defaultIfNull(SpringUtil.getBean(UkeyProperties.class).getPassword(), DEFAULT_PASSWORD));
         Map<String, Object> parameterMap = new LinkedHashMap<>(3);
@@ -129,7 +129,7 @@ public class InitialConfig implements ApplicationRunner {
         String initData = SignHandler.getInitData(request);
         //对原文计算摘：SHA-1 digest as a hex string
         String sha1Hex = DigestUtils.sha1Hex(initData);
-        log.warn("发送给ukey的真正请求入参: {}\n原始报文:\n{}", sha1Hex, request.getData());
+        log.warn("发送给ukey的真正请求入参: {}, 原始报文:\n{}", sha1Hex, request.getData());
         Map<String, Object> args = new LinkedHashMap<>(2);
         args.put("inData", sha1Hex);
         args.put("passwd", ObjectUtils.defaultIfNull(SpringUtil.getBean(UkeyProperties.class).getPassword(), DEFAULT_PASSWORD));
@@ -212,28 +212,28 @@ public class InitialConfig implements ApplicationRunner {
     public CertificateHandler certificateHandler(UkeyProperties ukeyProperties, StandardWebSocketClient standardWebSocketClient) {
         CertificateHandler certificateHandler = new CertificateHandler();
         Map<String, String> certificateMap = new ConcurrentHashMap<>(2);
-        //使用类加载器{Thread.currentThread().getContextClassLoader().getResourceAsStream("file/path")}也能读取SpringBoot打包成jar之后resources下的文件
+        //使用类加载器{Thread.currentThread().getContextClassLoader().getResourceAsStream(ukeyProperties.getCertPath())}读取打包成jar之后resources下的文件
         ClassPathResource resource = new ClassPathResource("/" + ukeyProperties.getCertPath());
-        if (StringUtils.isNotBlank(ukeyProperties.getCertPath()) && resource.exists() && resource.isFile()) {
-            String x509CertificateWithHash = IoUtil.readUtf8(resource.getInputStream());
-            x509CertificateWithHash = x509CertificateWithHash.replace("-----BEGIN CERTIFICATE-----", "");
-            x509CertificateWithHash = x509CertificateWithHash.replace("-----END CERTIFICATE-----", "");
+        if (StringUtils.isNotBlank(ukeyProperties.getCertPath()) && resource.exists() || resource.isFile() && resource.isReadable()) {
+            String certificateWithHash = IoUtil.readUtf8(resource.getInputStream());
+            certificateWithHash = certificateWithHash.replace("-----BEGIN CERTIFICATE-----", "");
+            certificateWithHash = certificateWithHash.replace("-----END CERTIFICATE-----", "");
             // Windows
-            if (StringUtils.startsWith(x509CertificateWithHash, "\r\n")) {
-                x509CertificateWithHash = StringUtils.removeStart(x509CertificateWithHash, "\r\n");
+            if (StringUtils.startsWith(certificateWithHash, "\r\n")) {
+                certificateWithHash = StringUtils.removeStart(certificateWithHash, "\r\n");
             }
-            if (x509CertificateWithHash.startsWith("\n")) {
-                x509CertificateWithHash = StringUtils.replaceOnce(x509CertificateWithHash, "\n", "");
+            if (certificateWithHash.startsWith("\n")) {
+                certificateWithHash = StringUtils.replaceOnce(certificateWithHash, "\n", "");
             }
-            if (x509CertificateWithHash.endsWith("\n\n")) {
-                x509CertificateWithHash = StringUtils.substring(x509CertificateWithHash, 0, x509CertificateWithHash.length() - 4);
+            if (certificateWithHash.endsWith("\n\n")) {
+                certificateWithHash = StringUtils.substring(certificateWithHash, 0, certificateWithHash.length() - 4);
             }
-            if (x509CertificateWithHash.endsWith("\n")) {
-                x509CertificateWithHash = StringUtils.substring(x509CertificateWithHash, 0, x509CertificateWithHash.length() - 2);
+            if (certificateWithHash.endsWith("\n")) {
+                certificateWithHash = StringUtils.substring(certificateWithHash, 0, certificateWithHash.length() - 2);
             }
             certificateHandler.setCertExists(true);
-            certificateMap.put(CertificateHandler.METHOD_OF_X509_WITH_HASH, x509CertificateWithHash);
-            log.warn("METHOD_OF_X509_WITH_HASH:\n{}", x509CertificateWithHash);
+            certificateHandler.getX509Map().put(CertificateHandler.METHOD_OF_X509_WITH_HASH, certificateWithHash);
+            log.warn("METHOD_OF_X509_WITH_HASH:\n{}", certificateWithHash);
         }
 
         AtomicReference<Thread> reference = new AtomicReference<>();
