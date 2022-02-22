@@ -232,7 +232,7 @@ public class InitialConfig implements ApplicationRunner {
                 certificateWithHash = StringUtils.substring(certificateWithHash, 0, certificateWithHash.length() - 2);
             }
             certificateHandler.setCertExists(true);
-            certificateHandler.getX509Map().put(CertificateHandler.METHOD_OF_X509_WITH_HASH, certificateWithHash);
+            certificateMap.put(CertificateHandler.METHOD_OF_X509_WITH_HASH, certificateWithHash);
             log.warn("METHOD_OF_X509_WITH_HASH:\n{}", certificateWithHash);
         }
 
