@@ -3,6 +3,7 @@ package cn.alphahub.eport.signature;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
  * 中国电子口岸（海口海关CEBXxxMessage）加签服务
@@ -10,6 +11,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  * @author Weasley J
  * @date 2022-02-13
  */
+@EnableFeignClients
 @EnableDiscoveryClient
 @SpringBootApplication
 public class ChinaEportSignatureApplication {
