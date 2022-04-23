@@ -4,11 +4,17 @@
 >
 >
 >
-> 中国电子口岸海关总署[海口海关CEBXxxMessage]`XML末三段报文`和`海关179数据抓取报文`加签服务，开箱即用，无任何中间件；本项目遵守`GNU 3.0`协议，本项目里面所有到的`x509`证书不具有任何真实性、合法性，企业根据自己的情况替换成自己真实的证书，`ukey`加签直接直接下载`release`运行修改参数运行既可，不需要导出`.cer`证；
+> 中国电子口岸海关总署-海口海关`CEBXxxMessage`XML末三段报文`和`海关179数据抓取报文加签服务，开箱即用，无任何中间件；本项目遵守`GNU 3.0`协议，本项目里面所有到的`x509`
+> 证书不具有任何真实性、合法性，企业应根据自己的情况替换成自己真实的证书，`ukey加签直接直接下载`release`运行修改参数运行既可，不需要导出`.cer`证；
 >
+> 使用业务场景:
 >
+> - 中国境内的跨进电商业务
 >
-> 使用业务场景：中国境内的跨进电商业务
+> tips:
+>
+> - 单体应用直接下载[release](https://github.com/Weasley-J/chinaport-data-signature/releases)的二进制文件使用即可（使用较多）
+> - 分布式微服务请切换到`dev-microservice`分支构建（较少使用）
 
 
 
@@ -180,7 +186,7 @@ java ${JAVA_ARGS} -jar ${APP_NAME}.jar \
 
 ![image-20220218212801220](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20220218212801220.png)
 
-**XML加签响应示例**
+- **XML加签响应示例**
 
 ```json
 {
@@ -200,7 +206,7 @@ java ${JAVA_ARGS} -jar ${APP_NAME}.jar \
 
 ![image-20220217014013410](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20220217014013410.png)
 
-**海关179加签返回示例**
+- **海关179加签返回示例**
 
 提示：179加签只需要两个字即可
 
