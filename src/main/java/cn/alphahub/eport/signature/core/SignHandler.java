@@ -109,7 +109,7 @@ public class SignHandler {
         manager.start();
 
         try {
-            LockSupport.parkNanos(wrapper.getThreadReference(), 1000 * 1000 * 1000 * 5L);
+            LockSupport.parkNanos(wrapper.getThreadReference().get(), 1000 * 1000 * 1000 * 5L);
         } catch (Exception e) {
             log.error("线程自动unpark异常 {}", e.getLocalizedMessage(), e);
             wrapper.getSignResult().setSuccess(false);
