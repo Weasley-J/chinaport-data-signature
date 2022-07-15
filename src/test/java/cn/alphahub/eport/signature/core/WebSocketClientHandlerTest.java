@@ -24,7 +24,7 @@ class WebSocketClientHandlerTest {
     }
 
     @Test
-    void handleTextMessage() throws Exception {
+    void handleTextMessage()  {
         UkeyResponse response = JSONUtil.toBean("{\"_id\":1,\"_method\":\"cus-sec_SpcSignDataAsPEM\",\"_status\":\"00\",\"_args\":{\"Result\":false,\"Data\":[],\"Error\":[\"[读卡器底层库]复位读卡器失败:错误码=50070\",\"Err:Custom50070\"]}}",
                 new TypeReference<>() {
                 }, true);
