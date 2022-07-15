@@ -84,7 +84,7 @@ public class SignHandler {
      * @return 发送u-key的签名的入参
      */
     public String getDynamicSignDataParameter(@Valid SignRequest request) {
-        return certificateHandler.getCertExists() ? InitialConfig.getSignDataAsPEMParameter(request) : InitialConfig.getSignDataNoHashAsPEMParameter(request);
+        return certificateHandler.getCertExists().equals(true) ? InitialConfig.getSignDataAsPEMParameter(request) : InitialConfig.getSignDataNoHashAsPEMParameter(request);
     }
 
     /**

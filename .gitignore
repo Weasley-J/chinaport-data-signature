@@ -62,3 +62,17 @@ hs_err_pid*
 /release/
 /src/main/resources/cert/01691f7f.cer
 /logs/
+
+
+### Weasley J DIY ###
+/README.assets
+/webapp/*.jar
+/springboot-webapp/*.jar
+/resources/nacos-server/nacos/**/logs/
+/resources/nacos-config/**/nacos/**/logs/
+/resources/nacos-server/nacos/data
+
+### 自定义配置文件，防止账号泄露 ###
+!**/src/main/resources/*-lwj.yml
+!**/src/main/resources/*-*lwj.yml
+!**/src/main/resources/*-lwj*.yml

@@ -32,3 +32,23 @@ spring:
         server-addr: 101.34.184.17:8848
   jackson:
     default-property-inclusion: non_null
+
+  #邮件通知配置，默认：不启用
+  mail:
+    enable: false
+    #主收件人邮箱
+    to: "abc@qq.com"
+    #抄送箱邮（非必填）,抄送多个收件人箱邮用","隔开
+    cc: 'abc@outlook.com,cbd@qq.com'
+    #以下发送邮件的客服端参数，使用哪个邮箱发出通知消息
+    host: "smtp.189.cn" #邮件服务商主机
+    port: 465 #端口号
+    username: "xxx@189.cn"
+    password: "your_password"
+    protocol: "smtp" #协议
+    properties:
+      mail:
+        smtp:
+          ssl:
+            enable: true
+        debug: false #是否开始debug模式，终端会打印日志

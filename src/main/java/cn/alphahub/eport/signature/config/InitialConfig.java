@@ -7,6 +7,7 @@ import cn.alphahub.eport.signature.core.WebSocketClientHandler;
 import cn.alphahub.eport.signature.entity.SignRequest;
 import cn.alphahub.eport.signature.entity.UkeyResponse;
 import cn.alphahub.eport.signature.entity.WebSocketWrapper;
+import cn.alphahub.eport.signature.util.SysUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.lang.TypeReference;
 import cn.hutool.extra.spring.SpringUtil;
@@ -51,9 +52,8 @@ import java.util.concurrent.locks.LockSupport;
 @Data
 @Slf4j
 @Configuration
-@EnableConfigurationProperties({UkeyProperties.class})
+@EnableConfigurationProperties({UkeyProperties.class, EmailProperties.class})
 public class InitialConfig implements ApplicationRunner {
-
     /**
      * jackson序列化处禁止换成其他json序列化工具
      */
@@ -211,29 +211,26 @@ public class InitialConfig implements ApplicationRunner {
     @RefreshScope
     public CertificateHandler certificateHandler(UkeyProperties ukeyProperties, StandardWebSocketClient standardWebSocketClient) {
         CertificateHandler certificateHandler = new CertificateHandler();
-        Map<String, String> certificateMap = new ConcurrentHashMap<>(2);
+        Map<String, String> x509Map = new ConcurrentHashMap<>(2);
+
         //使用类加载器{Thread.currentThread().getContextClassLoader().getResourceAsStream(ukeyProperties.getCertPath())}读取打包成jar之后resources下的文件
         ClassPathResource resource = new ClassPathResource("/" + ukeyProperties.getCertPath());
         if (StringUtils.isNotBlank(ukeyProperties.getCertPath()) && resource.exists() || resource.isFile() && resource.isReadable()) {
             String certificateWithHash = IoUtil.readUtf8(resource.getInputStream());
             certificateWithHash = certificateWithHash.replace("-----BEGIN CERTIFICATE-----", "");
             certificateWithHash = certificateWithHash.replace("-----END CERTIFICATE-----", "");
-            // Windows
-            if (StringUtils.startsWith(certificateWithHash, "\r\n")) {
-                certificateWithHash = StringUtils.removeStart(certificateWithHash, "\r\n");
+            if (StringUtils.startsWith(certificateWithHash, SysUtil.getLineSeparator())) {
+                certificateWithHash = StringUtils.removeStart(certificateWithHash, SysUtil.getLineSeparator());
             }
-            if (certificateWithHash.startsWith("\n")) {
-                certificateWithHash = StringUtils.replaceOnce(certificateWithHash, "\n", "");
+            if (certificateWithHash.endsWith(SysUtil.getLineSeparator())) {
+                certificateWithHash = StringUtils.substring(certificateWithHash, 0, certificateWithHash.length() - SysUtil.getLineSeparator().length());
             }
-            if (certificateWithHash.endsWith("\n\n")) {
-                certificateWithHash = StringUtils.substring(certificateWithHash, 0, certificateWithHash.length() - 4);
-            }
-            if (certificateWithHash.endsWith("\n")) {
-                certificateWithHash = StringUtils.substring(certificateWithHash, 0, certificateWithHash.length() - 2);
-            }
+            x509Map.put(CertificateHandler.METHOD_OF_X509_WITH_HASH, certificateWithHash);
             certificateHandler.setCertExists(true);
-            certificateMap.put(CertificateHandler.METHOD_OF_X509_WITH_HASH, certificateWithHash);
-            log.warn("METHOD_OF_X509_WITH_HASH:\n{}", certificateWithHash);
+            certificateHandler.setX509Map(x509Map);
+            if (log.isWarnEnabled()) {
+                log.warn("METHOD_OF_X509_WITH_HASH:\n{}", certificateWithHash);
+            }
         }
 
         AtomicReference<Thread> reference = new AtomicReference<>();
@@ -254,8 +251,8 @@ public class InitialConfig implements ApplicationRunner {
                     if (Objects.equals(response.get_id(), 1)) {
                         UkeyResponse.Args responseArgs = response.get_args();
                         if (responseArgs.getResult().equals(true) && CollectionUtils.isNotEmpty(responseArgs.getData())) {
-                            certificateMap.put(CertificateHandler.METHOD_OF_X509_WITHOUT_HASH, responseArgs.getData().get(0));
-                            log.warn("已从电子口岸u-key中获取到未经hash算法的x509Certificate证书: {}", MAPPER.writeValueAsString(certificateMap));
+                            x509Map.put(CertificateHandler.METHOD_OF_X509_WITHOUT_HASH, responseArgs.getData().get(0));
+                            log.warn("已从电子口岸u-key中获取到未经hash算法的x509Certificate证书: {}", MAPPER.writeValueAsString(x509Map));
                         }
                     }
                 } catch (Exception e) {
@@ -276,7 +273,7 @@ public class InitialConfig implements ApplicationRunner {
             manager.stop();
         }
 
-        certificateHandler.setX509Map(certificateMap);
+        certificateHandler.setX509Map(x509Map);
 
         return certificateHandler;
     }
