@@ -7,6 +7,7 @@ import cn.alphahub.eport.signature.core.WebSocketClientHandler;
 import cn.alphahub.eport.signature.entity.SignRequest;
 import cn.alphahub.eport.signature.entity.UkeyResponse;
 import cn.alphahub.eport.signature.entity.WebSocketWrapper;
+import cn.alphahub.eport.signature.util.SysUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.lang.TypeReference;
 import cn.hutool.extra.spring.SpringUtil;
@@ -51,9 +52,8 @@ import java.util.concurrent.locks.LockSupport;
 @Data
 @Slf4j
 @Configuration
-@EnableConfigurationProperties({UkeyProperties.class})
+@EnableConfigurationProperties({UkeyProperties.class, EmailProperties.class})
 public class InitialConfig implements ApplicationRunner {
-
     /**
      * jackson序列化处禁止换成其他json序列化工具
      */
@@ -62,7 +62,6 @@ public class InitialConfig implements ApplicationRunner {
      * ukey默认密码8个8不要修改
      */
     private static final String DEFAULT_PASSWORD = "88888888";
-
 
     /* *********************** 获取入参方法开始,已下方法的返回值最为参数连接好海关u-key通过socket实例发送给[ws://127.0.0.1:61232] *********************** */
 
@@ -219,22 +218,18 @@ public class InitialConfig implements ApplicationRunner {
             String certificateWithHash = IoUtil.readUtf8(resource.getInputStream());
             certificateWithHash = certificateWithHash.replace("-----BEGIN CERTIFICATE-----", "");
             certificateWithHash = certificateWithHash.replace("-----END CERTIFICATE-----", "");
-            // Windows
-            if (StringUtils.startsWith(certificateWithHash, "\r\n")) {
-                certificateWithHash = StringUtils.removeStart(certificateWithHash, "\r\n");
+            if (StringUtils.startsWith(certificateWithHash, SysUtil.getLineSeparator())) {
+                certificateWithHash = StringUtils.removeStart(certificateWithHash, SysUtil.getLineSeparator());
             }
-            if (certificateWithHash.startsWith("\n")) {
-                certificateWithHash = StringUtils.replaceOnce(certificateWithHash, "\n", "");
+            if (certificateWithHash.endsWith(SysUtil.getLineSeparator())) {
+                certificateWithHash = StringUtils.substring(certificateWithHash, 0, certificateWithHash.length() - SysUtil.getLineSeparator().length());
             }
-            if (certificateWithHash.endsWith("\n\n")) {
-                certificateWithHash = StringUtils.substring(certificateWithHash, 0, certificateWithHash.length() - 4);
-            }
-            if (certificateWithHash.endsWith("\n")) {
-                certificateWithHash = StringUtils.substring(certificateWithHash, 0, certificateWithHash.length() - 2);
-            }
+            x509Map.put(CertificateHandler.METHOD_OF_X509_WITH_HASH, certificateWithHash);
             certificateHandler.setCertExists(true);
-            certificateHandler.getX509Map().put(CertificateHandler.METHOD_OF_X509_WITH_HASH, certificateWithHash);
-            log.warn("METHOD_OF_X509_WITH_HASH:\n{}", certificateWithHash);
+            certificateHandler.setX509Map(x509Map);
+            if (log.isWarnEnabled()) {
+                log.warn("METHOD_OF_X509_WITH_HASH:\n{}", certificateWithHash);
+            }
         }
 
         AtomicReference<Thread> reference = new AtomicReference<>();

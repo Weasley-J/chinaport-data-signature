@@ -1,0 +1,14 @@
+spring:
+  mail:
+    enable: false
+    host: "smtp.189.cn"
+    port: 465
+    username: "xxx@189.cn"
+    password: "your_password"
+    protocol: "smtp"
+    properties:
+      mail:
+        smtp:
+          ssl:
+            enable: true
+        debug: false

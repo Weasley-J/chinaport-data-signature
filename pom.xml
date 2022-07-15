@@ -5,13 +5,13 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.0.0-M1</version>
+        <version>3.0.0-M3</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <groupId>cn.gov.chinaport</groupId>
     <artifactId>chinaport-data-signature</artifactId>
-    <version>1.0.6</version>
+    <version>1.0.7</version>
     <name>chinaport-data-signature</name>
     <url>https://github.com/Weasley-J/chinaport-data-signature.git</url>
 
@@ -24,9 +24,16 @@
 
     <properties>
         <java.version>17</java.version>
-        <spring-cloud.version>2022.0.0-M1</spring-cloud.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <spring-cloud.version>2022.0.0-M1</spring-cloud.version>
+        <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
+        <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
+        <hutool-all.version>5.8.4</hutool-all.version>
+        <smart-doc.version>2.3.7</smart-doc.version>
+        <xmlsec.version>2.3.0</xmlsec.version>
+        <jna.version>3.0.9</jna.version>
+        <multiple-email.version>1.0.2</multiple-email.version>
         <sonar.host.url>http://192.168.31.106:9001</sonar.host.url>
         <sonar.login>admin</sonar.login>
         <sonar.password>123456</sonar.password>
@@ -37,15 +44,16 @@
         <sonar.sourceEncoding>${project.build.sourceEncoding}</sonar.sourceEncoding>
         <sonar.exclusions>src/test/**/*,*.js,*.css,*.html,*.vue,*.bat,*.cmd,*.md,*.NET,*.cpp</sonar.exclusions>
         <sonar-maven-plugin.version>3.9.0.2155</sonar-maven-plugin.version>
-        <maven-compiler-plugin.version>3.9.0</maven-compiler-plugin.version>
-        <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
-        <hutool-all.version>5.7.20</hutool-all.version>
-        <smart-doc.version>2.3.7</smart-doc.version>
-        <xmlsec.version>2.3.0</xmlsec.version>
-        <jna.version>3.0.9</jna.version>
     </properties>
 
     <dependencies>
+
+        <!--email support-->
+        <dependency>
+            <groupId>io.github.weasley-j</groupId>
+            <artifactId>multiple-email-spring-boot-starter</artifactId>
+            <version>${multiple-email.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -241,7 +249,7 @@
             <name>Spring Milestones</name>
             <url>https://repo.spring.io/milestone</url>
             <snapshots>
-                <enabled>false</enabled>
+                <enabled>true</enabled>
             </snapshots>
         </repository>
     </repositories>
@@ -252,7 +260,7 @@
             <name>Spring Milestones</name>
             <url>https://repo.spring.io/milestone</url>
             <snapshots>
-                <enabled>false</enabled>
+                <enabled>true</enabled>
             </snapshots>
         </pluginRepository>
     </pluginRepositories>
