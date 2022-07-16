@@ -33,7 +33,7 @@
         <smart-doc.version>2.3.7</smart-doc.version>
         <xmlsec.version>2.3.0</xmlsec.version>
         <jna.version>3.0.9</jna.version>
-        <multiple-email.version>1.0.4</multiple-email.version>
+        <multiple-email.version>1.0.5</multiple-email.version>
         <sonar.host.url>http://192.168.31.106:9001</sonar.host.url>
         <sonar.login>admin</sonar.login>
         <sonar.password>123456</sonar.password>
