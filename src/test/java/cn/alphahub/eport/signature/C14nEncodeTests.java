@@ -2,6 +2,9 @@ package cn.alphahub.eport.signature;
 
 
 import cn.alphahub.eport.signature.core.SignatureHandler;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
