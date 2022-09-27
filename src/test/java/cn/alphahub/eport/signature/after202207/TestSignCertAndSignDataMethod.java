@@ -9,7 +9,7 @@ import java.util.LinkedHashMap;
  * @author weasley
  * @version 1.0.0
  */
-public class TestSignCertAndSignMethod {
+public class TestSignCertAndSignDataMethod {
     public static final String pwd = "88888888";
 
     public static void main(String[] args) {

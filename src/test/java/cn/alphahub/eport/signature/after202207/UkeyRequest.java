@@ -24,7 +24,7 @@ import java.util.Map;
 @Accessors(chain = true)
 public class UkeyRequest implements Serializable {
     private String _method;
-    private int _id = 1;
+    private Integer _id = 1;
     @Nullable
     private Map<String, Object> args;
 
