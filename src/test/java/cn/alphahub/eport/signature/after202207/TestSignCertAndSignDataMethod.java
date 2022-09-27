@@ -1,5 +1,9 @@
 package cn.alphahub.eport.signature.after202207;
 
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
@@ -9,8 +13,12 @@ import java.util.LinkedHashMap;
  * @author weasley
  * @version 1.0.0
  */
+@SpringBootTest
 public class TestSignCertAndSignDataMethod {
     public static final String pwd = "88888888";
+
+    @Autowired
+    private SignClient signClient;
 
     public static void main(String[] args) {
         /* 1 签名方法  **/
@@ -53,4 +61,29 @@ public class TestSignCertAndSignDataMethod {
          u3 -> c1,c2
          */
     }
+
+    @Test
+    void u1c1() {
+    }
+
+    @Test
+    void u1c2() {
+    }
+
+    @Test
+    void u2c1() {
+    }
+
+    @Test
+    void u2c2() {
+    }
+
+    @Test
+    void u3c1() {
+    }
+
+    @Test
+    void u3c2() {
+    }
+
 }
