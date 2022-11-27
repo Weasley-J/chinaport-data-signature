@@ -1,4 +1,4 @@
-package cn.alphahub.eport.signature.after202207;
+package cn.alphahub.eport.signature.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,9 +10,8 @@ import org.springframework.lang.Nullable;
 import java.io.Serializable;
 import java.util.Map;
 
-
 /**
- * UkeyRequest
+ * Ukey Request
  *
  * @author weasley
  * @version 1.0.0

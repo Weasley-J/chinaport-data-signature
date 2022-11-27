@@ -84,8 +84,9 @@ public class SignHandler {
      * @return 发送u-key的签名的入参
      */
     public String getDynamicSignDataParameter(@Valid SignRequest request) {
-        return InitialConfig.getSignDataAsPEMParameter(request);
-        //return certificateHandler.getCertExists().equals(true) ? InitialConfig.getSignDataAsPEMParameter(request) : InitialConfig.getSignDataNoHashAsPEMParameter(request);
+        //return InitialConfig.getSignDataAsPEMParameter(request);
+        // TODO: 2022/11/27 获取签发日期
+        return certificateHandler.getCertExists().equals(true) ? InitialConfig.getSignDataAsPEMParameter(request) : InitialConfig.getSignDataNoHashAsPEMParameter(request);
     }
 
     /**

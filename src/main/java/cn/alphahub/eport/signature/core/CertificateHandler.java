@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Map;
 
 /**
@@ -37,6 +38,11 @@ public class CertificateHandler implements Serializable {
      * </ul>
      */
     private Map<String, String> x509Map;
+
+    /**
+     * 查看海关证书有效期
+     */
+    private LocalDateTime certValidTime;
 
     public CertificateHandler() {
     }

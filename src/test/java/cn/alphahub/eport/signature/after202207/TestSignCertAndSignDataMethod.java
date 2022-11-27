@@ -1,5 +1,6 @@
 package cn.alphahub.eport.signature.after202207;
 
+import cn.alphahub.eport.signature.entity.UkeyRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

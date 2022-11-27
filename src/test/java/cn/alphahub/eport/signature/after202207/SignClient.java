@@ -3,6 +3,7 @@ package cn.alphahub.eport.signature.after202207;
 import cn.alphahub.eport.signature.core.SignHandler;
 import cn.alphahub.eport.signature.entity.SignRequest;
 import cn.alphahub.eport.signature.entity.SignResult;
+import cn.alphahub.eport.signature.entity.UkeyRequest;
 import cn.hutool.json.JSONConfig;
 import cn.hutool.json.JSONUtil;
 import org.springframework.beans.factory.annotation.Autowired;
