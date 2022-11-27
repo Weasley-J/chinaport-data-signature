@@ -4,7 +4,11 @@ import cn.alphahub.eport.signature.core.CertificateHandler;
 import cn.alphahub.eport.signature.core.SignHandler;
 import cn.alphahub.eport.signature.core.SignatureHandler;
 import cn.alphahub.eport.signature.core.WebSocketClientHandler;
-import cn.alphahub.eport.signature.entity.*;
+import cn.alphahub.eport.signature.entity.SignRequest;
+import cn.alphahub.eport.signature.entity.SpcValidTime;
+import cn.alphahub.eport.signature.entity.UkeyRequest;
+import cn.alphahub.eport.signature.entity.UkeyResponse;
+import cn.alphahub.eport.signature.entity.WebSocketWrapper;
 import cn.alphahub.eport.signature.util.SysUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.lang.TypeReference;
@@ -133,11 +137,11 @@ public class InitialConfig implements ApplicationRunner {
         Map<String, Object> args = new LinkedHashMap<>(2);
         args.put("inData", sha1Hex);
         args.put("passwd", ObjectUtils.defaultIfNull(SpringUtil.getBean(UkeyProperties.class).getPassword(), DEFAULT_PASSWORD));
-        Map<String, Object> parameterMap = new LinkedHashMap<>(3);
-        parameterMap.put("_method", CertificateHandler.METHOD_OF_X509_WITHOUT_HASH);
-        parameterMap.put("_id", request.getId());
-        parameterMap.put("args", args);
-        return MAPPER.writeValueAsString(parameterMap);
+        UkeyRequest ukeyRequest = new UkeyRequest();
+        ukeyRequest.set_method(CertificateHandler.METHOD_OF_X509_WITHOUT_HASH);
+        ukeyRequest.set_id(request.getId());
+        ukeyRequest.setArgs(args);
+        return MAPPER.writeValueAsString(ukeyRequest);
     }
 
     /**
@@ -158,11 +162,11 @@ public class InitialConfig implements ApplicationRunner {
         if (StringUtils.isNotBlank(certDataPEM)) {
             argsMap.put("certDataPEM", certDataPEM);
         }
-        Map<String, Object> parameterMap = new LinkedHashMap<>(3);
-        parameterMap.put("_method", "cus-sec_SpcVerifySignDataNoHash");
-        parameterMap.put("_id", uniqueId);
-        parameterMap.put("args", argsMap);
-        return MAPPER.writeValueAsString(parameterMap);
+        UkeyRequest ukeyRequest = new UkeyRequest();
+        ukeyRequest.set_method("cus-sec_SpcVerifySignDataNoHash");
+        ukeyRequest.set_id(uniqueId);
+        ukeyRequest.setArgs(argsMap);
+        return MAPPER.writeValueAsString(ukeyRequest);
     }
 
     /**
@@ -298,7 +302,7 @@ public class InitialConfig implements ApplicationRunner {
                         if (responseArgs.getResult().equals(true) && CollectionUtils.isNotEmpty(responseArgs.getData())) {
                             log.warn("从电子口岸u-key中获取到u-key有效期区间: {}", responseArgs.getData());
                             SpcValidTime validTime = JSONUtil.toBean(responseArgs.getData().get(0), new TypeReference<>() {
-                            },true);
+                            }, true);
                             certificateHandler.setUkeyValidTimeBegin(validTime.getSzStartTime());
                             certificateHandler.setUkeyValidTimeEnd(validTime.getSzEndTime());
                         }
