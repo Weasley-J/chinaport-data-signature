@@ -17,6 +17,7 @@ import org.springframework.web.socket.client.WebSocketConnectionManager;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.LockSupport;
 
@@ -33,7 +34,10 @@ import java.util.concurrent.locks.LockSupport;
 @Service
 @Validated
 public class SignHandler {
-
+    /**
+     * 暂定2022-07-01为第一个时间分解
+     */
+    public static final LocalDateTime DATE_TIME_202207 = LocalDateTimeUtil.parse("2022-07-01", "yyyy-MM-dd");
     @Resource
     private UkeyProperties properties;
 
@@ -84,15 +88,17 @@ public class SignHandler {
      * 如果.cer证书不存在时动态切换发送u-key的签名方法
      *
      * @return 发送u-key的签名的入参
+     * @apiNote 待验证2022-07后加签xml报文
+     * @since 2022-11-27
      */
     public String getDynamicSignDataParameter(@Valid SignRequest request) {
-        LocalDateTime after202207 = LocalDateTimeUtil.parse("2022-07-01", "yyyy-MM-dd");
-        if (certificateHandler.getCertValidTimeBegin().isAfter(after202207)) {
-            //2022-07-01以后签发的u-key
-            return InitialConfig.getSignDataAsPEMParameter(request);
-        } else {
-            return certificateHandler.getCertExists().equals(true) ? InitialConfig.getSignDataAsPEMParameter(request) : InitialConfig.getSignDataNoHashAsPEMParameter(request);
+        if (certificateHandler.getUkeyValidTimeBegin().isAfter(DATE_TIME_202207)) {
+            //1. 2022-07-01以后签发的u-key；2. 加签报文是海关179
+            if (Objects.equals(isSignXml(request), false)) {
+               return InitialConfig.getSignDataAsPEMParameter(request);
+            }
         }
+        return certificateHandler.getCertExists().equals(true) ? InitialConfig.getSignDataAsPEMParameter(request) : InitialConfig.getSignDataNoHashAsPEMParameter(request);
     }
 
     /**

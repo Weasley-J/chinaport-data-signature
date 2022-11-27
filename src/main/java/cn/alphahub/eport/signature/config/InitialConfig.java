@@ -4,10 +4,7 @@ import cn.alphahub.eport.signature.core.CertificateHandler;
 import cn.alphahub.eport.signature.core.SignHandler;
 import cn.alphahub.eport.signature.core.SignatureHandler;
 import cn.alphahub.eport.signature.core.WebSocketClientHandler;
-import cn.alphahub.eport.signature.entity.SignRequest;
-import cn.alphahub.eport.signature.entity.UkeyRequest;
-import cn.alphahub.eport.signature.entity.UkeyResponse;
-import cn.alphahub.eport.signature.entity.WebSocketWrapper;
+import cn.alphahub.eport.signature.entity.*;
 import cn.alphahub.eport.signature.util.SysUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.lang.TypeReference;
@@ -37,7 +34,6 @@ import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -277,6 +273,13 @@ public class InitialConfig implements ApplicationRunner {
             }
         }, ukeyProperties.getWsUrl());
         certManager.start();
+        try {
+            LockSupport.parkNanos(reference.get(), 1000 * 1000 * 1000 * 3L);
+        } catch (Exception e) {
+            log.error("线程自动unpark异常 {}", e.getLocalizedMessage(), e);
+        } finally {
+            certManager.stop();
+        }
 
         //获取u-key签发日期相关
         WebSocketConnectionManager certValidTimeManager = new WebSocketConnectionManager(standardWebSocketClient, new TextWebSocketHandler() {
@@ -293,10 +296,11 @@ public class InitialConfig implements ApplicationRunner {
                     if (Objects.equals(response.get_id(), 1)) {
                         UkeyResponse.Args responseArgs = response.get_args();
                         if (responseArgs.getResult().equals(true) && CollectionUtils.isNotEmpty(responseArgs.getData())) {
-                            log.warn("获取到u-key签发日期: {}", MAPPER.writeValueAsString(responseArgs.getData()));
-                            // TODO: 2022/11/27 设置成真实的日期
-                            certificateHandler.setCertValidTimeBegin(LocalDateTime.now());
-                            certificateHandler.setCertValidTimeEnd(LocalDateTime.now());
+                            log.warn("从电子口岸u-key中获取到u-key有效期区间: {}", responseArgs.getData());
+                            SpcValidTime validTime = JSONUtil.toBean(responseArgs.getData().get(0), new TypeReference<>() {
+                            },true);
+                            certificateHandler.setUkeyValidTimeBegin(validTime.getSzStartTime());
+                            certificateHandler.setUkeyValidTimeEnd(validTime.getSzEndTime());
                         }
                     }
                 } catch (Exception e) {
@@ -307,13 +311,11 @@ public class InitialConfig implements ApplicationRunner {
             }
         }, ukeyProperties.getWsUrl());
         certValidTimeManager.start();
-
         try {
             LockSupport.parkNanos(reference.get(), 1000 * 1000 * 1000 * 3L);
         } catch (Exception e) {
             log.error("线程自动unpark异常 {}", e.getLocalizedMessage(), e);
         } finally {
-            certManager.stop();
             certValidTimeManager.stop();
         }
 
