@@ -40,9 +40,13 @@ public class CertificateHandler implements Serializable {
     private Map<String, String> x509Map;
 
     /**
-     * 查看海关证书有效期
+     * 查看海关证书有效期开始
      */
-    private LocalDateTime certValidTime;
+    private LocalDateTime certValidTimeBegin;
+    /**
+     * 查看海关证书有效期结束
+     */
+    private LocalDateTime certValidTimeEnd;
 
     public CertificateHandler() {
     }

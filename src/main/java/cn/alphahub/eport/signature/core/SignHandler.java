@@ -5,6 +5,7 @@ import cn.alphahub.eport.signature.config.UkeyProperties;
 import cn.alphahub.eport.signature.entity.SignRequest;
 import cn.alphahub.eport.signature.entity.SignResult;
 import cn.alphahub.eport.signature.entity.WebSocketWrapper;
+import cn.hutool.core.date.LocalDateTimeUtil;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -15,6 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.socket.client.WebSocketConnectionManager;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 
+import java.time.LocalDateTime;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.LockSupport;
 
@@ -84,9 +86,13 @@ public class SignHandler {
      * @return 发送u-key的签名的入参
      */
     public String getDynamicSignDataParameter(@Valid SignRequest request) {
-        //return InitialConfig.getSignDataAsPEMParameter(request);
-        // TODO: 2022/11/27 获取签发日期
-        return certificateHandler.getCertExists().equals(true) ? InitialConfig.getSignDataAsPEMParameter(request) : InitialConfig.getSignDataNoHashAsPEMParameter(request);
+        LocalDateTime after202207 = LocalDateTimeUtil.parse("2022-07-01", "yyyy-MM-dd");
+        if (certificateHandler.getCertValidTimeBegin().isAfter(after202207)) {
+            //2022-07-01以后签发的u-key
+            return InitialConfig.getSignDataAsPEMParameter(request);
+        } else {
+            return certificateHandler.getCertExists().equals(true) ? InitialConfig.getSignDataAsPEMParameter(request) : InitialConfig.getSignDataNoHashAsPEMParameter(request);
+        }
     }
 
     /**

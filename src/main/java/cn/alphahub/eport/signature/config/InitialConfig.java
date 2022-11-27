@@ -37,6 +37,7 @@ import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -293,6 +294,9 @@ public class InitialConfig implements ApplicationRunner {
                         UkeyResponse.Args responseArgs = response.get_args();
                         if (responseArgs.getResult().equals(true) && CollectionUtils.isNotEmpty(responseArgs.getData())) {
                             log.warn("获取到u-key签发日期: {}", MAPPER.writeValueAsString(responseArgs.getData()));
+                            // TODO: 2022/11/27 设置成真实的日期
+                            certificateHandler.setCertValidTimeBegin(LocalDateTime.now());
+                            certificateHandler.setCertValidTimeEnd(LocalDateTime.now());
                         }
                     }
                 } catch (Exception e) {
