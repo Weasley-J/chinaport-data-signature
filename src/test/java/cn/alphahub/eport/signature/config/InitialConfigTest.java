@@ -56,11 +56,6 @@ public class InitialConfigTest {
     }
 
     @Test
-    void getSignDataNoHashAsPEMParameter() {
-        System.err.println(InitialConfig.getSignDataNoHashAsPEMParameter(new SignRequest(CEB621Message)));
-    }
-
-    @Test
     void getVerifySignDataNoHashParameter() {
         String sha1DigestOfSourceXml = DigestUtil.sha1Hex(CEB621Message);
         System.err.println(sha1DigestOfSourceXml.length() + " " + sha1DigestOfSourceXml + " " + InitialConfig.getVerifySignDataNoHashParameter(CEB621Message, "sv", null, 1));

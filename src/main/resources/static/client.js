@@ -1,4 +1,4 @@
-/*!
+﻿/*!
  中国电子口岸数据中心,JavaScript Library v1.3.9 For 客户端控件 v1.5.12
  http://www.chinaport.gov.cn
  Date:2017年4月25日
@@ -157,11 +157,14 @@
                 if (typeof (f = this[call]) === "function") {
                     f.call(this, ev);
                 }
-            }, getReadyState: function (type) {
+            },
+            getReadyState: function (type) {
                 return this.activeXObject.getReadyState((type || DefaultType));
-            }, send: function (data) {
+            },
+            send: function (data) {
                 this.activeXObject.websocketSendText(data);
-            }, close: function () {
+            },
+            close: function () {
                 this.activeXObject.websocketClose();
             }
         };
@@ -242,14 +245,15 @@
                     conn();//重连
                 } else {
                     if (getWebSocketReadyState(ws) === 0) {//试图等待500毫秒
-                        setTimeout(function () {
-                            if (getWebSocketReadyState(ws) === 1) {
-                                ws.send(msg);
-                            } else {
-                                times++;
-                                waitForWebSocketConn();
-                            }
-                        }, 500);
+                        setTimeout(
+                            function () {
+                                if (getWebSocketReadyState(ws) === 1) {
+                                    ws.send(msg);
+                                } else {
+                                    times++;
+                                    waitForWebSocketConn();
+                                }
+                            }, 500);
                     } else if (getWebSocketReadyState(ws) === 2 || getWebSocketReadyState(ws) === 3) {//试图重连
                         times++;
                         conn();//重连
@@ -300,8 +304,62 @@
      * @type {Object}
      */
     var DIGEST = {};
-    DIGEST._auchCRCHi = [0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40];
-    DIGEST._auchCRCLo = [0x00, 0xC0, 0xC1, 0x01, 0xC3, 0x03, 0x02, 0xC2, 0xC6, 0x06, 0x07, 0xC7, 0x05, 0xC5, 0xC4, 0x04, 0xCC, 0x0C, 0x0D, 0xCD, 0x0F, 0xCF, 0xCE, 0x0E, 0x0A, 0xCA, 0xCB, 0x0B, 0xC9, 0x09, 0x08, 0xC8, 0xD8, 0x18, 0x19, 0xD9, 0x1B, 0xDB, 0xDA, 0x1A, 0x1E, 0xDE, 0xDF, 0x1F, 0xDD, 0x1D, 0x1C, 0xDC, 0x14, 0xD4, 0xD5, 0x15, 0xD7, 0x17, 0x16, 0xD6, 0xD2, 0x12, 0x13, 0xD3, 0x11, 0xD1, 0xD0, 0x10, 0xF0, 0x30, 0x31, 0xF1, 0x33, 0xF3, 0xF2, 0x32, 0x36, 0xF6, 0xF7, 0x37, 0xF5, 0x35, 0x34, 0xF4, 0x3C, 0xFC, 0xFD, 0x3D, 0xFF, 0x3F, 0x3E, 0xFE, 0xFA, 0x3A, 0x3B, 0xFB, 0x39, 0xF9, 0xF8, 0x38, 0x28, 0xE8, 0xE9, 0x29, 0xEB, 0x2B, 0x2A, 0xEA, 0xEE, 0x2E, 0x2F, 0xEF, 0x2D, 0xED, 0xEC, 0x2C, 0xE4, 0x24, 0x25, 0xE5, 0x27, 0xE7, 0xE6, 0x26, 0x22, 0xE2, 0xE3, 0x23, 0xE1, 0x21, 0x20, 0xE0, 0xA0, 0x60, 0x61, 0xA1, 0x63, 0xA3, 0xA2, 0x62, 0x66, 0xA6, 0xA7, 0x67, 0xA5, 0x65, 0x64, 0xA4, 0x6C, 0xAC, 0xAD, 0x6D, 0xAF, 0x6F, 0x6E, 0xAE, 0xAA, 0x6A, 0x6B, 0xAB, 0x69, 0xA9, 0xA8, 0x68, 0x78, 0xB8, 0xB9, 0x79, 0xBB, 0x7B, 0x7A, 0xBA, 0xBE, 0x7E, 0x7F, 0xBF, 0x7D, 0xBD, 0xBC, 0x7C, 0xB4, 0x74, 0x75, 0xB5, 0x77, 0xB7, 0xB6, 0x76, 0x72, 0xB2, 0xB3, 0x73, 0xB1, 0x71, 0x70, 0xB0, 0x50, 0x90, 0x91, 0x51, 0x93, 0x53, 0x52, 0x92, 0x96, 0x56, 0x57, 0x97, 0x55, 0x95, 0x94, 0x54, 0x9C, 0x5C, 0x5D, 0x9D, 0x5F, 0x9F, 0x9E, 0x5E, 0x5A, 0x9A, 0x9B, 0x5B, 0x99, 0x59, 0x58, 0x98, 0x88, 0x48, 0x49, 0x89, 0x4B, 0x8B, 0x8A, 0x4A, 0x4E, 0x8E, 0x8F, 0x4F, 0x8D, 0x4D, 0x4C, 0x8C, 0x44, 0x84, 0x85, 0x45, 0x87, 0x47, 0x46, 0x86, 0x82, 0x42, 0x43, 0x83, 0x41, 0x81, 0x80, 0x40];
+    DIGEST._auchCRCHi = [
+        0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0,
+        0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41,
+        0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0,
+        0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40,
+        0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1,
+        0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41,
+        0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1,
+        0x81, 0x40, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41,
+        0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0,
+        0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40,
+        0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1,
+        0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40,
+        0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0,
+        0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40,
+        0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0,
+        0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40,
+        0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0,
+        0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41,
+        0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0,
+        0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41,
+        0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0,
+        0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40,
+        0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1,
+        0x81, 0x40, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41,
+        0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0,
+        0x80, 0x41, 0x00, 0xC1, 0x81, 0x40
+    ];
+    DIGEST._auchCRCLo = [
+        0x00, 0xC0, 0xC1, 0x01, 0xC3, 0x03, 0x02, 0xC2, 0xC6, 0x06,
+        0x07, 0xC7, 0x05, 0xC5, 0xC4, 0x04, 0xCC, 0x0C, 0x0D, 0xCD,
+        0x0F, 0xCF, 0xCE, 0x0E, 0x0A, 0xCA, 0xCB, 0x0B, 0xC9, 0x09,
+        0x08, 0xC8, 0xD8, 0x18, 0x19, 0xD9, 0x1B, 0xDB, 0xDA, 0x1A,
+        0x1E, 0xDE, 0xDF, 0x1F, 0xDD, 0x1D, 0x1C, 0xDC, 0x14, 0xD4,
+        0xD5, 0x15, 0xD7, 0x17, 0x16, 0xD6, 0xD2, 0x12, 0x13, 0xD3,
+        0x11, 0xD1, 0xD0, 0x10, 0xF0, 0x30, 0x31, 0xF1, 0x33, 0xF3,
+        0xF2, 0x32, 0x36, 0xF6, 0xF7, 0x37, 0xF5, 0x35, 0x34, 0xF4,
+        0x3C, 0xFC, 0xFD, 0x3D, 0xFF, 0x3F, 0x3E, 0xFE, 0xFA, 0x3A,
+        0x3B, 0xFB, 0x39, 0xF9, 0xF8, 0x38, 0x28, 0xE8, 0xE9, 0x29,
+        0xEB, 0x2B, 0x2A, 0xEA, 0xEE, 0x2E, 0x2F, 0xEF, 0x2D, 0xED,
+        0xEC, 0x2C, 0xE4, 0x24, 0x25, 0xE5, 0x27, 0xE7, 0xE6, 0x26,
+        0x22, 0xE2, 0xE3, 0x23, 0xE1, 0x21, 0x20, 0xE0, 0xA0, 0x60,
+        0x61, 0xA1, 0x63, 0xA3, 0xA2, 0x62, 0x66, 0xA6, 0xA7, 0x67,
+        0xA5, 0x65, 0x64, 0xA4, 0x6C, 0xAC, 0xAD, 0x6D, 0xAF, 0x6F,
+        0x6E, 0xAE, 0xAA, 0x6A, 0x6B, 0xAB, 0x69, 0xA9, 0xA8, 0x68,
+        0x78, 0xB8, 0xB9, 0x79, 0xBB, 0x7B, 0x7A, 0xBA, 0xBE, 0x7E,
+        0x7F, 0xBF, 0x7D, 0xBD, 0xBC, 0x7C, 0xB4, 0x74, 0x75, 0xB5,
+        0x77, 0xB7, 0xB6, 0x76, 0x72, 0xB2, 0xB3, 0x73, 0xB1, 0x71,
+        0x70, 0xB0, 0x50, 0x90, 0x91, 0x51, 0x93, 0x53, 0x52, 0x92,
+        0x96, 0x56, 0x57, 0x97, 0x55, 0x95, 0x94, 0x54, 0x9C, 0x5C,
+        0x5D, 0x9D, 0x5F, 0x9F, 0x9E, 0x5E, 0x5A, 0x9A, 0x9B, 0x5B,
+        0x99, 0x59, 0x58, 0x98, 0x88, 0x48, 0x49, 0x89, 0x4B, 0x8B,
+        0x8A, 0x4A, 0x4E, 0x8E, 0x8F, 0x4F, 0x8D, 0x4D, 0x4C, 0x8C,
+        0x44, 0x84, 0x85, 0x45, 0x87, 0x47, 0x46, 0x86, 0x82, 0x42,
+        0x43, 0x83, 0x41, 0x81, 0x80, 0x40
+    ];
 
     DIGEST.CheckCode = function (buffer) {
         var hi = 0xff;
@@ -484,7 +542,8 @@
 
             retry();
             //iKeyInstalllerUrl
-        }, /**
+        },
+        /**
          *
          * @param func 被执行函数
          * @param arg1
@@ -509,7 +568,8 @@
                     ///alertErrMsg(msg);
                 }
             }, installlerUrl || window.installlerUrl);
-        }, /*----------------------------------内嵌方法--------------------------------------------------------------------*/
+        },
+        /*----------------------------------内嵌方法--------------------------------------------------------------------*/
         /**
          * 试图更新控件
          * @param callback
@@ -523,26 +583,30 @@
             _data["args"] = {};
             var s = toJson(_data);
             sendMessage(s);
-        }, /**
+        },
+        /**
          * 全量更新
          * @param callback
          */
         fullupdate: function (callback) {
             baseInvoke("fullupdate", {}, callback);
-        }, /**
+        },
+        /**
          * 获取控件文件的路径
          * @param file
          * @param callback
          */
         getfilepath: function (file, callback) {
             baseInvoke("getfilepath", {"file": file}, callback);
-        }, /**
+        },
+        /**
          * 获取安装包版本号
          * @param callback
          */
         getInstallerVersion: function (callback) {
             baseInvoke("ver", callback);
-        }, /**
+        },
+        /**
          * 获取插件模块版本号
          * @param module 模块名称
          * @param callback
@@ -575,20 +639,25 @@
                 callback = multiSelect;
                 multiSelect = null;
                 baseInvoke("base_choosefile", {
-                    "filter": filter, "fileSize": fileSize
+                    "filter": filter,
+                    "fileSize": fileSize
                 }, callback);
             } else {
                 baseInvoke("base_choosefile", {
-                    "filter": filter, "fileSize": fileSize, "multiSelect": multiSelect
+                    "filter": filter,
+                    "fileSize": fileSize,
+                    "multiSelect": multiSelect
                 }, callback);
             }
-        }, /**
+        },
+        /**
          * 选择目录,用于保存或者读取文件.
          * @param callback
          */
         chooseDir: function (callback) {
             baseInvoke("base_chooseDir", {}, callback);
-        }, /**
+        },
+        /**
          * 指定文件(保存或写入文件使用)
          * @param filter 文件类型描述
          * @param callback
@@ -601,7 +670,8 @@
             } else {
                 baseInvoke("base_savefile", {"filter": filter}, callback);
             }
-        }, /**
+        },
+        /**
          * 打开文件,并返回Base64的内容
          * @param path 文件全路径
          * @param fileSize 文件限制大小
@@ -609,7 +679,8 @@
          */
         openFileAsBase64: function (path, fileSize, callback) {
             baseInvoke("base_OpenFileAsBase64", {"path": path, "fileSize": fileSize}, callback);
-        }, /**
+        },
+        /**
          * 计算指定的文件的摘要
          * @param path 文件全路径
          * @param algorithm 摘要算法,目前支持SHA384,SHA256,SHA1,MD5
@@ -617,16 +688,19 @@
          */
         computeFileHash: function (path, algorithm, callback) {
             baseInvoke("base_ComputeFileHash", {
-                "path": path, "algorithm": algorithm
+                "path": path,
+                "algorithm": algorithm
             }, callback);
-        }, /**
+        },
+        /**
          * 文件批量转移
          * @param args 参见文档
          * @param callback
          */
         movefiles: function (args, callback) {
             baseInvoke("base_movefiles", args, callback);
-        }, /**
+        },
+        /**
          * 直接打开ClickOnce地址
          * @param url 地址
          * @param HideIE 是否隐藏IE界面
@@ -642,7 +716,8 @@
             } else {
                 throw new Error("startClickOnceAppWithUser的调用参数非法!");
             }
-        }, /**
+        },
+        /**
          * 打开带有ticket的ClickOnce地址,地址需要包含ticket参数
          * @param url 带有ticket参数的地址
          * @param HideIE 是否隐藏IE界面
@@ -657,14 +732,21 @@
                 throw new Error("startClickOnceAppWithTicket的调用参数非法!");
             }
             if (!url || url === "") {
-                callback({"Result": false, "Data": [], "Error": ["args中必须要包含必要的非空的qpurl参数!", "Err:Base50000"]});
+                callback({
+                    "Result": false,
+                    "Data": [],
+                    "Error": ["args中必须要包含必要的非空的qpurl参数!", "Err:Base50000"]
+                });
                 return;
             } else if (url.indexOf("ticket=") < 0 && url.indexOf("ticket =") < 0) {
                 callback({"Result": false, "Data": [], "Error": ["args中的url必须要包含ticket!", "Err:Base50000"]});
                 return;
             }
             baseInvoke("base_StartClickOnceApp", {
-                "qpurl": url, "HideIE": HideIE, "casurl": "-1", "passwd": "-1"
+                "qpurl": url,
+                "HideIE": HideIE,
+                "casurl": "-1",
+                "passwd": "-1"
             }, callback);
         },
 
@@ -674,14 +756,16 @@
          */
         getLocalPrinters: function (callback) {
             baseInvoke("base_GetLocalPrinters", {}, callback);
-        }, /**
+        },
+        /**
          * 将指定名称的打印机设为系统默认
          * @param printerName 打印机名称
          * @param callback
          */
         setDefaultPrinter: function (printerName, callback) {
             baseInvoke("base_SetDefaultPrinter", {"printerName": printerName}, callback);
-        }, /**
+        },
+        /**
          * 打印PDF内容
          * @param fileContent 文件内容,Base64格式
          * @param printerName 打印机名称
@@ -738,7 +822,10 @@
                 marginLeft = null;
                 ranges = null;
                 baseInvokeByFrames("base_PrintPdf", {
-                    "fileContent": fileContent, "printerName": printerName, "marginLeft": 0, "marginTop": 0
+                    "fileContent": fileContent,
+                    "printerName": printerName,
+                    "marginLeft": 0,
+                    "marginTop": 0
                 }, callback);
             } else if (!(callback) && typeof printerName === "function") {
                 callback = printerName;
@@ -747,13 +834,16 @@
                 ranges = null;
                 printerName = null;
                 baseInvokeByFrames("base_PrintPdf", {
-                    "fileContent": fileContent, "marginLeft": 0, "marginTop": 0
+                    "fileContent": fileContent,
+                    "marginLeft": 0,
+                    "marginTop": 0
                 }, callback);
             } else {
                 throw new Error("printPdf的调用参数非法!");
                 //alert("printPdf的调用参数非法");
             }
-        }, /**
+        },
+        /**
          * 打印PDF本地文件
          * @param filePath 文件绝对路径
          * @param printerName 打印机名称
@@ -798,7 +888,11 @@
                 marginTop = null;
                 marginLeft = null;
                 baseInvoke("base_PrintPdf", {
-                    "filePath": filePath, "printerName": printerName, "ranges": ranges, "marginLeft": 0, "marginTop": 0
+                    "filePath": filePath,
+                    "printerName": printerName,
+                    "ranges": ranges,
+                    "marginLeft": 0,
+                    "marginTop": 0
                 }, callback);
             } else if (!(callback) && typeof ranges === "function") {
                 callback = ranges;
@@ -806,7 +900,10 @@
                 marginLeft = null;
                 ranges = null;
                 baseInvoke("base_PrintPdf", {
-                    "filePath": filePath, "printerName": printerName, "marginLeft": 0, "marginTop": 0
+                    "filePath": filePath,
+                    "printerName": printerName,
+                    "marginLeft": 0,
+                    "marginTop": 0
                 }, callback);
             } else if (!(callback) && typeof printerName === "function") {
                 callback = printerName;
@@ -819,7 +916,8 @@
                 throw new Error("printLocalPdf的调用参数非法!");
                 //alert("printLocalPdf的调用参数非法");
             }
-        }, /**
+        },
+        /**
          * 下载文件
          * @param url 文件下载地址
          * @param localpath 保存在本地的地址
@@ -830,16 +928,22 @@
          */
         fileDownload: function (url, localpath, method, cookies, returnData, callback) {
             baseInvoke("base_FileDownload", {
-                "url": url, "localpath": localpath, "method": method, "cookies": cookies, "returnData": returnData
+                "url": url,
+                "localpath": localpath,
+                "method": method,
+                "cookies": cookies,
+                "returnData": returnData
             }, callback);
-        }, /**
+        },
+        /**
          * 获取文件的大小
          * @param path 本地路径
          * @param callback 回调函数
          */
         fileSize: function (path, callback) {
             baseInvoke("base_FileSize", {"path": path}, callback);
-        }, /**
+        },
+        /**
          * 文件批量上传
          * @param args 参见文档
          * @param callback
@@ -855,7 +959,8 @@
          */
         deleteTempFile: function (args, callback) {
             baseInvoke("base_DeleteTempFiles", args, callback);
-        }, /**
+        },
+        /**
          * 判断文件是否为pdf文件
          * @param args 参见文档
          *新增接口，满足行政审批业务需求
@@ -874,97 +979,113 @@
          */
         cusSpcSetInitEnvPriority: function (szInitEnvPriority, callback) {
             baseInvoke("cus-sec_SpcSetInitEnvPriority", {"szInitEnvPriority": szInitEnvPriority}, callback);
-        }, /**
+        },
+        /**
          * 打开卡
          * @param callback
          */
         cusSpcInitEnvEx: function (callback) {
             baseInvoke("cus-sec_SpcInitEnvEx", callback);
-        }, /**
+        },
+        /**
          * 关闭卡
          * @param callback
          */
         cusSpcClearEnv: function (callback) {
             baseInvoke("cus-sec_SpcClearEnv", callback);
-        }, /**
+        },
+        /**
          * 获取附加信息
          * @param callback
          */
         cusSpcGetCardAttachInfo: function (callback) {
             baseInvoke("cus-sec_SpcGetCardAttachInfo", callback);
-        }, /**
+        },
+        /**
          * 获取附加信息(PEM格式)
          * @param callback
          */
         cusSpcGetCardAttachInfoAsPEM: function (callback) {
             baseInvoke("cus-sec_SpcGetCardAttachInfoAsPEM", callback);
-        }, /**
+        },
+        /**
          * 获取卡号
          * @param callback
          */
         cusSpcGetCardID: function (callback) {
             baseInvoke("cus-sec_SpcGetCardID", callback);
-        }, /**
+        },
+        /**
          * 获取证书编号
          * @param callback
          */
         cusSpcGetCertNo: function (callback) {
             baseInvoke("cus-sec_SpcGetCertNo", callback);
-        }, /**
+        },
+        /**
          * 申请者名称
          * @param callback
          */
         cusSpcGetUName: function (callback) {
             baseInvoke("cus-sec_SpcGetUName", callback);
-        }, /**
+        },
+        /**
          * 单位ID
          * @param callback
          */
         cusSpcGetEntID: function (callback) {
             baseInvoke("cus-sec_SpcGetEntID", callback);
-        }, /**
+        },
+        /**
          * 单位名
          * @param callback
          */
         cusSpcGetEntName: function (callback) {
             baseInvoke("cus-sec_SpcGetEntName", callback);
-        }, /**
+        },
+        /**
          * 单位类别
          * @param callback
          */
         cusSpcGetEntMode: function (callback) {
             baseInvoke("cus-sec_SpcGetEntMode", callback);
-        }, /**
+        },
+        /**
          * 用户信息
          * @param callback
          */
         cusSpcGetCardUserInfo: function (callback) {
             baseInvoke("cus-sec_SpcGetCardUserInfo", callback);
-        }, /**
+        },
+        /**
          * 取海关签名证书
          * @param callback
          */
         cusSpcGetSignCert: function (callback) {
             baseInvoke("cus-sec_SpcGetSignCert", callback);
-        }, /**
+        },
+        /**
          * 取海关签名证书PEM
          * @param callback
          */
         cusSpcGetSignCertAsPEM: function (callback) {
             baseInvoke("cus-sec_SpcGetSignCertAsPEM", callback);
-        }, /**
+        },
+        /**
          * 取海关加密证书
          * @param callback
          */
         cusSpcGetEnvCert: function (callback) {
             baseInvoke("cus-sec_SpcGetEnvCert", callback);
-        }, /**
+        },
+        /**
          * 取海关加密证书PEM
          * @param callback
          */
         cusSpcGetEnvCertAsPEM: function (callback) {
             baseInvoke("cus-sec_SpcGetEnvCertAsPEM", callback);
-        }, /**
+        },
+        /**
          * 查看海关证书有效期
          * @param cert 证书内容,可为空
          * @param callback
@@ -975,21 +1096,24 @@
                 cert = null;
             }
             baseInvoke("cus-sec_SpcGetValidTimeFromCert", ((!!cert) ? {"cert": cert} : {}), callback);
-        }, /**
+        },
+        /**
          * 验证海关卡密码,仅仅验证密码,不自动开关卡~
          * @param passwd 密码
          * @param callback
          */
         cusSpcVerifyPIN: function (passwd, callback) {
             baseInvoke("cus-sec_SpcVerifyPIN", {"passwd": passwd}, callback);
-        }, /**
+        },
+        /**
          * 验证海关卡密码(自动开关卡)
          * @param passwd 密码
          * @param callback
          */
         cusSpcVerifyPINAll: function (passwd, callback) {
             baseInvoke("cus-sec_SpcVerifyPINAll", {"passwd": passwd}, callback);
-        }, /**
+        },
+        /**
          * 修改密码
          * @param oldPin 旧密码
          * @param newPin 新密码
@@ -997,28 +1121,32 @@
          */
         cusSpcChangePIN: function (oldPin, newPin, callback) {
             baseInvoke("cus-sec_SpcChangePIN", {"oldPin": oldPin, "newPin": newPin}, callback);
-        }, /**
+        },
+        /**
          * PEM编码
          * @param inData 原始内容
          * @param callback
          */
         cusSpcEncodePEM: function (inData, callback) {
             baseInvoke("cus-sec_SpcEncodePEM", {"inData": inData}, callback);
-        }, /**
+        },
+        /**
          * PEM解码
          * @param inData PEM编码的内容(字符串)
          * @param callback
          */
         cusSpcDecodePEM: function (inData, callback) {
             baseInvoke("cus-sec_SpcDecodePEM", {"inData": inData}, callback);
-        }, /**
+        },
+        /**
          * PEM解码,返回String类型的原文
          * @param inData PEM编码的内容(字符串)
          * @param callback
          */
         cusSpcDecodePEMAsString: function (inData, callback) {
             baseInvoke("cus-sec_SpcDecodePEMAsString", {"inData": inData}, callback);
-        }, /**
+        },
+        /**
          * 签名,返回byte[]
          * @param inData 原文
          * @param passwd 卡密码
@@ -1026,9 +1154,11 @@
          */
         cusSpcSignData: function (inData, passwd, callback) {
             baseInvoke("cus-sec_SpcSignData", (!!passwd) ? {
-                "inData": inData, "passwd": passwd
+                "inData": inData,
+                "passwd": passwd
             } : {"inData": inData}, callback);
-        }, /**
+        },
+        /**
          * 签名,返回PEM格式
          * @param inData 原文
          * @param passwd 卡密码
@@ -1036,7 +1166,8 @@
          */
         cusSpcSignDataAsPEM: function (inData, passwd, callback) {
             baseInvoke("cus-sec_SpcSignDataAsPEM", (!!passwd) ? {
-                "inData": inData, "passwd": passwd
+                "inData": inData,
+                "passwd": passwd
             } : {"inData": inData}, callback);
         },
 
@@ -1048,7 +1179,8 @@
          */
         cusSpcSignPemDataAsPEM: function (inData, passwd, callback) {
             baseInvoke("cus-sec_SpcSignPemDataAsPem", (!!passwd) ? {
-                "inData": inData, "passwd": passwd
+                "inData": inData,
+                "passwd": passwd
             } : {"inData": inData}, callback);
         },
 
@@ -1064,11 +1196,14 @@
                 callback = certDataPEM;
                 certDataPEM = null;
                 baseInvoke("cus-sec_SpcVerifySignData", {
-                    "inData": inData, "signData": signData
+                    "inData": inData,
+                    "signData": signData
                 }, callback);
             } else {
                 baseInvoke("cus-sec_SpcVerifySignData", {
-                    "inData": inData, "signData": signData, "certDataPEM": certDataPEM
+                    "inData": inData,
+                    "signData": signData,
+                    "certDataPEM": certDataPEM
                 }, callback);
             }
         },
@@ -1079,14 +1214,16 @@
          */
         cusSpcSHA1Digest: function (szInfo, callback) {
             baseInvoke("cus-sec_SpcSHA1Digest", {"szInfo": szInfo}, callback);
-        }, /**
+        },
+        /**
          * 使用卡计算摘要,返回PEM格式信息
          * @param szInfo 原文内容
          * @param callback
          */
         cusSpcSHA1DigestAsPEM: function (szInfo, callback) {
             baseInvoke("cus-sec_SpcSHA1DigestAsPEM", {"szInfo": szInfo}, callback);
-        }, /**
+        },
+        /**
          * 签名,不对原文计算摘要,请您自行计算好摘要传入
          * @param inData 原文的SHA1摘要
          * @param passwd 卡密码
@@ -1094,9 +1231,11 @@
          */
         cusSpcSignDataNoHash: function (inData, passwd, callback) {
             baseInvoke("cus-sec_SpcSignDataNoHash", (!!passwd) ? {
-                "inData": inData, "passwd": passwd
+                "inData": inData,
+                "passwd": passwd
             } : {"inData": inData}, callback);
-        }, /**
+        },
+        /**
          * 签名,不对原文计算摘要,请您自行计算好摘要传入
          * 返回PEM格式数据
          * @param inData 原文的SHA1摘要
@@ -1105,7 +1244,8 @@
          */
         cusSpcSignDataNoHashAsPEM: function (inData, passwd, callback) {
             baseInvoke("cus-sec_SpcSignDataNoHashAsPEM", (!!passwd) ? {
-                "inData": inData, "passwd": passwd
+                "inData": inData,
+                "passwd": passwd
             } : {"inData": inData}, callback);
         },
         /**
@@ -1120,14 +1260,18 @@
                 callback = certDataPEM;
                 certDataPEM = null;
                 baseInvoke("cus-sec_SpcVerifySignDataNoHash", {
-                    "inData": inData, "signData": signData
+                    "inData": inData,
+                    "signData": signData
                 }, callback);
             } else {
                 baseInvoke("cus-sec_SpcVerifySignDataNoHash", {
-                    "inData": inData, "signData": signData, "certDataPEM": certDataPEM
+                    "inData": inData,
+                    "signData": signData,
+                    "certDataPEM": certDataPEM
                 }, callback);
             }
-        }, /**
+        },
+        /**
          * 签名随机数的组和方法
          * @param random 随机数
          * @param passwd 密码
@@ -1135,7 +1279,8 @@
          */
         cusSpcSignRandom: function (random, passwd, callback) {
             baseInvoke("cus-sec_SpcSignRandom", {"random": random, "passwd": passwd}, callback);
-        }, /**
+        },
+        /**
          * RSA加密(公钥)
          * @param inData 原文数据
          * @param certData 支持传证书
@@ -1145,18 +1290,22 @@
         cusSpcRSAEncrypt: function (inData, certData, passwd, callback) {
             if (callback && typeof callback === "function") {//完整参数
                 baseInvoke("cus-sec_SpcRSAEncrypt", {
-                    "inData": inData, "certData": certData, "passwd": passwd
+                    "inData": inData,
+                    "certData": certData,
+                    "passwd": passwd
                 }, callback);
             } else if ((!callback) && typeof passwd === "function") {//缺少1个参数,我们兼容缺少passwd的情况
                 callback = passwd;
                 passwd = null;
                 baseInvoke("cus-sec_SpcRSAEncrypt", {
-                    "inData": inData, "certData": certData
+                    "inData": inData,
+                    "certData": certData
                 }, callback);
             } else {
                 throw new Error("spcRSAEncrypt的调用参数非法!");
             }
-        }, /**
+        },
+        /**
          * RSA解密
          * @param inData 密文数据
          * @param passwd 卡密码
@@ -1165,9 +1314,10 @@
         cusSpcRSADecrypt: function (inData, passwd, callback) {
             if (callback && typeof callback === "function") {//完整参数
                 baseInvoke("cus-sec_SpcRSADecrypt", {
-                    "inData": inData, "passwd": passwd
+                    "inData": inData,
+                    "passwd": passwd
                 }, callback);
-            } else if ((!callback) && typeof passwd === "function") {//
+            } else if ((!callback) && typeof passwd === "function") {//缺少1个参数,我们兼容缺少passwd的情况
                 callback = passwd;
                 passwd = null;
                 baseInvoke("cus-sec_SpcRSADecrypt", {
@@ -1176,14 +1326,16 @@
             } else {
                 throw new Error("spcRSAEncrypt的调用参数非法!");
             }
-        }, /*----------------------------------海关业务功能-----------------------------------------------------------------*/
+        },
+        /*----------------------------------海关业务功能-----------------------------------------------------------------*/
         /**
          * 扫描仪初始化
          * @param callback
          */
         cusPdfScanInit: function (callback) {
             baseInvoke("pdf-scan_PdfScanScanInitialize", {}, callback);
-        }, /**
+        },
+        /**
          * 使用扫描仪生成PDF文件
          * @param Edoc_code
          * @param Edoc_Name
@@ -1194,19 +1346,25 @@
         cusPdfScan: function (Edoc_code, Edoc_Name, fileFullPath, passwd, callback) {
             if (callback && typeof callback === "function") {//完整参数
                 baseInvoke("pdf-scan_PdfScan", {
-                    "Edoc_code": Edoc_code, "Edoc_Name": Edoc_Name, "fileFullPath": fileFullPath, "passwd": passwd
+                    "Edoc_code": Edoc_code,
+                    "Edoc_Name": Edoc_Name,
+                    "fileFullPath": fileFullPath,
+                    "passwd": passwd
                 }, callback);
             } else if ((!callback) && typeof passwd === "function") {//缺少1个参数,我们兼容缺少passwd的情况
                 callback = passwd;
                 passwd = null;
                 baseInvoke("pdf-scan_PdfScan", {
-                    "Edoc_code": Edoc_code, "Edoc_Name": Edoc_Name, "fileFullPath": fileFullPath
+                    "Edoc_code": Edoc_code,
+                    "Edoc_Name": Edoc_Name,
+                    "fileFullPath": fileFullPath
                 }, callback);
             } else if ((!callback) && typeof fileFullPath === "function") {//缺少2个参数,我们兼容缺少passwd,fileFullPath的情况
                 callback = fileFullPath;
                 fileFullPath = null;
                 baseInvoke("pdf-scan_PdfScan", {
-                    "Edoc_code": Edoc_code, "Edoc_Name": Edoc_Name
+                    "Edoc_code": Edoc_code,
+                    "Edoc_Name": Edoc_Name
                 }, callback);
             } else if ((!callback) && typeof Edoc_Name === "function") {//缺少3个参数,我们兼容缺少passwd,fileFullPath,Edoc_Name的情况
                 callback = Edoc_Name;
@@ -1215,7 +1373,8 @@
                     "Edoc_code": Edoc_code
                 }, callback);
             }
-        }, /**
+        },
+        /**
          * 使用扫描仪生成Base64格式的PDF数据
          * @param Edoc_code
          * @param Edoc_Name
@@ -1225,27 +1384,32 @@
         cusPdfScanAsPEM: function (Edoc_code, Edoc_Name, passwd, callback) {
             if (callback && typeof callback === "function") {//完整参数
                 baseInvoke("pdf-scan_PdfScanAsPEM", {
-                    "Edoc_code": Edoc_code, "Edoc_Name": Edoc_Name, "passwd": passwd
+                    "Edoc_code": Edoc_code,
+                    "Edoc_Name": Edoc_Name,
+                    "passwd": passwd
                 }, callback);
             } else if ((!callback) && typeof passwd === "function") {//缺少1个参数,我们兼容缺少passwd的情况
                 callback = passwd;
                 passwd = null;
                 baseInvoke("pdf-scan_PdfScanAsPEM", {
-                    "Edoc_code": Edoc_code, "Edoc_Name": Edoc_Name
+                    "Edoc_code": Edoc_code,
+                    "Edoc_Name": Edoc_Name
                 }, callback);
             } else if ((!callback) && typeof Edoc_Name === "function") {//缺少2个参数,我们兼容缺少passwd和Edoc_Name的情况
                 callback = Edoc_Name;
                 Edoc_Name = null;
                 baseInvoke("pdf-scan_PdfScanAsPEM", {"Edoc_code": Edoc_code}, callback);
             }
-        }, /**
+        },
+        /**
          * 使用方正组件预览Base64编码的PDF
          * @param fileContent Base64编码的PDF文件
          * @param callback
          */
         cusPdfContentView: function (fileContent, callback) {//destDir,fileName,
             baseInvokeByFrames("pdf-sign_PdfView", {"fileContent": fileContent}, callback);
-        }, /**
+        },
+        /**
          * 使用方正组件预览本地文件的PDF
          * @param filePath 文件全路径
          * @param cookies Http地址需要的Cookies
@@ -1261,7 +1425,8 @@
             } else {
                 throw new Error("cusPdfFileView的调用参数非法!");
             }
-        }, /**
+        },
+        /**
          * PDF格式检查 Base64编码的PDF
          * @param fileContent Base64编码的PDF文件
          * @param blankBookAuthorityCheck 字体或空白页检查未通过,是否视为检查失败.
@@ -1270,7 +1435,8 @@
         cusPdfContentCheck: function (fileContent, blankBookAuthorityCheck, callback) {
             if (callback && typeof callback === "function") {//完整参数
                 baseInvokeByFrames("pdf-sign_PdfCheck", {
-                    "fileContent": fileContent, "blankBookAuthorityCheck": blankBookAuthorityCheck
+                    "fileContent": fileContent,
+                    "blankBookAuthorityCheck": blankBookAuthorityCheck
                 }, callback);
             } else if ((!callback) && typeof blankBookAuthorityCheck === "function") {//缺少1个参数,我们兼容缺少blankBookAuthorityCheck的情况
                 callback = blankBookAuthorityCheck;
@@ -1279,7 +1445,8 @@
             } else {
                 throw new Error("cusPdfContentCheck的调用参数非法!");
             }
-        }, /**
+        },
+        /**
          * PDF格式检查 本地文件的PDF
          * @param filePath 文件全路径
          * @param cookies Http地址需要的Cookies
@@ -1289,13 +1456,16 @@
         cusPdfFileCheck: function (filePath, cookies, blankBookAuthorityCheck, callback) {
             if (callback && typeof callback === "function") {//完整参数
                 baseInvoke("pdf-sign_PdfCheck", {
-                    "filePath": filePath, "cookies": cookies, "blankBookAuthorityCheck": blankBookAuthorityCheck
+                    "filePath": filePath,
+                    "cookies": cookies,
+                    "blankBookAuthorityCheck": blankBookAuthorityCheck
                 }, callback);
             } else if ((!callback) && typeof blankBookAuthorityCheck === "function") {//缺少1个参数,我们兼容缺少blankBookAuthorityCheck的情况
                 callback = blankBookAuthorityCheck;
                 blankBookAuthorityCheck = null;
                 baseInvoke("pdf-sign_PdfCheck", {
-                    "filePath": filePath, "cookies": cookies
+                    "filePath": filePath,
+                    "cookies": cookies
                 }, callback);
             } else if ((!callback) && typeof cookies === "function") {//缺少2个参数,我们兼容缺少blankBookAuthorityCheck和cookies的情况
                 callback = cookies;
@@ -1306,7 +1476,8 @@
             } else {
                 throw new Error("cusPdfFileCheck的调用参数非法!");
             }
-        }, /**
+        },
+        /**
          * Base64编码的PDF验签名(使用方正组件)
          * @param fileContent Base64编码的PDF文件
          * @param blankBookAuthorityCheck 字体或空白页检查未通过,是否视为检查失败.
@@ -1315,7 +1486,8 @@
         cusPdfContentCheckSign: function (fileContent, blankBookAuthorityCheck, callback) {
             if (callback && typeof callback === "function") {//完整参数
                 baseInvokeByFrames("pdf-sign_PdfCheckSign", {
-                    "fileContent": fileContent, "blankBookAuthorityCheck": blankBookAuthorityCheck
+                    "fileContent": fileContent,
+                    "blankBookAuthorityCheck": blankBookAuthorityCheck
                 }, callback);
             } else if ((!callback) && typeof blankBookAuthorityCheck === "function") {//缺少1个参数,我们兼容缺少blankBookAuthorityCheck的情况
                 callback = blankBookAuthorityCheck;
@@ -1324,7 +1496,8 @@
             } else {
                 throw new Error("cusPdfContentCheckSign的调用参数非法!");
             }
-        }, /**
+        },
+        /**
          * PDF文件验签名(使用方正组件)
          * @param filePath 文件全路径
          * @param cookies Http地址需要的Cookies
@@ -1334,7 +1507,9 @@
         cusPdfFileCheckSign: function (filePath, cookies, blankBookAuthorityCheck, callback) {
             if (callback && typeof callback === "function") {//完整参数
                 baseInvoke("pdf-sign_PdfCheckSign", {
-                    "filePath": filePath, "cookies": cookies, "blankBookAuthorityCheck": blankBookAuthorityCheck
+                    "filePath": filePath,
+                    "cookies": cookies,
+                    "blankBookAuthorityCheck": blankBookAuthorityCheck
                 }, callback);
             } else if ((!callback) && typeof blankBookAuthorityCheck === "function") {//缺少1个参数,我们兼容缺少cookies的情况
                 callback = blankBookAuthorityCheck;
@@ -1347,7 +1522,8 @@
             } else {
                 throw new Error("cusPdfSignCheckSign的调用参数非法!");
             }
-        }, /**
+        },
+        /**
          * Base64编码的PDF内容签章
          * @param fileContent Base64编码的PDF文件
          * @param datetiem 签章时间戳
@@ -1370,18 +1546,24 @@
                 callback = passwd;
                 passwd = null;
                 baseInvokeByFrames("pdf-sign_PdfAddSign", {
-                    "fileContent": fileContent, "datetiem": datetiem, "Edoc_code": Edoc_code, "Edoc_Name": Edoc_Name
+                    "fileContent": fileContent,
+                    "datetiem": datetiem,
+                    "Edoc_code": Edoc_code,
+                    "Edoc_Name": Edoc_Name
                 }, callback);
             } else if ((!callback) && typeof Edoc_Name === "function") {//缺少1个参数,我们兼容缺少passwd的情况
                 callback = Edoc_Name;
                 Edoc_Name = null;
                 baseInvokeByFrames("pdf-sign_PdfAddSign", {
-                    "fileContent": fileContent, "datetiem": datetiem, "Edoc_code": Edoc_code
+                    "fileContent": fileContent,
+                    "datetiem": datetiem,
+                    "Edoc_code": Edoc_code
                 }, callback);
             } else {
                 throw new Error("addSign的调用参数非法!");
             }
-        }, /**
+        },
+        /**
          * 对PDF文件签章,支持本地和Http
          * @param filePath
          * @param fileName
@@ -1429,12 +1611,16 @@
                 callback = Edoc_Name;
                 Edoc_Name = null;
                 baseInvoke("pdf-sign_PdfAddSign", {
-                    "filePath": filePath, "fileName": fileName, "datetiem": datetiem, "Edoc_code": Edoc_code
+                    "filePath": filePath,
+                    "fileName": fileName,
+                    "datetiem": datetiem,
+                    "Edoc_code": Edoc_code
                 }, callback);
             } else {
                 throw new Error("addSign的调用参数非法!");
             }
-        }, /**
+        },
+        /**
          * 对本地PDF文件签章,并覆盖之...
          * @param filePath
          * @param Edoc_code edoc类型编码
@@ -1457,39 +1643,48 @@
                 callback = passwd;
                 passwd = null;
                 baseInvoke("pdf-sign_FilePdfAddSign", {
-                    "filePath": filePath, "Edoc_code": Edoc_code, "Edoc_Name": Edoc_Name, "datetiem": datetiem
+                    "filePath": filePath,
+                    "Edoc_code": Edoc_code,
+                    "Edoc_Name": Edoc_Name,
+                    "datetiem": datetiem
                 }, callback);
             } else if ((!callback) && typeof datetiem === "function") {//缺少2个参数,我们兼容缺少cookies和passwd的情况
                 callback = datetiem;
                 datetiem = null;
                 baseInvoke("pdf-sign_FilePdfAddSign", {
-                    "filePath": filePath, "Edoc_code": Edoc_code, "Edoc_Name": Edoc_Name
+                    "filePath": filePath,
+                    "Edoc_code": Edoc_code,
+                    "Edoc_Name": Edoc_Name
                 }, callback);
             } else {
                 throw new Error("addSign的调用参数非法!");
             }
-        }, /**
+        },
+        /**
          * PDF批量检查
          * @param args
          * @param callback
          */
         cusPdfFileBatchCheck: function (args, callback) {
             baseInvoke("pdf-sign_PdfFileBatchCheck", args, callback);
-        }, /**
+        },
+        /**
          * PDF文件批量加签名,加签之前不检查文件
          * @param args
          * @param callback
          */
         cusPdfFileBatchAddSign: function (args, callback) {//args为js对象,不是json字符串!
             baseInvoke("pdf-sign_PdfFileBatchAddSign", args, callback);
-        }, /**
+        },
+        /**
          * PDF文件批量检查和加签名
          * @param args
          * @param callback
          */
         cusPdfFileBatchCheckAndSign: function (args, callback) {//args为js对象,不是json字符串!
             baseInvoke("pdf-sign_PdfFileBatchCheckAndSign", args, callback);
-        }, /**
+        },
+        /**
          * Xml中的的PDF内容加签名,需要的信息也全部在Xml中的节点上保存.
          * @param filePath Xml文件的本地路径
          * @param FileContent_NodeName PDF内容节点路径
@@ -1515,7 +1710,8 @@
                 "outDir": outDir,
                 "passwd": passwd
             }, callback);
-        }, /**
+        },
+        /**
          *  批量对Xml中的的PDF内容加签名,需要的信息也全部在Xml中的节点上保存.
          * @param args :{
          *   passwd:"卡密码",
@@ -1536,7 +1732,8 @@
          */
         cusXmlPdfBatchFileAddSign: function (args, callback) {
             baseInvoke("pdf-sign_PdfXmlBatchAddSign", args, callback);
-        }, /**
+        },
+        /**
          * 对整个目录中的全部Xml中的的PDF内容加签名,需要的信息也全部在Xml中的节点上保存.
          * @param rootPath Xml文件所在的目录
          * @param FileContent_NodeName PDF内容节点路径
@@ -1572,27 +1769,31 @@
          */
         pdfesExtractSeal: function (callback) {
             baseInvoke("pdf-es_ExtractSeal", {}, callback);
-        }, /**
+        },
+        /**
          * 提取手签员签名图片
          * @param callback
          */
         pdfesExtractAutograph: function (callback) {
             baseInvoke("pdf-es_ExtractAutograph", {}, callback);
-        }, /**
+        },
+        /**
          * 设置服务器URL地址
          * @param url url内容，string类型
          * @param callback
          */
         pdfesSetServerUrl: function (url, callback) {
             baseInvoke("pdf-es_SetServerUrl", {"url": url}, callback);
-        }, /**
+        },
+        /**
          * 验证文档所有签章
          * @param fileData 待验签文档内容，base64编码的字符串
          * @param callback
          */
         pdfesVerifySeal: function (sessionId, fileData, callback) {
             baseInvokeByFrames("pdf-es_VerifySeal", {"sessionId": sessionId, "fileData": fileData}, callback);
-        }, /**
+        },
+        /**
          * 电子签章
          * @param orignFile 待签章文件内容数据，base64编码的字符串
          * @param seSeal 印章数据内容，base64编码的字符串
@@ -1645,7 +1846,8 @@
             } else {
                 throw new Error("pdfesSign的调用参数非法!");
             }
-        }, /**
+        },
+        /**
          * 电子签章
          * @param orignFile 待签章文件内容数据，base64编码的字符串
          * @param seSeal 印章数据内容，base64编码的字符串
@@ -1681,7 +1883,8 @@
         jscaSignData: function (inData, passwd, callback) {
             if (callback && typeof callback === "function") {
                 baseInvoke("jsca_JSCASignData", {
-                    "inData": inData, "passwd": passwd
+                    "inData": inData,
+                    "passwd": passwd
                 }, callback);
             } else if (!(callback) && typeof passwd === "function") {
                 callback = passwd;
@@ -1690,129 +1893,156 @@
                     "inData": inData
                 }, callback);
             }
-        }, /**
+        },
+        /**
          * 验证江苏CA卡密码,仅仅验证密码,不自动开关卡~
          * @param passwd 密码
          * @param callback
          */
         jscaVerifyPIN: function (passwd, callback) {
             baseInvoke("jsca_JSCAVerifyPIN", {"passwd": passwd}, callback);
-        }, /**
+        },
+        /**
          * 打开卡
          * @param callback
          */
         jscaInitEnv: function (callback) {
             baseInvoke("jsca_JSCAInitEnv", callback);
-        }, /**
+        },
+        /**
          * 开卡测试
          * @param callback
          */
         jscaInitEnvALL: function (callback) {
             baseInvoke("jsca_JSCAInitEnvALL", callback);
-        }, /**
+        },
+        /**
          * 关闭卡
          * @param callback
          */
         jscaClearEnv: function (callback) {
             baseInvoke("jsca_JSCAClearEnv", callback);
-        }, /*----------------------------------TXRN国税接口---------------------------------------------------------------*/
+        },
+        /*----------------------------------TXRN国税接口---------------------------------------------------------------*/
         /**
          * 签名接口
          * @param callback
          */
         txrnSignData: function (inData, passwd, authXml, callback) {
             baseInvoke("txrn_TXRNSignData", {
-                "inData": inData, "passwd": passwd, "authXml": authXml
+                "inData": inData,
+                "passwd": passwd,
+                "authXml": authXml
             }, callback);
-        }, /**
+        },
+        /**
          * 签名接口TXRNSignNoHash
          * @param callback
          */
         txrnSignDataNoHash: function (inData, passwd, callback) {
             baseInvoke("txrn_TXRNSignNoHash", {
-                "inData": inData, "passwd": passwd
+                "inData": inData,
+                "passwd": passwd
             }, callback);
-        }, /**
+        },
+        /**
          * 获取进项数据接口
          * @param callback
          */
         txrnGetInvoiceData: function (passwd, strBeginTime, strEndTime, authXml, callback) {
             baseInvoke("txrn_TXRNgetInvoiceData", {
-                "passwd": passwd, "strBeginTime": strBeginTime, "strEndTime": strEndTime, "authXml": authXml
+                "passwd": passwd,
+                "strBeginTime": strBeginTime,
+                "strEndTime": strEndTime,
+                "authXml": authXml
             }, callback);
-        }, /**
+        },
+        /**
          * 获取发票信息数据接口
          * @param callback
          */
         txrnGetFpDetailData: function (passwd, authXml, callback) {
             baseInvoke("txrn_TXRNgetFpDetailData", {
-                "passwd": passwd, "authXml": authXml, "requestXml": requestXml
+                "passwd": passwd,
+                "authXml": authXml,
+                "requestXml": requestXml
             }, callback);
-        }, /*----------------------------------商务部安全功能---------------------------------------------------------------*/
+        },
+        /*----------------------------------商务部安全功能---------------------------------------------------------------*/
         /**
          * 判断是否插入了UKey
          * @param callback
          */
         mofcomDetectKey: function (callback) {
             baseInvoke("mofcom_DetectKey", {}, callback);
-        }, /**
+        },
+        /**
          * 获取Usb-Key的序列号(ID)
          */
         mofcomGetFTKeySN: function (callback) {
             baseInvoke("mofcom_GetFTKeySN", {}, callback);
-        }, /**
+        },
+        /**
          * 获取选用的证书下标
          * @param callback
          */
         mofcomGetSelectedCertIndex: function (callback) {
             baseInvoke("mofcom_GetSelectedCertIndex", {}, callback);
-        }, /**
+        },
+        /**
          * 证书列表
          * @param callback
          */
         mofcomListCertsNames: function (callback) {
             baseInvoke("mofcom_ListCertsNames", {}, callback);
-        }, /**
+        },
+        /**
          * 设置选用证书
          * @param index
          * @param callback
          */
         mofcomSetSelectedCertIndex: function (index, callback) {
             baseInvoke("mofcom_SetSelectedCertIndex", {"index": index}, callback);
-        }, /**
+        },
+        /**
          * 验证证书密码
          * @param passwd
          * @param callback
          */
         mofcomCheckUsbKeyPin: function (passwd, callback) {
             baseInvoke("mofcom_CheckUsbKeyPin", {"passwd": passwd}, callback);
-        }, /**
+        },
+        /**
          * 获取证书
          * @param callback
          */
         mofcomGetEncodedCert: function (callback) {
             baseInvoke("mofcom_GetEncodedCert", {}, callback);
-        }, /**
+        },
+        /**
          * 获取证书信息
          * @param callback
          */
         mofcomGetCertInfo: function (callback) {
             baseInvoke("mofcom_GetCertInfo", {}, callback);
-        }, /**
+        },
+        /**
          * 对信息加签
          * @param message 待签名的内容
          * @param callback
          */
         mofcomSignMessage: function (message, callback) {
             baseInvoke("mofcom_SignMessage", {"message": message}, callback);
-        }, /**
+        },
+        /**
          * 信息批量签名
          * @param messages
          * @param callback
          */
         mofcomBatchSignMessage: function (messages, callback) {
             baseInvokeByFrames("mofcom_BatchSignMessage", {"messages": messages || []}, callback);
-        }, /**
+        },
+        /**
          * 验证签名
          * @param p7message P7签名数据
          * @param message 原始数据
@@ -1820,7 +2050,8 @@
          */
         mofcomVerifyMsg: function (p7message, message, callback) {
             baseInvoke("mofcom_VerifyMsg", {"p7message": p7message, "message": message}, callback);
-        }, /**
+        },
+        /**
          * 批量验证签名
          * @param p7messages P7签名数据数组
          * @param messages 原始数据数组
@@ -1828,16 +2059,19 @@
          */
         mofcomBatchVerifyMsg: function (p7messages, messages, callback) {
             baseInvokeByFrames("mofcom_BatchVerifyMsg", {
-                "p7messages": p7messages || [], "messages": messages || []
+                "p7messages": p7messages || [],
+                "messages": messages || []
             }, callback);
-        }, /**
+        },
+        /**
          * 签名本地文件
          * @param inFile 文件全路径
          * @param callback
          */
         mofcomEnvelopedSignFile: function (inFile, callback) {
             baseInvoke("mofcom_EnvelopedSignFile", {"inFile": inFile}, callback);
-        }, /**
+        },
+        /**
          * 验签本地文件
          * @param p7message P7签名信息
          * @param inFile 本地文件
@@ -1845,14 +2079,16 @@
          */
         mofcomEnvelopedVerifyFile: function (p7message, inFile, callback) {
             baseInvoke("mofcom_EnvelopedVerifyFile", {"p7message": p7message, "inFile": inFile}, callback);
-        }, /*----------------------------------RA控件功能-----------------------------------------------------------------*/
+        },
+        /*----------------------------------RA控件功能-----------------------------------------------------------------*/
         /**
          * 检查读卡器类型
          * @param callback
          */
         raIs903Reader: function (callback) {
             baseInvoke("ra_Is903Reader", callback);
-        }, /**
+        },
+        /**
          * 根据读卡器类型获取卡信息，传密码则验证密码，不传不进行验证
          * @param callback
          */
@@ -1864,39 +2100,45 @@
             } else {
                 baseInvoke("ra_VerifyPinAndGetCardUserInfo", {"readertype": readertype, "userpin": userpin}, callback);
             }
-        }, /**
+        },
+        /**
          * 打开卡
          * @param callback
          */
         raInitCpuCard: function (callback) {
             baseInvoke("ra_InitCpuCard", callback);
-        }, /**
+        },
+        /**
          * 关闭卡
          * @param callback
          */
         raCloseCpuCard: function (callback) {
             baseInvoke("ra_CloseCpuCard", callback);
-        }, /**
+        },
+        /**
          * 格式化卡
          * @param callback
          */
         raFormatCpuCard: function (callback) {
             baseInvoke("ra_FormatCpuCard", callback);
-        }, /**
+        },
+        /**
          * 发卡初始化
          * @param raClearCardPWD 清卡口令，制新卡为空，更新证书不为空
          * @param callback
          */
         raInitMakeCard: function (raClearCardPWD, callback) {
             baseInvoke("ra_InitMakeCard", {"raClearCardPWD": raClearCardPWD}, callback);
-        }, /**
+        },
+        /**
          * 验证口令
          * @param passwd 密码
          * @param callback
          */
         raverifyPassWD: function (passwd, callback) {
             baseInvoke("ra_verifyPassWD", {"passwd": passwd}, callback);
-        }, /**
+        },
+        /**
          * 修改口令
          * @param userPWD 旧口令
          * @param newUserPWD 新口令
@@ -1904,7 +2146,8 @@
          */
         rachangePasswd: function (userPWD, newUserPWD, callback) {
             baseInvoke("ra_changePasswd", {"userPWD": userPWD, "newUserPWD": newUserPWD}, callback);
-        }, /**
+        },
+        /**
          * 解锁
          * @param unlockPWD 解锁密码
          * @param newUserPWD 新密码
@@ -1912,53 +2155,61 @@
          */
         raunlockPasswd: function (unlockPWD, newUserPWD, callback) {
             baseInvoke("ra_unlockPasswd", {"unlockPWD": unlockPWD, "newUserPWD": newUserPWD}, callback);
-        }, /**
+        },
+        /**
          * 取控件版本
          * @param callback
          */
         raGetOcxVersion: function (callback) {
             baseInvoke("ra_GetOcxVersion", callback);
-        }, /**
+        },
+        /**
          * 取服务器证书
          * @param certName 服务器证书名
          * @param callback
          */
         ragetServerCert: function (certName, callback) {
             baseInvoke("ra_getServerCert", {"certName": certName}, callback);
-        }, /**
+        },
+        /**
          * 取被制卡的信息
          * @param callback
          */
         raGetCard2UserInfo: function (callback) {
             baseInvoke("ra_GetCard2UserInfo", callback);
-        }, /**
+        },
+        /**
          * 取卡内的用户信息
          * @param callback
          */
         ragetItemUserInfo: function (callback) {
             baseInvoke("ra_getItemUserInfo", callback);
-        }, /**
+        },
+        /**
          * 获取被制卡的IC卡号，与卡上印刷的一致;未制证的可以获取
          * @param lReader 取指定卡的信息，1取RA卡，其它值则取被制卡或KEY
          * @param callback
          */
         raGetCardIDFromCard: function (lReader, callback) {
             baseInvoke("ra_GetCardIDFromCard", {"lReader": lReader}, callback);
-        }, /**
+        },
+        /**
          * 取卡类型，调用该函数之前无须打开卡
          * @param lReader 取指定卡的信息，1取RA卡，其它值则取被制卡
          * @param callback
          */
         raGetGetICCType: function (lReader, callback) {
             baseInvoke("ra_GetGetICCType", {"lReader": lReader}, callback);
-        }, /**
+        },
+        /**
          * 取算法类型（取加密算法标识）
          * @param lReader 取指定卡的信息，1取RA卡，其它值则取被制卡或KEY
          * @param callback
          */
         raGetCryptAlgo: function (lReader, callback) {
             baseInvoke("ra_GetCryptAlgo", {"lReader": lReader}, callback);
-        }, /**
+        },
+        /**
          * 写卡 接收数据并验证写卡，调用该函数之前必须调用InitMakeCard函数
          * @param SignCertPEM 签名证书
          * @param EnvCertPEM 加密证书
@@ -1981,7 +2232,8 @@
                 "CardInfoPEM": CardInfoPEM,
                 "AdminPassWd": AdminPassWd
             }, callback);
-        }, /**
+        },
+        /**
          * 签名(自动验密、关卡)
          * @param inData 签名数据
          * @param passwd 用户密码
@@ -1989,16 +2241,19 @@
          */
         raDeclareData: function (inData, passwd, callback) {
             baseInvoke("ra_DeclareData", (!!passwd) ? {
-                "inData": inData, "passwd": passwd
+                "inData": inData,
+                "passwd": passwd
             } : {"inData": inData}, callback);
-        }, /**
+        },
+        /**
          * 身份认证第一步
          * @param strInputDecodePEM 服务器产生的随机数，是PEM编码的数据
          * @param callback
          */
         raidentifyFirstStep: function (strInputDecodePEM, passwd, callback) {
             baseInvoke("ra_identifyFirstStep", {"strInputDecodePEM": strInputDecodePEM, "passwd": passwd}, callback);
-        }, /*----------------------------------旧版过时的功能功能------------------------------------------------------------*/
+        },
+        /*----------------------------------旧版过时的功能功能------------------------------------------------------------*/
         /**
          * 启动微软ClickOnes程序
          * @param qpurl
@@ -2009,59 +2264,84 @@
          */
         startClickOnceApp: function (qpurl, casurl, passwd, callback) {
             baseInvoke("base_StartClickOnceApp", {"qpurl": qpurl, "casurl": casurl, "passwd": passwd}, callback);
-        }, //设置加密设备的优先级
+        },
+        //设置加密设备的优先级
         spcSetInitEnvPriority: function (szInitEnvPriority, callback) {
             baseInvoke("security_SpcSetInitEnvPriority", {"szInitEnvPriority": szInitEnvPriority}, callback);
-        }, //打开卡
+        },
+        //打开卡
         spcInitEnvEx: function (callback) {
             baseInvoke("security_SpcInitEnvEx", callback);
-        }, //关闭卡
+        },
+        //关闭卡
         spcClearEnv: function (callback) {
             baseInvoke("security_SpcClearEnv", callback);
-        }, //下面是客户端控件组件的调用接口
+        },
+        //下面是客户端控件组件的调用接口
         login: function (passwd, callback) {
             baseInvoke("security_login", {"passwd": passwd}, callback);
-        }, signData: function (passwd, inputData, callback) {
+        },
+        signData: function (passwd, inputData, callback) {
             baseInvoke("security_signData", {"passwd": passwd, "inputData": inputData}, callback);
-        }, spcSignData: function (inData, callback) {
+        },
+        spcSignData: function (inData, callback) {
             baseInvoke("security_SpcSignData", {"inData": inData}, callback);
-        }, spcSignDataAsPEM: function (inData, callback) {
+        },
+        spcSignDataAsPEM: function (inData, callback) {
             baseInvoke("security_SpcSignDataAsPEM", {"inData": inData}, callback);
-        }, spcSignPemDataAsPEM: function (inData, callback) {
+        },
+        spcSignPemDataAsPEM: function (inData, callback) {
             baseInvoke("security_SpcSignPemDataAsPem", {"inData": inData}, callback);
-        }, spcSignDataNoHash: function (inData, callback) {
+        },
+        spcSignDataNoHash: function (inData, callback) {
             baseInvoke("security_SpcSignDataNoHash", {"inData": inData}, callback);
-        }, spcSignDataNoHashAsPEM: function (inData, callback) {
+        },
+        spcSignDataNoHashAsPEM: function (inData, callback) {
             baseInvoke("security_SpcSignDataNoHashAsPEM", {"inData": inData}, callback);
-        }, spcVerifySignData: function (certDataPEM, inData, signData, callback) {
+        },
+        spcVerifySignData: function (certDataPEM, inData, signData, callback) {
             baseInvoke("security_SpcVerifySignData", {
-                "certDataPEM": certDataPEM, "inData": inData, "signData": signData
+                "certDataPEM": certDataPEM,
+                "inData": inData,
+                "signData": signData
             }, callback);
-        }, spcVerifySignDataNoHash: function (certDataPEM, inData, signData, callback) {
+        },
+        spcVerifySignDataNoHash: function (certDataPEM, inData, signData, callback) {
             baseInvoke("security_SpcVerifySignDataNoHash", {
-                "certDataPEM": certDataPEM, "inData": inData, "signData": signData
+                "certDataPEM": certDataPEM,
+                "inData": inData,
+                "signData": signData
             }, callback);
-        }, spcSHA1Digest: function (szInfo, callback) {
+        },
+        spcSHA1Digest: function (szInfo, callback) {
             baseInvoke("security_SpcSHA1Digest", {"szInfo": szInfo}, callback);
-        }, spcSHA1DigestAsPEM: function (szInfo, callback) {
+        },
+        spcSHA1DigestAsPEM: function (szInfo, callback) {
             baseInvoke("security_SpcSHA1DigestAsPEM", {"szInfo": szInfo}, callback);
         },
 
         spcGetCardID: function (callback) {
             baseInvoke("security_SpcGetCardID", callback);
-        }, spcGetCertNo: function (callback) {
+        },
+        spcGetCertNo: function (callback) {
             baseInvoke("security_SpcGetCertNo", callback);
-        }, spcGetUName: function (callback) {
+        },
+        spcGetUName: function (callback) {
             baseInvoke("security_SpcGetUName", callback);
-        }, spcGetEntID: function (callback) {
+        },
+        spcGetEntID: function (callback) {
             baseInvoke("security_SpcGetEntID", callback);
-        }, spcGetEntName: function (callback) {
+        },
+        spcGetEntName: function (callback) {
             baseInvoke("security_SpcGetEntName", callback);
-        }, spcGetEntMode: function (callback) {
+        },
+        spcGetEntMode: function (callback) {
             baseInvoke("security_SpcGetEntMode", callback);
-        }, spcGetCardUserInfo: function (callback) {
+        },
+        spcGetCardUserInfo: function (callback) {
             baseInvoke("security_SpcGetCardUserInfo", callback);
-        }, getGetCardUserInfoAll: function (userpin, callback) { //新增 by wlp 2017年11月15日,2017年11月29日 增加userpin
+        },
+        getGetCardUserInfoAll: function (userpin, callback) { //新增 by wlp 2017年11月15日,2017年11月29日 增加userpin
             if (!callback && typeof userpin === "function") {
                 callback = userpin;
                 userpin = null;
@@ -2069,57 +2349,77 @@
             } else {
                 baseInvoke("security_getGetCardUserInfoAll", {"userpin": userpin}, callback);
             }
-        }, spcGetCardAttachInfo: function (callback) {
+        },
+        spcGetCardAttachInfo: function (callback) {
             baseInvoke("security_SpcGetCardAttachInfo", callback);
-        }, spcGetCardAttachInfoAsPEM: function (callback) {
+        },
+        spcGetCardAttachInfoAsPEM: function (callback) {
             baseInvoke("security_SpcGetCardAttachInfoAsPEM", callback);
-        }, spcVerifyPIN: function (passwd, callback) {
+        },
+        spcVerifyPIN: function (passwd, callback) {
             baseInvoke("security_SpcVerifyPIN", {"passwd": passwd}, callback);
-        }, spcChangePIN: function (oldPin, newPin, callback) {
+        },
+        spcChangePIN: function (oldPin, newPin, callback) {
             baseInvoke("security_SpcChangePIN", {"oldPin": oldPin, "newPin": newPin}, callback);
-        }, spcEncodePEM: function (inData, callback) {
+        },
+        spcEncodePEM: function (inData, callback) {
             baseInvoke("security_SpcEncodePEM", {"inData": inData}, callback);
-        }, spcDecodePEM: function (inData, callback) {
+        },
+        spcDecodePEM: function (inData, callback) {
             baseInvoke("security_SpcDecodePEM", {"inData": inData}, callback);
-        }, spcDecodePEMAsString: function (inData, callback) {
+        },
+        spcDecodePEMAsString: function (inData, callback) {
             baseInvoke("security_SpcDecodePEMAsString", {"inData": inData}, callback);
-        }, spcGetSignCert: function (callback) {
+        },
+        spcGetSignCert: function (callback) {
             baseInvoke("security_SpcGetSignCert", callback);
-        }, spcGetSignCertAsPEM: function (callback) {
+        },
+        spcGetSignCertAsPEM: function (callback) {
             baseInvoke("security_SpcGetSignCertAsPEM", callback);
-        }, spcGetEnvCert: function (callback) {
+        },
+        spcGetEnvCert: function (callback) {
             baseInvoke("security_SpcGetEnvCert", callback);
-        }, spcGetEnvCertAsPEM: function (callback) {
+        },
+        spcGetEnvCertAsPEM: function (callback) {
             baseInvoke("security_SpcGetEnvCertAsPEM", callback);
-        }, spcGetValidTimeFromCert: function (certByteArray, callback) {
+        },
+        spcGetValidTimeFromCert: function (certByteArray, callback) {
             if (typeof certByteArray === "function") {
                 callback = certByteArray;
                 certByteArray = null;
             }
             baseInvoke("security_SpcGetValidTimeFromCert", ((!!certByteArray) ? {"certByteArray": certByteArray} : {}), callback);
-        }, spcGetValidTimeAll: function (callback) { //2017年11月01日 增加 by 王立鹏
+        },
+        spcGetValidTimeAll: function (callback) { //2017年11月01日 增加 by 王立鹏
             baseInvoke("security_getValidTimeAll", {}, callback);
-        }, spcSignRandom: function (passwd, random, callback) {
+        },
+        spcSignRandom: function (passwd, random, callback) {
             baseInvoke("security_SpcSignRandom", {"passwd": passwd, "random": random}, callback);
-        }, spcRSAEncrypt: function (inData, certData, passwd, callback) {
+        },
+        spcRSAEncrypt: function (inData, certData, passwd, callback) {
             if (callback && typeof callback === "function") {//完整参数
                 baseInvoke("security_SpcRSAEncrypt", {
-                    "inData": inData, "certData": certData, "passwd": passwd
+                    "inData": inData,
+                    "certData": certData,
+                    "passwd": passwd
                 }, callback);
             } else if ((!callback) && typeof passwd === "function") {//缺少1个参数,我们兼容缺少passwd的情况
                 callback = passwd;
                 passwd = null;
                 baseInvoke("security_SpcRSAEncrypt", {
-                    "inData": inData, "certData": certData
+                    "inData": inData,
+                    "certData": certData
                 }, callback);
             } else {
                 throw new Error("spcRSAEncrypt的调用参数非法!");
                 //alert("addSign的调用参数非法");
             }
-        }, spcRSADecrypt: function (inData, passwd, callback) {
+        },
+        spcRSADecrypt: function (inData, passwd, callback) {
             if (callback && typeof callback === "function") {//完整参数
                 baseInvoke("security_SpcRSADecrypt", {
-                    "inData": inData, "passwd": passwd
+                    "inData": inData,
+                    "passwd": passwd
                 }, callback);
             } else if ((!callback) && typeof passwd === "function") {//缺少1个参数,我们兼容缺少passwd的情况
                 callback = passwd;
@@ -2131,15 +2431,20 @@
                 throw new Error("spcRSAEncrypt的调用参数非法!");
                 //alert("addSign的调用参数非法");
             }
-        }, pdfSignCheckSign: function (fileContent, callback) {
+        },
+        pdfSignCheckSign: function (fileContent, callback) {
             baseInvokeByFrames("security_PdfSignCheckSign", {"fileContent": fileContent}, callback);
-        }, localPdfSignCheckSign: function (filePath, callback) {
+        },
+        localPdfSignCheckSign: function (filePath, callback) {
             baseInvoke("security_PdfSignCheckSign", {"filePath": filePath}, callback);
-        }, pdfSignCheck: function (fileContent, callback) {
+        },
+        pdfSignCheck: function (fileContent, callback) {
             baseInvokeByFrames("security_PdfSignCheck", {"fileContent": fileContent}, callback);
-        }, localPdfSignCheck: function (filePath, callback) {
+        },
+        localPdfSignCheck: function (filePath, callback) {
             baseInvoke("security_PdfSignCheck", {"filePath": filePath}, callback);
-        }, pdfAddSign: function (fileContent, datetiem, Edoc_code, Edoc_Name, userpin, callback) {//destDir,fileName,
+        },
+        pdfAddSign: function (fileContent, datetiem, Edoc_code, Edoc_Name, userpin, callback) {//destDir,fileName,
             //少1个参数,认为没传userpin,少两个,认为没传认为没传userpin和Edoc_Name,保证callback必须得有!
             if (callback && typeof callback === "function") {//完整参数
                 baseInvokeByFrames("security_PdfAddSign", {
@@ -2153,19 +2458,25 @@
                 callback = userpin;
                 userpin = null;
                 baseInvokeByFrames("security_PdfAddSign", {
-                    "fileContent": fileContent, "datetiem": datetiem, "Edoc_code": Edoc_code, "Edoc_Name": Edoc_Name
+                    "fileContent": fileContent,
+                    "datetiem": datetiem,
+                    "Edoc_code": Edoc_code,
+                    "Edoc_Name": Edoc_Name
                 }, callback);
             } else if ((!callback) && typeof Edoc_Name === "function") {//缺少1个参数,我们兼容缺少userpin的情况
                 callback = Edoc_Name;
                 Edoc_Name = null;
                 baseInvokeByFrames("security_PdfAddSign", {
-                    "fileContent": fileContent, "datetiem": datetiem, "Edoc_code": Edoc_code
+                    "fileContent": fileContent,
+                    "datetiem": datetiem,
+                    "Edoc_code": Edoc_code
                 }, callback);
             } else {
                 throw new Error("addSign的调用参数非法!");
                 //alert("addSign的调用参数非法");
             }
-        }, localPdfAddSign: function (filePath, fileName, datetiem, Edoc_code, Edoc_Name, cookies, userpin, callback) {//destDir,fileName,
+        },
+        localPdfAddSign: function (filePath, fileName, datetiem, Edoc_code, Edoc_Name, cookies, userpin, callback) {//destDir,fileName,
             //少1个参数,认为没传userpin;少2个,认为没传认为没传cookies和userpin;少3个,认为没传认为没传Edoc_Name/cookies和userpin.保证callback必须得有!
             if (callback && typeof callback === "function") {//完整参数
                 baseInvoke("security_PdfAddSign", {
@@ -2202,29 +2513,39 @@
                 callback = Edoc_Name;
                 Edoc_Name = null;
                 baseInvoke("security_PdfAddSign", {
-                    "filePath": filePath, "fileName": fileName, "datetiem": datetiem, "Edoc_code": Edoc_code
+                    "filePath": filePath,
+                    "fileName": fileName,
+                    "datetiem": datetiem,
+                    "Edoc_code": Edoc_code
                 }, callback);
             } else {
                 throw new Error("addSign的调用参数非法!");
                 //alert("addSign的调用参数非法");
             }
-        }, pdfCheckAndAddSign: function (fileContent, datetiem, Edoc_code, Edoc_Name, callback) {//destDir,fileName,
+        },
+        pdfCheckAndAddSign: function (fileContent, datetiem, Edoc_code, Edoc_Name, callback) {//destDir,fileName,
             //少1个参数,认为没传destDir,少两个,认为没传认为没传destDir和Edoc_Name,保证callback必须得有!
             if (callback && typeof callback === "function") {//完整参数
                 baseInvokeByFrames("security_PdfCheckAndAddSign", {
-                    "fileContent": fileContent, "datetiem": datetiem, "Edoc_code": Edoc_code, "Edoc_Name": Edoc_Name
+                    "fileContent": fileContent,
+                    "datetiem": datetiem,
+                    "Edoc_code": Edoc_code,
+                    "Edoc_Name": Edoc_Name
                 }, callback);
             } else if ((!callback) && typeof Edoc_Name === "function") {//缺少1个参数,我们兼容缺少Edoc_Name的情况
                 callback = Edoc_Name;
                 Edoc_Name = null;
                 baseInvokeByFrames("security_PdfCheckAndAddSign", {
-                    "fileContent": fileContent, "datetiem": datetiem, "Edoc_code": Edoc_code
+                    "fileContent": fileContent,
+                    "datetiem": datetiem,
+                    "Edoc_code": Edoc_code
                 }, callback);
             } else {
                 throw new Error("addSign的调用参数非法!");
                 //alert("addSign的调用参数非法");
             }
-        }, localPdfCheckAndAddSign: function (filePath, fileName, datetiem, Edoc_code, Edoc_Name, cookies, callback) {//destDir,fileName,
+        },
+        localPdfCheckAndAddSign: function (filePath, fileName, datetiem, Edoc_code, Edoc_Name, cookies, callback) {//destDir,fileName,
             //少1个参数,认为没传cookies,少两个,认为没传认为没传cookies和Edoc_Name,保证callback必须得有!
             if (callback && typeof callback === "function") {//完整参数
                 baseInvoke("security_PdfCheckAndAddSign", {
@@ -2249,49 +2570,63 @@
                 callback = Edoc_Name;
                 Edoc_Name = null;
                 baseInvoke("security_PdfCheckAndAddSign", {
-                    "filePath": filePath, "fileName": fileName, "datetiem": datetiem, "Edoc_code": Edoc_code
+                    "filePath": filePath,
+                    "fileName": fileName,
+                    "datetiem": datetiem,
+                    "Edoc_code": Edoc_code
                 }, callback);
             } else {
                 throw new Error("addSign的调用参数非法!");
                 //alert("addSign的调用参数非法");
             }
-        }, pdfScanInit: function (callback) {
+        },
+        pdfScanInit: function (callback) {
             baseInvoke("security_PdfScanScanInitialize", {}, callback);
-        }, pdfScanAsPEM: function (Edoc_code, Edoc_Name, userpin, callback) {
+        },
+        pdfScanAsPEM: function (Edoc_code, Edoc_Name, userpin, callback) {
             if (callback && typeof callback === "function") {//完整参数
                 baseInvoke("security_PdfScanAsPEM", {
-                    "Edoc_code": Edoc_code, "Edoc_Name": Edoc_Name, "userpin": userpin
+                    "Edoc_code": Edoc_code,
+                    "Edoc_Name": Edoc_Name,
+                    "userpin": userpin
                 }, callback);
             } else if ((!callback) && typeof userpin === "function") {//缺少1个参数,我们兼容缺少userpin的情况
                 callback = userpin;
                 userpin = null;
                 baseInvoke("security_PdfScanAsPEM", {
-                    "Edoc_code": Edoc_code, "Edoc_Name": Edoc_Name
+                    "Edoc_code": Edoc_code,
+                    "Edoc_Name": Edoc_Name
                 }, callback);
             } else if ((!callback) && typeof Edoc_Name === "function") {//缺少2个参数,我们兼容缺少userpin和Edoc_Name的情况
                 callback = Edoc_Name;
                 Edoc_Name = null;
                 baseInvoke("security_PdfScanAsPEM", {"Edoc_code": Edoc_code}, callback);
             }
-        }, pdfScan: function (Edoc_code, Edoc_Name, userpin, callback) {
+        },
+        pdfScan: function (Edoc_code, Edoc_Name, userpin, callback) {
             if (callback && typeof callback === "function") {//完整参数
                 baseInvoke("security_PdfScan", {
-                    "Edoc_code": Edoc_code, "Edoc_Name": Edoc_Name, "userpin": userpin
+                    "Edoc_code": Edoc_code,
+                    "Edoc_Name": Edoc_Name,
+                    "userpin": userpin
                 }, callback);
             } else if ((!callback) && typeof userpin === "function") {//缺少1个参数,我们兼容缺少userpin的情况
                 callback = userpin;
                 userpin = null;
                 baseInvoke("security_PdfScan", {
-                    "Edoc_code": Edoc_code, "Edoc_Name": Edoc_Name
+                    "Edoc_code": Edoc_code,
+                    "Edoc_Name": Edoc_Name
                 }, callback);
             } else if ((!callback) && typeof Edoc_Name === "function") {//缺少2个参数,我们兼容缺少userpin和Edoc_Name的情况
                 callback = Edoc_Name;
                 Edoc_Name = null;
                 baseInvoke("security_PdfScan", {"Edoc_code": Edoc_code}, callback);
             }
-        }, pdfView: function (fileContent, callback) {//destDir,fileName,
+        },
+        pdfView: function (fileContent, callback) {//destDir,fileName,
             baseInvokeByFrames("security_PdfView", {"fileContent": fileContent}, callback);
-        }, localPdfView: function (filePath, cookies, callback) {//filePath可以是本地的file:,也可以是http:的
+        },
+        localPdfView: function (filePath, cookies, callback) {//filePath可以是本地的file:,也可以是http:的
             if (callback && typeof callback === "function") {//完整参数
                 baseInvoke("security_PdfView", {"filePath": filePath, "cookies": cookies}, callback);
             } else if ((!callback) && typeof cookies === "function") {//缺少1个参数,我们兼容缺少title的情况
@@ -2302,18 +2637,22 @@
                 throw new Error("addSign的调用参数非法!");
                 //alert("addSign的调用参数非法");
             }
-        }, localPdfBatchCheckAndSign: function (args, callback) {//args为js对象,不是json字符串!
+        },
+        localPdfBatchCheckAndSign: function (args, callback) {//args为js对象,不是json字符串!
             baseInvoke("security_LocalPdfBatchCheckAndSign", args, callback);
-        }, localPdfBatchUpload: function (args, callback) {
+        },
+        localPdfBatchUpload: function (args, callback) {
             baseInvoke("security_LocalPdfBatchUpload", args, callback);
-        }, deleteSignedTempFile: function (args, callback) {
+        },
+        deleteSignedTempFile: function (args, callback) {
             baseInvoke("security_DeleteSignedTempFile", args, callback);
         },
 
         //下面是单一窗口组件的调用接口
         swcLogin: function (passwd, callback) {
             baseInvoke("swc_security_login", {"passwd": passwd}, callback);
-        }, swcPostData: function (data, callback, method) {
+        },
+        swcPostData: function (data, callback, method) {
             conn();
             method = (method || "swc_postdata");
             callbacks[method] = callback;
@@ -2348,7 +2687,8 @@
             var pakHeaser = getDataHeader(checkCode, blockCheckCode, s.length, splitData[0].length, splitData.length, guid, 0);
             var msg = pakHeaser + splitData[0];
             sendMessage(msg);
-        }, data: function () {
+        },
+        data: function () {
         }
     };
     //单一窗口组件兼容调用..

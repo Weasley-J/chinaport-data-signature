@@ -40,4 +40,15 @@ class StandardSignHandlerTest {
         System.out.println(JSONUtil.toJsonPrettyStr(result));
     }
 
+    /**
+     * 获取版本号
+     */
+    @Test
+    void ukeyVersion() {
+        String method = "cus-sec_SpcGetCardAttachInfo";
+        SignRequest request = new SignRequest(InitialConfigTest.CEB621Message);
+        SignHandler client = new SignHandler();
+        SignResult result = client.sign(request, "666");
+        System.out.println(JSONUtil.toJsonPrettyStr(result));
+    }
 }

@@ -31,12 +31,12 @@
         <spring-cloud.version>2022.0.0-M1</spring-cloud.version>
         <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
         <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
-        <hutool-all.version>5.8.5</hutool-all.version>
+        <hutool-all.version>5.8.10</hutool-all.version>
         <smart-doc.version>2.3.7</smart-doc.version>
-        <xmlsec.version>2.3.0</xmlsec.version>
+        <xmlsec.version>3.0.1</xmlsec.version>
         <jna.version>3.0.9</jna.version>
         <multiple-email.version>1.0.8</multiple-email.version>
-        <nacos.version>2.0.3</nacos.version>
+        <nacos.version>2.1.1</nacos.version>
         <multiple-email.version>1.0.3</multiple-email.version>
         <sonar.host.url>http://192.168.31.106:9001</sonar.host.url>
         <sonar.login>admin</sonar.login>

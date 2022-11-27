@@ -5,12 +5,15 @@ import cn.alphahub.eport.signature.core.SignHandler;
 import cn.alphahub.eport.signature.core.SignatureHandler;
 import cn.alphahub.eport.signature.core.WebSocketClientHandler;
 import cn.alphahub.eport.signature.entity.SignRequest;
+import cn.alphahub.eport.signature.entity.SpcValidTime;
+import cn.alphahub.eport.signature.entity.UkeyRequest;
 import cn.alphahub.eport.signature.entity.UkeyResponse;
 import cn.alphahub.eport.signature.entity.WebSocketWrapper;
 import cn.alphahub.eport.signature.util.SysUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.lang.TypeReference;
 import cn.hutool.extra.spring.SpringUtil;
+import cn.hutool.json.JSONConfig;
 import cn.hutool.json.JSONUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
@@ -35,6 +38,7 @@ import org.springframework.web.socket.client.WebSocketConnectionManager;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -59,7 +63,7 @@ public class InitialConfig implements ApplicationRunner {
      */
     private static final ObjectMapper MAPPER = new ObjectMapper();
     /**
-     * ukey默认密码8个8不要修改
+     * u-key默认密码8个8不要修改
      */
     private static final String DEFAULT_PASSWORD = "88888888";
 
@@ -72,11 +76,11 @@ public class InitialConfig implements ApplicationRunner {
      */
     @SneakyThrows
     public static String getX509CertificateParameter() {
-        Map<String, Object> parameterMap = new LinkedHashMap<>(3);
-        parameterMap.put("_method", "cus-sec_SpcGetSignCertAsPEM");
-        parameterMap.put("_id", 1);
-        parameterMap.put("args", "{}");
-        return MAPPER.writeValueAsString(parameterMap);
+        UkeyRequest ukeyRequest = new UkeyRequest();
+        ukeyRequest.set_method("cus-sec_SpcGetSignCertAsPEM");
+        ukeyRequest.set_id(1);
+        ukeyRequest.setArgs(new HashMap<>());
+        return MAPPER.writeValueAsString(ukeyRequest);
     }
 
     /**
@@ -91,11 +95,11 @@ public class InitialConfig implements ApplicationRunner {
         Map<String, Object> args = new LinkedHashMap<>(2);
         args.put("szInfo", sourceXml);
         args.put("passwd", ObjectUtils.defaultIfNull(SpringUtil.getBean(UkeyProperties.class).getPassword(), DEFAULT_PASSWORD));
-        Map<String, Object> parameterMap = new LinkedHashMap<>(3);
-        parameterMap.put("_method", "cus-sec_SpcSHA1DigestAsPEM");
-        parameterMap.put("_id", uniqueId);
-        parameterMap.put("args", args);
-        return MAPPER.writeValueAsString(parameterMap);
+        UkeyRequest ukeyRequest = new UkeyRequest();
+        ukeyRequest.set_method("sec_SpcSHA1DigestAsPEM");
+        ukeyRequest.set_id(uniqueId);
+        ukeyRequest.setArgs(args);
+        return MAPPER.writeValueAsString(ukeyRequest);
     }
 
     /**
@@ -111,11 +115,11 @@ public class InitialConfig implements ApplicationRunner {
         log.warn("发送给ukey的真正请求入参: {}, 原始报文:\n{}", initData, request.getData());
         args.put("inData", initData);
         args.put("passwd", ObjectUtils.defaultIfNull(SpringUtil.getBean(UkeyProperties.class).getPassword(), DEFAULT_PASSWORD));
-        Map<String, Object> parameterMap = new LinkedHashMap<>(3);
-        parameterMap.put("_method", CertificateHandler.METHOD_OF_X509_WITH_HASH);
-        parameterMap.put("_id", request.getId());
-        parameterMap.put("args", args);
-        return MAPPER.writeValueAsString(parameterMap);
+        UkeyRequest ukeyRequest = new UkeyRequest();
+        ukeyRequest.set_method(CertificateHandler.METHOD_OF_X509_WITH_HASH);
+        ukeyRequest.set_id(request.getId());
+        ukeyRequest.setArgs(args);
+        return MAPPER.writeValueAsString(ukeyRequest);
     }
 
     /**
@@ -133,11 +137,11 @@ public class InitialConfig implements ApplicationRunner {
         Map<String, Object> args = new LinkedHashMap<>(2);
         args.put("inData", sha1Hex);
         args.put("passwd", ObjectUtils.defaultIfNull(SpringUtil.getBean(UkeyProperties.class).getPassword(), DEFAULT_PASSWORD));
-        Map<String, Object> parameterMap = new LinkedHashMap<>(3);
-        parameterMap.put("_method", CertificateHandler.METHOD_OF_X509_WITHOUT_HASH);
-        parameterMap.put("_id", request.getId());
-        parameterMap.put("args", args);
-        return MAPPER.writeValueAsString(parameterMap);
+        UkeyRequest ukeyRequest = new UkeyRequest();
+        ukeyRequest.set_method(CertificateHandler.METHOD_OF_X509_WITHOUT_HASH);
+        ukeyRequest.set_id(request.getId());
+        ukeyRequest.setArgs(args);
+        return MAPPER.writeValueAsString(ukeyRequest);
     }
 
     /**
@@ -158,11 +162,22 @@ public class InitialConfig implements ApplicationRunner {
         if (StringUtils.isNotBlank(certDataPEM)) {
             argsMap.put("certDataPEM", certDataPEM);
         }
-        Map<String, Object> parameterMap = new LinkedHashMap<>(3);
-        parameterMap.put("_method", "cus-sec_SpcVerifySignDataNoHash");
-        parameterMap.put("_id", uniqueId);
-        parameterMap.put("args", argsMap);
-        return MAPPER.writeValueAsString(parameterMap);
+        UkeyRequest ukeyRequest = new UkeyRequest();
+        ukeyRequest.set_method("cus-sec_SpcVerifySignDataNoHash");
+        ukeyRequest.set_id(uniqueId);
+        ukeyRequest.setArgs(argsMap);
+        return MAPPER.writeValueAsString(ukeyRequest);
+    }
+
+    /**
+     * 查看海关证书有效期入参
+     */
+    public String getCertValidTimeParams() {
+        Map<String, Object> args = new LinkedHashMap<>();
+        //args.put("cert", null);//证书内容,可为空
+        UkeyRequest ukeyRequest = new UkeyRequest("cus-sec_SpcGetValidTimeFromCert", 1, args);
+        JSONConfig jsonConfig = new JSONConfig();
+        return JSONUtil.toJsonStr(ukeyRequest, jsonConfig);
     }
 
     /* *********************** 获取入参方法结束（这几个方法值5000RMB，小心修改） *********************** */
@@ -236,10 +251,10 @@ public class InitialConfig implements ApplicationRunner {
         AtomicReference<Thread> reference = new AtomicReference<>();
         reference.set(Thread.currentThread());
 
-        WebSocketConnectionManager manager = new WebSocketConnectionManager(standardWebSocketClient, new TextWebSocketHandler() {
+        //获取u-key内的证书相关
+        WebSocketConnectionManager certManager = new WebSocketConnectionManager(standardWebSocketClient, new TextWebSocketHandler() {
             @Override
             public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-                log.warn("已和[{}]建立websocket连接.", ukeyProperties.getWsUrl());
                 session.sendMessage(new TextMessage(InitialConfig.getX509CertificateParameter()));
             }
 
@@ -262,19 +277,54 @@ public class InitialConfig implements ApplicationRunner {
                 }
             }
         }, ukeyProperties.getWsUrl());
-
-        manager.start();
-
+        certManager.start();
         try {
             LockSupport.parkNanos(reference.get(), 1000 * 1000 * 1000 * 3L);
         } catch (Exception e) {
             log.error("线程自动unpark异常 {}", e.getLocalizedMessage(), e);
         } finally {
-            manager.stop();
+            certManager.stop();
+        }
+
+        //获取u-key签发日期相关
+        WebSocketConnectionManager certValidTimeManager = new WebSocketConnectionManager(standardWebSocketClient, new TextWebSocketHandler() {
+            @Override
+            public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+                session.sendMessage(new TextMessage(getCertValidTimeParams()));
+            }
+
+            @Override
+            protected void handleTextMessage(WebSocketSession session, TextMessage message) {
+                UkeyResponse response = JSONUtil.toBean(message.getPayload(), new TypeReference<>() {
+                }, true);
+                try {
+                    if (Objects.equals(response.get_id(), 1)) {
+                        UkeyResponse.Args responseArgs = response.get_args();
+                        if (responseArgs.getResult().equals(true) && CollectionUtils.isNotEmpty(responseArgs.getData())) {
+                            log.warn("从电子口岸u-key中获取到u-key有效期区间: {}", responseArgs.getData());
+                            SpcValidTime validTime = JSONUtil.toBean(responseArgs.getData().get(0), new TypeReference<>() {
+                            }, true);
+                            certificateHandler.setUkeyValidTimeBegin(validTime.getSzStartTime());
+                            certificateHandler.setUkeyValidTimeEnd(validTime.getSzEndTime());
+                        }
+                    }
+                } catch (Exception e) {
+                    log.error("唤醒线程异常 {}", e.getLocalizedMessage(), e);
+                } finally {
+                    LockSupport.unpark(reference.get());
+                }
+            }
+        }, ukeyProperties.getWsUrl());
+        certValidTimeManager.start();
+        try {
+            LockSupport.parkNanos(reference.get(), 1000 * 1000 * 1000 * 3L);
+        } catch (Exception e) {
+            log.error("线程自动unpark异常 {}", e.getLocalizedMessage(), e);
+        } finally {
+            certValidTimeManager.stop();
         }
 
         certificateHandler.setX509Map(x509Map);
-
         return certificateHandler;
     }
 
