@@ -38,7 +38,6 @@ public class CertificateHandler implements Serializable {
      * </ul>
      */
     private Map<String, String> x509Map;
-
     /**
      * 海关u-key证书有效期开始
      */
@@ -47,12 +46,18 @@ public class CertificateHandler implements Serializable {
      * 海关u-key证书有效期结束
      */
     private LocalDateTime ukeyValidTimeEnd;
-
     public CertificateHandler() {
     }
 
     public CertificateHandler(Map<String, String> x509Map) {
         this.x509Map = x509Map;
+    }
+
+    public LocalDateTime getUkeyValidTimeBegin() {
+        if (ukeyValidTimeBegin == null) {
+            return LocalDateTime.now();
+        }
+        return ukeyValidTimeBegin;
     }
 
     public Map<String, String> getX509Map() {
