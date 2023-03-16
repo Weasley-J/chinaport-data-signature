@@ -18,7 +18,7 @@
 
 
 
-<u>在第一次提交代码之前，地球上的搜索引擎在那个时间点[**2022-02-14**]之前还找不到任何有参价值的信息......</u>
+<u>在第一次提交代码之前，地球上的搜索引擎在**2022-02-14**之前还找不到任何有参价值的信息......</u>
 
 <table>
     <tr>
@@ -33,20 +33,13 @@
 
 - **Previews of China e-port data signature**
 
-项目开始前我们先了解下海关总署XML报文的加签都在什么价位？顺便说下`海关179数据抓取`加签直接按要求拼参数即可，像百度、CSDN这种垃圾桶里面随处都有。**但唯独没有XML的加签，**
-2022-02-14之前。可见这XML报文加签在这之前有几毛钱的商业价值在里面，细品下图:
+项目开始前我们先了解下海关总署XML报文的加签都在什么价位？顺便说下`海关179数据抓取`加签直接按要求拼参数即可，像百度、CSDN里你能搜索到，**但唯独没有XML的加签**，细品下图:
 
 <img src="https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/IMG_0373-side.jpg" alt="IMG_0373-side"/>
 
+你没看错：你去找乙方对接，乙方不告诉你加签用到的算法，要你自己开发。
 
-
-<img src="https://img.aidotu.com/down/jpg/20200928/90df7eba2b2552e589790c2f5ca3cb37_54589_640_640.jpg"/>
-
-
-
-
-
-**进入项目正题**
+好，那就开发！
 
 - [x] 电子口岸的操作员`u-key`长啥样:
 
@@ -56,11 +49,11 @@
 
 ![image-20220219001115869](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20220219001115869.png)
 
-我这是在启动脚本里指定了`u-key`的`ip`为我与我`MacBookPro`处于统一局域网下面的`Windows`电脑的主机`ip`，`Windows`上你使用`git bash`也能达到我终端这样的效果。
+我这是在启动脚本里指定了`u-key`的`ip`为我与我`MacBookPro`处于统一局域网下面的`Windows`电脑的主机`ip`，`Windows`上你使用`git bash`也能达到我终端这样的效果（`Windows`小伙伴注意下这里，我这是通过[Git Bash](https://gitforwindows.org/)启动的，`Windows`终端汉字会乱码，你可以查看`log`文件避开汉字乱码的问题）。
 
 ![image-20220219162400840](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20220219162400840.png)
 
-## 1 `sonarqube`代码审查结果
+## 1 `sonarqube`代码质量审查
 
 ![image-20220218023508803](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20220218023508803.png)
 
