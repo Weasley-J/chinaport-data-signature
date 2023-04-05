@@ -4,8 +4,8 @@
 >
 >
 >
-> 中国电子口岸海关总署-海口海关`CEBXxxMessage`XML末三段报文`和`
-> 海关179数据抓取报文加签服务，开箱即用，无任何中间件；本项目遵守`GNU 3.0`协议，本项目里面所有到的`x509`
+> 中国电子口岸海关总署-海口海关`CEBXxxMessage`XML末三段报文和
+> `海关179号公告`报文加签服务，开箱即用，无任何中间件；本项目遵守`GNU 3.0`协议，本项目里面所有到的`x509`
 > 证书不具有任何真实性、合法性，企业应根据自己的情况替换成自己真实的证书，`ukey`加签直接直接下载`release`
 > 运行修改参数运行既可，不需要导出`.cer`证；
 >
@@ -13,7 +13,7 @@
 >
 > - 中国境内的跨进电商业务
 >
-> tips:
+> 提示:
 >
 > - 单体应用直接下载[release](https://github.com/Weasley-J/chinaport-data-signature/releases)的二进制文件使用即可（使用较多）
 > - 分布式微服务请切换到`dev-microservice`分支构建（较少使用）
@@ -39,7 +39,7 @@
 
 你没看错：你去找乙方对接，乙方不告诉你加签用到的算法，要你自己开发。
 
-好，那就开发！
+好，那就开发吧！
 
 - [x] 电子口岸的操作员`u-key`长啥样:
 
@@ -61,12 +61,12 @@
 
 ## 2 软件运行概况
 
-| 序号  | 类目       | 版本                                                                                                                                                                                                       | 备注         |
-|-----|----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
-| 1   | 软件运行环境   | [Java SE Development Kit 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)                                                                                               | 基础软件最低运行要求 |
-| 2   | 硬件运行环境   | `Windows-10-x64`/`Windows-11-x64`/`Windows-server-x64`/`Linux`(自行解决内网穿透问题,ukey只能插Windows电脑上)                                                                                                             |            |
-| 3   | 硬件性能要求   | > =1核CPU+2G运行内存                                                                                                                                                                                          | 不能比这小了     |
-| 4   | 对技术人员的要求 | 会把电子口岸ukey插入安装好[电子口岸控件]([中国国际贸易单一窗口登录管理 (singlewindow.cn)](https://app.singlewindow.cn/cas/login?service=http%3A%2F%2Fwww.singlewindow.cn%2Fsinglewindow%2Flogin.jspx))Windows电脑上，会改启动脚本里面的参数，会用鼠标双击启动脚本 |            |
+| 序号 | 类目       | 版本                                                                                                                                                                                                       | 备注         |
+|----|----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
+| 1  | 软件运行环境   | [Java SE Development Kit 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)                                                                                               | 基础软件最低运行要求 |
+| 2  | 硬件运行环境   | `Windows-10-x64`/`Windows-11-x64`/`Windows-server-x64`/`Linux`(自行解决内网穿透问题,ukey只能插Windows电脑上)                                                                                                             |            |
+| 3  | 硬件性能要求   | > =1核CPU+2G运行内存                                                                                                                                                                                          | 不能比这小了     |
+| 4  | 对技术人员的要求 | 会把电子口岸ukey插入安装好[电子口岸控件]([中国国际贸易单一窗口登录管理 (singlewindow.cn)](https://app.singlewindow.cn/cas/login?service=http%3A%2F%2Fwww.singlewindow.cn%2Fsinglewindow%2Flogin.jspx))Windows电脑上，会改启动脚本里面的参数，会用鼠标双击启动脚本 |            |
 
 ## 3 运行参数概况
 
