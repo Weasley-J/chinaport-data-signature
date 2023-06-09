@@ -2,7 +2,7 @@
 
 > **China e-port data signature**
 >
->
+> 
 >
 > 中国电子口岸海关总署-海口海关`CEBXxxMessage`XML末三段报文和
 > `海关179号公告`报文加签服务，开箱即用，无任何中间件；本项目遵守`GNU 3.0`协议，本项目里面所有到的`x509`
@@ -14,6 +14,8 @@
 > - 中国境内的跨进电商业务
 >
 > 提示:
+>
+> - 此应用不支持集群部署（原则上一个`u-key`只能连接一台`Windows`电脑作为加签的`Websocket`客户端）
 >
 > - 单体应用直接下载[release](https://github.com/Weasley-J/chinaport-data-signature/releases)的二进制文件使用即可（使用较多）
 > - 分布式微服务请切换到`dev-microservice`分支构建（较少使用）
