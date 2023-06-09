@@ -102,7 +102,7 @@ public class WebSocketClientHandler extends TextWebSocketHandler {
      * {"_id":1,"_method":"cus-sec_SpcSignDataAsPEM","_status":"00","_args":{"Result":false,"Data":[],"Error":["[读卡器底层库]复位读卡器失败:错误码=50070","Err:Custom50070"]}}
      *
      * @param cause cause
-     * @apiNote [读卡器底层库]复位读卡器失败会自动重启u-key的Windows进程，希望能提升自我容灾机制
+     * @implNote [读卡器底层库]复位读卡器失败会自动重启u-key的Windows进程，希望能提升自我容灾机制
      * @since 2023-06-10
      */
     @Email
