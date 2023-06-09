@@ -76,3 +76,4 @@ hs_err_pid*
 !**/src/main/resources/*-lwj.yml
 !**/src/main/resources/*-*lwj.yml
 !**/src/main/resources/*-lwj*.yml
+/.fastRequest/

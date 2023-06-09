@@ -5,13 +5,13 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.0.0-M3</version>
+        <version>3.1.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <groupId>cn.gov.chinaport</groupId>
     <artifactId>chinaport-data-signature</artifactId>
-    <version>1.0.8</version>
+    <version>1.0.9</version>
     <name>chinaport-data-signature</name>
     <url>https://github.com/Weasley-J/chinaport-data-signature.git</url>
 
@@ -25,10 +25,10 @@
         <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <spring-cloud.version>2022.0.0-M1</spring-cloud.version>
+        <spring-cloud.version>2022.0.3</spring-cloud.version>
         <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
         <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
-        <hutool-all.version>5.8.10</hutool-all.version>
+        <hutool-all.version>5.8.18</hutool-all.version>
         <smart-doc.version>2.3.7</smart-doc.version>
         <xmlsec.version>3.0.1</xmlsec.version>
         <jna.version>3.0.9</jna.version>
@@ -241,27 +241,5 @@
             </plugin>
         </plugins>
     </build>
-
-    <repositories>
-        <repository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>https://repo.spring.io/milestone</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>https://repo.spring.io/milestone</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
 
 </project>
