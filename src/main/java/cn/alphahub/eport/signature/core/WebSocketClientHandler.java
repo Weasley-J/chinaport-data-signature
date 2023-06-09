@@ -102,6 +102,8 @@ public class WebSocketClientHandler extends TextWebSocketHandler {
      * {"_id":1,"_method":"cus-sec_SpcSignDataAsPEM","_status":"00","_args":{"Result":false,"Data":[],"Error":["[读卡器底层库]复位读卡器失败:错误码=50070","Err:Custom50070"]}}
      *
      * @param cause cause
+     * @implNote [读卡器底层库]复位读卡器失败会自动重启u-key的Windows进程，希望能提升自我容灾机制
+     * @since 2023-06-10
      */
     @Email
     public void handleFailedToProcessSign(String cause) {
@@ -112,10 +114,11 @@ public class WebSocketClientHandler extends TextWebSocketHandler {
             messageDomain.setCc(StringUtils.split(emailProperties.getCc(), ","));
             messageDomain.setSentDate(LocalDateTime.now());
             messageDomain.setSubject("电子口岸u-key加签失败");
-            if (cause.contains("[读卡器底层库]复位读卡器失败"))
+            if (cause.contains("[读卡器底层库]复位读卡器失败")) {
                 messageDomain.setText("电子口岸u-key加签失败，原因：\n" + cause + "\n\n如遇：“[读卡器底层库]复位读卡器失败”等错误，请手动重启加签exe客户端程序");
-            else
+            } else {
                 messageDomain.setText("电子口岸u-key加签失败，原因：\n" + cause);
+            }
             emailTemplate.send(messageDomain);
         }
     }
