@@ -17,6 +17,13 @@ class CommandUtilTest {
     }
 
     @Test
+    void execute02() {
+        CommandUtil.getSharedInstance().execute("""
+                java -version
+                """);
+    }
+
+    @Test
     void execute2() {
         CommandUtil.getSharedInstance().execute("""
                 java -jar /Users/weasley/Development/IdeaProjects/chinaport-data-signature/target/chinaport-data-signature.jar
@@ -48,6 +55,15 @@ class CommandUtilTest {
         for (int i = 1; i <= 3; i++) {
             commandUtil.execute("curl -X GET -i http://localhost:8080/rpc/eport/signature/test/ceb");
             System.out.println("第 " + i + " 次结束：\n" + JSONUtil.toJsonStr(commandUtil));
+        }
+    }
+
+    @Test
+    void execute6() {
+        CommandUtil commandUtil = CommandUtil.getSharedInstance();
+        for (int i = 1; i <= 3; i++) {
+            commandUtil.execute("curl -X GET -i http://www.baidu.com");
+            System.out.println("第 " + i + " 次结束：\n" + JSONUtil.toJsonPrettyStr(commandUtil));
         }
     }
 

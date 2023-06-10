@@ -1,5 +1,7 @@
 package cn.alphahub.eport.signature.config;
 
+import cn.alphahub.dtt.plus.util.JacksonUtil;
+import cn.alphahub.dtt.plus.util.SpringUtil;
 import cn.alphahub.eport.signature.core.CertificateHandler;
 import cn.alphahub.eport.signature.core.SignHandler;
 import cn.alphahub.eport.signature.core.SignatureHandler;
@@ -12,10 +14,7 @@ import cn.alphahub.eport.signature.entity.WebSocketWrapper;
 import cn.alphahub.eport.signature.util.SysUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.lang.TypeReference;
-import cn.hutool.extra.spring.SpringUtil;
-import cn.hutool.json.JSONConfig;
 import cn.hutool.json.JSONUtil;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -23,12 +22,14 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.lang.Nullable;
 import org.springframework.web.socket.TextMessage;
@@ -59,10 +60,6 @@ import java.util.concurrent.locks.LockSupport;
 @EnableConfigurationProperties({UkeyProperties.class, EmailProperties.class})
 public class InitialConfig implements ApplicationRunner {
     /**
-     * jackson序列化处禁止换成其他json序列化工具
-     */
-    private static final ObjectMapper MAPPER = new ObjectMapper();
-    /**
      * u-key默认密码8个8不要修改
      */
     private static final String DEFAULT_PASSWORD = "88888888";
@@ -74,13 +71,12 @@ public class InitialConfig implements ApplicationRunner {
      *
      * @return 取海关签名证书PEM, X509Certificate证书是加签证书，真正的X509Certificate证书
      */
-    @SneakyThrows
     public static String getX509CertificateParameter() {
         UkeyRequest ukeyRequest = new UkeyRequest();
         ukeyRequest.set_method("cus-sec_SpcGetSignCertAsPEM");
         ukeyRequest.set_id(1);
         ukeyRequest.setArgs(new HashMap<>());
-        return MAPPER.writeValueAsString(ukeyRequest);
+        return JacksonUtil.toJson(ukeyRequest);
     }
 
     /**
@@ -90,7 +86,6 @@ public class InitialConfig implements ApplicationRunner {
      * @param uniqueId  uniqueId  唯一id, 用来区分是哪一次发送的消息，int32，最大32位大于0
      * @return DigestValue的值
      */
-    @SneakyThrows
     public static String getDigestValueParameter(String sourceXml, Integer uniqueId) {
         Map<String, Object> args = new LinkedHashMap<>(2);
         args.put("szInfo", sourceXml);
@@ -99,7 +94,7 @@ public class InitialConfig implements ApplicationRunner {
         ukeyRequest.set_method("sec_SpcSHA1DigestAsPEM");
         ukeyRequest.set_id(uniqueId);
         ukeyRequest.setArgs(args);
-        return MAPPER.writeValueAsString(ukeyRequest);
+        return JacksonUtil.toJson(ukeyRequest);
     }
 
     /**
@@ -108,7 +103,6 @@ public class InitialConfig implements ApplicationRunner {
      * @param request 原文入参
      * @return SignatureValue的值, 返回的数组，包含您的证书编号，可作为KeyName的值
      */
-    @SneakyThrows
     public static String getSignDataAsPEMParameter(SignRequest request) {
         Map<String, Object> args = new LinkedHashMap<>(2);
         String initData = SignHandler.getInitData(request);
@@ -119,7 +113,7 @@ public class InitialConfig implements ApplicationRunner {
         ukeyRequest.set_method(CertificateHandler.METHOD_OF_X509_WITH_HASH);
         ukeyRequest.set_id(request.getId());
         ukeyRequest.setArgs(args);
-        return MAPPER.writeValueAsString(ukeyRequest);
+        return JacksonUtil.toJson(ukeyRequest);
     }
 
     /**
@@ -128,7 +122,6 @@ public class InitialConfig implements ApplicationRunner {
      * @param request CEBXxxMessage加签请求参数
      * @return SignatureValue的值
      */
-    @SneakyThrows
     public static String getSignDataNoHashAsPEMParameter(SignRequest request) {
         String initData = SignHandler.getInitData(request);
         //对原文计算摘：SHA-1 digest as a hex string
@@ -141,7 +134,7 @@ public class InitialConfig implements ApplicationRunner {
         ukeyRequest.set_method(CertificateHandler.METHOD_OF_X509_WITHOUT_HASH);
         ukeyRequest.set_id(request.getId());
         ukeyRequest.setArgs(args);
-        return MAPPER.writeValueAsString(ukeyRequest);
+        return JacksonUtil.toJson(ukeyRequest);
     }
 
     /**
@@ -152,7 +145,6 @@ public class InitialConfig implements ApplicationRunner {
      * @param certDataPEM    签名证书,PEM编码格式 可以为空,则取当前插着的卡中的证书
      * @param uniqueId       uniqueId 唯一id, 用来区分是哪一次发送的消息，int32，最大32位大于0
      */
-    @SneakyThrows
     public static String getVerifySignDataNoHashParameter(String sourceXml, String signatureValue, @Nullable String certDataPEM, Integer uniqueId) {
         Map<String, Object> argsMap = new LinkedHashMap<>(2);
         //对原文计算摘：SHA-1 digest as a hex string
@@ -166,7 +158,7 @@ public class InitialConfig implements ApplicationRunner {
         ukeyRequest.set_method("cus-sec_SpcVerifySignDataNoHash");
         ukeyRequest.set_id(uniqueId);
         ukeyRequest.setArgs(argsMap);
-        return MAPPER.writeValueAsString(ukeyRequest);
+        return JacksonUtil.toJson(ukeyRequest);
     }
 
     /**
@@ -176,8 +168,7 @@ public class InitialConfig implements ApplicationRunner {
         Map<String, Object> args = new LinkedHashMap<>();
         //args.put("cert", null);//证书内容,可为空
         UkeyRequest ukeyRequest = new UkeyRequest("cus-sec_SpcGetValidTimeFromCert", 1, args);
-        JSONConfig jsonConfig = new JSONConfig();
-        return JSONUtil.toJsonStr(ukeyRequest, jsonConfig);
+        return JacksonUtil.toJson(ukeyRequest);
     }
 
     /* *********************** 获取入参方法结束（这几个方法值5000RMB，小心修改） *********************** */
@@ -201,6 +192,7 @@ public class InitialConfig implements ApplicationRunner {
      * @return WebSocket包装类
      */
     @Bean
+    @Scope(scopeName = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
     public WebSocketWrapper webSocketWrapper() {
         return new WebSocketWrapper();
     }
@@ -266,7 +258,7 @@ public class InitialConfig implements ApplicationRunner {
                         UkeyResponse.Args responseArgs = response.get_args();
                         if (responseArgs.getResult().equals(true) && CollectionUtils.isNotEmpty(responseArgs.getData())) {
                             x509Map.put(CertificateHandler.METHOD_OF_X509_WITHOUT_HASH, responseArgs.getData().get(0));
-                            log.warn("已从电子口岸u-key中获取到未经hash算法的x509Certificate证书: {}", MAPPER.writeValueAsString(x509Map));
+                            log.warn("已从电子口岸u-key中获取到未经hash算法的x509Certificate证书: {}", JacksonUtil.toJson(x509Map));
                         }
                     }
                 } catch (Exception e) {
