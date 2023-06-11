@@ -1,10 +1,13 @@
 package cn.alphahub.eport.signature.core;
 
+import cn.alphahub.dtt.plus.util.JacksonUtil;
 import cn.alphahub.eport.signature.config.EmailProperties;
+import cn.alphahub.eport.signature.config.UkeyAccessClientProperties.Command;
+import cn.alphahub.eport.signature.config.UkeyHealth;
 import cn.alphahub.eport.signature.config.UkeyProperties;
+import cn.alphahub.eport.signature.entity.ConsoleOutput;
 import cn.alphahub.eport.signature.entity.UkeyResponse;
 import cn.alphahub.eport.signature.entity.WebSocketWrapper;
-import cn.alphahub.eport.signature.util.CommandUtil;
 import cn.alphahub.multiple.email.EmailTemplate;
 import cn.alphahub.multiple.email.EmailTemplate.SimpleMailMessageDomain;
 import cn.alphahub.multiple.email.annotation.Email;
@@ -52,10 +55,10 @@ public class WebSocketClientHandler extends TextWebSocketHandler {
      */
     @Getter
     private final CertificateHandler certificateHandler;
-
+    @Autowired
+    private UkeyHealth ukeyHealth;
     @Autowired
     private EmailTemplate emailTemplate;
-
     @Autowired
     private EmailProperties emailProperties;
 
@@ -82,7 +85,7 @@ public class WebSocketClientHandler extends TextWebSocketHandler {
             try {
                 UkeyResponse.Args responseArgs = response.get_args();
                 if (responseArgs.getResult().equals(true) && CollectionUtils.isNotEmpty(responseArgs.getData())) {
-                    log.warn("电子口岸u-key加签数据成功：{}", JSONUtil.toJsonStr(responseArgs));
+                    log.warn("电子口岸u-key加签数据成功：{}", JacksonUtil.toJson(responseArgs));
                     webSocketWrapper.getSignResult().setSuccess(true);
                     webSocketWrapper.getSignResult().setSignatureValue(responseArgs.getData().get(0));
                     webSocketWrapper.getSignResult().setCertNo(responseArgs.getData().get(1));
@@ -90,7 +93,7 @@ public class WebSocketClientHandler extends TextWebSocketHandler {
                         webSocketWrapper.getSignResult().setX509Certificate(certificateHandler.getX509Certificate(response.get_method()));
                     }
                 } else {
-                    sendAlertSignFailure(JSONUtil.toJsonPrettyStr(response));
+                    sendAlertSignFailure(JacksonUtil.toPrettyJson(response));
                 }
             } catch (Exception e) {
                 webSocketWrapper.getSignResult().setSuccess(false);
@@ -103,26 +106,40 @@ public class WebSocketClientHandler extends TextWebSocketHandler {
 
     /**
      * 处理加签失败的逻辑，发送邮件通知，由于u-key自身硬件问题导致的加签失败，如：
-     * {"_id":1,"_method":"cus-sec_SpcSignDataAsPEM","_status":"00","_args":{"Result":false,"Data":[],"Error":["[读卡器底层库]复位读卡器失败:错误码=50070","Err:Custom50070"]}}
+     * <pre>
+     * {
+     *   "_id": 1,
+     *   "_method": "cus-sec_SpcSignDataAsPEM",
+     *   "_status": "00",
+     *   "_args": {
+     *     "Result": false,
+     *     "Data": [],
+     *     "Error": [
+     *       "[读卡器底层库]复位读卡器失败:错误码\u003d50070",
+     *       "Err:Custom50070"
+     *     ]
+     *   }
+     * }
+     * </pre>
      *
-     * @param cause cause
+     * @param errorMessage error message
      * @implNote [读卡器底层库]复位读卡器失败会自动重启u-key的Windows进程，希望能提升自我容灾机制
      * @since 2023-06-10
      */
     @Email
-    public void sendAlertSignFailure(String cause) {
+    public void sendAlertSignFailure(String errorMessage) {
         if (emailProperties.getEnable().equals(true)) {
-            log.warn("电子口岸u-key加签数据失败：{}", cause);
+            log.warn("电子口岸u-key加签数据失败：{}", errorMessage);
             SimpleMailMessageDomain message = new SimpleMailMessageDomain();
             message.setTo(emailProperties.getTo());
             message.setCc(StringUtils.split(emailProperties.getCc(), ","));
             message.setSentDate(LocalDateTime.now());
             message.setSubject("电子口岸u-key加签失败");
-            if (cause.contains("[读卡器底层库]复位读卡器失败")) {
-                message.setText("电子口岸u-key加签失败，原因：\n" + cause + "\n\n如遇：“[读卡器底层库]复位读卡器失败”等错误，请手动重启加签exe客户端程序。");
-                restartWindowsWebsocketClientOfUkey(message);
+            if (errorMessage.contains("[读卡器底层库]复位读卡器失败")) {
+                message.setText("电子口岸u-key加签失败，原因：\n" + errorMessage + "\n\n如遇：“[读卡器底层库]复位读卡器失败”等错误，请手动重启加签exe客户端程序。");
+                restartWindowsWebsocketClient(message);
             } else {
-                message.setText("电子口岸u-key加签失败，原因：\n" + cause);
+                message.setText("电子口岸u-key加签失败，原因：\n" + errorMessage);
             }
             emailTemplate.send(message);
         }
@@ -133,15 +150,12 @@ public class WebSocketClientHandler extends TextWebSocketHandler {
      *
      * @since 1.0.9
      */
-    public void restartWindowsWebsocketClientOfUkey(SimpleMailMessageDomain message) {
-        CommandUtil command = CommandUtil.getSharedInstance();
-        command.execute("""
-                cmd /c "2222 --hdpi 144 --vdpi 144 3333 3333"
-                """);
-        String restartLogs = message.getText()
+    public void restartWindowsWebsocketClient(SimpleMailMessageDomain message) {
+        ConsoleOutput output = ukeyHealth.fixUkey(Command.RESTART);
+        String restartLog = message.getText()
                 .concat("\n\n加签程序【chinaport-data-signature】重启Windows Websocket客户端，cmd终端信息:\n")
-                .concat(JSONUtil.toJsonPrettyStr(command));
-        message.setText(restartLogs);
+                .concat(JacksonUtil.toJson(output));
+        message.setText(restartLog);
     }
 
 }

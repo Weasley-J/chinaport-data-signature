@@ -24,7 +24,7 @@ import java.util.concurrent.locks.LockSupport;
 
 /**
  * <p>电子口岸加签业务核心类</p>
- * <a href='http://tool.qdhuaxun.cn/?signdoc'>华讯云业务帮助文档，签名的不要看，本项目搞定了所有的签名，华讯的加签便一文不值</a>
+ * <a href='http://tool.qdhuaxun.cn/?signdoc'>华讯云业务帮助文档，签名的不要看，本项目搞定了所有的签名，华讯的文档可以参考，不推荐购买</a>
  *
  * @author weasley
  * @version 1.0
@@ -95,7 +95,7 @@ public class SignHandler {
         if (certificateHandler.getUkeyValidTimeBegin().isAfter(DATE_TIME_202207)) {
             //1. 2022-07-01以后签发的u-key；2. 加签报文是海关179
             if (Objects.equals(isSignXml(request), false)) {
-               return InitialConfig.getSignDataAsPEMParameter(request);
+                return InitialConfig.getSignDataAsPEMParameter(request);
             }
         }
         return certificateHandler.getCertExists().equals(true) ? InitialConfig.getSignDataAsPEMParameter(request) : InitialConfig.getSignDataNoHashAsPEMParameter(request);

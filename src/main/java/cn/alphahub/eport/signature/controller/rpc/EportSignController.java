@@ -34,8 +34,8 @@ public class EportSignController {
      *
      * @param request 加签数据请求入参
      * @return 签名结果
-     * @implNote <ul><b>支持的加签类型</b><li>1. 海关CEBXxxMessage XML数据加签</li><li>2. 海关179数据加签</li></ul>
-     * @apiNote 此接口已经整合"海关总署XML"和"海关179数据抓取"的加签
+     * @apiNote 此接口已经整合"海关总署XML"和"海关179数据抓取"的加签<br/>
+     * <ul><b>支持的加签类型</b><li>1. 海关CEBXxxMessage XML数据加签</li><li>2. 海关179数据加签</li></ul>
      */
     @PostMapping("/signature")
     public Result<SignResult> signature(@RequestBody @Validated SignRequest request) {
@@ -49,7 +49,7 @@ public class EportSignController {
     }
 
     /**
-     * 海关总署XML数据加签测试
+     * 海关总署XML数据加签（测试）
      *
      * @return 签名结果
      * @apiNote 非正式调用API，只为了让你看到海关总署XML加密的数据返回格式
@@ -134,7 +134,7 @@ public class EportSignController {
     }
 
     /**
-     * 海关179数据抓取加签测试
+     * 海关179数据抓取加签（测试）
      *
      * @return 签名结果
      * @apiNote 非正式调用API，只为了让你看到179加密的数据返回格式

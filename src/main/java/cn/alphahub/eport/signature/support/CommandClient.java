@@ -1,4 +1,4 @@
-package cn.alphahub.eport.signature.util;
+package cn.alphahub.eport.signature.support;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,16 +11,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 命令行工具类
+ * 命令行客户端工具类
  *
  * @author weasley
  */
-public final class CommandUtil {
+
+public final class CommandClient {
     /**
      * 默认共享示例，延迟加载
      */
-    private static volatile CommandUtil sharedInstance;
-    private final Logger log = LoggerFactory.getLogger(CommandUtil.class);
+    private static volatile CommandClient sharedInstance;
+    private final Logger log = LoggerFactory.getLogger(CommandClient.class);
     /**
      * 保存进程的输入流信息
      */
@@ -30,28 +31,28 @@ public final class CommandUtil {
      */
     private final List<String> errorOutList = new ArrayList<>();
 
-    private CommandUtil() {
+    private CommandClient() {
     }
 
     /**
-     * Return a shared default {@code CommandUtil} instance,
+     * Return a shared default {@code CommandClient} instance,
      * lazily building it once needed.
-     * the shared {@code CommandUtil} instance (never {@code null})
+     * the shared {@code CommandClient} instance (never {@code null})
      *
-     * @return the shared {@code CommandUtil} instance (never {@code null})
+     * @return the shared {@code CommandClient} instance (never {@code null})
      */
-    public static CommandUtil getSharedInstance() {
-        CommandUtil commandUtil = sharedInstance;
-        if (commandUtil == null) {
-            synchronized (CommandUtil.class) {
-                commandUtil = sharedInstance;
-                if (commandUtil == null) {
-                    commandUtil = new CommandUtil();
-                    sharedInstance = commandUtil;
+    public static CommandClient getSharedInstance() {
+        CommandClient commandClient = sharedInstance;
+        if (commandClient == null) {
+            synchronized (CommandClient.class) {
+                commandClient = sharedInstance;
+                if (commandClient == null) {
+                    commandClient = new CommandClient();
+                    sharedInstance = commandClient;
                 }
             }
         }
-        return commandUtil;
+        return commandClient;
     }
 
     /**
@@ -62,6 +63,8 @@ public final class CommandUtil {
      */
     @SuppressWarnings({"all"})
     public void execute(String command) {
+        if (null == command || command.isBlank() || command.isEmpty()) return;
+        log.info("\n{}", command);
         // 先清空
         stdOutList.clear();
         errorOutList.clear();
@@ -75,7 +78,8 @@ public final class CommandUtil {
             errorOutWrapper.start();
             process.waitFor();
         } catch (IOException | InterruptedException e) {
-            log.error("Execute command error message: {}", e.getLocalizedMessage(), e);
+            log.error("Execute command error message: {}", e.getLocalizedMessage());
+            throw new CommandClientException(e.getLocalizedMessage(), e);
         }
     }
 
@@ -131,13 +135,25 @@ class ThreadWrapper implements Runnable {
                 } while ((line = br.readLine()) != null);
             }
         } catch (IOException e) {
-            log.error("Execute command error message: {}", e.getLocalizedMessage(), e);
+            log.error("Execute command error message: {}", e.getLocalizedMessage());
+            throw new CommandClientException(e.getLocalizedMessage(), e);
         } finally {
             try {
                 inputStream.close();
             } catch (IOException e) {
-                log.error("Execute command error message: {}", e.getLocalizedMessage(), e);
+                log.error("Execute command error message: {}", e.getLocalizedMessage());
+                throw new CommandClientException(e.getLocalizedMessage(), e);
             }
         }
+    }
+}
+
+/**
+ * Command Client Exception
+ */
+class CommandClientException extends RuntimeException {
+
+    public CommandClientException(String message, Throwable cause) {
+        super(message, cause);
     }
 }

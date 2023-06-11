@@ -30,6 +30,13 @@
       "status": "创建",
       "author": "Weasley J",
       "remarks": "创建api文档"
+    },
+    {
+      "version": "1.1",
+      "revisionTime": "2023-06-11 15:36",
+      "status": "创建",
+      "author": "Weasley J",
+      "remarks": "更新api文档"
     }
   ]
 }

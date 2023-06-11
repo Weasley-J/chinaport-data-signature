@@ -177,7 +177,7 @@ java ${JAVA_ARGS} -jar ${APP_NAME}.jar \
 
 ## 6 开发文档
 
-启动项目，浏览器访问: http://127.0.0.1:8080
+启动项目，浏览器访问: http://127.0.0.1:8080 , 会打开以下界面[接口文档](https://github.com/Weasley-J/chinaport-data-signature/blob/main/中国电子口岸报文加签接口文档.md)的H5版本，可直接在页面给ukey发送请求.
 
 ![image-20220217013840347](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20220217013840347.png)
 
