@@ -82,7 +82,7 @@
 
 ## 4 启动脚本介绍
 
-本人已提供好`Windows`环境、`Linux`/`MacOS`的环境下的脚本，企业只需要修改**2**个参数既可**开箱即用**。
+本人已提供好`Windows`环境、`Linux`/`MacOS`的环境下的脚本，企业只需要修改**2**个参数既可**开箱即用**，详细配置`yaml`[参数参考](https://github.com/Weasley-J/chinaport-data-signature/blob/main/src/main/resources/application-dev.yml#L49-L59)。
 
 启动文件相对的位置:
 
