@@ -8,10 +8,6 @@ class ChinaEportSignatureApplicationTests {
 
     @Test
     void contextLoads() {
-        String s = """
-                \n
-                """;
-        System.out.println(s.length());
     }
 
 }

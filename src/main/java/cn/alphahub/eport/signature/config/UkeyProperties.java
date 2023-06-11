@@ -4,6 +4,8 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
+import static cn.alphahub.eport.signature.config.UkeyProperties.PREFIX;
+
 /**
  * 电子口岸u-key的配置参数
  *
@@ -13,8 +15,9 @@ import org.springframework.validation.annotation.Validated;
  */
 @Data
 @Validated
-@ConfigurationProperties(prefix = "eport.signature.ukey")
+@ConfigurationProperties(prefix = PREFIX)
 public class UkeyProperties {
+    public static final String PREFIX = "eport.signature.ukey";
     /**
      * u-key的.cer证书在classpath的相对路径
      */

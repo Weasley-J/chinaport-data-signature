@@ -24,10 +24,25 @@ class WebSocketClientHandlerTest {
     }
 
     @Test
-    void handleTextMessage()  {
-        UkeyResponse response = JSONUtil.toBean("{\"_id\":1,\"_method\":\"cus-sec_SpcSignDataAsPEM\",\"_status\":\"00\",\"_args\":{\"Result\":false,\"Data\":[],\"Error\":[\"[读卡器底层库]复位读卡器失败:错误码=50070\",\"Err:Custom50070\"]}}",
+    void handleTextMessage() {
+        String json = """
+                {
+                  "_id": 1,
+                  "_method": "cus-sec_SpcSignDataAsPEM",
+                  "_status": "00",
+                  "_args": {
+                    "Result": false,
+                    "Data": [],
+                    "Error": [
+                      "[读卡器底层库]复位读卡器失败:错误码\\u003d50070",
+                      "Err:Custom50070"
+                    ]
+                  }
+                }
+                """;
+        UkeyResponse response = JSONUtil.toBean(json,
                 new TypeReference<>() {
                 }, true);
-        handler.handleFailedToProcessSign(JSONUtil.toJsonPrettyStr(response));
+        handler.sendAlertSignFailure(JSONUtil.toJsonPrettyStr(response));
     }
 }

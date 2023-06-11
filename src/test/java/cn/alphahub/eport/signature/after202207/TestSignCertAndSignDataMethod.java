@@ -21,7 +21,8 @@ public class TestSignCertAndSignDataMethod {
     @Autowired
     private SignClient signClient;
 
-    public static void main(String[] args) {
+    @Test
+    void func() {
         /* 1 签名方法  **/
         // 签名,返回PEM格式
         UkeyRequest u1 = new UkeyRequest("cus-sec_SpcSignDataAsPEM", new LinkedHashMap<>() {{
@@ -53,38 +54,6 @@ public class TestSignCertAndSignDataMethod {
         UkeyRequest c1 = new UkeyRequest("cus-sec_SpcGetSignCert", new HashMap<>());
         //取海关签名证书PEM
         UkeyRequest c2 = new UkeyRequest("cus-sec_SpcGetSignCertAsPEM", new HashMap<>());
-
-        //todo 验证
-        /*
-         验证：
-         u1 -> c1,c2
-         u2 -> c1,c2
-         u3 -> c1,c2
-         */
-    }
-
-    @Test
-    void u1c1() {
-    }
-
-    @Test
-    void u1c2() {
-    }
-
-    @Test
-    void u2c1() {
-    }
-
-    @Test
-    void u2c2() {
-    }
-
-    @Test
-    void u3c1() {
-    }
-
-    @Test
-    void u3c2() {
     }
 
 }
