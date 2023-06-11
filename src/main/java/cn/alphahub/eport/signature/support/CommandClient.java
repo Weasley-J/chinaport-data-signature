@@ -64,7 +64,9 @@ public final class CommandClient {
     @SuppressWarnings({"all"})
     public void execute(String command) {
         if (null == command || command.isBlank() || command.isEmpty()) return;
-        log.info("\n{}", command);
+        if (log.isDebugEnabled()) {
+            log.debug("\n{}", command);
+        }
         // 先清空
         stdOutList.clear();
         errorOutList.clear();
