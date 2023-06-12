@@ -330,5 +330,3 @@ public class InitialConfig implements ApplicationRunner {
         return new WebSocketClientHandler(ukeyProperties, webSocketWrapper, certificateHandler);
     }
 }
-
-
