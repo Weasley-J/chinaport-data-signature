@@ -329,5 +329,3 @@ public class InitialConfig implements ApplicationRunner {
     }
 
 }
-
-
