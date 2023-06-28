@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,6 +57,18 @@ public final class CommandClient {
     }
 
     /**
+     * 执行命令脚本
+     *
+     * @param commandScripts 多行命令行
+     * @apiNote 支持大部分平台: MacOSX | Linux | Windows
+     */
+    public void execute(String... commandScripts) {
+        for (String commandScript : commandScripts) {
+            execute(commandScript);
+        }
+    }
+
+    /**
      * 执行命令
      *
      * @param command 命令行
@@ -88,12 +101,32 @@ public final class CommandClient {
     /**
      * 执行命令脚本
      *
-     * @param commandScripts 多行命令行
-     * @apiNote 支持大部分平台: MacOSX | Linux | Windows
+     * @param command              命令行
+     * @param redirectOutputStream 将控制台输出重定向到输出流
+     * @apiNote 支持大部分平台: MacOSX | Linux | Windows, 结束会后关闭流
      */
-    public void execute(String... commandScripts) {
-        for (String commandScript : commandScripts) {
-            execute(commandScript);
+    @SuppressWarnings({"all"})
+    public void execute(String command, OutputStream redirectOutputStream) {
+        if (null == command || command.isBlank() || command.isEmpty()) return;
+        if (log.isDebugEnabled()) {
+            log.debug("\n{}", command);
+        }
+        try {
+            Process process = Runtime.getRuntime().exec(command);
+            // 创建2个线程，读取输入流缓冲区和错误流缓冲区并将输入流重定向到 outputStream, 启动线程读取缓冲区数据
+            new RedirectOutputStreamWrapper(process.getInputStream(), redirectOutputStream).start();
+            new RedirectOutputStreamWrapper(process.getErrorStream(), redirectOutputStream).start();
+            process.waitFor();
+        } catch (IOException | InterruptedException e) {
+            log.error("Execute command error message: {}", e.getLocalizedMessage(), e);
+        } finally {
+            if (null != redirectOutputStream) {
+                try {
+                    redirectOutputStream.close();
+                } catch (IOException e) {
+                    log.error("Execute command error message: {}", e.getLocalizedMessage(), e);
+                }
+            }
         }
     }
 
@@ -145,6 +178,43 @@ class ThreadWrapper implements Runnable {
             } catch (IOException e) {
                 log.error("Execute command error message: {}", e.getLocalizedMessage());
                 throw new CommandClientException(e.getLocalizedMessage(), e);
+            }
+        }
+    }
+}
+
+class RedirectOutputStreamWrapper implements Runnable {
+    private final Logger log = LoggerFactory.getLogger(RedirectOutputStreamWrapper.class);
+    private final InputStream inputStream;
+    private final OutputStream outputStream;
+
+    public RedirectOutputStreamWrapper(InputStream inputStream, OutputStream outputStream) {
+        this.inputStream = inputStream;
+        this.outputStream = outputStream;
+    }
+
+    public void start() {
+        Thread thread = new Thread(this);
+        thread.setDaemon(true);
+        thread.start();
+    }
+
+    @Override
+    public void run() {
+        String line;
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
+            if ((line = br.readLine()) != null) {
+                do {
+                    outputStream.write(line.concat(System.getProperty("line.separator")).getBytes());
+                } while ((line = br.readLine()) != null);
+            }
+        } catch (IOException e) {
+            log.error("Execute command error message: {}", e.getLocalizedMessage(), e);
+        } finally {
+            try {
+                inputStream.close();
+            } catch (IOException e) {
+                log.error("Execute command error message: {}", e.getLocalizedMessage(), e);
             }
         }
     }
