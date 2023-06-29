@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +22,7 @@ public final class CommandClient {
     /**
      * 默认共享示例，延迟加载
      */
+    @SuppressWarnings({"all"})
     private static volatile CommandClient sharedInstance;
     private final Logger log = LoggerFactory.getLogger(CommandClient.class);
     /**
@@ -103,7 +105,9 @@ public final class CommandClient {
      *
      * @param command              命令行
      * @param redirectOutputStream 将控制台输出重定向到输出流
-     * @apiNote 支持大部分平台: MacOSX | Linux | Windows, 结束会后关闭流
+     * @apiNote 支持大部分平台: MacOSX | Linux | Windows, 结束会后关闭输出流;
+     * 在js中接收该文字流数据需要设置响应类型为：xhr.setRequestHeader("Content-Type", "text/event-stream");
+     * 在后端后端需要指定HttpServletResponse的ContentType为流式输出，如: response.addHeader("Content-Type", "text/event-stream; charset=utf-8"); 且字符编码为UTF-8;
      */
     @SuppressWarnings({"all"})
     public void execute(String command, OutputStream redirectOutputStream) {
@@ -205,7 +209,8 @@ class RedirectOutputStreamWrapper implements Runnable {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
             if ((line = br.readLine()) != null) {
                 do {
-                    outputStream.write(line.concat(System.getProperty("line.separator")).getBytes());
+                    outputStream.write(line.concat(System.getProperty("line.separator")).getBytes(StandardCharsets.UTF_8));
+                    outputStream.flush();
                 } while ((line = br.readLine()) != null);
             }
         } catch (IOException e) {

@@ -48,4 +48,15 @@ public class UkeyHealthController {
         return Result.ok(consoleOutput);
     }
 
+    /**
+     * 会在将终端输出同步写给浏览器
+     */
+    /*@GetMapping("/endpoint/exec")
+    public void exec(@RequestParam("command") String command, HttpServletResponse response) throws IOException {
+        log.info("执行指令: {}", command);
+        response.addHeader("Content-Type", "text/event-stream; charset=utf-8");
+        CommandClient commandClient = CommandClient.getSharedInstance();
+        commandClient.execute(command, response.getOutputStream());
+    }*/
+
 }
