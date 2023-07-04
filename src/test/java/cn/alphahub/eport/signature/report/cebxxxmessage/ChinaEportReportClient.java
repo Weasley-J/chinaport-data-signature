@@ -40,7 +40,6 @@ import static cn.alphahub.dtt.plus.util.JacksonUtil.toJson;
 @Service
 public class ChinaEportReportClient {
 
-
     @Autowired(required = false)
     private ChinaEportReportProperties chinaEportReportProperties;
 
