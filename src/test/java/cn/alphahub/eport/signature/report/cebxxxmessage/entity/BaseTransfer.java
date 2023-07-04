@@ -1,4 +1,4 @@
-package cn.alphahub.eport.signature.report.ceb311message.entity;
+package cn.alphahub.eport.signature.report.cebxxxmessage.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

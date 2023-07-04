@@ -1,8 +1,8 @@
-package cn.alphahub.eport.signature.report.ceb311message;
+package cn.alphahub.eport.signature.report.cebxxxmessage;
 
 import cn.alphahub.dtt.plus.util.JacksonUtil;
-import cn.alphahub.eport.signature.report.ceb311message.entity.CEB311Message;
-import cn.alphahub.eport.signature.report.ceb311message.util.JaxbUtil;
+import cn.alphahub.eport.signature.report.cebxxxmessage.entity.CEB311Message;
+import cn.alphahub.eport.signature.report.cebxxxmessage.util.JAXBUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -79,9 +79,9 @@ class Upload311XmlTests {
                     </ceb:BaseTransfer>
                 </ceb:CEB311Message>
                 """;
-        CEB311Message ceb311Message = JaxbUtil.convertToObj(sourceXml, CEB311Message.class);
+        CEB311Message ceb311Message = JAXBUtil.convertToObj(sourceXml, CEB311Message.class);
         System.out.println(JacksonUtil.toJson(ceb311Message));
-        String xml1 = JaxbUtil.convertToXml(ceb311Message);
+        String xml1 = JAXBUtil.convertToXml(ceb311Message);
         System.out.println("\n" + xml1);
     }
 }

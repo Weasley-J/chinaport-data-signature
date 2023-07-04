@@ -1,4 +1,4 @@
-package cn.alphahub.eport.signature.report.ceb311message.util;
+package cn.alphahub.eport.signature.report.cebxxxmessage.util;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -12,7 +12,7 @@ import java.io.StringWriter;
  * Jaxb XML 工具类
  */
 @Slf4j
-public class JaxbUtil {
+public class JAXBUtil {
     /**
      * JavaBean转换成xml(默认编码UTF-8)
      */

@@ -158,7 +158,10 @@
             <artifactId>jaxb-runtime</artifactId>
             <version>${jaxb-api.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId></groupId>
+            <artifactId>fastjso</artifactId>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>
