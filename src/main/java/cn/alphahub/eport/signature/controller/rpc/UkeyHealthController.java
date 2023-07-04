@@ -4,12 +4,18 @@ import cn.alphahub.eport.signature.basic.domain.Result;
 import cn.alphahub.eport.signature.config.UkeyAccessClientProperties.Command;
 import cn.alphahub.eport.signature.config.UkeyHealth;
 import cn.alphahub.eport.signature.entity.ConsoleOutput;
+import cn.alphahub.eport.signature.support.CommandClient;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.io.IOException;
 
 /**
  * Ukey健康Controller
@@ -51,12 +57,12 @@ public class UkeyHealthController {
     /**
      * 会在将终端输出同步写给浏览器
      */
-    /*@GetMapping("/endpoint/exec")
+    @GetMapping("/endpoint/exec")
     public void exec(@RequestParam("cmd") String cmd, HttpServletResponse response) throws IOException {
         log.info("执行指令: {}", cmd);
         response.addHeader("Content-Type", "text/event-stream; charset=utf-8");
         CommandClient commandClient = CommandClient.getSharedInstance();
         commandClient.execute(cmd, response.getOutputStream());
-    }*/
+    }
 
 }

@@ -33,6 +33,7 @@
         <xmlsec.version>3.0.2</xmlsec.version>
         <snakeyaml.version>2.0</snakeyaml.version>
         <jna.version>3.0.9</jna.version>
+        <jaxb-api.version>2.3.1</jaxb-api.version>
         <dtt-utils.version>1.4.0</dtt-utils.version>
         <commons-io.version>2.13.0</commons-io.version>
         <multiple-email.version>3.0.0</multiple-email.version>
@@ -145,6 +146,17 @@
             <groupId>com.sun.jna</groupId>
             <artifactId>jna</artifactId>
             <version>${jna.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>${jaxb-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+            <version>${jaxb-api.version}</version>
         </dependency>
 
     </dependencies>
