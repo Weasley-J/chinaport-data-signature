@@ -1,6 +1,7 @@
 package cn.alphahub.eport.signature.core;
 
 import lombok.Data;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.Serializable;
@@ -37,6 +38,7 @@ public class CertificateHandler implements Serializable {
      *     <li>value -> 从u-key读取<ds:SignatureValue>的方法名对应的X509Certificate证书</li>
      * </ul>
      */
+    @Getter
     private Map<String, String> x509Map;
     /**
      * 海关u-key证书有效期开始
@@ -58,10 +60,6 @@ public class CertificateHandler implements Serializable {
             return LocalDateTime.now();
         }
         return ukeyValidTimeBegin;
-    }
-
-    public Map<String, String> getX509Map() {
-        return x509Map;
     }
 
     public void setX509Map(Map<String, String> x509Map) {

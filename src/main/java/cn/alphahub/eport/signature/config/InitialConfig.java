@@ -47,6 +47,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.LockSupport;
 
+import static cn.alphahub.eport.signature.core.CertificateHandler.METHOD_OF_X509_WITHOUT_HASH;
+import static cn.alphahub.eport.signature.core.CertificateHandler.METHOD_OF_X509_WITH_HASH;
+import static cn.alphahub.eport.signature.core.SignHandler.DATE_TIME_202207;
+
 /**
  * 初始化配置
  *
@@ -110,7 +114,7 @@ public class InitialConfig implements ApplicationRunner {
         args.put("inData", initData);
         args.put("passwd", ObjectUtils.defaultIfNull(SpringUtil.getBean(UkeyProperties.class).getPassword(), DEFAULT_PASSWORD));
         UkeyRequest ukeyRequest = new UkeyRequest();
-        ukeyRequest.set_method(CertificateHandler.METHOD_OF_X509_WITH_HASH);
+        ukeyRequest.set_method(METHOD_OF_X509_WITH_HASH);
         ukeyRequest.set_id(request.getId());
         ukeyRequest.setArgs(args);
         return JacksonUtil.toJson(ukeyRequest);
@@ -131,7 +135,7 @@ public class InitialConfig implements ApplicationRunner {
         args.put("inData", sha1Hex);
         args.put("passwd", ObjectUtils.defaultIfNull(SpringUtil.getBean(UkeyProperties.class).getPassword(), DEFAULT_PASSWORD));
         UkeyRequest ukeyRequest = new UkeyRequest();
-        ukeyRequest.set_method(CertificateHandler.METHOD_OF_X509_WITHOUT_HASH);
+        ukeyRequest.set_method(METHOD_OF_X509_WITHOUT_HASH);
         ukeyRequest.set_id(request.getId());
         ukeyRequest.setArgs(args);
         return JacksonUtil.toJson(ukeyRequest);
@@ -217,6 +221,7 @@ public class InitialConfig implements ApplicationRunner {
     @SneakyThrows
     public CertificateHandler certificateHandler(UkeyProperties ukeyProperties, StandardWebSocketClient standardWebSocketClient) {
         CertificateHandler certificateHandler = new CertificateHandler();
+        final String[] certificateFromUkey = {""};
         Map<String, String> x509Map = new ConcurrentHashMap<>(2);
 
         //使用类加载器{Thread.currentThread().getContextClassLoader().getResourceAsStream(ukeyProperties.getCertPath())}读取打包成jar之后resources下的文件
@@ -231,7 +236,7 @@ public class InitialConfig implements ApplicationRunner {
             if (certificateWithHash.endsWith(SysUtil.getLineSeparator())) {
                 certificateWithHash = StringUtils.substring(certificateWithHash, 0, certificateWithHash.length() - SysUtil.getLineSeparator().length());
             }
-            x509Map.put(CertificateHandler.METHOD_OF_X509_WITH_HASH, certificateWithHash);
+            x509Map.put(METHOD_OF_X509_WITH_HASH, certificateWithHash);
             certificateHandler.setCertExists(true);
             certificateHandler.setX509Map(x509Map);
             if (log.isWarnEnabled()) {
@@ -257,7 +262,8 @@ public class InitialConfig implements ApplicationRunner {
                     if (Objects.equals(response.get_id(), 1)) {
                         UkeyResponse.Args responseArgs = response.get_args();
                         if (responseArgs.getResult().equals(true) && CollectionUtils.isNotEmpty(responseArgs.getData())) {
-                            x509Map.put(CertificateHandler.METHOD_OF_X509_WITHOUT_HASH, responseArgs.getData().get(0));
+                            x509Map.put(METHOD_OF_X509_WITHOUT_HASH, responseArgs.getData().get(0));
+                            certificateFromUkey[0] = responseArgs.getData().get(0);
                             log.warn("已从电子口岸u-key中获取到未经hash算法的x509Certificate证书: {}", JacksonUtil.toJson(x509Map));
                         }
                     }
@@ -297,6 +303,10 @@ public class InitialConfig implements ApplicationRunner {
                             }, true);
                             certificateHandler.setUkeyValidTimeBegin(validTime.getSzStartTime());
                             certificateHandler.setUkeyValidTimeEnd(validTime.getSzEndTime());
+                            //2022-07-01以后签发的u-key使用u-key里面的读取出来的证书
+                            if (certificateHandler.getUkeyValidTimeBegin().isAfter(DATE_TIME_202207)) {
+                                x509Map.put(METHOD_OF_X509_WITH_HASH, certificateFromUkey[0]);
+                            }
                         }
                     }
                 } catch (Exception e) {
