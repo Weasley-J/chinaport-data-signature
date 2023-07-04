@@ -17,7 +17,6 @@ import org.springframework.web.socket.client.WebSocketConnectionManager;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.LockSupport;
 
@@ -93,10 +92,8 @@ public class SignHandler {
      */
     public String getDynamicSignDataParameter(@Valid SignRequest request) {
         if (certificateHandler.getUkeyValidTimeBegin().isAfter(DATE_TIME_202207)) {
-            //1. 2022-07-01以后签发的u-key；2. 加签报文是海关179
-            if (Objects.equals(isSignXml(request), false)) {
-                return InitialConfig.getSignDataAsPEMParameter(request);
-            }
+            //1. 2022-07-01以后签发的u-key都使用这个签名方式
+            return InitialConfig.getSignDataAsPEMParameter(request);
         }
         return certificateHandler.getCertExists().equals(true) ? InitialConfig.getSignDataAsPEMParameter(request) : InitialConfig.getSignDataNoHashAsPEMParameter(request);
     }
