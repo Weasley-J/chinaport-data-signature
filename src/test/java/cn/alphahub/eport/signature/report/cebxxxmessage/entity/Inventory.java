@@ -8,7 +8,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
-import static com.wbcloudhealth.biz.mall.order.external.event.hainanxc.pushorder.NameSpace.NAMESPACE_CEB_URI;
+import static cn.alphahub.eport.signature.report.cebxxxmessage.entity.NameSpace.NAMESPACE_CEB_URI;
+
 
 @Data
 @XmlAccessorType(XmlAccessType.FIELD)
