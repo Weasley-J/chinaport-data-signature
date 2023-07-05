@@ -2,15 +2,15 @@ package cn.alphahub.eport.signature.report.cebxxxmessage;
 
 import cn.alphahub.eport.signature.report.cebxxxmessage.ChinaEportReportConfiguration.ChinaEportReportProperties;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration
-@ConditionalOnProperty(value = ChinaEportReportConfiguration.PREFIX, matchIfMissing = false)
+@Slf4j
+@Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(ChinaEportReportProperties.class)
 public class ChinaEportReportConfiguration {
     public final static String PREFIX = "third.bridge.china.eport.config";
