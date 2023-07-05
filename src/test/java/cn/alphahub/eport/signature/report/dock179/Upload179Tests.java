@@ -77,6 +77,7 @@ class Upload179Tests {
         String REPORT_PROD_SERVER_URL = "https://customs.chinaport.gov.cn/ceb2grab/grab/realTimeDataUpload";
         JSONConfig jsonConfig = new JSONConfig();
         UkeyRequest ukeyRequest = new UkeyRequest(CertificateHandler.METHOD_OF_X509_WITH_HASH, new LinkedHashMap<>() {{
+            //put("inData", sign179String);
         }});
         String params = JSONUtil.toJsonStr(ukeyRequest, jsonConfig);
         SignRequest request = new SignRequest(SignConstant.sign179);
