@@ -3,6 +3,7 @@ package cn.alphahub.eport.signature.report.cebxxxmessage;
 import cn.alphahub.dtt.plus.util.JacksonUtil;
 import cn.alphahub.eport.signature.report.cebxxxmessage.constants.MessageType;
 import cn.alphahub.eport.signature.report.cebxxxmessage.entity.CEB621Message;
+import cn.alphahub.eport.signature.report.cebxxxmessage.util.GUIDUtil;
 import cn.alphahub.eport.signature.report.cebxxxmessage.util.JAXBUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
@@ -93,8 +94,21 @@ class Upload621XmlTests {
                 </ceb:CEB621Message>
                 """;
         CEB621Message ceb621Message = JAXBUtil.convertToObj(sourceXml, CEB621Message.class);
+        assert ceb621Message != null;
+        ceb621Message.setGuid(GUIDUtil.getDayIncrCode(GUIDUtil.INVENTORY, GUIDUtil.CEB621MESSAGE, 4));
+        ceb621Message.setVersion("v1.0");
+        ceb621Message.setBaseTransfer(chinaEportReportClient.assembleBaseTransfer()); //参数需要替换成自己企业的
+        /*
+        Inventory inventory = new Inventory();
+        InventoryHead headReq = getInventoryHeadReq(order,  request.getReceiverIdCard(), request.getInvoiceNo(),request.getPayNo());
+        ArrayList<InventoryList> listReq = getInventoryListReq(item, headReq);
+        inventory.setInventoryHead(headReq);
+        inventory.setInventoryListList(listReq);
+        ceb621Message.setInventory(inventory);
+        */
+
         System.out.println(JacksonUtil.toJson(ceb621Message));
-        String xml1 = JAXBUtil.convertToXml(ceb621Message);
+        String xml = JAXBUtil.convertToXml(ceb621Message);
 
         chinaEportReportClient.push(ceb621Message, MessageType.CEB311Message);
     }

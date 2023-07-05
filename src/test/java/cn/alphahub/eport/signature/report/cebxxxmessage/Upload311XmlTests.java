@@ -2,6 +2,7 @@ package cn.alphahub.eport.signature.report.cebxxxmessage;
 
 import cn.alphahub.eport.signature.report.cebxxxmessage.constants.MessageType;
 import cn.alphahub.eport.signature.report.cebxxxmessage.entity.CEB311Message;
+import cn.alphahub.eport.signature.report.cebxxxmessage.util.GUIDUtil;
 import cn.alphahub.eport.signature.report.cebxxxmessage.util.JAXBUtil;
 import cn.hutool.core.codec.Base64;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +22,7 @@ import static cn.alphahub.dtt.plus.util.JacksonUtil.toJson;
 @Slf4j
 @SpringBootTest
 class Upload311XmlTests {
+
     @Autowired
     ChinaEportReportClient chinaEportReportClient;
 
@@ -29,7 +31,7 @@ class Upload311XmlTests {
     void push() {
         String encode = Base64.encode("http://36.101.208.230:8090");
         System.out.println("encode = " + encode);
-        
+
         String sourceXml = """
                 <ceb:CEB311Message xmlns:ceb="http://www.chinaport.gov.cn/ceb" guid="4CDE1CFD-EDED-46B1-946C-B8022E42FC94" version="1.0">
                     <link type="text/css" id="dark-mode" rel="stylesheet" href=""/>
@@ -92,9 +94,20 @@ class Upload311XmlTests {
                 </ceb:CEB311Message>
                 """;
         CEB311Message ceb311Message = JAXBUtil.convertToObj(sourceXml, CEB311Message.class);
+        //组装签名xml
+        assert ceb311Message != null;
+        ceb311Message.setGuid(GUIDUtil.getDayIncrCode(GUIDUtil.ORDERPUSH, GUIDUtil.CEB311MESSAGE, 4));
+        ceb311Message.setVersion("v1.0");
+        ceb311Message.setBaseTransfer(chinaEportReportClient.assembleBaseTransfer()); //参数需要替换成自己企业的
+        /*
+        Order order1 = new Order();
+        order1.setOrderHead(getOrderHeadReq(order,buy,orderPaymentLine,haiNanGUID.getDayIncrCode(GUIDUtil.ORDERPUSH, GUIDUtil.CEB311MESSAGE,4),OptType));
+        order1.setOrderList(getOrderListReq(item));
+        ceb311Message.setOrder(order1);
+        */
         System.out.println(toJson(ceb311Message));
-        String xml1 = JAXBUtil.convertToXml(ceb311Message);
-        System.out.println("\n" + xml1);
+        String xml = JAXBUtil.convertToXml(ceb311Message);
+
         chinaEportReportClient.push(ceb311Message, MessageType.CEB311Message);
     }
 }
