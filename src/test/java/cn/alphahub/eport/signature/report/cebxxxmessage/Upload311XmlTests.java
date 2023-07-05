@@ -4,7 +4,6 @@ import cn.alphahub.eport.signature.report.cebxxxmessage.constants.MessageType;
 import cn.alphahub.eport.signature.report.cebxxxmessage.entity.CEB311Message;
 import cn.alphahub.eport.signature.report.cebxxxmessage.util.GUIDUtil;
 import cn.alphahub.eport.signature.report.cebxxxmessage.util.JAXBUtil;
-import cn.hutool.core.codec.Base64;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -29,9 +28,6 @@ class Upload311XmlTests {
     @Test
     @DisplayName("311 进口单 xml 上报测试")
     void push() {
-        String encode = Base64.encode("http://36.101.208.230:8090");
-        System.out.println("encode = " + encode);
-
         String sourceXml = """
                 <ceb:CEB311Message xmlns:ceb="http://www.chinaport.gov.cn/ceb" guid="4CDE1CFD-EDED-46B1-946C-B8022E42FC94" version="1.0">
                     <link type="text/css" id="dark-mode" rel="stylesheet" href=""/>
