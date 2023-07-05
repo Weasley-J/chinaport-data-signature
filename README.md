@@ -127,7 +127,7 @@ java %JVM_ARGS% -jar %APP%.jar ^
 --eport.signature.ukey.ws-url=ws://%UKEY_HOST%:61232 ^
 --eport.signature.ukey.password=%UKEY_PASSWORD%
 
-echo 按人任意键退出.
+echo 按任意键退出.
 pause >nul
 exit
 ```
