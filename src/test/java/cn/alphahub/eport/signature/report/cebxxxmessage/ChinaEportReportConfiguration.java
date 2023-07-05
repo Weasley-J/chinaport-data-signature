@@ -2,16 +2,34 @@ package cn.alphahub.eport.signature.report.cebxxxmessage;
 
 import cn.alphahub.eport.signature.report.cebxxxmessage.ChinaEportReportConfiguration.ChinaEportReportProperties;
 import lombok.Data;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration
-@ConditionalOnProperty(value = ChinaEportReportConfiguration.PREFIX, matchIfMissing = false)
+@Slf4j
+@Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(ChinaEportReportProperties.class)
 public class ChinaEportReportConfiguration {
     public final static String PREFIX = "third.bridge.china.eport.config";
+
+    /**
+     * 缺失{@link ChinaEportReportProperties}Bean的时候用这个默认的，需要更具自己的实际修改情况
+     */
+    @Bean
+    @ConditionalOnMissingBean({ChinaEportReportProperties.class})
+    public ChinaEportReportProperties chinaEportReportProperties() {
+        ChinaEportReportProperties properties = new ChinaEportReportProperties();
+        //传输企业代码-报文传输的企业代码(需要与接入客户端的企 业身份一致)
+        properties.setCopCode("传输企业代码");
+        //传输企业名称-报文传输的企业名称
+        properties.setCopName("传输企业名称");
+        //报文传输编号-向中国电子口岸数据中心申请数据交换平台 的用户编号
+        properties.setDxpId("报文传输编号");
+        return properties;
+    }
 
     @Data
     @ConfigurationProperties(prefix = ChinaEportReportConfiguration.PREFIX)
