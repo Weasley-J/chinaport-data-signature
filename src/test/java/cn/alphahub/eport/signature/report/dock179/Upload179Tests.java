@@ -101,7 +101,6 @@ class Upload179Tests {
         //SignResult result = signController.signature(request).getData();
         SignResult result = signHandler.sign(request, signParams);
 
-        report179Request.setSessionID(IdUtil.fastSimpleUUID());
         report179Request.setCertNo(result.getCertNo());
         report179Request.setSignValue(result.getSignatureValue());
 
