@@ -1,33 +1,16 @@
 package cn.alphahub.eport.signature.report.cebxxxmessage;
 
-import cn.alphahub.dtt.plus.util.JacksonUtil;
-import cn.alphahub.eport.signature.report.cebxxxmessage.constants.MessageType;
-import cn.alphahub.eport.signature.report.cebxxxmessage.entity.CEB621Message;
-import cn.alphahub.eport.signature.report.cebxxxmessage.util.GUIDUtil;
-import cn.alphahub.eport.signature.report.cebxxxmessage.util.JAXBUtil;
-import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import cn.hutool.http.ContentType;
+import cn.hutool.http.HttpResponse;
+import cn.hutool.http.HttpUtil;
+import org.apache.commons.codec.binary.Base64;
 
-/**
- * 621 进口单 xml 上报测试
- *
- * @author weasley
- * @version 1.0.0
- */
-@Slf4j
-@SpringBootTest
-class Upload621XmlTests {
+import java.nio.charset.StandardCharsets;
 
-    @Autowired
-    ChinaEportReportClient chinaEportReportClient;
+public class Upload621XmlTests2 {
 
-    @Test
-    @DisplayName("621 进口单 xml 上报测试")
-    void push() {
-        String sourceXml = """
+    public static void main(String[] args) {
+        String xml = """
                 <ceb:CEB621Message guid="CEB621_HNZB_FXJK_20220209104827_0054" version="v1.0" xmlns:ceb="http://www.chinaport.gov.cn/ceb">
                     <ceb:Inventory>
                         <ceb:InventoryHead>
@@ -118,24 +101,34 @@ class Upload621XmlTests {
                     </ds:Signature>
                 </ceb:CEB621Message>
                 """;
-        CEB621Message ceb621Message = JAXBUtil.convertToObj(sourceXml, CEB621Message.class);
-        assert ceb621Message != null;
-        ceb621Message.setGuid(GUIDUtil.getDayIncrCode(GUIDUtil.INVENTORY, GUIDUtil.CEB621MESSAGE, 4));
-        ceb621Message.setVersion("1.0");
-        ceb621Message.setBaseTransfer(chinaEportReportClient.assembleBaseTransfer()); //参数需要替换成自己企业的
 
-        /*
-        Inventory inventory = new Inventory();
-        InventoryHead headReq = getInventoryHeadReq(order,  request.getReceiverIdCard(), request.getInvoiceNo(),request.getPayNo());
-        ArrayList<InventoryList> listReq = getInventoryListReq(item, headReq);
-        inventory.setInventoryHead(headReq);
-        inventory.setInventoryListList(listReq);
-        ceb621Message.setInventory(inventory);
-        */
+        String XmlBase64String = Base64.encodeBase64String(xml.getBytes(StandardCharsets.UTF_8));
+        String parameter = """
+                {
+                  "Message": {
+                    "MessageHead": {
+                      "MessageId": "",
+                      "MessageType": "CEB621Message.xml",
+                      "SenderID": "SHOP",
+                      "ReceiverID": "PORT",
+                      "SendTime": "2022-02-08 14:06:25",
+                      "Version": "1.0"
+                    },
+                    "MessageBody": {
+                      "data": "${XmlBase64String}"
+                    }
+                  }
+                }
+                """.replace("${XmlBase64String}", XmlBase64String);
 
-        System.out.println(JacksonUtil.toJson(ceb621Message));
-        String xml = JAXBUtil.convertToXml(ceb621Message);
-
-        chinaEportReportClient.push(ceb621Message, MessageType.CEB621Message);
+        HttpResponse response = HttpUtil.createPost("http://36.101.208.230:8090/cebcmsg")
+                .contentType(ContentType.JSON.getValue())
+                .body(parameter)
+                .execute();
+        int status = response.getStatus();
+        String body = response.body();
+        System.err.println("status = " + status);
+        System.err.println("body = " + body);
     }
 }
+

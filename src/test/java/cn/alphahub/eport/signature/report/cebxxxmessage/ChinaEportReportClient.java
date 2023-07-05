@@ -9,6 +9,7 @@ import cn.alphahub.eport.signature.report.cebxxxmessage.entity.BaseTransfer;
 import cn.alphahub.eport.signature.report.cebxxxmessage.request.Message;
 import cn.alphahub.eport.signature.report.cebxxxmessage.request.MessageBody;
 import cn.alphahub.eport.signature.report.cebxxxmessage.request.MessageHead;
+import cn.alphahub.eport.signature.report.cebxxxmessage.request.MessageRequest;
 import cn.alphahub.eport.signature.report.cebxxxmessage.sgin.CanonicalizationMethod;
 import cn.alphahub.eport.signature.report.cebxxxmessage.sgin.DigestMethod;
 import cn.alphahub.eport.signature.report.cebxxxmessage.sgin.KeyInfo;
@@ -23,6 +24,7 @@ import cn.hutool.core.codec.Base64;
 import cn.hutool.http.ContentType;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
+import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,11 +32,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
-import static cn.alphahub.dtt.plus.util.JacksonUtil.toJson;
 
 /**
  * 电子口岸上报客户端
@@ -63,18 +61,19 @@ public class ChinaEportReportClient {
      * @param messageType 311/621/...
      */
     public String push(Object request, MessageType messageType) {
-        log.info("数据上报海关xml入参{},{}", toJson(request), messageType);
-        Map<String, Object> body = sign(request, messageType);
+        log.info("数据上报海关xml入参{},{}", JSONUtil.toJsonStr(request), messageType);
+        MessageRequest request4Sign = getMessageRequest4Sign(request, messageType);
         String decodedUrl = Base64.decodeStr(EPORT_SERVER_BASE64);
-        log.info("数据上报海关请求入参 {}, \nsever: {}", decodedUrl, toJson(body));
+        String body = JSONUtil.toJsonStr(request4Sign);
+        log.info("数据上报海关请求入参 {}, \nsever: {}", decodedUrl, body);
         HttpResponse httpResponse = HttpUtil.createPost(decodedUrl + "/cebcmsg")
                 .contentType(ContentType.JSON.getValue())
-                .body(toJson(body))
+                .body(body)
                 .execute();
         String responseBody = httpResponse.body();
-        log.info("数据上报海关请求入参 {}, \n原始请求出参: {}", toJson(body), httpResponse.body());
+        log.info("上报海关请求入参 {}, \n原始请求出参: {}", body, httpResponse.body());
         if (!"OK".equals(responseBody)) {
-            log.error("数据上报海关请求异常，入参 {}, \n异常请求出参: {}", toJson(body), httpResponse.body());
+            log.error("上报海关请求异常，入参 {}, \n异常请求出参: {}", body, httpResponse.body());
         }
         return httpResponse.body();
     }
@@ -82,13 +81,13 @@ public class ChinaEportReportClient {
     /**
      * 加密，二次组装数据
      */
-    public Map<String, Object> sign(Object request, MessageType messageType) {
+    public MessageRequest getMessageRequest4Sign(Object request, MessageType messageType) {
         if (request == null) {
-            return Collections.emptyMap();
+            return new MessageRequest();
         }
         String xmlDataInfo = JAXBUtil.convertToXml(request);
         if (StringUtils.isBlank(xmlDataInfo)) {
-            return Collections.emptyMap();
+            return new MessageRequest();
         }
 
         MessageHead head = new MessageHead();
@@ -103,22 +102,23 @@ public class ChinaEportReportClient {
         //请求签名加密，二次组装数据 请求加密
         String payload = signHandler.getDynamicSignDataParameter(ukeyRequest);
         SignResult signed = signHandler.sign(ukeyRequest, payload);
-        String assembleXml = assembleXml(signed, xmlDataInfo, messageType);
+        String XmlBase64String = assembleXml(signed, xmlDataInfo, messageType);
 
-        MessageBody body = MessageBody.builder().data(assembleXml).build();
+        MessageBody body = MessageBody.builder().data(XmlBase64String).build();
         Message message = Message.builder().MessageBody(body).MessageHead(head).build();
-
-        Map<String, Object> map = new HashMap<>();
-        map.put("Message", message);
-        return map;
+        return new MessageRequest(message);
     }
 
     /**
      * 组装xml
      */
-    private String assembleXml(SignResult signResult, String dataInfo, MessageType messageType) {
+    private String assembleXml(SignResult signResult, String sourceXml, MessageType messageType) {
         // 加密xml
-        Signature signature = Signature.builder().keyInfo(KeyInfo.builder().keyName(signResult.getCertNo()).x509Data(X509Data.builder().X509Certificate(signResult.getX509Certificate()).build()).build())
+        Signature signature = Signature.builder()
+                .keyInfo(KeyInfo.builder()
+                        .keyName(signResult.getCertNo())
+                        .x509Data(X509Data.builder().X509Certificate(signResult.getX509Certificate()).build())
+                        .build())
                 .signatureValue(signResult.getSignatureValue())
                 .signedInfo(SignedInfo.builder()
                         .CanonicalizationMethod(new CanonicalizationMethod())
@@ -130,11 +130,11 @@ public class ChinaEportReportClient {
                                 .digestValue(signResult.getDigestValue()).build()
                         ).build()
                 ).build();
-        String signatureStr = JAXBUtil.convertToXml(signature);
+        String signatureXmlStr = JAXBUtil.convertToXml(signature);
         String xml = "</ceb:" + messageType.getType() + ">";
-        int index = dataInfo.indexOf(xml);
-        StringBuilder builder = new StringBuilder(dataInfo);
-        StringBuilder insert = builder.insert(index, signatureStr);
+        int index = sourceXml.indexOf(xml);
+        StringBuilder builder = new StringBuilder(sourceXml);
+        StringBuilder insert = builder.insert(index, signatureXmlStr.concat("\n"));
         String asXML = insert.toString();
         if (asXML.startsWith("<?xml ")) {
             asXML = asXML.replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n", "");

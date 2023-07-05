@@ -5,11 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MessageHead {
+public class MessageHead implements Serializable {
     private String MessageId = "";
     private String MessageType;
     private String SenderID = "SHOP";
