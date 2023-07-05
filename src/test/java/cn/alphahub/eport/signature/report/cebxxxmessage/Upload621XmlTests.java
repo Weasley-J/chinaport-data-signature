@@ -121,6 +121,9 @@ class Upload621XmlTests {
         CEB621Message ceb621Message = JAXBUtil.convertToObj(sourceXml, CEB621Message.class);
         assert ceb621Message != null;
         ceb621Message.setGuid(GUIDUtil.getDayIncrCode(GUIDUtil.INVENTORY, GUIDUtil.CEB621MESSAGE, 4));
+        String guid = GUIDUtil.getDayIncrCode(GUIDUtil.ORDERPUSH, GUIDUtil.CEB311MESSAGE, 4);
+        ceb621Message.setGuid(guid);
+        ceb621Message.getInventory().getInventoryHead().setGuid(guid);
         ceb621Message.setVersion("1.0");
         ceb621Message.setBaseTransfer(chinaEportReportClient.assembleBaseTransfer()); //参数需要替换成自己企业的
 

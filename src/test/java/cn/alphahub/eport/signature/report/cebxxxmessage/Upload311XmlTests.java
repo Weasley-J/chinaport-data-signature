@@ -92,7 +92,9 @@ class Upload311XmlTests {
         CEB311Message ceb311Message = JAXBUtil.convertToObj(sourceXml, CEB311Message.class);
         //组装签名xml
         assert ceb311Message != null;
-        ceb311Message.setGuid(GUIDUtil.getDayIncrCode(GUIDUtil.ORDERPUSH, GUIDUtil.CEB311MESSAGE, 4));
+        String guid = GUIDUtil.getDayIncrCode(GUIDUtil.ORDERPUSH, GUIDUtil.CEB311MESSAGE, 4);
+        ceb311Message.setGuid(guid);
+        ceb311Message.getOrder().getOrderHead().setGuid(guid);
         ceb311Message.setVersion("1.0");
         ceb311Message.setBaseTransfer(chinaEportReportClient.assembleBaseTransfer()); //参数需要替换成自己企业的
         /*
