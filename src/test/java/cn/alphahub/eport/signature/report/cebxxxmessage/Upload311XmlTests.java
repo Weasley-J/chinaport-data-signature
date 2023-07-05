@@ -5,6 +5,7 @@ import cn.alphahub.eport.signature.report.cebxxxmessage.entity.CEB311Message;
 import cn.alphahub.eport.signature.report.cebxxxmessage.util.JAXBUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 /**
@@ -16,6 +17,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 @Slf4j
 @SpringBootTest
 class Upload311XmlTests {
+
+    @Autowired
+    ChinaEportReportClient chinaEportReportClient;
+
     @Test
     void push() {
         String sourceXml = """
