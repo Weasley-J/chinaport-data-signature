@@ -52,6 +52,7 @@ public class ChinaEportReportClient {
 
     @Autowired
     private SignHandler signHandler;
+
     @Autowired(required = false)
     private ChinaEportReportProperties chinaEportReportProperties;
 
