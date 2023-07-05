@@ -52,15 +52,15 @@ public class GUIDUtil {
      * @param length 生成数字位数，最大18位
      * @return
      */
-    public String getDayIncrCode(String prefix, String key, int length) {
+    public static String getDayIncrCode(String prefix, String key, int length) {
         if (length >= 19) {
             throw new RuntimeException("已超出最大位数");
         }
         String code = "CEB" + prefix + "_HNZB_FXJK_";
         String formatDay = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
         Long liveNum = getMxNum(length);
-        Long incre = IdUtil.getSnowflake().getDataCenterId(666);
-        String sequence = getSequence(incre, length);
+        long seq = IdUtil.getSnowflake().getDataCenterId(666);
+        String sequence = getSequence(seq, length);
         code = code + formatDay + "_" + sequence;
         return code;
     }
