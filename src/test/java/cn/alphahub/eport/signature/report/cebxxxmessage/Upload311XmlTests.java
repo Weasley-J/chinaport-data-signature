@@ -1,12 +1,15 @@
 package cn.alphahub.eport.signature.report.cebxxxmessage;
 
-import cn.alphahub.dtt.plus.util.JacksonUtil;
+import cn.alphahub.eport.signature.report.cebxxxmessage.constants.MessageType;
 import cn.alphahub.eport.signature.report.cebxxxmessage.entity.CEB311Message;
 import cn.alphahub.eport.signature.report.cebxxxmessage.util.JAXBUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import static cn.alphahub.dtt.plus.util.JacksonUtil.toJson;
 
 /**
  * 311 进口单 xml 上报测试
@@ -17,11 +20,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 @Slf4j
 @SpringBootTest
 class Upload311XmlTests {
-
     @Autowired
     ChinaEportReportClient chinaEportReportClient;
 
     @Test
+    @DisplayName("311 进口单 xml 上报测试")
     void push() {
         String sourceXml = """
                 <ceb:CEB311Message xmlns:ceb="http://www.chinaport.gov.cn/ceb" guid="4CDE1CFD-EDED-46B1-946C-B8022E42FC94" version="1.0">
@@ -85,8 +88,9 @@ class Upload311XmlTests {
                 </ceb:CEB311Message>
                 """;
         CEB311Message ceb311Message = JAXBUtil.convertToObj(sourceXml, CEB311Message.class);
-        System.out.println(JacksonUtil.toJson(ceb311Message));
+        System.out.println(toJson(ceb311Message));
         String xml1 = JAXBUtil.convertToXml(ceb311Message);
         System.out.println("\n" + xml1);
+        chinaEportReportClient.push(ceb311Message, MessageType.CEB311Message);
     }
 }
