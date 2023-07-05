@@ -13,14 +13,13 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 import static cn.alphahub.dtt.plus.util.JacksonUtil.toJson;
 import static cn.alphahub.eport.signature.core.CertificateHandler.METHOD_OF_X509_WITH_HASH;
@@ -94,7 +93,7 @@ class Upload179Tests {
 
         UkeyRequest ukeyRequest = new UkeyRequest(METHOD_OF_X509_WITH_HASH, new LinkedHashMap<>() {{
             //海关179数据抓取上报报文原始数据,数据格式: {"_method":"cus-sec_SpcSignDataAsPEM","_id":1,"args":{"inData":"{\n  \\\"sessionID\\\": \\\"fe2374-8fnejf97-32839218\\\",\n  \\\"payExchangeInfoHead\\\": {\n    \\\"guid\\\": \\\"fe2374-8fnejf97-32839218\\\",\n    \\\"initalRequest\\\": \\\"<xml><appid>wxa3412c979c7c6fb7</appid><mch_id>1537923071</mch_id><nonce_str>20220214148382001542606848</nonce_str><sign>38198AD6D22E59B3CCC683D67D8BB402</sign><sign_type>MD5</sign_type><body>测试订单编号411312450000027161</body><attach><![CDATA[16dbeaa5-92d8-47f5-a0a8-813a4d45a5f9]]></attach><out_trade_no>20220214148382001542606848</out_trade_no><total_fee>1</total_fee><spbill_create_ip>10.0.12.208</spbill_create_ip><notify_url>https://boss-dev.fengyouhui.net/be/api/mall-payment-c/api/public/gateway/payment/notice/wx/pay/20220214148382001542606848</notify_url><trade_type>MWEB</trade_type><openid></openid></xml>\\\",\n    \\\"initalResponse\\\": \\\"<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg><result_code><![CDATA[SUCCESS]]></result_code><mch_id><![CDATA[1537923071]]></mch_id><appid><![CDATA[wxa3412c979c7c6fb7]]></appid><nonce_str><![CDATA[6SgxJ98xsr1nUnRG]]></nonce_str><sign><![CDATA[EB632B9C9F8BCB8027ACE9195878EE4F]]></sign><prepay_id><![CDATA[wx14105706563206ab24a00689936c800000]]></prepay_id><trade_type><![CDATA[MWEB]]></trade_type><mweb_url><![CDATA[https://wx.tenpay.com/cgi-bin/mmpayweb-bin/checkmweb?prepay_id=wx14105706563206ab24a00689936c800000&package=2518465012]]></mweb_url></xml>\\\",\n    \\\"ebpCode\\\": \\\"46121601BC\\\",\n    \\\"payCode\\\": \\\"1537923071\\\",\n    \\\"payTransactionId\\\": \\\"20220214148382001542606848\\\",\n    \\\"totalAmount\\\": 0.01,\n    \\\"currency\\\": \\\"502\\\",\n    \\\"verDept\\\": \\\"3\\\",\n    \\\"payType\\\": \\\"1\\\",\n    \\\"tradingTime\\\": \\\"20220214105714\\\",\n    \\\"note\\\": \\\"备注\\\"\n  },\n  \\\"payExchangeInfoLists\\\": [\n    {\n      \\\"orderNo\\\": \\\"\\\",\n      \\\"goodsInfo\\\": [\n        {\n          \\\"gname\\\": \\\"小米盒子\\\",\n          \\\"itemLink\\\": \\\"\\\"\n        }\n      ],\n      \\\"recpAccount\\\": \\\"1537923071\\\",\n      \\\"recpCode\\\": \\\"1537923071\\\",\n      \\\"recpName\\\": \\\"河南风友汇实业有限公司商户\\\"\n    }\n  ],\n  \\\"serviceTime\\\": 1533282603450\n}","passwd":"88888888"}}
-            put("inData", dataOf179.replace("\"", "\\\""));
+            put("inData", dataOf179);
         }});
         String signParams = toJson(ukeyRequest);
         SignRequest request = new SignRequest(SignConstant.sign179);
