@@ -16,7 +16,9 @@ public class ChinaEportReportConfiguration {
     public final static String PREFIX = "third.bridge.china.eport.config";
 
     /**
-     * 缺失{@link ChinaEportReportProperties}Bean的时候用这个默认的，需要更具自己的实际修改情况
+     * 跑测试类的时候注意适当修改下这个3个参数
+     *
+     * @apiNote 缺失{@link ChinaEportReportProperties}Bean的时候用这个默认的，需要更具自己的实际情况修改
      */
     @Bean
     @ConditionalOnMissingBean({ChinaEportReportProperties.class})
