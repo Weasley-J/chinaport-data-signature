@@ -45,8 +45,8 @@ eport:
   signature:
     ukey:
       # u-key的.cer证书在classpath的相对路径
-      cert-path: cert/01691fe9.cer
-      ws-url: ws://127.0.0.1:61232
+      #cert-path: cert/01691fe9.cer
+      ws-url: ws://221.182.150.162:61232
       password: 88888888
       health:
         endpoint:

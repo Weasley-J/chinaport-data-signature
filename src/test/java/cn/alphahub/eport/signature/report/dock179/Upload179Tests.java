@@ -93,6 +93,7 @@ class Upload179Tests {
 
         UkeyRequest ukeyRequest = new UkeyRequest(METHOD_OF_X509_WITH_HASH, new LinkedHashMap<>() {{
             put("inData", dataInfo179.replace("\"", "\\\""));
+            put("passwd", "88888888");
         }});
         String signParams = toJson(ukeyRequest);
         SignRequest request = new SignRequest(SignConstant.sign179);
