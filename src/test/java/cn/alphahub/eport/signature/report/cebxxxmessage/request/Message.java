@@ -5,11 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Message {
+public class Message implements Serializable {
     private MessageHead MessageHead;
     private MessageBody MessageBody;
 }

@@ -93,7 +93,7 @@ class Upload311XmlTests {
         //组装签名xml
         assert ceb311Message != null;
         ceb311Message.setGuid(GUIDUtil.getDayIncrCode(GUIDUtil.ORDERPUSH, GUIDUtil.CEB311MESSAGE, 4));
-        ceb311Message.setVersion("v1.0");
+        ceb311Message.setVersion("1.0");
         ceb311Message.setBaseTransfer(chinaEportReportClient.assembleBaseTransfer()); //参数需要替换成自己企业的
         /*
         Order order1 = new Order();
