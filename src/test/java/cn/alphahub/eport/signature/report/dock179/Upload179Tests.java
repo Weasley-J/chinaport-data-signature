@@ -1,33 +1,37 @@
-package cn.alphahub.eport.signature.report;
+package cn.alphahub.eport.signature.report.dock179;
 
 
 import cn.alphahub.eport.signature.after202207.SignConstant;
+import cn.alphahub.eport.signature.controller.rpc.EportSignController;
 import cn.alphahub.eport.signature.core.CertificateHandler;
 import cn.alphahub.eport.signature.core.SignHandler;
 import cn.alphahub.eport.signature.entity.SignRequest;
 import cn.alphahub.eport.signature.entity.SignResult;
 import cn.alphahub.eport.signature.entity.UkeyRequest;
+import cn.alphahub.eport.signature.report.dock179.entity.Report179Request;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONConfig;
 import cn.hutool.json.JSONUtil;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 @Slf4j
 @SpringBootTest
-public class Report179Tests {
+class Upload179Tests {
+
     @Autowired
     private SignHandler signHandler;
+    @Autowired
+    private EportSignController signController;
 
     @Test
-    public void report() {
+    void report() {
         Report179Request report179Request = JSONUtil.toBean("""
                         {
                           "sessionID": "032C3F56-0EE6-4558-B548-6C7A3451F07D",
@@ -51,7 +55,7 @@ public class Report179Tests {
                               "goodsInfo": [
                                 {
                                   "gname": "济州花梨精华面膜",
-                                  "itemLink": "请替换"
+                                  "itemLink": "http://m.yunjiweidian.com/yunjibuyer/static/vue-buyer/idc/index.html#/detail?itemId=999761&shopId=453"
                                 }
                               ],
                               "recpAccount": "请替换",
@@ -76,6 +80,7 @@ public class Report179Tests {
         }});
         String params = JSONUtil.toJsonStr(ukeyRequest, jsonConfig);
         SignRequest request = new SignRequest(SignConstant.sign179);
+        //SignResult result = signController.signature(request).getData();
         SignResult result = signHandler.sign(request, params);
         Map<String, Object> paramMap = new LinkedHashMap<>();
 

@@ -1,8 +1,7 @@
-package cn.alphahub.eport.signature.report;
-
-import lombok.Data;
+package cn.alphahub.eport.signature.report.dock179.entity;
 
 import java.io.Serializable;
+import lombok.Data;
 
 @Data
 public class Goods implements Serializable {

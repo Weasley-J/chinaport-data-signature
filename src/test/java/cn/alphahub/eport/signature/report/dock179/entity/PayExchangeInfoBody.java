@@ -1,9 +1,8 @@
-package cn.alphahub.eport.signature.report;
-
-import lombok.Data;
+package cn.alphahub.eport.signature.report.dock179.entity;
 
 import java.io.Serializable;
 import java.util.List;
+import lombok.Data;
 @Data
 public class PayExchangeInfoBody implements Serializable {
 
