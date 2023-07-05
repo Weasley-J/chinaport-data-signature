@@ -1,9 +1,9 @@
 package cn.alphahub.eport.signature.report.cebxxxmessage;
 
+import cn.hutool.core.codec.Base64;
 import cn.hutool.http.ContentType;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
-import org.apache.commons.codec.binary.Base64;
 
 import java.nio.charset.StandardCharsets;
 
@@ -20,9 +20,9 @@ public class Upload621XmlTests2 {
                             <ceb:appStatus>2</ceb:appStatus>
                             <ceb:orderNo>48037605991776256</ceb:orderNo>
                             <ceb:ebpCode>46121601BC</ceb:ebpCode>
-                            <ceb:ebpName>海南星创互联网医药有限公司</ceb:ebpName>
+                            <ceb:ebpName>xxxx互联网医药有限公司</ceb:ebpName>
                             <ceb:ebcCode>46121601BC</ceb:ebcCode>
-                            <ceb:ebcName>海南星创互联网医药有限公司</ceb:ebcName>
+                            <ceb:ebcName>xxxx互联网医药有限公司</ceb:ebcName>
                             <ceb:logisticsNo>2222222</ceb:logisticsNo>
                             <ceb:logisticsCode>4101986180</ceb:logisticsCode>
                             <ceb:logisticsName>圆通</ceb:logisticsName>
@@ -39,7 +39,7 @@ public class Upload621XmlTests2 {
                             <ceb:buyerTelephone>18209182500</ceb:buyerTelephone>
                             <ceb:consigneeAddress>哈布斯堡</ceb:consigneeAddress>
                             <ceb:agentCode>46121601BC</ceb:agentCode>
-                            <ceb:agentName>海南星创互联网医药有限公司</ceb:agentName>
+                            <ceb:agentName>xxxx互联网医药有限公司</ceb:agentName>
                             <ceb:tradeMode>9610</ceb:tradeMode>
                             <ceb:trafMode>W</ceb:trafMode>
                             <ceb:country>142</ceb:country>
@@ -71,7 +71,7 @@ public class Upload621XmlTests2 {
                     </ceb:Inventory>
                     <ceb:BaseTransfer>
                         <ceb:copCode>46121601BC</ceb:copCode>
-                        <ceb:copName>海南星创互联网医药有限公司</ceb:copName>
+                        <ceb:copName>xxxx互联网医药有限公司</ceb:copName>
                         <ceb:dxpMode>DXP</ceb:dxpMode>
                         <ceb:dxpId>DXPENT0000458763</ceb:dxpId>
                     </ceb:BaseTransfer>
@@ -102,7 +102,7 @@ public class Upload621XmlTests2 {
                 </ceb:CEB621Message>
                 """;
 
-        String XmlBase64String = Base64.encodeBase64String(xml.getBytes(StandardCharsets.UTF_8));
+        String XmlBase64String = Base64.encode(xml.getBytes(StandardCharsets.UTF_8));
         String parameter = """
                 {
                   "Message": {
@@ -121,7 +121,8 @@ public class Upload621XmlTests2 {
                 }
                 """.replace("${XmlBase64String}", XmlBase64String);
 
-        HttpResponse response = HttpUtil.createPost("http://36.101.208.230:8090/cebcmsg")
+        String server = cn.hutool.core.codec.Base64.decodeStr("aHR0cDovLzM2LjEwMS4yMDguMjMwOjgwOTA=");
+        HttpResponse response = HttpUtil.createPost(server + "/cebcmsg")
                 .contentType(ContentType.JSON.getValue())
                 .body(parameter)
                 .execute();
