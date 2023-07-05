@@ -41,30 +41,38 @@ import static cn.alphahub.dtt.plus.util.JacksonUtil.toJson;
 @Slf4j
 @Service
 public class ChinaEportReportClient {
+
+    /**
+     * 海关服务器地址格式：http://ip:port
+     *
+     * @apiNote base64加密下，不适合直接暴漏公网
+     */
+    private final static String EPORT_SERVER_BASE64 = "aHR0cDovLzM2LjEwMS4yMDguMjMwOjgwOTA=";
+
     @Autowired
     private SignHandler signHandler;
-
     @Autowired(required = false)
     private ChinaEportReportProperties chinaEportReportProperties;
 
     /**
-     * 上报海关
+     * 数据上报海关
      *
      * @param request     原始xml对象
      * @param messageType 311/621/...
      */
     public String push(Object request, MessageType messageType) {
-        log.info("海关请求入参{},{}", toJson(request), messageType);
+        log.info("数据上报海关xml入参{},{}", toJson(request), messageType);
         Map<String, Object> body = sign(request, messageType);
-        log.info("海南星创请求入参{}", toJson(body));
-        HttpResponse httpResponse = HttpUtil.createPost("http://36.101.208.230:8090/cebcmsg")
+        String decodedUrl = Base64.decodeStr(EPORT_SERVER_BASE64);
+        log.info("数据上报海关请求入参 {}, \nsever: {}", decodedUrl, toJson(body));
+        HttpResponse httpResponse = HttpUtil.createPost(decodedUrl + "/cebcmsg")
                 .contentType(ContentType.JSON.getValue())
                 .body(toJson(body))
                 .execute();
         String responseBody = httpResponse.body();
-        log.info("海南星创请求入参 {}, \n原始请求出参: {}", toJson(body), httpResponse.body());
+        log.info("数据上报海关请求入参 {}, \n原始请求出参: {}", toJson(body), httpResponse.body());
         if (!"OK".equals(responseBody)) {
-            log.error("海南星创请求异常，入参 {}, \n异常请求出参: {}", toJson(body), httpResponse.body());
+            log.error("数据上报海关请求异常，入参 {}, \n异常请求出参: {}", toJson(body), httpResponse.body());
         }
         return httpResponse.body();
     }
@@ -129,7 +137,7 @@ public class ChinaEportReportClient {
         if (asXML.startsWith("<?xml ")) {
             asXML = asXML.replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n", "");
         }
-        log.info("海南星创，加密报文{}", asXML);
+        log.info("数据上报海关，加密报文: {}", asXML);
         return Base64.encode(asXML);
     }
 

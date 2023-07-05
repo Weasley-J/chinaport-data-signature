@@ -8,6 +8,7 @@ import cn.alphahub.eport.signature.entity.SignRequest;
 import cn.alphahub.eport.signature.entity.SignResult;
 import cn.alphahub.eport.signature.entity.UkeyRequest;
 import cn.alphahub.eport.signature.report.dock179.entity.Report179Request;
+import cn.hutool.core.codec.Base64;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
@@ -71,13 +72,17 @@ class Upload179Tests {
                 "sessionID":"ad2254-8hewyf32-55616249"||"payExchangeInfoHead":"{"guid":"9D55BA71-22DE-41F4-8B50-C36C83B3B530","initalRequest":"原始请求","initalResponse":"ok","ebpCode":"4404840022","payCode":"312226T001","payTransactionId":"2018121222001354081010726129","totalAmount":100,"currency":"142","verDept":"3","payType":"1","tradingTime":"20181212041803","note":"批量订单，测试订单优化,生成多个so订单"}"||"payExchangeInfoLists":"[{"orderNo":"SO1710301150602574003","goodsInfo":[{"gname":"lhy-gnsku3","itemLink":"http://m.yunjiweidian.com/yunjibuyer/static/vue-buyer/idc/index.html#/detail?itemId=999761&shopId=453"},{"gname":"lhy-gnsku2","itemLink":"http://m.yunjiweidian.com/yunjibuyer/static/vue-buyer/idc/index.html#/detail?itemId=999760&shopId=453"}],"recpAccount":"OSA571908863132601","recpCode":"","recpName":"YUNJIHONGKONGLIMITED"}]"||"serviceTime":"1544519952469"
                 """;
 
-        String REPORT_TEST_SERVER_URL = "https://swapptest.singlewindow.cn/ceb2grab/grab/realTimeDataUpload";
-        String REPORT_PROD_SERVER_URL = "https://customs.chinaport.gov.cn/ceb2grab/grab/realTimeDataUpload";
-        JSONConfig jsonConfig = new JSONConfig();
+        // 将 server-url base64加密下，不适合直接公布到外网
+        String REPORT_TEST_SERVER_URL_encode = "aHR0cHM6Ly9zd2FwcHRlc3Quc2luZ2xld2luZG93LmNuL2NlYjJncmFiL2dyYWIvcmVhbFRpbWVEYXRhVXBsb2Fk";
+        String REPORT_PROD_SERVER_URL_encode = "aHR0cHM6Ly9jdXN0b21zLmNoaW5hcG9ydC5nb3YuY24vY2ViMmdyYWIvZ3JhYi9yZWFsVGltZURhdGFVcGxvYWQ=";
+
+        String REPORT_TEST_SERVER_URL = Base64.decodeStr(REPORT_TEST_SERVER_URL_encode);
+        String REPORT_PROD_SERVER_URL = Base64.decodeStr(REPORT_PROD_SERVER_URL_encode);
+
         UkeyRequest ukeyRequest = new UkeyRequest(CertificateHandler.METHOD_OF_X509_WITH_HASH, new LinkedHashMap<>() {{
             //put("inData", sign179String);
         }});
-        String params = JSONUtil.toJsonStr(ukeyRequest, jsonConfig);
+        String params = JSONUtil.toJsonStr(ukeyRequest);
         SignRequest request = new SignRequest(SignConstant.sign179);
         //SignResult result = signController.signature(request).getData();
         SignResult result = signHandler.sign(request, params);
@@ -87,7 +92,7 @@ class Upload179Tests {
         report179Request.setSignValue(result.getSignatureValue());
 
         paramMap.put("payExInfoStr", JSONUtil.toJsonStr(report179Request));
-        log.info("begin report，request data is ：{}", JSONUtil.toJsonStr(paramMap));
+        log.info("server-url: {}\nbegin report，request data is ：{}", REPORT_PROD_SERVER_URL, JSONUtil.toJsonStr(paramMap));
         try {
             HttpResponse response = HttpUtil.createPost(REPORT_PROD_SERVER_URL)
                     .form(paramMap)
@@ -96,7 +101,7 @@ class Upload179Tests {
                     .execute();
             System.err.println(JSONUtil.toJsonPrettyStr(response.body()));
         } catch (Exception e) {
-            log.error("report failure!", e);
+            log.error("report failure: {}", e.getLocalizedMessage(), e);
         }
     }
 }
