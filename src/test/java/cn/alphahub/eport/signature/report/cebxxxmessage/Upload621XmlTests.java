@@ -1,9 +1,11 @@
 package cn.alphahub.eport.signature.report.cebxxxmessage;
 
 import cn.alphahub.dtt.plus.util.JacksonUtil;
+import cn.alphahub.eport.signature.report.cebxxxmessage.constants.MessageType;
 import cn.alphahub.eport.signature.report.cebxxxmessage.entity.CEB621Message;
 import cn.alphahub.eport.signature.report.cebxxxmessage.util.JAXBUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,6 +24,7 @@ class Upload621XmlTests {
     ChinaEportReportClient chinaEportReportClient;
 
     @Test
+    @DisplayName("621 进口单 xml 上报测试")
     void push() {
         String sourceXml = """
                 <ceb:CEB621Message xmlns:ceb="http://www.chinaport.gov.cn/ceb" guid="CEB621_HNZB_FXJK_20220208175054_0034" version="v1.0">
@@ -92,6 +95,7 @@ class Upload621XmlTests {
         CEB621Message ceb621Message = JAXBUtil.convertToObj(sourceXml, CEB621Message.class);
         System.out.println(JacksonUtil.toJson(ceb621Message));
         String xml1 = JAXBUtil.convertToXml(ceb621Message);
-        System.out.println("\n" + xml1);
+
+        chinaEportReportClient.push(ceb621Message, MessageType.CEB311Message);
     }
 }

@@ -1,5 +1,7 @@
 package cn.alphahub.eport.signature.report.cebxxxmessage;
 
+import cn.alphahub.eport.signature.core.SignHandler;
+import cn.alphahub.eport.signature.entity.SignRequest;
 import cn.alphahub.eport.signature.entity.SignResult;
 import cn.alphahub.eport.signature.report.cebxxxmessage.ChinaEportReportConfiguration.ChinaEportReportProperties;
 import cn.alphahub.eport.signature.report.cebxxxmessage.constants.MessageType;
@@ -21,16 +23,16 @@ import cn.hutool.core.codec.Base64;
 import cn.hutool.http.ContentType;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Map;
-
-import static cn.alphahub.dtt.plus.util.JacksonUtil.readValue;
 import static cn.alphahub.dtt.plus.util.JacksonUtil.toJson;
 
 /**
@@ -39,45 +41,64 @@ import static cn.alphahub.dtt.plus.util.JacksonUtil.toJson;
 @Slf4j
 @Service
 public class ChinaEportReportClient {
+    @Autowired
+    private SignHandler signHandler;
 
     @Autowired(required = false)
     private ChinaEportReportProperties chinaEportReportProperties;
 
+    /**
+     * 上报海关
+     *
+     * @param request     原始xml对象
+     * @param messageType 311/621/...
+     */
     public String push(Object request, MessageType messageType) {
         log.info("海关请求入参{},{}", toJson(request), messageType);
         Map<String, Object> body = sign(request, messageType);
         log.info("海南星创请求入参{}", toJson(body));
-        HttpResponse execute = HttpUtil.createPost(chinaEportReportProperties.getHainanXCUrl()).contentType(ContentType.JSON.getValue())
-                .body(toJson(body)).execute();
-        String body1 = execute.body();
-        log.info("海南星创请求入参{},请求出参{}", toJson(body), execute);
-        if (!"OK".equals(body1)) {
-            log.error("海南星创请求异常，入参{},请求出参{}", toJson(body), execute);
+        HttpResponse httpResponse = HttpUtil.createPost("http://36.101.208.230:8090/cebcmsg")
+                .contentType(ContentType.JSON.getValue())
+                .body(toJson(body))
+                .execute();
+        String responseBody = httpResponse.body();
+        log.info("海南星创请求入参 {}, \n原始请求出参: {}", toJson(body), httpResponse.body());
+        if (!"OK".equals(responseBody)) {
+            log.error("海南星创请求异常，入参 {}, \n异常请求出参: {}", toJson(body), httpResponse.body());
         }
-        return execute.body();
+        return httpResponse.body();
     }
 
     /**
      * 加密，二次组装数据
      */
-    public Map<String, Object> sign(Object request, MessageType messageType){
-        String dataInfo = JAXBUtil.convertToXml(request, "UTF-8");
+    public Map<String, Object> sign(Object request, MessageType messageType) {
+        if (request == null) {
+            return Collections.emptyMap();
+        }
+        String xmlDataInfo = JAXBUtil.convertToXml(request);
+        if (StringUtils.isBlank(xmlDataInfo)) {
+            return Collections.emptyMap();
+        }
+
         MessageHead head = new MessageHead();
         head.setMessageType(messageType.getType() + ".xml");
         head.setSendTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-        assert dataInfo != null;
-        dataInfo = dataInfo.replaceAll("xmlns:ds=\"http://www.w3.org/2000/09/xmldsig#\"", "");
+        xmlDataInfo = xmlDataInfo.replaceAll("xmlns:ds=\"http://www.w3.org/2000/09/xmldsig#\"", "");
+
+        SignRequest ukeyRequest = new SignRequest();
+        ukeyRequest.setId(666);
+        ukeyRequest.setData(xmlDataInfo);
+
         //请求签名加密，二次组装数据 请求加密
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("obj", dataInfo);
-        log.info("海南加密请求:方法入参{},请求入参{}", toJson(request), toJson(hashMap));
-        String string = "";
-        SignResult data = readValue(string, SignResult.class);
-        String assembleXml = assembleXml(data, dataInfo, messageType);
+        String payload = signHandler.getDynamicSignDataParameter(ukeyRequest);
+        SignResult signed = signHandler.sign(ukeyRequest, payload);
+        String assembleXml = assembleXml(signed, xmlDataInfo, messageType);
 
         MessageBody body = MessageBody.builder().data(assembleXml).build();
         Message message = Message.builder().MessageBody(body).MessageHead(head).build();
-        HashMap<String, Object> map = new HashMap<>();
+
+        Map<String, Object> map = new HashMap<>();
         map.put("Message", message);
         return map;
     }

@@ -52,3 +52,15 @@ spring:
           ssl:
             enable: true
         debug: false #是否开始debug模式，终端会打印日志
+
+#电子口岸u-key的配置参数
+eport:
+  signature:
+    ukey:
+      cert-path: cert/01691fe9.cer
+      ws-url: ws://127.0.0.1:61232
+      password: 88888888
+      health:
+        endpoint:
+          # Windows上重启的ukey可执行文件全限定文件名称
+          client-name: C:\中国电子口岸客户端控件\SetAccessControl.exe
