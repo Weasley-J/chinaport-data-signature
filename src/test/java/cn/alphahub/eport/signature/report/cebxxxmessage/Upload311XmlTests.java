@@ -26,7 +26,7 @@ class Upload311XmlTests {
     ChinaEportReportClient chinaEportReportClient;
 
     @Test
-    @DisplayName("311 进口单 xml 上报测试")
+    @DisplayName("311进口单上报测试")
     void push() {
         String sourceXml = """
                 <ceb:CEB311Message xmlns:ceb="http://www.chinaport.gov.cn/ceb" guid="4CDE1CFD-EDED-46B1-946C-B8022E42FC94" version="1.0">
