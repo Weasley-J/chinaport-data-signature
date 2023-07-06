@@ -9,7 +9,7 @@ package o.github.weasleyj.china.eport.sign.model.signature;
 import javax.xml.bind.annotation.XmlNs;
 import javax.xml.bind.annotation.XmlSchema;
 
-import static o.github.weasleyj.china.eport.sign.model.cebmessage.NameSpace.NAMESPACE_DS_URI;
+import static o.github.weasleyj.china.eport.sign.constants.NameSpace.NAMESPACE_DS_URI;
 
 
 

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 import o.github.weasleyj.china.eport.sign.AbstractCebMessage;
+import o.github.weasleyj.china.eport.sign.constants.NameSpace;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
