@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.math.BigDecimal;
 
-import static o.github.weasleyj.china.eport.sign.model.cebmessage.NameSpace.NAMESPACE_CEB_URI;
+import static o.github.weasleyj.china.eport.sign.constants.NameSpace.NAMESPACE_CEB_URI;
 
 @Data
 @Accessors(chain = true)

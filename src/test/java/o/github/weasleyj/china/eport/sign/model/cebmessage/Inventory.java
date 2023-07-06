@@ -2,6 +2,7 @@ package o.github.weasleyj.china.eport.sign.model.cebmessage;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
+import o.github.weasleyj.china.eport.sign.constants.NameSpace;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

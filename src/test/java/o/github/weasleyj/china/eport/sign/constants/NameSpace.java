@@ -1,4 +1,4 @@
-package o.github.weasleyj.china.eport.sign.model.cebmessage;
+package o.github.weasleyj.china.eport.sign.constants;
 
 /**
  * NameSpace
