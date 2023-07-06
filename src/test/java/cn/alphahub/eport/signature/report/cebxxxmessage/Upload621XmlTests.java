@@ -1,11 +1,11 @@
 package cn.alphahub.eport.signature.report.cebxxxmessage;
 
 import cn.alphahub.dtt.plus.util.JacksonUtil;
-import cn.alphahub.eport.signature.report.cebxxxmessage.constants.MessageType;
-import cn.alphahub.eport.signature.report.cebxxxmessage.entity.CEB621Message;
-import cn.alphahub.eport.signature.report.cebxxxmessage.util.GUIDUtil;
-import cn.alphahub.eport.signature.report.cebxxxmessage.util.JAXBUtil;
 import lombok.extern.slf4j.Slf4j;
+import o.github.weasleyj.eport.signature.constants.MessageType;
+import o.github.weasleyj.eport.signature.model.cebmessage.CEB621Message;
+import o.github.weasleyj.eport.signature.util.GUIDUtil;
+import o.github.weasleyj.eport.signature.util.JAXBUtil;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -118,14 +118,14 @@ class Upload621XmlTests {
                     </ds:Signature>
                 </ceb:CEB621Message>
                 """;
-        CEB621Message ceb621Message = JAXBUtil.convertToObj(sourceXml, CEB621Message.class);
+
+        CEB621Message ceb621Message = JAXBUtil.toBean(sourceXml, CEB621Message.class);
         assert ceb621Message != null;
-        ceb621Message.setGuid(GUIDUtil.getDayIncrCode(GUIDUtil.INVENTORY, GUIDUtil.CEB621MESSAGE, 4));
-        String guid = GUIDUtil.getDayIncrCode(GUIDUtil.ORDERPUSH, GUIDUtil.CEB311MESSAGE, 4);
+        String guid = GUIDUtil.getGuid();
         ceb621Message.setGuid(guid);
         ceb621Message.getInventory().getInventoryHead().setGuid(guid);
         ceb621Message.setVersion("1.0");
-        ceb621Message.setBaseTransfer(chinaEportReportClient.assembleBaseTransfer()); //参数需要替换成自己企业的
+        ceb621Message.setBaseTransfer(chinaEportReportClient.buildBaseTransfer()); //参数需要替换成自己企业的
 
         /*
         Inventory inventory = new Inventory();
@@ -137,8 +137,9 @@ class Upload621XmlTests {
         */
 
         System.out.println(JacksonUtil.toJson(ceb621Message));
-        String xml = JAXBUtil.convertToXml(ceb621Message);
+        String xml = JAXBUtil.toXml(ceb621Message);
 
-        chinaEportReportClient.push(ceb621Message, MessageType.CEB621Message);
+        chinaEportReportClient.upload(ceb621Message, MessageType.CEB621Message);
     }
+
 }
