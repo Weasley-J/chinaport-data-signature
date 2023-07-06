@@ -34,18 +34,18 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-;
-
-
 /**
  * 电子口岸上报客户端
+ *
+ * @author weasley
+ * @since 1.1.0
  */
 @Slf4j
 @Service
 public class ChinaEportReportClient {
 
     /**
-     * 海关服务器地址格式：http://ip:port
+     * 海关服务器地址，格式: http://ip:port
      *
      * @apiNote base64加密下，不适合直接公布到公网
      */
@@ -97,7 +97,7 @@ public class ChinaEportReportClient {
     /**
      * 组装最终请求数据，完成末三段加密
      */
-    protected MessageRequest buildMessageRequest(AbstractCebMessage cebMessage, IMessageType messageType) {
+    private MessageRequest buildMessageRequest(AbstractCebMessage cebMessage, IMessageType messageType) {
         if (cebMessage == null) {
             return new MessageRequest();
         }
@@ -128,7 +128,7 @@ public class ChinaEportReportClient {
      *
      * @param sourceXml 原始XML
      */
-    protected String buildXml(SignResult signResult, String sourceXml, IMessageType messageType) {
+    private String buildXml(SignResult signResult, String sourceXml, IMessageType messageType) {
         Signature signature = Signature.builder()
                 .keyInfo(KeyInfo.builder()
                         .keyName(signResult.getCertNo())
