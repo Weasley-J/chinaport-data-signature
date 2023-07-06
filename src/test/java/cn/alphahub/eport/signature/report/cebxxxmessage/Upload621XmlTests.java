@@ -139,7 +139,7 @@ class Upload621XmlTests {
         System.out.println(JacksonUtil.toJson(ceb621Message));
         String xml = JAXBUtil.toXml(ceb621Message);
 
-        chinaEportReportClient.upload(ceb621Message, MessageType.CEB621Message);
+        chinaEportReportClient.report(ceb621Message, MessageType.CEB621Message);
     }
 
 }

@@ -64,7 +64,7 @@ public class ChinaEportReportClient {
      * @param messageType CEB311Message|CEB621Message|...
      * @return 推送结果, OK: 表示成功, 报关结果需要自己查询回执
      */
-    public String upload(AbstractCebMessage cebMessage, IMessageType messageType) {
+    public String report(AbstractCebMessage cebMessage, IMessageType messageType) {
         log.info("数据上报海关xml入参: {}, {}", JSONUtil.toJsonStr(cebMessage), messageType.getMessageType());
         MessageRequest messageRequest = buildMessageRequest(cebMessage, messageType);
         String requestServer = Base64.decodeStr(EPORT_SERVER_BASE64);

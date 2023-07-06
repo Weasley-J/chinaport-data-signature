@@ -101,6 +101,6 @@ class Upload311XmlTests {
         System.out.println(toJson(ceb311Message));
         String xml = JAXBUtil.toXml(ceb311Message);
 
-        chinaEportReportClient.upload(ceb311Message, MessageType.CEB311Message);
+        chinaEportReportClient.report(ceb311Message, MessageType.CEB311Message);
     }
 }
