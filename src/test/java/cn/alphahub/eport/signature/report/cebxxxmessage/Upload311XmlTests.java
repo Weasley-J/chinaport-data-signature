@@ -1,10 +1,10 @@
 package cn.alphahub.eport.signature.report.cebxxxmessage;
 
-import cn.alphahub.eport.signature.report.cebxxxmessage.constants.MessageType;
-import cn.alphahub.eport.signature.report.cebxxxmessage.entity.CEB311Message;
-import cn.alphahub.eport.signature.report.cebxxxmessage.util.GUIDUtil;
-import cn.alphahub.eport.signature.report.cebxxxmessage.util.JAXBUtil;
 import lombok.extern.slf4j.Slf4j;
+import o.github.weasleyj.eport.signature.constants.MessageType;
+import o.github.weasleyj.eport.signature.model.cebmessage.CEB311Message;
+import o.github.weasleyj.eport.signature.util.GUIDUtil;
+import o.github.weasleyj.eport.signature.util.JAXBUtil;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ class Upload311XmlTests {
     ChinaEportReportClient chinaEportReportClient;
 
     @Test
-    @DisplayName("311 进口单 xml 上报测试")
+    @DisplayName("311进口单上报测试")
     void push() {
         String sourceXml = """
                 <ceb:CEB311Message xmlns:ceb="http://www.chinaport.gov.cn/ceb" guid="4CDE1CFD-EDED-46B1-946C-B8022E42FC94" version="1.0">
@@ -89,23 +89,18 @@ class Upload311XmlTests {
                     </ceb:BaseTransfer>
                 </ceb:CEB311Message>
                 """;
-        CEB311Message ceb311Message = JAXBUtil.convertToObj(sourceXml, CEB311Message.class);
-        //组装签名xml
+
+        CEB311Message ceb311Message = JAXBUtil.toBean(sourceXml, CEB311Message.class);
         assert ceb311Message != null;
-        String guid = GUIDUtil.getDayIncrCode(GUIDUtil.ORDERPUSH, GUIDUtil.CEB311MESSAGE, 4);
+        String guid = GUIDUtil.getGuid();
         ceb311Message.setGuid(guid);
         ceb311Message.getOrder().getOrderHead().setGuid(guid);
         ceb311Message.setVersion("1.0");
-        ceb311Message.setBaseTransfer(chinaEportReportClient.assembleBaseTransfer()); //参数需要替换成自己企业的
-        /*
-        Order order1 = new Order();
-        order1.setOrderHead(getOrderHeadReq(order,buy,orderPaymentLine,haiNanGUID.getDayIncrCode(GUIDUtil.ORDERPUSH, GUIDUtil.CEB311MESSAGE,4),OptType));
-        order1.setOrderList(getOrderListReq(item));
-        ceb311Message.setOrder(order1);
-        */
-        System.out.println(toJson(ceb311Message));
-        String xml = JAXBUtil.convertToXml(ceb311Message);
+        ceb311Message.setBaseTransfer(chinaEportReportClient.buildBaseTransfer()); //参数需要替换成自己企业的
 
-        chinaEportReportClient.push(ceb311Message, MessageType.CEB311Message);
+        System.out.println(toJson(ceb311Message));
+        String xml = JAXBUtil.toXml(ceb311Message);
+
+        chinaEportReportClient.report(ceb311Message, MessageType.CEB311Message);
     }
 }
