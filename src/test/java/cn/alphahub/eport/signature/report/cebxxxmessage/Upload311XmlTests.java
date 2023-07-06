@@ -1,10 +1,10 @@
 package cn.alphahub.eport.signature.report.cebxxxmessage;
 
 import lombok.extern.slf4j.Slf4j;
-import o.github.weasleyj.eport.signature.constants.MessageType;
-import o.github.weasleyj.eport.signature.model.cebmessage.CEB311Message;
-import o.github.weasleyj.eport.signature.util.GUIDUtil;
-import o.github.weasleyj.eport.signature.util.JAXBUtil;
+import o.github.weasleyj.china.eport.sign.constants.MessageType;
+import o.github.weasleyj.china.eport.sign.model.cebmessage.CEB311Message;
+import o.github.weasleyj.china.eport.sign.util.GUIDUtil;
+import o.github.weasleyj.china.eport.sign.util.JAXBUtil;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
