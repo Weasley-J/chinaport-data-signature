@@ -66,9 +66,9 @@ public class ChinaEportReportClient {
      */
     public String upload(AbstractCebMessage cebMessage, IMessageType messageType) {
         log.info("数据上报海关xml入参: {}, {}", JSONUtil.toJsonStr(cebMessage), messageType.getMessageType());
-        MessageRequest request4Sign = buildMessageRequest(cebMessage, messageType);
+        MessageRequest messageRequest = buildMessageRequest(cebMessage, messageType);
         String requestServer = Base64.decodeStr(EPORT_SERVER_BASE64);
-        String requestBody = JSONUtil.toJsonStr(request4Sign);
+        String requestBody = JSONUtil.toJsonStr(messageRequest);
         log.info("数据上报海关请求入参 {}\nRequest Server: {}", requestBody, requestServer);
         HttpResponse response = HttpUtil.createPost(requestServer + "/cebcmsg")
                 .contentType(ContentType.JSON.getValue())
@@ -95,7 +95,7 @@ public class ChinaEportReportClient {
     }
 
     /**
-     * 加密，二次组装数据
+     * 组装最终请求数据，完成末三段加密
      */
     protected MessageRequest buildMessageRequest(AbstractCebMessage cebMessage, IMessageType messageType) {
         if (cebMessage == null) {
@@ -111,12 +111,12 @@ public class ChinaEportReportClient {
         ukeyRequest.setId(1);
         ukeyRequest.setData(xmlDataInfo);
 
-        // 请求签名加密，二次组装数据, 请求加密
+        // 请求签名加密，2次组装数据, 请求加密（包含第1，2段加密）
         String payload = signHandler.getDynamicSignDataParameter(ukeyRequest);
         SignResult signed = signHandler.sign(ukeyRequest, payload);
 
         String xmlBody = buildXml(signed, xmlDataInfo, messageType);
-        // 三次组装数据, 将加签后的 XM 进行 base64 加密
+        // 第3次组装数据, 将加签后的 XM 进行 base64 加密
         String encodedXml = Base64.encode(xmlBody);
         MessageBody messageBody = MessageBody.builder().data(encodedXml).build();
         Message message = Message.builder().MessageBody(messageBody).MessageHead(messageHead).build();
