@@ -12,7 +12,7 @@ import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
-import o.github.weasleyj.eport.sign.model.customs179.Customs179Request;
+import o.github.weasleyj.china.eport.sign.model.customs179.Customs179Request;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
