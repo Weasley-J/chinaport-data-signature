@@ -14,7 +14,7 @@ import java.io.FileNotFoundException;
 import java.nio.charset.StandardCharsets;
 
 @SpringBootTest
-public class InitialConfigTest {
+public class UkeyInitialConfigTest {
 
     /**
      * CEB621Message
@@ -42,25 +42,25 @@ public class InitialConfigTest {
 
     @Test
     void getX509CertificateParameter() {
-        System.err.println(InitialConfig.getX509CertificateParameter());
+        System.err.println(UkeyInitialConfig.getX509CertificateParameter());
     }
 
     @Test
     void getDigestValueParameter() {
-        System.err.println(InitialConfig.getDigestValueParameter(CEB621Message, 1));
+        System.err.println(UkeyInitialConfig.getDigestValueParameter(CEB621Message, 1));
     }
 
     @Test
     void getSignatureValueParameter() {
-        System.err.println(InitialConfig.getSignDataAsPEMParameter(new SignRequest(CEB621Message)));
+        System.err.println(UkeyInitialConfig.getSignDataAsPEMParameter(new SignRequest(CEB621Message)));
     }
 
     @Test
     void getVerifySignDataNoHashParameter() {
         String sha1DigestOfSourceXml = DigestUtil.sha1Hex(CEB621Message);
-        System.err.println(sha1DigestOfSourceXml.length() + " " + sha1DigestOfSourceXml + " " + InitialConfig.getVerifySignDataNoHashParameter(CEB621Message, "sv", null, 1));
+        System.err.println(sha1DigestOfSourceXml.length() + " " + sha1DigestOfSourceXml + " " + UkeyInitialConfig.getVerifySignDataNoHashParameter(CEB621Message, "sv", null, 1));
         sha1DigestOfSourceXml = org.apache.commons.codec.digest.DigestUtils.sha1Hex(CEB621Message);
-        System.err.println(sha1DigestOfSourceXml.length() + " " + sha1DigestOfSourceXml + " " + InitialConfig.getVerifySignDataNoHashParameter(CEB621Message, "sv", null, 1));
+        System.err.println(sha1DigestOfSourceXml.length() + " " + sha1DigestOfSourceXml + " " + UkeyInitialConfig.getVerifySignDataNoHashParameter(CEB621Message, "sv", null, 1));
     }
 
 }

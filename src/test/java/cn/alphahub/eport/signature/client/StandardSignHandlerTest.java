@@ -1,7 +1,7 @@
 package cn.alphahub.eport.signature.client;
 
-import cn.alphahub.eport.signature.config.InitialConfig;
-import cn.alphahub.eport.signature.config.InitialConfigTest;
+import cn.alphahub.eport.signature.config.UkeyInitialConfig;
+import cn.alphahub.eport.signature.config.UkeyInitialConfigTest;
 import cn.alphahub.eport.signature.core.SignHandler;
 import cn.alphahub.eport.signature.entity.SignRequest;
 import cn.alphahub.eport.signature.entity.SignResult;
@@ -24,8 +24,8 @@ class StandardSignHandlerTest {
 
     @Test
     void sendInitDataAsPEMWithHashPTest() {
-        SignRequest request = new SignRequest(InitialConfigTest.CEB621Message);
-        String parameter = InitialConfig.getSignDataAsPEMParameter(request);
+        SignRequest request = new SignRequest(UkeyInitialConfigTest.CEB621Message);
+        String parameter = UkeyInitialConfig.getSignDataAsPEMParameter(request);
         SignHandler client = new SignHandler();
         SignResult result = client.sign(request, parameter);
         System.out.println(JSONUtil.toJsonPrettyStr(result));
@@ -33,8 +33,8 @@ class StandardSignHandlerTest {
 
     @Test
     void sendInitDataNoHashAsPEMParameterTest() {
-        SignRequest request = new SignRequest(InitialConfigTest.CEB621Message);
-        String parameter = InitialConfig.getSignDataNoHashAsPEMParameter(request);
+        SignRequest request = new SignRequest(UkeyInitialConfigTest.CEB621Message);
+        String parameter = UkeyInitialConfig.getSignDataNoHashAsPEMParameter(request);
         SignHandler client = new SignHandler();
         SignResult result = client.sign(request, parameter);
         System.out.println(JSONUtil.toJsonPrettyStr(result));
@@ -46,7 +46,7 @@ class StandardSignHandlerTest {
     @Test
     void ukeyVersion() {
         String method = "cus-sec_SpcGetCardAttachInfo";
-        SignRequest request = new SignRequest(InitialConfigTest.CEB621Message);
+        SignRequest request = new SignRequest(UkeyInitialConfigTest.CEB621Message);
         SignHandler client = new SignHandler();
         SignResult result = client.sign(request, "666");
         System.out.println(JSONUtil.toJsonPrettyStr(result));
