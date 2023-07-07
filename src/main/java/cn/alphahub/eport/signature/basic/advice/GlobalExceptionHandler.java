@@ -5,6 +5,7 @@ import cn.alphahub.eport.signature.basic.enums.BizCodeEnum;
 import cn.alphahub.eport.signature.basic.exception.SignException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
@@ -35,8 +36,8 @@ public class GlobalExceptionHandler {
      * @return 错误信息
      */
     @ExceptionHandler(SignException.class)
-    public Result<SignException> customizeExceptionHandler(SignException e) {
-        return Result.fail(e.getCode(), e.getMessage());
+    public Result<SignException> signExceptionHandler(SignException e) {
+        return Result.fail(e.getCode(), StringUtils.hasText(e.getMsg()) ? e.getMsg() : e.getLocalizedMessage());
     }
 
     /**
