@@ -3,7 +3,7 @@ package cn.alphahub.eport.signature.core;
 import cn.alphahub.dtt.plus.util.JacksonUtil;
 import cn.alphahub.eport.signature.config.EmailProperties;
 import cn.alphahub.eport.signature.config.UkeyAccessClientProperties.Command;
-import cn.alphahub.eport.signature.config.UkeyHealth;
+import cn.alphahub.eport.signature.config.UkeyHealthHelper;
 import cn.alphahub.eport.signature.config.UkeyProperties;
 import cn.alphahub.eport.signature.entity.ConsoleOutput;
 import cn.alphahub.eport.signature.entity.UkeyResponse;
@@ -56,7 +56,7 @@ public class WebSocketClientHandler extends TextWebSocketHandler {
     @Getter
     private final CertificateHandler certificateHandler;
     @Autowired
-    private UkeyHealth ukeyHealth;
+    private UkeyHealthHelper ukeyHealthHelper;
     @Autowired
     private EmailTemplate emailTemplate;
     @Autowired
@@ -151,7 +151,7 @@ public class WebSocketClientHandler extends TextWebSocketHandler {
      * @since 1.0.9
      */
     public void restartWindowsWebsocketClient(SimpleMailMessageDomain message) {
-        ConsoleOutput output = ukeyHealth.fixUkey(Command.RESTART);
+        ConsoleOutput output = ukeyHealthHelper.fixUkey(Command.RESTART);
         String restartLog = message.getText()
                 .concat("\n\n加签程序【chinaport-data-signature】重启Windows Websocket客户端，cmd终端信息:\n")
                 .concat(JacksonUtil.toJson(output));

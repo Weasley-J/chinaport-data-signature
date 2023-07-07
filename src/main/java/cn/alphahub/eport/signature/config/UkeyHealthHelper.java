@@ -21,10 +21,10 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 @Configuration
 @EnableConfigurationProperties({UkeyAccessClientProperties.class})
-public class UkeyHealth {
+public class UkeyHealthHelper {
     private final UkeyAccessClientProperties ukeyAccessClientProperties;
 
-    public UkeyHealth(UkeyAccessClientProperties ukeyAccessClientProperties) {
+    public UkeyHealthHelper(UkeyAccessClientProperties ukeyAccessClientProperties) {
         this.ukeyAccessClientProperties = ukeyAccessClientProperties;
     }
 
