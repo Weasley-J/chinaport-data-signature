@@ -38,7 +38,7 @@ public class UkeyHealth {
      */
     @Bean
     ApplicationRunner ukeyPreCallbackRunner() {
-        if (/*SystemUtils.IS_OS_WINDOWS && */StringUtils.isNotBlank(ukeyAccessClientProperties.getClientName())
+        if (SystemUtils.IS_OS_WINDOWS && StringUtils.isNotBlank(ukeyAccessClientProperties.getClientName())
                 && (!FileUtils.getFile(ukeyAccessClientProperties.getClientName()).exists())) {
             log.error("可执行文件 {} 不存在，请检查你的配置; \n如果你没有安装【中国电子口岸C卡/Key客户端控件】请前往官网下载(卡介质登录界面)下载: {}; \n或者点击链接下载：{}",
                     ukeyAccessClientProperties.getClientName(),
