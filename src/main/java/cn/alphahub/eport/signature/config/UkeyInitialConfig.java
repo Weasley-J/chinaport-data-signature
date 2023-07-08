@@ -62,7 +62,7 @@ import static cn.alphahub.eport.signature.core.SignHandler.DATE_TIME_202207;
 @Slf4j
 @Configuration
 @EnableConfigurationProperties({UkeyProperties.class, EmailProperties.class})
-public class InitialConfig implements ApplicationRunner {
+public class UkeyInitialConfig implements ApplicationRunner {
     /**
      * u-key默认密码8个8不要修改
      */
@@ -252,7 +252,7 @@ public class InitialConfig implements ApplicationRunner {
         WebSocketConnectionManager certManager = new WebSocketConnectionManager(standardWebSocketClient, new TextWebSocketHandler() {
             @Override
             public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-                session.sendMessage(new TextMessage(InitialConfig.getX509CertificateParameter()));
+                session.sendMessage(new TextMessage(UkeyInitialConfig.getX509CertificateParameter()));
             }
 
             @Override

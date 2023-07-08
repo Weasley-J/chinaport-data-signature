@@ -1,6 +1,6 @@
 package cn.alphahub.eport.signature.core;
 
-import cn.alphahub.eport.signature.config.InitialConfig;
+import cn.alphahub.eport.signature.config.UkeyInitialConfig;
 import cn.alphahub.eport.signature.config.UkeyProperties;
 import cn.alphahub.eport.signature.entity.SignRequest;
 import cn.alphahub.eport.signature.entity.SignResult;
@@ -93,9 +93,9 @@ public class SignHandler {
     public String getDynamicSignDataParameter(@Valid SignRequest request) {
         if (certificateHandler.getUkeyValidTimeBegin().isAfter(DATE_TIME_202207)) {
             //1. 2022-07-01以后签发的u-key都使用这个签名方式
-            return InitialConfig.getSignDataAsPEMParameter(request);
+            return UkeyInitialConfig.getSignDataAsPEMParameter(request);
         }
-        return certificateHandler.getCertExists().equals(true) ? InitialConfig.getSignDataAsPEMParameter(request) : InitialConfig.getSignDataNoHashAsPEMParameter(request);
+        return certificateHandler.getCertExists().equals(true) ? UkeyInitialConfig.getSignDataAsPEMParameter(request) : UkeyInitialConfig.getSignDataNoHashAsPEMParameter(request);
     }
 
     /**

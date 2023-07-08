@@ -5,10 +5,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /**
- * 中国电子口岸（海口海关CEBXxxMessage）加签服务
+ * 中国电子口岸加签用用
  *
  * @author Weasley J
  * @date 2022-02-13
+ * @since 1.0.0
  */
 @EnableDiscoveryClient
 @SpringBootApplication

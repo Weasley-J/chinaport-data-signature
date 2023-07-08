@@ -36,8 +36,6 @@ public class SysUtil extends cn.hutool.system.SystemUtil {
      */
     public static String getUserDir() {
         return getProps().get("user.dir").toString();
-
-
     }
 
     /**

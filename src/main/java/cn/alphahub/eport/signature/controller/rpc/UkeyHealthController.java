@@ -2,7 +2,7 @@ package cn.alphahub.eport.signature.controller.rpc;
 
 import cn.alphahub.eport.signature.basic.domain.Result;
 import cn.alphahub.eport.signature.config.UkeyAccessClientProperties.Command;
-import cn.alphahub.eport.signature.config.UkeyHealth;
+import cn.alphahub.eport.signature.config.UkeyHealthHelper;
 import cn.alphahub.eport.signature.entity.ConsoleOutput;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UkeyHealthController {
 
     @Autowired
-    private UkeyHealth ukeyHealth;
+    private UkeyHealthHelper ukeyHealthHelper;
 
     /**
      * ukey健康指令
@@ -41,22 +41,11 @@ public class UkeyHealthController {
     @PostMapping("/endpoint/{command}")
     public Result<ConsoleOutput> endpoint(@PathVariable("command") Command command) {
         log.info("执行ukey健康指令: {}", command.getDesc());
-        ConsoleOutput consoleOutput = ukeyHealth.fixUkey(command);
+        ConsoleOutput consoleOutput = ukeyHealthHelper.fixUkey(command);
         if (null == consoleOutput) {
             return Result.error("找不到重启ukey的可执行文件：SetAccessControl.exe, 请检查你的配置是否正确: --eport.signature.ukey.health.endpoint.client-name");
         }
         return Result.ok(consoleOutput);
     }
-
-    /**
-     * 会在将终端输出同步写给浏览器
-     */
-    /*@GetMapping("/endpoint/exec")
-    public void exec(@RequestParam("cmd") String cmd, HttpServletResponse response) throws IOException {
-        log.info("执行指令: {}", cmd);
-        response.addHeader("Content-Type", "text/event-stream; charset=utf-8");
-        CommandClient commandClient = CommandClient.getSharedInstance();
-        commandClient.execute(cmd, response.getOutputStream());
-    }*/
 
 }

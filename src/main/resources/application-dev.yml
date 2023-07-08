@@ -57,3 +57,7 @@ eport:
         endpoint:
           # Windows上重启的ukey可执行文件全限定文件名称
           client-name: C:\中国电子口岸客户端控件\SetAccessControl.exe
+    # 客户端请求鉴权token, 生产环境不建议使用默认token
+    auth:
+      enable: true
+      token: DefaultAuthToken
