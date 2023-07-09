@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>o.github.weasleyj.china.eport.sign</groupId>
+    <artifactId>chinaport-data-signature-data-model</artifactId>
+    <version>1.0.0</version>
+    <name>chinaport-data-signature-data-model</name>
+    <packaging>jar</packaging>
+    <url>https://github.com/Weasley-J/chinaport-data-signature/chinaport-data-signature-data-model</url>
+    <description>
+        中国电子口岸加签服务数据模型: 1. 海关 179 数据抓取; 2. 海关总署xml报文, 进口单：CEB311Message, CEB621Message;
+    </description>
+
+    <licenses>
+        <license>
+            <name>GNU GENERAL PUBLIC LICENSE, Version 3</name>
+            <url>
+                https://github.com/Weasley-J/chinaport-data-signature/chinaport-data-signature-data-model/blob/main/LICENSE
+            </url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Weasley J</name>
+            <email>1432689025@qq.com</email>
+            <url>https://github.com/Weasley-J</url>
+        </developer>
+    </developers>
+
+    <scm>
+        <url>https://github.com/Weasley-J/chinaport-data-signature</url>
+        <connection>https://github.com/Weasley-J/chinaport-data-signature.git</connection>
+        <developerConnection>https://github.com/Weasley-J/chinaport-data-signature</developerConnection>
+    </scm>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <lombok.version>1.18.28</lombok.version>
+        <slf4j-api.version>2.0.7</slf4j-api.version>
+        <jaxb-api.version>2.3.1</jaxb-api.version>
+        <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
+        <nexus-staging.version>1.6.13</nexus-staging.version>
+        <maven-javadoc.version>3.4.0</maven-javadoc.version>
+        <maven-gpg.version>3.0.1</maven-gpg.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>${jaxb-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+            <version>${jaxb-api.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                    <compilerVersion>1.8</compilerVersion>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>${nexus-staging.version}</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${maven-javadoc.version}</version>
+                <configuration>
+                    <show>private</show>
+                    <nohelp>true</nohelp>
+                    <charset>UTF-8</charset>
+                    <encoding>UTF-8</encoding>
+                    <docencoding>UTF-8</docencoding>
+                    <additionalJOptions>
+                        <additionalJOption>-Xdoclint:none</additionalJOption>
+                    </additionalJOptions>
+                    <tags>
+                        <tag>
+                            <name>date</name>
+                            <placement>o</placement>
+                            <head>Ignore 'date' tag rule</head>
+                        </tag>
+                        <tag>
+                            <name>apiNote</name>
+                            <placement>o</placement>
+                            <head>Ignore 'apiNote' tag rule</head>
+                        </tag>
+                        <tag>
+                            <name>implNote</name>
+                            <placement>o</placement>
+                            <head>Ignore 'implNote' tag rule</head>
+                        </tag>
+                    </tags>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadoc</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>${maven-gpg.version}</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
