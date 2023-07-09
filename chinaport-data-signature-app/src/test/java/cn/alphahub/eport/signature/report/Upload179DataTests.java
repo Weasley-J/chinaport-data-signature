@@ -1,7 +1,6 @@
 package cn.alphahub.eport.signature.report;
 
 
-import cn.alphahub.eport.signature.after202207.SignConstant;
 import cn.alphahub.eport.signature.core.SignHandler;
 import cn.alphahub.eport.signature.entity.SignRequest;
 import cn.alphahub.eport.signature.entity.SignResult;
@@ -18,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import static cn.alphahub.dtt.plus.util.JacksonUtil.toJson;
@@ -31,6 +29,17 @@ class Upload179DataTests {
     @Autowired
     private SignHandler signHandler;
 
+    /**
+     * 返回结果示例
+     * <pre>
+     *{
+     *     "code": "20004",
+     *     "message": "企业实时数据获取验签证书未在服务系统注册",
+     *     "total": 0,
+     *     "serviceTime": 1688886074467
+     * }
+     * </pre>
+     */
     @Test
     void upload() {
         Customs179Request customs179Request = JSONUtil.toBean("""
@@ -93,8 +102,7 @@ class Upload179DataTests {
             put("passwd", "88888888");
         }});
         String signParams = toJson(ukeyRequest);
-        SignRequest request = new SignRequest(SignConstant.sign179);
-        //SignResult result = signController.sign(request).getData();
+        SignRequest request = new SignRequest(dataInfo179);
         SignResult result = signHandler.sign(request, signParams);
 
         customs179Request.setCertNo(result.getCertNo());
@@ -115,67 +123,4 @@ class Upload179DataTests {
         }
     }
 
-    public String concatOriginSignVale(String sessionId, Map<Object, Object> payExchangeInfoHead, List<Map<Object, Object>> payExchangeInfoLists, long serviceTime) {
-        // 加签
-        String info = "\"sessionID\":\"" + sessionId + "\"||" +
-                "\"payExchangeInfoHead\":\"" + toJson(payExchangeInfoHead) + "\"||" +
-                "\"payExchangeInfoLists\":\"" + toJson(payExchangeInfoLists) + "\"||" +
-                "\"serviceTime\":" + "\"" + serviceTime + "\"";
-        // optimize 密码
-        return "{\"_method\":\"cus-sec_SpcSignDataAsPEM\",\"_id\":1,\"args\":{\"inData\":\"" + info.replace("\"", "\\\"") + "\",\"passwd\":\"88888888\"}}";
-    }
-
-
-   /* public Map<Object, Object> generatePayExInfoStr(String orderNo, String sessionId) {
-        Map<Object, Object> payExInfo = new LinkedHashMap<>();
-        payExInfo.put("sessionID", sessionId);
-
-        TradeOrder order = tradeOrderMapper.selectOne(Wrappers.<TradeOrder>lambdaQuery().eq(TradeOrder::getOrderNo, orderNo));
-
-        // head信息
-        Map<Object, Object> payExchangeInfoHead = getPayExchangeInfoHead(order);
-        payExInfo.put("payExchangeInfoHead", payExchangeInfoHead);
-
-        // lists信息
-        List<Map<Object, Object>> payExchangeInfoLists = getPayExchangeInfoLists(orderNo);
-        payExInfo.put("payExchangeInfoLists", payExchangeInfoLists);
-
-        long serviceTime = System.currentTimeMillis();
-        payExInfo.put("serviceTime", String.valueOf(serviceTime));
-        payExInfo.put("certNo", getCertNo());
-        // 加签用的原始报文数据
-        payExInfo.put("signValue", concatOriginSignVale(sessionId, payExchangeInfoHead, payExchangeInfoLists, serviceTime));
-        return payExInfo;
-    }*/
-
-
-   /*
-   public Map<Object, Object> getPayExchangeInfoHead(TradeOrder order) {
-        OrderPaymentLine line = orderPaymentLineMapper.selectOne(Wrappers.<OrderPaymentLine>lambdaQuery()
-                .eq(OrderPaymentLine::getOrderId, order.getId())
-                .eq(OrderPaymentLine::getDelFlag, 0).eq(OrderPaymentLine::getPayType, 0));
-        PayOrderDetailRequest request = new PayOrderDetailRequest();
-        request.setPayNo(line.getOrderTransactionNumber());
-        Result<PayOrderDetailResponse> result = paymentCFeignService.payOrderDetail(request);
-
-        // 企业系统生成36位唯一序号（英文字母大写）
-        String guid = UUID.randomUUID().toString().toUpperCase();
-        Map<Object, Object> map = ViewObjUtils.getMap(16, true);
-        map.put("guid", guid);
-        // 支付报文含有xml,{}，这些特殊字符需要，URL编码
-        map.put("initalRequest", getUrlEncode(result.getData().getUnifiedOrderRequest()));
-        map.put("initalResponse", getUrlEncode(result.getData().getUnifiedOrderResponse()));
-        map.put("ebpCode", "46121601BC");
-        map.put("payCode", "440316T004");
-        map.put("payTransactionId", line.getOrderTransactionNumber());
-        map.put("totalAmount", order.getPaymentAmount());
-        // https://baike.baidu.com/item/币制报关代码表
-        map.put("currency", "142");
-        map.put("verDept", "3");
-        map.put("payType", "1");
-        map.put("tradingTime", DateUtil.format(line.getPaymentDate(), "yyyyMMddHHmmss"));
-        map.put("note", "跨境商品支付");
-        return map;
-    }
-    */
 }

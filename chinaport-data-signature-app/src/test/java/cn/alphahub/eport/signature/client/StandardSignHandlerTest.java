@@ -72,7 +72,7 @@ class StandardSignHandlerTest {
             put("lReader", 1);
         }});
         String signParams = toJson(ukeyRequest);
-        SignRequest request = new SignRequest("");
+        SignRequest request = new SignRequest("没有数据");
         SignResult result = client.sign(request, signParams);
         System.out.println(JSONUtil.toJsonPrettyStr(result));
     }

@@ -45,6 +45,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import static cn.alphahub.dtt.plus.util.JacksonUtil.toJson;
 import static cn.alphahub.eport.signature.core.CertificateHandler.METHOD_OF_X509_WITH_HASH;
@@ -85,8 +86,10 @@ public class ChinaEportReportClient {
      */
     public AbstractCebMessage getCebMessageByMessageType(UploadCEBMessageRequest request) {
         return switch (request.getMessageType()) {
-            case CEB311Message -> JAXBUtil.toBean(request.getCebMessage(), CEB311Message.class);
-            case CEB621Message -> JAXBUtil.toBean(request.getCebMessage(), CEB621Message.class);
+            case CEB311Message ->
+                    Objects.requireNonNull(JAXBUtil.toBean(request.getCebMessage(), CEB311Message.class)).setBaseTransfer(buildBaseTransfer());
+            case CEB621Message ->
+                    Objects.requireNonNull(JAXBUtil.toBean(request.getCebMessage(), CEB621Message.class)).setBaseTransfer(buildBaseTransfer());
         };
     }
 
