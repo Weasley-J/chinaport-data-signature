@@ -2,6 +2,7 @@ package cn.alphahub.eport.signature.report;
 
 import cn.alphahub.dtt.plus.util.JacksonUtil;
 import cn.alphahub.eport.signature.core.ChinaEportReportClient;
+import cn.alphahub.eport.signature.entity.ThirdAbstractResponse;
 import cn.hutool.core.codec.Base64;
 import cn.hutool.http.ContentType;
 import cn.hutool.http.HttpResponse;
@@ -133,20 +134,10 @@ class Upload621XmlTests {
         ceb621Message.getInventory().getInventoryHead().setGuid(guid);
         ceb621Message.setVersion("1.0");
         ceb621Message.setBaseTransfer(chinaEportReportClient.buildBaseTransfer()); //参数需要替换成自己企业的
-
-        /*
-        Inventory inventory = new Inventory();
-        InventoryHead headReq = getInventoryHeadReq(order,  request.getReceiverIdCard(), request.getInvoiceNo(),request.getPayNo());
-        ArrayList<InventoryList> listReq = getInventoryListReq(item, headReq);
-        inventory.setInventoryHead(headReq);
-        inventory.setInventoryListList(listReq);
-        ceb621Message.setInventory(inventory);
-        */
-
         System.out.println(JacksonUtil.toJson(ceb621Message));
         String xml = JAXBUtil.toXml(ceb621Message);
-
-        chinaEportReportClient.report(ceb621Message, MessageType.CEB621Message);
+        ThirdAbstractResponse<String, String> report = chinaEportReportClient.report(ceb621Message, MessageType.CEB621Message);
+        System.err.println(JacksonUtil.toPrettyJson(report));
     }
 
 

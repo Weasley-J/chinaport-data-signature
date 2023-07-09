@@ -1,6 +1,8 @@
 package cn.alphahub.eport.signature.report;
 
+import cn.alphahub.dtt.plus.util.JacksonUtil;
 import cn.alphahub.eport.signature.core.ChinaEportReportClient;
+import cn.alphahub.eport.signature.entity.ThirdAbstractResponse;
 import lombok.extern.slf4j.Slf4j;
 import o.github.weasleyj.china.eport.sign.constants.MessageType;
 import o.github.weasleyj.china.eport.sign.model.cebmessage.CEB311Message;
@@ -90,6 +92,7 @@ class Upload311XmlTests {
         System.out.println(toJson(ceb311Message));
         String xml = JAXBUtil.toXml(ceb311Message);
 
-        chinaEportReportClient.report(ceb311Message, MessageType.CEB311Message);
+        ThirdAbstractResponse<String, String> report = chinaEportReportClient.report(ceb311Message, MessageType.CEB621Message);
+        System.err.println(JacksonUtil.toPrettyJson(report));
     }
 }
