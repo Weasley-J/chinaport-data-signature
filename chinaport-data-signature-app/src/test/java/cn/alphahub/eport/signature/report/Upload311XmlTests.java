@@ -30,64 +30,52 @@ class Upload311XmlTests {
     @DisplayName("311进口单上报测试")
     void upload() {
         String sourceXml = """
-                <ceb:CEB311Message xmlns:ceb="http://www.chinaport.gov.cn/ceb" guid="4CDE1CFD-EDED-46B1-946C-B8022E42FC94" version="1.0">
-                    <link type="text/css" id="dark-mode" rel="stylesheet" href=""/>
+                <?xml version="1.0" encoding="UTF-8"?>
+                <ceb:CEB311Message guid="CEB311_HNZB_HNFX_20230707223752_003" version="1.0" xmlns:ceb="http://www.chinaport.gov.cn/ceb" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                     <ceb:Order>
                         <ceb:OrderHead>
-                            <ceb:guid>4CDE1CFD-EDED-46B1-946C-B8022E42FC94</ceb:guid>
+                            <ceb:guid>CEB311_HNZB_HNFX_20230707223752_001</ceb:guid>
                             <ceb:appType>1</ceb:appType>
-                            <ceb:appTime>20160308112701</ceb:appTime>
+                            <ceb:appTime>20230704181028</ceb:appTime>
                             <ceb:appStatus>2</ceb:appStatus>
                             <ceb:orderType>I</ceb:orderType>
-                            <ceb:orderNo>order20160321116421002</ceb:orderNo>
-                            <ceb:ebpCode>1105910159</ceb:ebpCode>
-                            <ceb:ebpName>东方物通科技(北京)有限公司</ceb:ebpName>
-                            <ceb:ebcCode>1105910159</ceb:ebcCode>
-                            <ceb:ebcName>东方物通科技(北京)有限公司</ceb:ebcName>
-                            <ceb:goodsValue>14000</ceb:goodsValue>
-                            <ceb:freight>5000</ceb:freight>
+                            <ceb:orderNo>T_C5051511332138160010</ceb:orderNo>
+                            <ceb:ebpCode>4601630004</ceb:ebpCode>
+                            <ceb:ebpName>海南省荣誉进出口贸易有限公司</ceb:ebpName>
+                            <ceb:ebcCode>4601630004</ceb:ebcCode>
+                            <ceb:ebcName>海南省荣誉进出口贸易有限公司</ceb:ebcName>
+                            <ceb:goodsValue>0.01</ceb:goodsValue>
+                            <ceb:freight>0</ceb:freight>
                             <ceb:discount>0</ceb:discount>
-                            <ceb:taxTotal>50</ceb:taxTotal>
-                            <ceb:acturalPaid>19050</ceb:acturalPaid>
+                            <ceb:taxTotal>0</ceb:taxTotal>
+                            <ceb:acturalPaid>0.01</ceb:acturalPaid>
                             <ceb:currency>142</ceb:currency>
-                            <ceb:buyerRegNo>ID20160001</ceb:buyerRegNo>
-                            <ceb:buyerName>aa</ceb:buyerName>
-                            <ceb:buyerTelephone>18813025940</ceb:buyerTelephone>
+                            <ceb:buyerRegNo>4</ceb:buyerRegNo>
+                            <ceb:buyerName>袁晓雨</ceb:buyerName>
+                            <ceb:buyerTelephone>13701727375</ceb:buyerTelephone>
                             <ceb:buyerIdType>1</ceb:buyerIdType>
-                            <ceb:buyerIdNumber>130681136250023332</ceb:buyerIdNumber>
-                            <ceb:payCode>1105910159</ceb:payCode>
-                            <ceb:payName>东方物通科技(北京)有限公司</ceb:payName>
-                            <ceb:payTransactionId>20160001634226001</ceb:payTransactionId>
-                            <ceb:batchNumbers>20160317</ceb:batchNumbers>
-                            <ceb:consignee>焦洪宇</ceb:consignee>
-                            <ceb:consigneeTelephone>13522652231</ceb:consigneeTelephone>
-                            <ceb:consigneeAddress>北京市海淀区</ceb:consigneeAddress>
-                            <ceb:consigneeDistrict>072750</ceb:consigneeDistrict>
+                            <ceb:buyerIdNumber>130435200009241538</ceb:buyerIdNumber>
+                            <ceb:consignee>袁晓雨</ceb:consignee>
+                            <ceb:consigneeTelephone>13701727375</ceb:consigneeTelephone>
+                            <ceb:consigneeAddress>北京北京市东城区</ceb:consigneeAddress>
                             <ceb:note>test</ceb:note>
                         </ceb:OrderHead>
                         <ceb:OrderList>
                             <ceb:gnum>1</ceb:gnum>
-                            <ceb:itemNo>AF001-001</ceb:itemNo>
-                            <ceb:itemName>b</ceb:itemName>
-                            <ceb:gmodel>33mm</ceb:gmodel>
-                            <ceb:itemDescribe>v</ceb:itemDescribe>
-                            <ceb:barCode>2345123</ceb:barCode>
-                            <ceb:unit>007</ceb:unit>
-                            <ceb:qty>100</ceb:qty>
-                            <ceb:price>20</ceb:price>
-                            <ceb:totalPrice>2000</ceb:totalPrice>
+                            <ceb:itemNo>1</ceb:itemNo>
+                            <ceb:itemName>LANNA兰纳</ceb:itemName>
+                            <ceb:gmodel>10片/包</ceb:gmodel>
+                            <ceb:itemDescribe></ceb:itemDescribe>
+                            <ceb:barCode>1</ceb:barCode>
+                            <ceb:unit>011</ceb:unit>
+                            <ceb:qty>1</ceb:qty>
+                            <ceb:price>1</ceb:price>
+                            <ceb:totalPrice>1</ceb:totalPrice>
                             <ceb:currency>142</ceb:currency>
-                            <ceb:country>116</ceb:country>
-                            <ceb:note/>
+                            <ceb:country>136</ceb:country>
+                            <ceb:note>test</ceb:note>
                         </ceb:OrderList>
                     </ceb:Order>
-                    <ceb:BaseTransfer>
-                        <ceb:copCode>1101180326</ceb:copCode>
-                        <ceb:copName>物流企业</ceb:copName>
-                        <ceb:dxpMode>DXP</ceb:dxpMode>
-                        <ceb:dxpId>EXP2016522002580001</ceb:dxpId>
-                        <ceb:note>test</ceb:note>
-                    </ceb:BaseTransfer>
                 </ceb:CEB311Message>
                 """;
 
@@ -97,7 +85,7 @@ class Upload311XmlTests {
         ceb311Message.setGuid(guid);
         ceb311Message.getOrder().getOrderHead().setGuid(guid);
         ceb311Message.setVersion("1.0");
-        ceb311Message.setBaseTransfer(chinaEportReportClient.buildBaseTransfer()); //参数需要替换成自己企业的
+        ceb311Message.setBaseTransfer(chinaEportReportClient.buildBaseTransfer()); //参数需要替换成自己企业的，我这里使用配置文件里面的
 
         System.out.println(toJson(ceb311Message));
         String xml = JAXBUtil.toXml(ceb311Message);
