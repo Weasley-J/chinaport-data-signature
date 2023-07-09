@@ -85,11 +85,23 @@ public class ChinaEportReportClient {
      * 推断CebMessage的具体的XML入参解析成Java对象
      */
     public AbstractCebMessage getCebMessageByMessageType(UploadCEBMessageRequest request) {
+        BaseTransfer baseTransfer = BaseTransfer.buildBaseTransfer(chinaEportProperties.getCopCode(), chinaEportProperties.getCopName(), chinaEportProperties.getDxpId());
+        String guid = GUIDUtil.getGuid();
         return switch (request.getMessageType()) {
-            case CEB311Message ->
-                    Objects.requireNonNull(JAXBUtil.toBean(request.getCebMessage(), CEB311Message.class)).setBaseTransfer(buildBaseTransfer());
-            case CEB621Message ->
-                    Objects.requireNonNull(JAXBUtil.toBean(request.getCebMessage(), CEB621Message.class)).setBaseTransfer(buildBaseTransfer());
+            case CEB311Message -> {
+                CEB311Message ceb311Message = Objects.requireNonNull(JAXBUtil.toBean(request.getCebMessage(), CEB311Message.class));
+                ceb311Message.setBaseTransfer(baseTransfer);
+                ceb311Message.setGuid(guid);
+                ceb311Message.getOrder().getOrderHead().setGuid(guid);
+                yield ceb311Message;
+            }
+            case CEB621Message -> {
+                CEB621Message ceb621Message = Objects.requireNonNull(JAXBUtil.toBean(request.getCebMessage(), CEB621Message.class));
+                ceb621Message.setGuid(guid);
+                ceb621Message.getInventory().getInventoryHead().setGuid(guid);
+                ceb621Message.setBaseTransfer(buildBaseTransfer());
+                yield ceb621Message;
+            }
         };
     }
 
