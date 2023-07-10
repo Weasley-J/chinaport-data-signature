@@ -2,7 +2,6 @@ package cn.alphahub.eport.signature.config;
 
 import cn.alphahub.eport.signature.entity.SignRequest;
 import cn.hutool.core.io.IoUtil;
-import cn.hutool.crypto.digest.DigestUtil;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,12 +31,10 @@ public class UkeyInitialConfigTest {
 
     @BeforeEach
     void setUp() {
-
     }
 
     @AfterEach
     void tearDown() {
-
     }
 
     @Test
@@ -53,14 +50,6 @@ public class UkeyInitialConfigTest {
     @Test
     void getSignatureValueParameter() {
         System.err.println(UkeyInitialConfig.getSignDataAsPEM(new SignRequest(CEB621Message)));
-    }
-
-    @Test
-    void getVerifySignDataNoHashParameter() {
-        String sha1DigestOfSourceXml = DigestUtil.sha1Hex(CEB621Message);
-        System.err.println(sha1DigestOfSourceXml.length() + " " + sha1DigestOfSourceXml + " " + UkeyInitialConfig.getVerifySignDataNoHashParameter(CEB621Message, "sv", null, 1));
-        sha1DigestOfSourceXml = org.apache.commons.codec.digest.DigestUtils.sha1Hex(CEB621Message);
-        System.err.println(sha1DigestOfSourceXml.length() + " " + sha1DigestOfSourceXml + " " + UkeyInitialConfig.getVerifySignDataNoHashParameter(CEB621Message, "sv", null, 1));
     }
 
 }

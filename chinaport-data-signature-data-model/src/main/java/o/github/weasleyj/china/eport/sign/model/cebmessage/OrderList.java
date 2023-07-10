@@ -30,6 +30,9 @@ public class OrderList implements Serializable {
     private String itemName;//            3-企业商品名称-itemName-C..250-是-交易平台销售商品的中文名称。
 
     @XmlElement(namespace = NAMESPACE_CEB_URI)
+    private String gmodel;//          14-商品规格型号-gmodel-C..250-是-满足海关归类、审价以及监管的要求为准。包括：品牌、规格、型号等。
+
+    @XmlElement(namespace = NAMESPACE_CEB_URI)
     private String itemDescribe;//           4-企业商品描述-itemDescribe-C..1000-否-交易平台销售商品的描述信息。
 
     @XmlElement(namespace = NAMESPACE_CEB_URI)
@@ -58,9 +61,6 @@ public class OrderList implements Serializable {
 
     @XmlElement(namespace = NAMESPACE_CEB_URI)
     private String gcode;//          13-商品编码-gcode-C10-是-按商品分类编码规则确定的进出口商品的商品编号，分为商品编号和附加编号，其中商品编号栏应填报《中华人民共和国进出口税则》8位税则号列，附加编号应填报商品编号，附加编号第9、10位。
-
-    @XmlElement(namespace = NAMESPACE_CEB_URI)
-    private String gmodel;//          14-商品规格型号-gmodel-C..250-是-满足海关归类、审价以及监管的要求为准。包括：品牌、规格、型号等。
 
     @XmlElement(namespace = NAMESPACE_CEB_URI)
     private String qty1;//          15-法定数量-qty1-N19,5-是-按照商品编码规则对应的法定计量单位的实际数量填写。

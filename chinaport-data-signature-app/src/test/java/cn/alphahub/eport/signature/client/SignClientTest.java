@@ -4,6 +4,7 @@ import cn.alphahub.dtt.plus.util.SpringUtil;
 import cn.alphahub.eport.signature.config.UkeyInitialConfig;
 import cn.alphahub.eport.signature.config.UkeyInitialConfigTest;
 import cn.alphahub.eport.signature.core.CertificateHandler;
+import cn.alphahub.eport.signature.core.CertificateParser;
 import cn.alphahub.eport.signature.core.SignHandler;
 import cn.alphahub.eport.signature.entity.SignRequest;
 import cn.alphahub.eport.signature.entity.SignResult;
@@ -177,8 +178,8 @@ class SignClientTest {
                         <ds:SignedInfo xmlns:ceb="http://www.chinaport.gov.cn/ceb" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><ds:CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"></ds:CanonicalizationMethod><ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sm2-sm3"></ds:SignatureMethod><ds:Reference URI=""><ds:Transforms><ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"></ds:Transform></ds:Transforms><ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"></ds:DigestMethod><ds:DigestValue>uHRuR42J2dQXtrxwp3wlwGv5KIg=</ds:DigestValue></ds:Reference></ds:SignedInfo>
                         """,
                 """
-                       qTlH3wAcVLOiHbhfNDokU7N/C19T0JrLXePB0FMUoXztkGIMlOpJABI7UJDBAq1Hh5EulDI5dcilN/Xa8n4yPA==
-                        """,
+                        qTlH3wAcVLOiHbhfNDokU7N/C19T0JrLXePB0FMUoXztkGIMlOpJABI7UJDBAq1Hh5EulDI5dcilN/Xa8n4yPA==
+                         """,
                 """
                         MIIEoDCCBESgAwIBAgIIAwAAAAAM3m8wDAYIKoEcz1UBg3UFADCBmDELMAkGA1UEBhMCQ04xDzANBgNVBAgMBuWMl+S6rDEPMA0GA1UEBwwG5YyX5LqsMRswGQYDVQQKDBLkuK3lm73nlLXlrZDlj6PlsrgxGzAZBgNVBAsMEuivgeS5pueuoeeQhuS4reW/gzEtMCsGA1UEAwwk5Lit5Zu955S15a2Q5Lia5Yqh6K+B5Lmm566h55CG5Lit5b+DMB4XDTIzMDMyOTAwMDAwMFoXDTMzMDMyOTAwMDAwMFowVjELMAkGA1UEBhMCQ04xMzAxBgNVBAsMKua1t+WNl+ecgeiNo+iqiei/m+WHuuWPo+i0uOaYk+aciemZkOWFrOWPuDESMBAGA1UEAwwJ5p2o5aaC6YeRMFkwEwYHKoZIzj0CAQYIKoEcz1UBgi0DQgAE0vOQmplAr9igPZrA8F1msqnFd0U++6G6NhG5rNuIUWft0BwQn7eSJkt5/fvSSoe7pUg2/awHUWPnzkeeQc7oVqOCArUwggKxMBEGCWCGSAGG+EIBAQQEAwIFoDAOBgNVHQ8BAf8EBAMCBsAwCQYDVR0TBAIwADApBgNVHSUEIjAgBggrBgEFBQcDAgYIKwYBBQUHAwQGCisGAQQBgjcUAgIwHwYDVR0jBBgwFoAURCQxt0wEvoAVXmuo4N1bjKXTh0UwHQYDVR0OBBYEFAytGob5L0WqhOCZ5l6Lf2jUdNrAMGgGA1UdIARhMF8wXQYEVR0gADBVMFMGCCsGAQUFBwIBFkdodHRwczovL3d3dy5jaGluYXBvcnQuZ292LmNuL3RjbXNmaWxlL3UvY21zL3d3dy8yMDIyMDQvMTIxMzI5NDh4dDZwLnBkZjB/BgNVHR8EeDB2MHSgcqBwhm5sZGFwOi8vbGRhcC5jaGluYXBvcnQuZ292LmNuOjM4OS9jbj1jcmwwMzAwMDAsb3U9Y3JsMDAsb3U9Y3JsLGM9Y24/Y2VydGlmaWNhdGVSZXZvY2F0aW9uTGlzdD9iYXNlP2NuPWNybDAzMDAwMDA+BggrBgEFBQcBAQQyMDAwLgYIKwYBBQUHMAGGImh0dHA6Ly9vY3NwLmNoaW5hcG9ydC5nb3YuY246ODgwMC8wOgYKKwYBBAGpQ2QFAQQsDCrmtbfljZfnnIHojaPoqonov5vlh7rlj6PotLjmmJPmnInpmZDlhazlj7gwEgYKKwYBBAGpQ2QFAwQEDAIwMTAiBgorBgEEAalDZAUIBBQMEjUxMjMyNDE5NjQxMDE3Mjk3WDAgBgorBgEEAalDZAUJBBIMEDAzLUpKMEc5MDAyMjA3NTIwGQYKKwYBBAGpQ2QFCwQLDAlNQTVUTkZHWTkwEgYKKwYBBAGpQ2QFDAQEDAIwMDASBgorBgEEAalDZAIBBAQMAjEyMBIGCisGAQQBqUNkAgQEBAwCMTQwDAYIKoEcz1UBg3UFAANIADBFAiBM4OVAc8aaCZU4XFfcVMkC7bWIIenRnPLxrnwVeYO3CQIhANQ767YIurkJCoLtwyqQPbUZe/+3BjGZcIWqB1mAl9T+
                         """, 1);
@@ -190,7 +191,7 @@ class SignClientTest {
 
     @Test
     @DisplayName("获取Usb-Key的序列号(ID)")
-    void t1() {
+    void f1() {
         HashMap<String, Object> _args = new HashMap<>();
         UkeyRequest ukeyRequest = new UkeyRequest("cus-sec_SpcGetCardID", _args);
         Args args = signClient.getUkeyResponseArgs(ukeyRequest);
@@ -258,7 +259,7 @@ class SignClientTest {
 
     @Test
     @DisplayName("签名+取海关签名证书PEM+验证签名")
-    void t2() {
+    void f2() {
         HashMap<String, Object> _args = new HashMap<>();
         String xml = """
                 <ds:SignedInfo xmlns:ceb="http://www.chinaport.gov.cn/ceb" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><ds:CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"></ds:CanonicalizationMethod><ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sm2-sm3"></ds:SignatureMethod><ds:Reference URI=""><ds:Transforms><ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"></ds:Transform></ds:Transforms><ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"></ds:DigestMethod><ds:DigestValue>gTNsxKmXAJfylGtBHhi7HfMRnec=</ds:DigestValue></ds:Reference></ds:SignedInfo>
@@ -277,7 +278,7 @@ class SignClientTest {
         _args.put("inData", xml); //原文信息
         _args.put("signData", args.getData().get(0)); //签名信息
         //海关签名证书PEM
-        //_args.put("certDataPEM", reportClient.buildX509Certificate(args2.getData().get(0)).replaceAll("\n",""));
+        //_args.put("certDataPEM", reportClient.buildX509CertificateWithoutHeader(args2.getData().get(0)).replaceAll("\n",""));
         _args.put("certDataPEM", args2.getData().get(0));
         args = signClient.getUkeyResponseArgs(new UkeyRequest("cus-sec_SpcVerifySignData", _args));
         System.err.println("验证签名: " + args.getData().get(0));
@@ -288,7 +289,7 @@ class SignClientTest {
 
     @Test
     @DisplayName("签名+验证签名")
-    void t2bak() {
+    void f2bak() {
         String sourceXml = """
                 <ds:SignedInfo xmlns:ceb="http://www.chinaport.gov.cn/ceb" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><ds:CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"></ds:CanonicalizationMethod><ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sm2-sm3"></ds:SignatureMethod><ds:Reference URI=""><ds:Transforms><ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"></ds:Transform></ds:Transforms><ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"></ds:DigestMethod><ds:DigestValue>gTNsxKmXAJfylGtBHhi7HfMRnec=</ds:DigestValue></ds:Reference></ds:SignedInfo>
                 """;
@@ -315,7 +316,7 @@ class SignClientTest {
 
     @Test
     @DisplayName("取算法类型（取加密算法标识）")
-    void t3() {
+    void algorithmType() {
         HashMap<String, Object> _args = new HashMap<>();
         UkeyRequest ukeyRequest = new UkeyRequest("cus-sec_SpcGetCardID", _args);
         Args args = signClient.getUkeyResponseArgs(ukeyRequest);
@@ -325,14 +326,29 @@ class SignClientTest {
         _args.put("lReader", args.getData().get(0));
         ukeyRequest = new UkeyRequest("ra_GetCryptAlgo", _args);
         args = signClient.getUkeyResponseArgs(ukeyRequest);
-        System.err.println("取算法类型（取加密算法标识）" + args.getData().get(0));
+        System.err.println("取算法类型（取加密算法标识）" + args.getData().get(0));//s
     }
 
     @Test
     @DisplayName("证书切割")
-    void t4() {
+    void certificateCutting() {
         String pom = "MIIEoDCCBESgAwIBAgIIAwAAAAAM3m8wDAYIKoEcz1UBg3UFADCBmDELMAkGA1UEBhMCQ04xDzANBgNVBAgMBuWMl+S6rDEPMA0GA1UEBwwG5YyX5LqsMRswGQYDVQQKDBLkuK3lm73nlLXlrZDlj6PlsrgxGzAZBgNVBAsMEuivgeS5pueuoeeQhuS4reW/gzEtMCsGA1UEAwwk5Lit5Zu955S15a2Q5Lia5Yqh6K+B5Lmm566h55CG5Lit5b+DMB4XDTIzMDMyOTAwMDAwMFoXDTMzMDMyOTAwMDAwMFowVjELMAkGA1UEBhMCQ04xMzAxBgNVBAsMKua1t+WNl+ecgeiNo+iqiei/m+WHuuWPo+i0uOaYk+aciemZkOWFrOWPuDESMBAGA1UEAwwJ5p2o5aaC6YeRMFkwEwYHKoZIzj0CAQYIKoEcz1UBgi0DQgAE0vOQmplAr9igPZrA8F1msqnFd0U++6G6NhG5rNuIUWft0BwQn7eSJkt5/fvSSoe7pUg2/awHUWPnzkeeQc7oVqOCArUwggKxMBEGCWCGSAGG+EIBAQQEAwIFoDAOBgNVHQ8BAf8EBAMCBsAwCQYDVR0TBAIwADApBgNVHSUEIjAgBggrBgEFBQcDAgYIKwYBBQUHAwQGCisGAQQBgjcUAgIwHwYDVR0jBBgwFoAURCQxt0wEvoAVXmuo4N1bjKXTh0UwHQYDVR0OBBYEFAytGob5L0WqhOCZ5l6Lf2jUdNrAMGgGA1UdIARhMF8wXQYEVR0gADBVMFMGCCsGAQUFBwIBFkdodHRwczovL3d3dy5jaGluYXBvcnQuZ292LmNuL3RjbXNmaWxlL3UvY21zL3d3dy8yMDIyMDQvMTIxMzI5NDh4dDZwLnBkZjB/BgNVHR8EeDB2MHSgcqBwhm5sZGFwOi8vbGRhcC5jaGluYXBvcnQuZ292LmNuOjM4OS9jbj1jcmwwMzAwMDAsb3U9Y3JsMDAsb3U9Y3JsLGM9Y24/Y2VydGlmaWNhdGVSZXZvY2F0aW9uTGlzdD9iYXNlP2NuPWNybDAzMDAwMDA+BggrBgEFBQcBAQQyMDAwLgYIKwYBBQUHMAGGImh0dHA6Ly9vY3NwLmNoaW5hcG9ydC5nb3YuY246ODgwMC8wOgYKKwYBBAGpQ2QFAQQsDCrmtbfljZfnnIHojaPoqonov5vlh7rlj6PotLjmmJPmnInpmZDlhazlj7gwEgYKKwYBBAGpQ2QFAwQEDAIwMTAiBgorBgEEAalDZAUIBBQMEjUxMjMyNDE5NjQxMDE3Mjk3WDAgBgorBgEEAalDZAUJBBIMEDAzLUpKMEc5MDAyMjA3NTIwGQYKKwYBBAGpQ2QFCwQLDAlNQTVUTkZHWTkwEgYKKwYBBAGpQ2QFDAQEDAIwMDASBgorBgEEAalDZAIBBAQMAjEyMBIGCisGAQQBqUNkAgQEBAwCMTQwDAYIKoEcz1UBg3UFAANIADBFAiBM4OVAc8aaCZU4XFfcVMkC7bWIIenRnPLxrnwVeYO3CQIhANQ767YIurkJCoLtwyqQPbUZe/+3BjGZcIWqB1mAl9T+";
         CertificateHandler reportClient = SpringUtil.getBean(CertificateHandler.class);
-        System.out.println(reportClient.buildX509Certificate(pom));
+        System.out.println(CertificateHandler.buildX509CertificateWithoutHeader(pom));
     }
+
+    @Test
+    @DisplayName("获取证书信息")
+    void getCertificateInformation() {
+        Args args = signClient.getUkeyResponseArgs(new UkeyRequest("cus-sec_SpcGetSignCertAsPEM", new LinkedHashMap<>()));
+        String x509Certificate = CertificateHandler.buildX509CertificateWithHeader(args.getData().get(0));
+        CertificateParser.parseCertificateByCertText(x509Certificate);
+        //2023-07-10T22:24:26.331+08:00  INFO 37111 --- [           main] c.a.e.signature.core.CertificateParser   : 签发者: CN=中国电子业务证书管理中心,OU=证书管理中心,O=中国电子口岸,L=北京,ST=北京,C=CN
+        //2023-07-10T22:24:26.331+08:00  INFO 37111 --- [           main] c.a.e.signature.core.CertificateParser   : 主体: CN=杨XX,OU=XX省XX进出口贸易有限公司,C=CN
+        //2023-07-10T22:24:26.344+08:00  INFO 37111 --- [           main] c.a.e.signature.core.CertificateParser   : 有效期起始日期: Wed Mar 29 08:00:00 CST 2023
+        //2023-07-10T22:24:26.344+08:00  INFO 37111 --- [           main] c.a.e.signature.core.CertificateParser   : 有效期结束日期: Tue Mar 29 08:00:00 CST 2033
+        //2023-07-10T22:24:26.427+08:00  INFO 37111 --- [           main] c.a.e.signature.core.CertificateParser   : 公钥算法: EC
+        //2023-07-10T22:24:26.427+08:00  INFO 37111 --- [           main] c.a.e.signature.core.CertificateParser   : 签名算法: SM3WITHSM2
+    }
+
 }

@@ -78,6 +78,9 @@ public class OrderHead implements Serializable {
     private String buyerName;//        18-订购人姓名-buyerName-C..60-是-订购人的真实姓名。
 
     @XmlElement(namespace = NAMESPACE_CEB_URI)
+    private String buyerTelephone;//      32-订购人电话-buyerTelephone-C..30-是-订购人电话。
+
+    @XmlElement(namespace = NAMESPACE_CEB_URI)
     private String buyerIdType;//      19-订购人证件类型-buyerIdType-C1-是-1-身份证,2-其它。限定为身份证，填写“1”。
 
     @XmlElement(namespace = NAMESPACE_CEB_URI)
@@ -116,9 +119,6 @@ public class OrderHead implements Serializable {
 
     @XmlElement(namespace = NAMESPACE_CEB_URI)
     private String assureCode;//      31-担保企业编号-assureCode-C..30-是-担保扣税的企业海关注册登记编号，只限清单的电商平台企业、电商企业、物流企业。
-
-    @XmlElement(namespace = NAMESPACE_CEB_URI)
-    private String buyerTelephone;//      32-订购人电话-buyerTelephone-C..30-是-订购人电话。
 
     @XmlElement(namespace = NAMESPACE_CEB_URI)
     private String country;//     33-起运国（地区）-country-C3-是-直购进口填写起始发出国家（地区）代码，参照《JGS-20 海关业务代码集》的国家（地区）代码表；保税进口填写代码“142”。

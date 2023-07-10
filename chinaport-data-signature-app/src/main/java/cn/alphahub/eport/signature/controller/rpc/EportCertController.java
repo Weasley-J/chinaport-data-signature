@@ -29,8 +29,6 @@ public class EportCertController {
 
     @Autowired
     private SignHandler signHandler;
-    @Autowired
-    private CertificateHandler certificateHandler;
 
     /**
      * 下载X509证书
@@ -43,13 +41,10 @@ public class EportCertController {
         Args certPEMArgs = signHandler.getUkeyResponseArgs(new UkeyRequest("cus-sec_SpcGetSignCertAsPEM", new HashMap<>()));
         String certName = certNoArgs.getData().get(0);
         String certPomOfUkey = certPEMArgs.getData().get(0);
-        String certificateContent = "-----BEGIN CERTIFICATE-----\n"
-                .concat(certificateHandler.buildX509Certificate(certPomOfUkey)).concat("\n")
-                .concat("-----END CERTIFICATE-----");
         response.setContentType("application/x-x509-ca-cert");
         response.setHeader("Content-Disposition", "attachment; filename=\"" + certName + ".cer\"");
         OutputStream stream = response.getOutputStream();
-        stream.write(certificateContent.getBytes(StandardCharsets.UTF_8));
+        stream.write(CertificateHandler.buildX509CertificateWithHeader(certPomOfUkey).getBytes(StandardCharsets.UTF_8));
         stream.flush();
         stream.close();
     }
