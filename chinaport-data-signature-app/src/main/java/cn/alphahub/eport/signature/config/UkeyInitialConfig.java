@@ -5,8 +5,12 @@ import cn.alphahub.dtt.plus.util.SpringUtil;
 import cn.alphahub.eport.signature.core.CertificateHandler;
 import cn.alphahub.eport.signature.core.SignHandler;
 import cn.alphahub.eport.signature.core.WebSocketClientHandler;
-import cn.alphahub.eport.signature.entity.*;
+import cn.alphahub.eport.signature.entity.SignRequest;
+import cn.alphahub.eport.signature.entity.SpcValidTime;
+import cn.alphahub.eport.signature.entity.UkeyRequest;
+import cn.alphahub.eport.signature.entity.UkeyResponse;
 import cn.alphahub.eport.signature.entity.UkeyResponse.Args;
+import cn.alphahub.eport.signature.entity.WebSocketWrapper;
 import cn.alphahub.eport.signature.util.SysUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.lang.TypeReference;
@@ -46,7 +50,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.LockSupport;
 
-import static cn.alphahub.eport.signature.core.CertificateHandler.*;
+import static cn.alphahub.eport.signature.core.CertificateHandler.DATE_TIME_202207;
+import static cn.alphahub.eport.signature.core.CertificateHandler.METHOD_OF_X509_WITHOUT_HASH;
+import static cn.alphahub.eport.signature.core.CertificateHandler.METHOD_OF_X509_WITH_HASH;
 
 /**
  * 初始化配置
