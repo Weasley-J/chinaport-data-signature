@@ -52,7 +52,7 @@ spring:
 #电子口岸u-key的配置参数
 eport:
   signature:
-    signature-algorithm: sm2_sm3
+    algorithm: sm2_sm3
     ukey:
       # u-key的.cer证书在classpath的相对路径
       cert-path: cert/01691fe9.cer

@@ -83,7 +83,7 @@ class Upload311XmlTests {
                         <ceb:dxpId>DXPENT0000530815</ceb:dxpId>
                         <ceb:note>test</ceb:note>
                     </ceb:BaseTransfer>
-                </ceb:CEB311Message> 
+                </ceb:CEB311Message>
                 """;
 
         CEB311Message ceb311Message = JAXBUtil.toBean(sourceXml, CEB311Message.class);

@@ -24,6 +24,11 @@ public class UploadCEBMessageRequest implements Serializable {
      */
     @NotNull(message = "消息类型不能为空")
     private MessageType messageType;
+
+    public String getCebMessage() {
+        return cebMessage.trim();
+    }
+
     /**
      * 进口单、出口单的底层数据模型
      */

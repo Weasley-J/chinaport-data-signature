@@ -6,7 +6,6 @@ import cn.alphahub.eport.signature.config.SignatureAlgorithm;
 import cn.alphahub.eport.signature.config.SignatureAlgorithmProperties;
 import cn.alphahub.eport.signature.entity.SignRequest;
 import cn.alphahub.eport.signature.util.XMLUtils;
-import cn.hutool.core.util.XmlUtil;
 import jakarta.validation.constraints.NotBlank;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +25,11 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 
 import static cn.alphahub.eport.signature.core.CertificateHandler.DATE_TIME_202301;
@@ -105,7 +108,7 @@ public final class SignatureHandler {
         canon.canonicalizeSubtree(node, writer);
         String canonicalizeStr = writer.toString(StandardCharsets.UTF_8);
 
-        log.warn("总署XML加签报文:\n{}", XmlUtil.toStr(XmlUtil.parseXml(canonicalizeStr), true));
+        log.warn("总署XML加签报文:\n{}", canonicalizeStr);
 
         return canonicalizeStr;
     }
@@ -202,7 +205,7 @@ public final class SignatureHandler {
     }
 
     /**
-     * 动态推断XML代码段中s:SignatureMethod的算法值
+     * 动态推断XML代码段中<ds:SignatureMethod></ds:SignatureMethod>算法的值
      * <pre>
      *  {@code <ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#${algorithmType}"/>}
      * </pre>
@@ -213,8 +216,8 @@ public final class SignatureHandler {
         CertificateHandler certificateHandler = SpringUtil.getBean(CertificateHandler.class);
         SignatureAlgorithmProperties algorithmProperties = SpringUtil.getBean(SignatureAlgorithmProperties.class);
         // 1. 取配置文件
-        if (null != algorithmProperties.getSignatureAlgorithm()) {
-            return algorithmProperties.getSignatureAlgorithm().getXmlAlgorithmValue();
+        if (null != algorithmProperties.getAlgorithm()) {
+            return algorithmProperties.getAlgorithm().getXmlAlgorithmValue();
         }
         // 2. 202301后的u-key使用SM2_SM3, 配置文件没有配置的话
         if (certificateHandler.getUkeyValidTimeBegin().isAfter(DATE_TIME_202301)) {

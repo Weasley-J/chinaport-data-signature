@@ -246,8 +246,8 @@ public class ChinaEportReportClient {
 
         String payload = signHandler.getDynamicSignDataParameter(ukeyRequest);
         signResult = signHandler.sign(ukeyRequest, payload);
-        signResult.setCertNo(argsRes1.getData().get(1));
-        signResult.setSignatureValue(argsRes1.getData().get(0));
+        //signResult.setCertNo(argsRes1.getData().get(1));
+        //signResult.setSignatureValue(argsRes1.getData().get(0));
         signResult.setX509Certificate(argsRes2.getData().get(0));
 
         if (Boolean.FALSE.equals(signResult.getSuccess())) {
@@ -267,23 +267,32 @@ public class ChinaEportReportClient {
      * @param sourceXml 原始XML
      */
     private String buildXml(SignResult signResult, String sourceXml, IMessageType messageType) {
+        KeyInfo keyInfo = KeyInfo.builder()
+                .keyName(signResult.getCertNo())
+                .x509Data(new X509Data(signResult.getX509Certificate()))
+                .build();
+
+        Reference reference = Reference.builder()
+                .digestMethod(new DigestMethod())
+                .uri("")
+                .transforms(new Transforms())
+                .digestValue(signResult.getDigestValue())
+                .build();
+
+        SignedInfo signedInfo = SignedInfo.builder()
+                .CanonicalizationMethod(new CanonicalizationMethod())
+                .SignatureMethod(new SignatureMethod().setAlgorithm(SignatureHandler.getSignatureMethodAlgorithm()))
+                .reference(reference)
+                .build();
+
         Signature signature = Signature.builder()
-                .keyInfo(KeyInfo.builder()
-                        .keyName(signResult.getCertNo())
-                        .x509Data(X509Data.builder().X509Certificate(signResult.getX509Certificate()).build())
-                        .build())
+                .keyInfo(keyInfo)
                 .signatureValue(signResult.getSignatureValue())
-                .signedInfo(SignedInfo.builder()
-                        .CanonicalizationMethod(new CanonicalizationMethod())
-                        .SignatureMethod(new SignatureMethod().setAlgorithm(SignatureHandler.getSignatureMethodAlgorithm()))
-                        .reference(Reference.builder()
-                                .digestMethod(new DigestMethod())
-                                .uri("")
-                                .transforms(new Transforms())
-                                .digestValue(signResult.getDigestValue()).build()
-                        ).build()
-                ).build();
+                .signedInfo(signedInfo)
+                .build();
+
         String signatureNode = JAXBUtil.toXml(signature);
+
         String xmlStart = "</ceb:" + messageType.getMessageType() + ">";
         int index = sourceXml.indexOf(xmlStart);
         StringBuilder builder = new StringBuilder(sourceXml);

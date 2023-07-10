@@ -17,5 +17,5 @@ public class SignatureAlgorithmProperties {
      *
      * @apiNote 配置文件里面大小写不敏感
      */
-    private SignatureAlgorithm signatureAlgorithm;
+    private SignatureAlgorithm algorithm;
 }

@@ -111,33 +111,13 @@ public class UkeyInitialConfig implements ApplicationRunner {
      * @return SignatureValue的值, 返回的数组，包含您的证书编号，可作为KeyName的值
      */
     public static String getSignDataAsPEM(SignRequest request) {
-        Map<String, Object> args = new LinkedHashMap<>(2);
         String initData = SignHandler.getInitData(request);
-        log.warn("发送给ukey的真正请求入参: {}, 原始报文:\n{}", initData, request.getData());
-        args.put("inData", initData);
-        args.put("passwd", ObjectUtils.defaultIfNull(SpringUtil.getBean(UkeyProperties.class).getPassword(), DEFAULT_PASSWORD));
-        UkeyRequest ukeyRequest = new UkeyRequest();
-        ukeyRequest.set_method(METHOD_OF_X509_WITH_HASH);
+        log.warn("发送给ukey的真正请求入参: {}\n原始报文:\n{}", initData, request.getData());
+        @SuppressWarnings({"all"}) UkeyRequest ukeyRequest = new UkeyRequest("cus-sec_SpcSignDataAsPEM", new HashMap<>() {{
+            put("inData", initData);
+            put("passwd", ObjectUtils.defaultIfNull(SpringUtil.getBean(UkeyProperties.class).getPassword(), DEFAULT_PASSWORD));
+        }});
         ukeyRequest.set_id(request.getId());
-        ukeyRequest.setArgs(args);
-        return JacksonUtil.toJson(ukeyRequest);
-    }
-
-    /**
-     * 使用卡计算摘要,返回PEM格式信息
-     *
-     * @return ukey响应数据，示例: B959CD298E3BA6DAE360FB8CDB87B68B66D8BD221474046232910DD5FDA54354
-     */
-    public static String getSHA1DigestAsPEMParams(SignRequest request) {
-        Map<String, Object> args = new LinkedHashMap<>();
-        String initData = SignHandler.getInitData(request);
-        log.warn("使用卡计算摘要，返回PEM格式信息: \n{}, 原始报文:\n{}", initData, request.getData());
-        args.put("szInfo", initData);
-        args.put("passwd", ObjectUtils.defaultIfNull(SpringUtil.getBean(UkeyProperties.class).getPassword(), DEFAULT_PASSWORD));
-        UkeyRequest ukeyRequest = new UkeyRequest();
-        ukeyRequest.set_method("cus-sec_SpcSHA1DigestAsPEM");
-        ukeyRequest.set_id(request.getId());
-        ukeyRequest.setArgs(args);
         return JacksonUtil.toJson(ukeyRequest);
     }
 
@@ -176,13 +156,31 @@ public class UkeyInitialConfig implements ApplicationRunner {
             digestHexValue = DigestUtils.sha1Hex(initData);
         }
         log.warn("手工计算的xml原文摘要和u-key计算的结果对比: \nUkey计算: {},\n手工计算: {}", digestValueFromUkey, digestHexValue);
-        log.warn("发送给ukey的真正请求入参: {}, 原始报文:\n{}", digestHexValue, request.getData());
+        log.warn("发送给ukey的真正请求入参: {}\n原始报文:\n{}", digestHexValue, request.getData());
         Map<String, Object> args = new LinkedHashMap<>(2);
         //args.put("inData", digestHexValue);
         args.put("inData", hexString);
         args.put("passwd", ObjectUtils.defaultIfNull(SpringUtil.getBean(UkeyProperties.class).getPassword(), DEFAULT_PASSWORD));
         UkeyRequest ukeyRequest = new UkeyRequest();
         ukeyRequest.set_method(METHOD_OF_X509_WITHOUT_HASH);
+        ukeyRequest.set_id(request.getId());
+        ukeyRequest.setArgs(args);
+        return JacksonUtil.toJson(ukeyRequest);
+    }
+
+    /**
+     * 使用卡计算摘要,返回PEM格式信息
+     *
+     * @return ukey响应数据，示例: B959CD298E3BA6DAE360FB8CDB87B68B66D8BD221474046232910DD5FDA54354
+     */
+    public static String getSHA1DigestAsPEMParams(SignRequest request) {
+        Map<String, Object> args = new LinkedHashMap<>();
+        String initData = SignHandler.getInitData(request);
+        log.warn("使用卡计算摘要，返回PEM格式信息: \n{}原始报文:\n{}", initData, request.getData());
+        args.put("szInfo", initData);
+        args.put("passwd", ObjectUtils.defaultIfNull(SpringUtil.getBean(UkeyProperties.class).getPassword(), DEFAULT_PASSWORD));
+        UkeyRequest ukeyRequest = new UkeyRequest();
+        ukeyRequest.set_method("cus-sec_SpcSHA1DigestAsPEM");
         ukeyRequest.set_id(request.getId());
         ukeyRequest.setArgs(args);
         return JacksonUtil.toJson(ukeyRequest);
@@ -198,18 +196,13 @@ public class UkeyInitialConfig implements ApplicationRunner {
      */
     public static String getVerifySignDataNoHashParameter(String sourceXml, String signatureValue, @Nullable String certDataPEM, Integer uniqueId) {
         Map<String, Object> argsMap = new LinkedHashMap<>(2);
-
-        //String sm3Hex = SM3DigestUtils.sm3Hex(sourceXml);
-        //argsMap.put("inData", sm3Hex); //不对原文计算摘要,请您自行计算好摘要传入
         argsMap.put("inData", sourceXml); //原文信息
-
         argsMap.put("signData", signatureValue);
         if (StringUtils.isNotBlank(certDataPEM)) {
             argsMap.put("certDataPEM", certDataPEM);
         }
         UkeyRequest ukeyRequest = new UkeyRequest();
-        ukeyRequest.set_method("cus-sec_SpcVerifySignData"); //原文信息
-        //ukeyRequest.set_method("cus-sec_SpcVerifySignDataNoHash"); //不对原文计算摘要,请您自行计算好摘要传入
+        ukeyRequest.set_method("cus-sec_SpcVerifySignData");
         ukeyRequest.set_id(uniqueId);
         ukeyRequest.setArgs(argsMap);
         return JacksonUtil.toJson(ukeyRequest);
