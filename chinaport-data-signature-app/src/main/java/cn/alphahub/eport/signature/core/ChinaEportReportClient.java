@@ -112,6 +112,7 @@ public class ChinaEportReportClient {
     /**
      * Build BaseTransfer XML Node
      */
+    @SuppressWarnings("all")
     public BaseTransfer buildBaseTransfer(BaseTransfer baseTransfer) {
         baseTransfer.setCopCode(StringUtils.defaultIfBlank(baseTransfer.getCopCode(), chinaEportProperties.getCopCode()));
         baseTransfer.setCopName(StringUtils.defaultIfBlank(baseTransfer.getCopName(), chinaEportProperties.getCopName()));
