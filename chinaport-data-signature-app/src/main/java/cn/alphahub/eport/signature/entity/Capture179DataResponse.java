@@ -9,7 +9,7 @@ import java.io.Serializable;
  * <p>
  * 成功数据格式:
  * <pre>
- *{
+ * {
  *   "code": "10000",
  *   "message": "",
  *   "serviceTime": 1567050097628
@@ -22,6 +22,7 @@ import java.io.Serializable;
 @Data
 public class Capture179DataResponse implements Serializable {
     private String code;
+    private long total;
     private String message;
     private long serviceTime;
 }

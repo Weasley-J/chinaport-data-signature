@@ -48,6 +48,7 @@ public class CertificateHandler implements Serializable {
      * 海关u-key证书有效期结束
      */
     private LocalDateTime ukeyValidTimeEnd;
+
     public CertificateHandler() {
     }
 
@@ -79,5 +80,29 @@ public class CertificateHandler implements Serializable {
             default -> throw new IllegalStateException("Unexpected value: " + method);
         };
     }
+
+    /**
+     * 组装X509Certificate证书
+     * <p>
+     * 组装64位长度一行的pem分割的pem
+     *
+     * @param certPomFromUkey 从ukey里面读取的pem
+     * @return 64位长度一行的pem分割的pem
+     */
+    public String buildX509Certificate(String certPomFromUkey) {
+        certPomFromUkey = certPomFromUkey.trim();
+        StringBuilder sb = new StringBuilder();
+        int count = 0;
+        for (char c : certPomFromUkey.toCharArray()) {
+            sb.append(c);
+            count++;
+            if (count == 64) {
+                sb.append("\n");
+                count = 0;
+            }
+        }
+        return sb.toString().trim();
+    }
+
 }
 

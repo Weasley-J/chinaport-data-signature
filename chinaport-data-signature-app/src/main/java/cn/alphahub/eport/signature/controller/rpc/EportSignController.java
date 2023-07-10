@@ -39,12 +39,12 @@ public class EportSignController {
     @PostMapping("/signature")
     public Result<SignResult> signature(@RequestBody @Validated SignRequest request) {
         String payload = signHandler.getDynamicSignDataParameter(request);
-        SignResult signed = signHandler.sign(request, payload);
-        log.info("加签响应 {}", JSONUtil.toJsonStr(signed));
-        if (signed.getSuccess().equals(false)) {
+        SignResult signResult = signHandler.sign(request, payload);
+        log.info("加签响应 {}", JSONUtil.toJsonStr(signResult));
+        if (signResult.getSuccess().equals(false)) {
             return Result.error("加签失败");
         }
-        return Result.success(signed);
+        return Result.success(signResult);
     }
 
 }

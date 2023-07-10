@@ -121,7 +121,7 @@ public final class SignatureHandler {
             doc = XMLUtils.read(is, false);
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             org.apache.xml.security.utils.XMLUtils.outputDOMc14nWithComments(doc, bos);
-            String res = bos.toString(StandardCharsets.UTF_8.name());
+            String res = bos.toString(StandardCharsets.UTF_8);
             byte[] sha1 = DigestUtils.sha1(res);
             String base64String = Base64.encodeBase64String(sha1);
             log.info("c14n source xml result, sha1: {}, base64: {}", sha1, base64String);

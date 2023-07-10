@@ -4,8 +4,14 @@ import cn.alphahub.eport.signature.config.UkeyInitialConfig;
 import cn.alphahub.eport.signature.config.UkeyProperties;
 import cn.alphahub.eport.signature.entity.SignRequest;
 import cn.alphahub.eport.signature.entity.SignResult;
+import cn.alphahub.eport.signature.entity.UkeyRequest;
+import cn.alphahub.eport.signature.entity.UkeyResponse;
+import cn.alphahub.eport.signature.entity.UkeyResponse.Args;
+import cn.alphahub.eport.signature.entity.UkeyResponseArgsWrapper;
 import cn.alphahub.eport.signature.entity.WebSocketWrapper;
 import cn.hutool.core.date.LocalDateTimeUtil;
+import cn.hutool.core.lang.TypeReference;
+import cn.hutool.json.JSONUtil;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -13,10 +19,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.client.WebSocketConnectionManager;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
+import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.LockSupport;
 
@@ -38,7 +48,7 @@ public class SignHandler {
      */
     public static final LocalDateTime DATE_TIME_202207 = LocalDateTimeUtil.parse("2022-07-01", "yyyy-MM-dd");
     @Resource
-    private UkeyProperties properties;
+    private UkeyProperties ukeyProperties;
 
     @Resource
     private CertificateHandler certificateHandler;
@@ -93,9 +103,9 @@ public class SignHandler {
     public String getDynamicSignDataParameter(@Valid SignRequest request) {
         if (certificateHandler.getUkeyValidTimeBegin().isAfter(DATE_TIME_202207)) {
             //1. 2022-07-01以后签发的u-key都使用这个签名方式
-            return UkeyInitialConfig.getSignDataAsPEMParameter(request);
+            return UkeyInitialConfig.getSignDataAsPEM(request);
         }
-        return certificateHandler.getCertExists().equals(true) ? UkeyInitialConfig.getSignDataAsPEMParameter(request) : UkeyInitialConfig.getSignDataNoHashAsPEMParameter(request);
+        return certificateHandler.getCertExists().equals(true) ? UkeyInitialConfig.getSignDataAsPEM(request) : UkeyInitialConfig.getSignDataNoHashAsPEMP(request);
     }
 
     /**
@@ -116,7 +126,7 @@ public class SignHandler {
             wrapper.getSignResult().setDigestValue(SignatureHandler.getDigestValueOfCEBXxxMessage(request.getData()));
         }
 
-        WebSocketConnectionManager manager = new WebSocketConnectionManager(standardWebSocketClient, webSocketClientHandler, properties.getWsUrl());
+        WebSocketConnectionManager manager = new WebSocketConnectionManager(standardWebSocketClient, webSocketClientHandler, ukeyProperties.getWsUrl());
         manager.start();
 
         try {
@@ -129,6 +139,43 @@ public class SignHandler {
         }
 
         return wrapper.getSignResult();
+    }
+
+    /**
+     * 获取u-key加签返回内层对象（我们要的数据在这里面）
+     */
+    public Args getUkeyResponseArgs(UkeyRequest ukeyRequest) {
+        AtomicReference<UkeyResponseArgsWrapper> reference = new AtomicReference<>();
+        reference.set(new UkeyResponseArgsWrapper(Thread.currentThread(), new Args()));
+        WebSocketConnectionManager certValidTimeManager = new WebSocketConnectionManager(standardWebSocketClient, new TextWebSocketHandler() {
+            @Override
+            public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+                session.sendMessage(new TextMessage(JSONUtil.toJsonStr(ukeyRequest)));
+            }
+
+            @Override
+            protected void handleTextMessage(WebSocketSession session, TextMessage message) {
+                UkeyResponse response = JSONUtil.toBean(message.getPayload(), new TypeReference<>() {
+                }, true);
+                try {
+                    if (Objects.equals(response.get_id(), ukeyRequest.get_id())) {
+                        log.warn("从电子口岸ukey中获取获取到数据: {}", response.get_args());
+                        reference.get().setResponseArgs(response.get_args());
+                    }
+                } catch (Exception e) {
+                    log.error("唤醒线程异常 {}", e.getLocalizedMessage(), e);
+                }
+            }
+        }, ukeyProperties.getWsUrl());
+        certValidTimeManager.start();
+        try {
+            LockSupport.parkNanos(reference.get().getThread(), 1000 * 1000 * 1000 * 1L);
+        } catch (Exception e) {
+            log.error("线程自动unpark异常 {}", e.getLocalizedMessage(), e);
+        } finally {
+            certValidTimeManager.stop();
+        }
+        return reference.get().getResponseArgs();
     }
 
 }

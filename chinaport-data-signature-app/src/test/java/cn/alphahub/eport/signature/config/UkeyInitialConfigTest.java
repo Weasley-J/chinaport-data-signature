@@ -52,7 +52,7 @@ public class UkeyInitialConfigTest {
 
     @Test
     void getSignatureValueParameter() {
-        System.err.println(UkeyInitialConfig.getSignDataAsPEMParameter(new SignRequest(CEB621Message)));
+        System.err.println(UkeyInitialConfig.getSignDataAsPEM(new SignRequest(CEB621Message)));
     }
 
     @Test

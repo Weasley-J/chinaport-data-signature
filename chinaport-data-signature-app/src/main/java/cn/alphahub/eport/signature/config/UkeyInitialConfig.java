@@ -4,12 +4,12 @@ import cn.alphahub.dtt.plus.util.JacksonUtil;
 import cn.alphahub.dtt.plus.util.SpringUtil;
 import cn.alphahub.eport.signature.core.CertificateHandler;
 import cn.alphahub.eport.signature.core.SignHandler;
-import cn.alphahub.eport.signature.core.SignatureHandler;
 import cn.alphahub.eport.signature.core.WebSocketClientHandler;
 import cn.alphahub.eport.signature.entity.SignRequest;
 import cn.alphahub.eport.signature.entity.SpcValidTime;
 import cn.alphahub.eport.signature.entity.UkeyRequest;
 import cn.alphahub.eport.signature.entity.UkeyResponse;
+import cn.alphahub.eport.signature.entity.UkeyResponse.Args;
 import cn.alphahub.eport.signature.entity.WebSocketWrapper;
 import cn.alphahub.eport.signature.util.SysUtil;
 import cn.hutool.core.io.IoUtil;
@@ -22,6 +22,8 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.bouncycastle.crypto.digests.SM3Digest;
+import org.bouncycastle.util.encoders.Hex;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -39,6 +41,7 @@ import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -107,7 +110,7 @@ public class UkeyInitialConfig implements ApplicationRunner {
      * @param request 原文入参
      * @return SignatureValue的值, 返回的数组，包含您的证书编号，可作为KeyName的值
      */
-    public static String getSignDataAsPEMParameter(SignRequest request) {
+    public static String getSignDataAsPEM(SignRequest request) {
         Map<String, Object> args = new LinkedHashMap<>(2);
         String initData = SignHandler.getInitData(request);
         log.warn("发送给ukey的真正请求入参: {}, 原始报文:\n{}", initData, request.getData());
@@ -121,18 +124,62 @@ public class UkeyInitialConfig implements ApplicationRunner {
     }
 
     /**
-     * 签名，对原文计算摘要(方法内部已经计算好)
+     * 使用卡计算摘要,返回PEM格式信息
+     *
+     * @return ukey响应数据，示例: B959CD298E3BA6DAE360FB8CDB87B68B66D8BD221474046232910DD5FDA54354
+     */
+    public static String getSHA1DigestAsPEMParams(SignRequest request) {
+        Map<String, Object> args = new LinkedHashMap<>();
+        String initData = SignHandler.getInitData(request);
+        log.warn("使用卡计算摘要，返回PEM格式信息: \n{}, 原始报文:\n{}", initData, request.getData());
+        args.put("szInfo", initData);
+        args.put("passwd", ObjectUtils.defaultIfNull(SpringUtil.getBean(UkeyProperties.class).getPassword(), DEFAULT_PASSWORD));
+        UkeyRequest ukeyRequest = new UkeyRequest();
+        ukeyRequest.set_method("cus-sec_SpcSHA1DigestAsPEM");
+        ukeyRequest.set_id(request.getId());
+        ukeyRequest.setArgs(args);
+        return JacksonUtil.toJson(ukeyRequest);
+    }
+
+    /**
+     * 签名，对原文计算摘要
      *
      * @param request CEBXxxMessage加签请求参数
      * @return SignatureValue的值
+     * @see UkeyInitialConfig#getSHA1DigestAsPEMParams(SignRequest)
      */
-    public static String getSignDataNoHashAsPEMParameter(SignRequest request) {
+    public static String getSignDataNoHashAsPEMP(SignRequest request) {
         String initData = SignHandler.getInitData(request);
-        //对原文计算摘：SHA-1 digest as a hex string
-        String sha1Hex = DigestUtils.sha1Hex(initData);
-        log.warn("发送给ukey的真正请求入参: {}, 原始报文:\n{}", sha1Hex, request.getData());
+        CertificateHandler certificateHandler = SpringUtil.getBean(CertificateHandler.class);
+        //对原文计算摘：Digest as a hex string
+        @SuppressWarnings({"all"}) UkeyRequest ukeyRequest4SHA1Digest = new UkeyRequest("cus-sec_SpcSHA1DigestAsPEM", new HashMap<>() {{
+            put("szInfo", initData);
+            put("passwd", ObjectUtils.defaultIfNull(SpringUtil.getBean(UkeyProperties.class).getPassword(), DEFAULT_PASSWORD));
+        }});
+        Args ukeyResponseArgs = SpringUtil.getBean(SignHandler.class).getUkeyResponseArgs(ukeyRequest4SHA1Digest);
+        String digestValueFromUkey = ukeyResponseArgs.getData().get(0);
+
+        // 创建SM3Digest对象
+        SM3Digest sm3Digest = new SM3Digest();
+        // 计算输入字符串的哈希值
+        byte[] inputBytes = initData.getBytes(StandardCharsets.UTF_8);
+        sm3Digest.update(inputBytes, 0, inputBytes.length);
+        byte[] hashedBytes = new byte[sm3Digest.getDigestSize()];
+        sm3Digest.doFinal(hashedBytes, 0);
+        // 将字节数组转换为十六进制字符串
+        String hexString = Hex.toHexString(hashedBytes);
+
+        String digestHexValue;
+        if (certificateHandler.getUkeyValidTimeBegin().isAfter(DATE_TIME_202207)) {
+            digestHexValue = DigestUtils.sha512_256Hex(initData);
+        } else {
+            digestHexValue = DigestUtils.sha1Hex(initData);
+        }
+        log.warn("手工计算的xml原文摘要和u-key计算的结果对比: \nUkey计算: {},\n手工计算: {}", digestValueFromUkey, digestHexValue);
+        log.warn("发送给ukey的真正请求入参: {}, 原始报文:\n{}", digestHexValue, request.getData());
         Map<String, Object> args = new LinkedHashMap<>(2);
-        args.put("inData", sha1Hex);
+        //args.put("inData", digestHexValue);
+        args.put("inData", hexString);
         args.put("passwd", ObjectUtils.defaultIfNull(SpringUtil.getBean(UkeyProperties.class).getPassword(), DEFAULT_PASSWORD));
         UkeyRequest ukeyRequest = new UkeyRequest();
         ukeyRequest.set_method(METHOD_OF_X509_WITHOUT_HASH);
@@ -151,15 +198,18 @@ public class UkeyInitialConfig implements ApplicationRunner {
      */
     public static String getVerifySignDataNoHashParameter(String sourceXml, String signatureValue, @Nullable String certDataPEM, Integer uniqueId) {
         Map<String, Object> argsMap = new LinkedHashMap<>(2);
-        //对原文计算摘：SHA-1 digest as a hex string
-        String sha1Hex = DigestUtils.sha1Hex(SignatureHandler.getSignatureValueBeforeSend(new SignRequest(null, sourceXml)));
-        argsMap.put("inData", sha1Hex);
+
+        //String sm3Hex = SM3DigestUtils.sm3Hex(sourceXml);
+        //argsMap.put("inData", sm3Hex); //不对原文计算摘要,请您自行计算好摘要传入
+        argsMap.put("inData", sourceXml); //原文信息
+
         argsMap.put("signData", signatureValue);
         if (StringUtils.isNotBlank(certDataPEM)) {
             argsMap.put("certDataPEM", certDataPEM);
         }
         UkeyRequest ukeyRequest = new UkeyRequest();
-        ukeyRequest.set_method("cus-sec_SpcVerifySignDataNoHash");
+        ukeyRequest.set_method("cus-sec_SpcVerifySignData"); //原文信息
+        //ukeyRequest.set_method("cus-sec_SpcVerifySignDataNoHash"); //不对原文计算摘要,请您自行计算好摘要传入
         ukeyRequest.set_id(uniqueId);
         ukeyRequest.setArgs(argsMap);
         return JacksonUtil.toJson(ukeyRequest);
@@ -175,7 +225,7 @@ public class UkeyInitialConfig implements ApplicationRunner {
         return JacksonUtil.toJson(ukeyRequest);
     }
 
-    /* *********************** 获取入参方法结束（这几个方法值5000RMB，小心修改） *********************** */
+    /* *********************** 获取入参方法结束（这几个方法值，小心修改） *********************** */
 
     /**
      * Callback used to run the bean.
@@ -303,10 +353,6 @@ public class UkeyInitialConfig implements ApplicationRunner {
                             }, true);
                             certificateHandler.setUkeyValidTimeBegin(validTime.getSzStartTime());
                             certificateHandler.setUkeyValidTimeEnd(validTime.getSzEndTime());
-                            //2022-07-01以后签发的u-key使用u-key里面的读取出来的证书
-                            if (certificateHandler.getUkeyValidTimeBegin().isAfter(DATE_TIME_202207)) {
-                                x509Map.put(METHOD_OF_X509_WITH_HASH, certificateFromUkey[0]);
-                            }
                         }
                     }
                 } catch (Exception e) {
@@ -324,7 +370,6 @@ public class UkeyInitialConfig implements ApplicationRunner {
         } finally {
             certValidTimeManager.stop();
         }
-
         certificateHandler.setX509Map(x509Map);
         return certificateHandler;
     }

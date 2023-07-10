@@ -7,7 +7,7 @@ spring:
     name: chinaport-data-signature
 
   profiles:
-    active: dev
+    active: lwj
 
   jackson:
     time-zone: GMT+8

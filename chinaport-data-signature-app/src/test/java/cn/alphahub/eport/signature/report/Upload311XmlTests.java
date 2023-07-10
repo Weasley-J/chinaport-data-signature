@@ -13,8 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static cn.alphahub.dtt.plus.util.JacksonUtil.toJson;
-
 /**
  * 311 进口单 xml 上报测试
  *
@@ -33,10 +31,10 @@ class Upload311XmlTests {
     void upload() {
         String sourceXml = """
                 <?xml version="1.0" encoding="UTF-8"?>
-                <ceb:CEB311Message guid="CEB311_HNZB_HNFX_20230707223752_003" version="1.0" xmlns:ceb="http://www.chinaport.gov.cn/ceb" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <ceb:CEB311Message guid="CEB311_HNZB_HNFX_20230707223752_006" version="1.0" xmlns:ceb="http://www.chinaport.gov.cn/ceb" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                     <ceb:Order>
                         <ceb:OrderHead>
-                            <ceb:guid>CEB311_HNZB_HNFX_20230707223752_001</ceb:guid>
+                            <ceb:guid>CEB311_HNZB_HNFX_20230707223752_006</ceb:guid>
                             <ceb:appType>1</ceb:appType>
                             <ceb:appTime>20230704181028</ceb:appTime>
                             <ceb:appStatus>2</ceb:appStatus>
@@ -78,7 +76,14 @@ class Upload311XmlTests {
                             <ceb:note>test</ceb:note>
                         </ceb:OrderList>
                     </ceb:Order>
-                </ceb:CEB311Message>
+                    <ceb:BaseTransfer>
+                        <ceb:copCode>4601630004</ceb:copCode>
+                        <ceb:copName>海南省荣誉进出口贸易有限公司</ceb:copName>
+                        <ceb:dxpMode>DXP</ceb:dxpMode>
+                        <ceb:dxpId>DXPENT0000530815</ceb:dxpId>
+                        <ceb:note>test</ceb:note>
+                    </ceb:BaseTransfer>
+                </ceb:CEB311Message> 
                 """;
 
         CEB311Message ceb311Message = JAXBUtil.toBean(sourceXml, CEB311Message.class);
@@ -87,12 +92,9 @@ class Upload311XmlTests {
         ceb311Message.setGuid(guid);
         ceb311Message.getOrder().getOrderHead().setGuid(guid);
         ceb311Message.setVersion("1.0");
-        ceb311Message.setBaseTransfer(chinaEportReportClient.buildBaseTransfer()); //参数需要替换成自己企业的，我这里使用配置文件里面的
+        chinaEportReportClient.buildBaseTransfer(ceb311Message.getBaseTransfer());
 
-        System.out.println(toJson(ceb311Message));
-        String xml = JAXBUtil.toXml(ceb311Message);
-
-        ThirdAbstractResponse<String, String> report = chinaEportReportClient.report(ceb311Message, MessageType.CEB621Message);
+        ThirdAbstractResponse<String, String> report = chinaEportReportClient.report(ceb311Message, MessageType.CEB311Message);
         System.err.println(JacksonUtil.toPrettyJson(report));
     }
 }

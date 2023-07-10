@@ -2,12 +2,14 @@ package cn.alphahub.eport.signature.core;
 
 import cn.alphahub.eport.signature.base.exception.SignException;
 import cn.alphahub.eport.signature.config.ChinaEportProperties;
+import cn.alphahub.eport.signature.config.UkeyProperties;
 import cn.alphahub.eport.signature.entity.Capture179DataRequest;
 import cn.alphahub.eport.signature.entity.Capture179DataResponse;
 import cn.alphahub.eport.signature.entity.SignRequest;
 import cn.alphahub.eport.signature.entity.SignResult;
 import cn.alphahub.eport.signature.entity.ThirdAbstractResponse;
 import cn.alphahub.eport.signature.entity.UkeyRequest;
+import cn.alphahub.eport.signature.entity.UkeyResponse.Args;
 import cn.alphahub.eport.signature.entity.UploadCEBMessageRequest;
 import cn.hutool.core.codec.Base64;
 import cn.hutool.core.lang.TypeReference;
@@ -43,6 +45,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -74,10 +77,12 @@ public class ChinaEportReportClient {
      * 海关 179 数据抓取生产环境 URL （base64加密，不适合直接公布到外网）
      */
     public static final String REPORT_PROD_ENV_179_URL_ENCODE = "aHR0cHM6Ly9jdXN0b21zLmNoaW5hcG9ydC5nb3YuY24vY2ViMmdyYWIvZ3JhYi9yZWFsVGltZURhdGFVcGxvYWQ=";
-
     @Autowired
     private SignHandler signHandler;
-
+    @Autowired
+    private CertificateHandler certificateHandler;
+    @Autowired
+    private UkeyProperties ukeyProperties;
     @Autowired
     private ChinaEportProperties chinaEportProperties;
 
@@ -89,19 +94,30 @@ public class ChinaEportReportClient {
         return switch (request.getMessageType()) {
             case CEB311Message -> {
                 CEB311Message ceb311Message = Objects.requireNonNull(JAXBUtil.toBean(request.getCebMessage(), CEB311Message.class));
-                ceb311Message.setBaseTransfer(buildBaseTransfer());
                 ceb311Message.setGuid(guid);
                 ceb311Message.getOrder().getOrderHead().setGuid(guid);
+                buildBaseTransfer(ceb311Message.getBaseTransfer());
                 yield ceb311Message;
             }
             case CEB621Message -> {
                 CEB621Message ceb621Message = Objects.requireNonNull(JAXBUtil.toBean(request.getCebMessage(), CEB621Message.class));
                 ceb621Message.setGuid(guid);
                 ceb621Message.getInventory().getInventoryHead().setGuid(guid);
-                ceb621Message.setBaseTransfer(buildBaseTransfer());
+                buildBaseTransfer(ceb621Message.getBaseTransfer());
                 yield ceb621Message;
             }
         };
+    }
+
+    /**
+     * Build BaseTransfer XML Node
+     */
+    public BaseTransfer buildBaseTransfer(BaseTransfer baseTransfer) {
+        baseTransfer.setCopCode(StringUtils.defaultIfBlank(baseTransfer.getCopCode(), chinaEportProperties.getCopCode()));
+        baseTransfer.setCopName(StringUtils.defaultIfBlank(baseTransfer.getCopName(), chinaEportProperties.getCopName()));
+        baseTransfer.setDxpId(StringUtils.defaultIfBlank(baseTransfer.getDxpId(), chinaEportProperties.getDxpId()));
+        baseTransfer.setDxpMode(StringUtils.defaultIfBlank(baseTransfer.getDxpMode(), "DXP"));
+        return baseTransfer;
     }
 
     /**
@@ -165,7 +181,7 @@ public class ChinaEportReportClient {
                 "\"payExchangeInfoLists\":\"" + toJson(customs179Request.getPayExchangeInfoLists()) + "\"||" +
                 "\"serviceTime\":" + "\"" + customs179Request.getServiceTime() + "\"";
 
-        @SuppressWarnings("all") UkeyRequest ukeyRequest = new UkeyRequest(METHOD_OF_X509_WITH_HASH, new LinkedHashMap<>() {{
+        @SuppressWarnings("all") UkeyRequest ukeyRequest = new UkeyRequest(METHOD_OF_X509_WITH_HASH, new HashMap<>() {{
             put("inData", capture179DataUkeyRequest.replace("\"", "\\\""));
             put("passwd", "88888888");
         }});
@@ -201,18 +217,6 @@ public class ChinaEportReportClient {
     }
 
     /**
-     * Build BaseTransfer XML Node
-     */
-    public BaseTransfer buildBaseTransfer() {
-        BaseTransfer baseTransfer = new BaseTransfer();
-        baseTransfer.setCopCode(chinaEportProperties.getCopCode());
-        baseTransfer.setCopName(chinaEportProperties.getCopName());
-        baseTransfer.setDxpId(chinaEportProperties.getDxpId());
-        baseTransfer.setDxpMode("DXP");
-        return baseTransfer;
-    }
-
-    /**
      * 组装最终请求数据，完成末三段加密
      */
     private MessageRequest buildMessageRequest(AbstractCebMessage cebMessage, IMessageType messageType) {
@@ -230,10 +234,26 @@ public class ChinaEportReportClient {
         ukeyRequest.setData(xmlDataInfo);
 
         // 请求签名加密，2次组装数据, 请求加密（包含第1，2段加密）
-        String payload = signHandler.getDynamicSignDataParameter(ukeyRequest);
-        SignResult signed = signHandler.sign(ukeyRequest, payload);
+        SignResult signResult;
+        Map<String, Object> _args = new HashMap<>();
+        String xml = SignHandler.getInitData(new SignRequest(xmlDataInfo));
+        _args.put("inData", xml);
+        _args.put("passwd", ukeyProperties.getPassword());
+        // 签名,返回PEM格式
+        Args argsRes1 = signHandler.getUkeyResponseArgs(new UkeyRequest("cus-sec_SpcSignDataAsPEM", _args));
+        // 取海关签名证书PEM
+        Args argsRes2 = signHandler.getUkeyResponseArgs(new UkeyRequest("cus-sec_SpcGetSignCertAsPEM", new HashMap<>()));
 
-        String xmlBody = buildXml(signed, xmlDataInfo, messageType);
+        String payload = signHandler.getDynamicSignDataParameter(ukeyRequest);
+        signResult = signHandler.sign(ukeyRequest, payload);
+        signResult.setCertNo(argsRes1.getData().get(1));
+        signResult.setSignatureValue(argsRes1.getData().get(0));
+        signResult.setX509Certificate(argsRes2.getData().get(0));
+
+        if (Boolean.FALSE.equals(signResult.getSuccess())) {
+            throw new SignException("CebXxxMessage XML数据加签失败, ukey加签入参: " + payload + ", 原始入参: " + toJson(ukeyRequest));
+        }
+        String xmlBody = buildXml(signResult, xmlDataInfo, messageType);
         // 第3次组装数据, 将加签后的 XM 进行 base64 加密
         String encodedXml = Base64.encode(xmlBody);
         MessageBody messageBody = MessageBody.builder().data(encodedXml).build();
@@ -275,4 +295,5 @@ public class ChinaEportReportClient {
         log.info("上报海关的XML报文: \n{}", finalXml);
         return finalXml;
     }
+
 }

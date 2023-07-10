@@ -133,7 +133,7 @@ class Upload621XmlTests {
         ceb621Message.setGuid(guid);
         ceb621Message.getInventory().getInventoryHead().setGuid(guid);
         ceb621Message.setVersion("1.0");
-        ceb621Message.setBaseTransfer(chinaEportReportClient.buildBaseTransfer()); //参数需要替换成自己企业的
+        chinaEportReportClient.buildBaseTransfer(ceb621Message.getBaseTransfer());
         System.out.println(JacksonUtil.toJson(ceb621Message));
         String xml = JAXBUtil.toXml(ceb621Message);
         ThirdAbstractResponse<String, String> report = chinaEportReportClient.report(ceb621Message, MessageType.CEB621Message);
