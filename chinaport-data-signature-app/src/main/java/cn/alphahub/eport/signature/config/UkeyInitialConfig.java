@@ -195,11 +195,20 @@ public class UkeyInitialConfig implements ApplicationRunner {
      * @param uniqueId       uniqueId 唯一id, 用来区分是哪一次发送的消息，int32，最大32位大于0
      */
     public static String getVerifySignDataNoHashParameter(String sourceXml, String signatureValue, @Nullable String certDataPEM, Integer uniqueId) {
+        // 创建SM3Digest对象
+        SM3Digest sm3Digest = new SM3Digest();
+        // 计算输入字符串的哈希值
+        byte[] inputBytes = sourceXml.getBytes(StandardCharsets.UTF_8);
+        sm3Digest.update(inputBytes, 0, inputBytes.length);
+        byte[] hashedBytes = new byte[sm3Digest.getDigestSize()];
+        sm3Digest.doFinal(hashedBytes, 0);
+        // 将字节数组转换为十六进制字符串
+        String hexString = Hex.toHexString(hashedBytes);
         Map<String, Object> argsMap = new LinkedHashMap<>(2);
-        argsMap.put("inData", sourceXml); //原文信息
+        argsMap.put("inData", hexString); //原文信息
         argsMap.put("signData", signatureValue);
         if (StringUtils.isNotBlank(certDataPEM)) {
-            argsMap.put("certDataPEM", certDataPEM);
+            //argsMap.put("certDataPEM", certDataPEM.replace("\n",""));
         }
         UkeyRequest ukeyRequest = new UkeyRequest();
         ukeyRequest.set_method("cus-sec_SpcVerifySignData");
