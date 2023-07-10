@@ -1,7 +1,6 @@
 package cn.alphahub.eport.signature.core;
 
 import cn.alphahub.eport.signature.config.SignatureAlgorithm;
-import cn.hutool.core.date.LocalDateTimeUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -11,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
 import static cn.alphahub.eport.signature.config.SignatureAlgorithm.RSA_SHA1;
@@ -39,7 +39,7 @@ public class CertificateHandler implements Serializable {
     /**
      * 暂定2022-07-01为第一个时间分界
      */
-    public static final LocalDateTime DATE_TIME_202207 = LocalDateTimeUtil.parse("2022-07-01", "yyyy-MM-dd");
+    public static final LocalDateTime DATE_TIME_202207 = LocalDateTime.parse("2022-07-01", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
     /**
      * u-key的.cer证书是否存在
