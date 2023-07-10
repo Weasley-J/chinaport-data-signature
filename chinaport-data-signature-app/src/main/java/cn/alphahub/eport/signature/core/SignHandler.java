@@ -2,14 +2,8 @@ package cn.alphahub.eport.signature.core;
 
 import cn.alphahub.eport.signature.config.UkeyInitialConfig;
 import cn.alphahub.eport.signature.config.UkeyProperties;
-import cn.alphahub.eport.signature.entity.SignRequest;
-import cn.alphahub.eport.signature.entity.SignResult;
-import cn.alphahub.eport.signature.entity.UkeyRequest;
-import cn.alphahub.eport.signature.entity.UkeyResponse;
+import cn.alphahub.eport.signature.entity.*;
 import cn.alphahub.eport.signature.entity.UkeyResponse.Args;
-import cn.alphahub.eport.signature.entity.UkeyResponseArgsWrapper;
-import cn.alphahub.eport.signature.entity.WebSocketWrapper;
-import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.lang.TypeReference;
 import cn.hutool.json.JSONUtil;
 import jakarta.annotation.Resource;
@@ -25,7 +19,6 @@ import org.springframework.web.socket.client.WebSocketConnectionManager;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.LockSupport;
@@ -43,10 +36,6 @@ import java.util.concurrent.locks.LockSupport;
 @Service
 @Validated
 public class SignHandler {
-    /**
-     * 暂定2022-07-01为第一个时间分解
-     */
-    public static final LocalDateTime DATE_TIME_202207 = LocalDateTimeUtil.parse("2022-07-01", "yyyy-MM-dd");
     @Resource
     private UkeyProperties ukeyProperties;
 
@@ -101,7 +90,7 @@ public class SignHandler {
      * @since 2022-11-27
      */
     public String getDynamicSignDataParameter(@Valid SignRequest request) {
-        if (certificateHandler.getUkeyValidTimeBegin().isAfter(DATE_TIME_202207)) {
+        if (certificateHandler.getUkeyValidTimeBegin().isAfter(CertificateHandler.DATE_TIME_202207)) {
             //1. 2022-07-01以后签发的u-key都使用这个签名方式
             return UkeyInitialConfig.getSignDataAsPEM(request);
         }

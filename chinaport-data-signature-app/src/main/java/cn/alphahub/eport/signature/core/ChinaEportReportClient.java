@@ -3,14 +3,8 @@ package cn.alphahub.eport.signature.core;
 import cn.alphahub.eport.signature.base.exception.SignException;
 import cn.alphahub.eport.signature.config.ChinaEportProperties;
 import cn.alphahub.eport.signature.config.UkeyProperties;
-import cn.alphahub.eport.signature.entity.Capture179DataRequest;
-import cn.alphahub.eport.signature.entity.Capture179DataResponse;
-import cn.alphahub.eport.signature.entity.SignRequest;
-import cn.alphahub.eport.signature.entity.SignResult;
-import cn.alphahub.eport.signature.entity.ThirdAbstractResponse;
-import cn.alphahub.eport.signature.entity.UkeyRequest;
+import cn.alphahub.eport.signature.entity.*;
 import cn.alphahub.eport.signature.entity.UkeyResponse.Args;
-import cn.alphahub.eport.signature.entity.UploadCEBMessageRequest;
 import cn.hutool.core.codec.Base64;
 import cn.hutool.core.lang.TypeReference;
 import cn.hutool.http.ContentType;
@@ -28,15 +22,7 @@ import o.github.weasleyj.china.eport.sign.model.request.Message;
 import o.github.weasleyj.china.eport.sign.model.request.MessageBody;
 import o.github.weasleyj.china.eport.sign.model.request.MessageHead;
 import o.github.weasleyj.china.eport.sign.model.request.MessageRequest;
-import o.github.weasleyj.china.eport.sign.model.signature.CanonicalizationMethod;
-import o.github.weasleyj.china.eport.sign.model.signature.DigestMethod;
-import o.github.weasleyj.china.eport.sign.model.signature.KeyInfo;
-import o.github.weasleyj.china.eport.sign.model.signature.Reference;
-import o.github.weasleyj.china.eport.sign.model.signature.Signature;
-import o.github.weasleyj.china.eport.sign.model.signature.SignatureMethod;
-import o.github.weasleyj.china.eport.sign.model.signature.SignedInfo;
-import o.github.weasleyj.china.eport.sign.model.signature.Transforms;
-import o.github.weasleyj.china.eport.sign.model.signature.X509Data;
+import o.github.weasleyj.china.eport.sign.model.signature.*;
 import o.github.weasleyj.china.eport.sign.util.GUIDUtil;
 import o.github.weasleyj.china.eport.sign.util.JAXBUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -275,7 +261,7 @@ public class ChinaEportReportClient {
                 .signatureValue(signResult.getSignatureValue())
                 .signedInfo(SignedInfo.builder()
                         .CanonicalizationMethod(new CanonicalizationMethod())
-                        .SignatureMethod(new SignatureMethod())
+                        .SignatureMethod(new SignatureMethod().setAlgorithm(SignatureHandler.getSignatureMethodAlgorithm()))
                         .reference(Reference.builder()
                                 .digestMethod(new DigestMethod())
                                 .uri("")

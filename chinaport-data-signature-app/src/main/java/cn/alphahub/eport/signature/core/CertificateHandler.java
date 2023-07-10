@@ -1,5 +1,6 @@
 package cn.alphahub.eport.signature.core;
 
+import cn.hutool.core.date.LocalDateTimeUtil;
 import lombok.Data;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,11 @@ public class CertificateHandler implements Serializable {
      * 从u-key读取含发送推送{@code <ds:X509Certificate>}(不经HASH散列，就是一个字符串)证书对应的方法
      */
     public static final String METHOD_OF_X509_WITHOUT_HASH = "cus-sec_SpcSignDataNoHashAsPEM";
+    /**
+     * 暂定2022-07-01为第一个时间分解
+     */
+    public static final LocalDateTime DATE_TIME_202207 = LocalDateTimeUtil.parse("2022-07-01", "yyyy-MM-dd");
+    public static final LocalDateTime DATE_TIME_202301 = LocalDateTimeUtil.parse("2023-01-01", "yyyy-MM-dd");
 
     /**
      * u-key的.cer证书是否存在

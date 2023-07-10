@@ -238,7 +238,7 @@ class SignClientTest {
     void t2() {
         HashMap<String, Object> _args = new HashMap<>();
         String xml = """
-                <ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#"><ds:SignedInfo><ds:CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/><ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sm2-sm3"/><ds:Reference URI=""><ds:Transforms><ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/></ds:Transforms><ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><ds:DigestValue>8JmrLw4jIIsHx+qb7D7U9eKPlWo=</ds:DigestValue></ds:Reference></ds:SignedInfo>
+                <ds:SignedInfo xmlns:ceb="http://www.chinaport.gov.cn/ceb" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><ds:CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"></ds:CanonicalizationMethod><ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sm2-sm3"></ds:SignatureMethod><ds:Reference URI=""><ds:Transforms><ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"></ds:Transform></ds:Transforms><ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"></ds:DigestMethod><ds:DigestValue>r1t2B+VZLNVPtNJXAw9gcf3gGKU=</ds:DigestValue></ds:Reference></ds:SignedInfo>
                 """;
         _args.put("inData", xml);
         _args.put("passwd", PASSWORD);

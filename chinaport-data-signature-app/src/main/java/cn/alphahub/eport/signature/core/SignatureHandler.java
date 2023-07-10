@@ -1,6 +1,9 @@
 package cn.alphahub.eport.signature.core;
 
+import cn.alphahub.dtt.plus.util.SpringUtil;
 import cn.alphahub.eport.signature.base.exception.SignException;
+import cn.alphahub.eport.signature.config.SignatureAlgorithm;
+import cn.alphahub.eport.signature.config.SignatureAlgorithmProperties;
 import cn.alphahub.eport.signature.entity.SignRequest;
 import cn.alphahub.eport.signature.util.XMLUtils;
 import cn.hutool.core.util.XmlUtil;
@@ -23,12 +26,10 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.StringReader;
-import java.io.StringWriter;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
+
+import static cn.alphahub.eport.signature.core.CertificateHandler.DATE_TIME_202301;
 
 /**
  * 末三加密核心方法
@@ -143,7 +144,7 @@ public final class SignatureHandler {
         canonicalizationMethodElement.setAttribute("Algorithm", "http://www.w3.org/TR/2001/REC-xml-c14n-20010315");
         canonicalizationMethodElement.setTextContent("");
         Element signatureMethodElement = document.createElement("ds:SignatureMethod");
-        signatureMethodElement.setAttribute("Algorithm", "http://www.w3.org/2000/09/xmldsig#rsa-sha1");
+        signatureMethodElement.setAttribute("Algorithm", getSignatureMethodAlgorithm());
         signatureMethodElement.setTextContent("");
 
         Element transformElement = document.createElement("ds:Transform");
@@ -198,5 +199,28 @@ public final class SignatureHandler {
 
         Element rootElement = document.getDocumentElement();
         rootElement.appendChild(signatureElement);
+    }
+
+    /**
+     * 动态推断XML代码段中s:SignatureMethod的算法值
+     * <pre>
+     *  {@code <ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#${algorithmType}"/>}
+     * </pre>
+     *
+     * @return XML代码段中s:SignatureMethod的算法值
+     */
+    public static String getSignatureMethodAlgorithm() {
+        CertificateHandler certificateHandler = SpringUtil.getBean(CertificateHandler.class);
+        SignatureAlgorithmProperties algorithmProperties = SpringUtil.getBean(SignatureAlgorithmProperties.class);
+        // 1. 取配置文件
+        if (null != algorithmProperties.getSignatureAlgorithm()) {
+            return algorithmProperties.getSignatureAlgorithm().getXmlAlgorithmValue();
+        }
+        // 2. 202301后的u-key使用SM2_SM3, 配置文件没有配置的话
+        if (certificateHandler.getUkeyValidTimeBegin().isAfter(DATE_TIME_202301)) {
+            return SignatureAlgorithm.SM2_SM3.getXmlAlgorithmValue();
+        }
+        // 默认: RSA_SHA1 兜底
+        return SignatureAlgorithm.RSA_SHA1.getXmlAlgorithmValue();
     }
 }
