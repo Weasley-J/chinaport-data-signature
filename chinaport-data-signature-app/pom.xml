@@ -53,7 +53,7 @@
     <dependencies>
         <!-- 海关 179 数据抓取，CEB311Message/CEB621Message等数据模型 -->
         <dependency>
-            <groupId>o.github.weasleyj.china.eport.sign</groupId>
+            <groupId>io.github.weasley-j</groupId>
             <artifactId>chinaport-data-signature-data-model</artifactId>
             <version>${signature-data-model.version}</version>
         </dependency>
