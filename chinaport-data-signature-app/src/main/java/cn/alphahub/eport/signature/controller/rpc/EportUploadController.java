@@ -7,12 +7,15 @@ import cn.alphahub.eport.signature.entity.Capture179DataResponse;
 import cn.alphahub.eport.signature.entity.ThirdAbstractResponse;
 import cn.alphahub.eport.signature.entity.UploadCEBMessageRequest;
 import lombok.extern.slf4j.Slf4j;
+import o.github.weasleyj.china.eport.sign.model.request.MessageRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
 
 /**
  * 电子口岸报文推送
@@ -44,8 +47,8 @@ public class EportUploadController {
      * @return 结果，OK表示已推送
      */
     @PostMapping("/CEBMessage")
-    public Result<ThirdAbstractResponse<String, String>> uploadCEBMessage(@RequestBody @Validated UploadCEBMessageRequest request) {
-        ThirdAbstractResponse<String, String> report = chinaEportReportClient.report(chinaEportReportClient.getCebMessageByMessageType(request), request.getMessageType());
+    public Result<ThirdAbstractResponse<MessageRequest, String, String>> uploadCEBMessage(@RequestBody @Validated UploadCEBMessageRequest request) {
+        ThirdAbstractResponse<MessageRequest, String, String> report = chinaEportReportClient.report(chinaEportReportClient.getCebMessageByMessageType(request), request.getMessageType());
         return Result.ok(report);
     }
 
@@ -90,8 +93,8 @@ public class EportUploadController {
      * </ul>
      */
     @PostMapping("/179/data")
-    public Result<ThirdAbstractResponse<String, Capture179DataResponse>> capture179Data(@RequestBody @Validated Capture179DataRequest request) {
-        ThirdAbstractResponse<String, Capture179DataResponse> report = chinaEportReportClient.capture179Data(request);
+    public Result<ThirdAbstractResponse<Map<String, Object>, String, Capture179DataResponse>> capture179Data(@RequestBody @Validated Capture179DataRequest request) {
+        ThirdAbstractResponse<Map<String, Object>, String, Capture179DataResponse> report = chinaEportReportClient.capture179Data(request);
         return Result.ok(report);
     }
 

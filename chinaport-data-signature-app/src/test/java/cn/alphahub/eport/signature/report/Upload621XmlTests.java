@@ -10,6 +10,7 @@ import cn.hutool.http.HttpUtil;
 import lombok.extern.slf4j.Slf4j;
 import o.github.weasleyj.china.eport.sign.constants.MessageType;
 import o.github.weasleyj.china.eport.sign.model.cebmessage.CEB621Message;
+import o.github.weasleyj.china.eport.sign.model.request.MessageRequest;
 import o.github.weasleyj.china.eport.sign.util.GUIDUtil;
 import o.github.weasleyj.china.eport.sign.util.JAXBUtil;
 import org.junit.jupiter.api.DisplayName;
@@ -112,7 +113,7 @@ class Upload621XmlTests {
         chinaEportReportClient.buildBaseTransfer(ceb621Message.getBaseTransfer());
         System.out.println(JacksonUtil.toJson(ceb621Message));
         String xml = JAXBUtil.toXml(ceb621Message);
-        ThirdAbstractResponse<String, String> report = chinaEportReportClient.report(ceb621Message, MessageType.CEB621Message);
+        ThirdAbstractResponse<MessageRequest, String, String> report = chinaEportReportClient.report(ceb621Message, MessageType.CEB621Message);
         System.err.println(JacksonUtil.toPrettyJson(report));
     }
 

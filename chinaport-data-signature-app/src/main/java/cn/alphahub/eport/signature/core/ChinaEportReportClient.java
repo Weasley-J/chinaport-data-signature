@@ -12,7 +12,6 @@ import cn.alphahub.eport.signature.entity.UkeyRequest;
 import cn.alphahub.eport.signature.entity.UkeyResponse.Args;
 import cn.alphahub.eport.signature.entity.UploadCEBMessageRequest;
 import cn.hutool.core.codec.Base64;
-import cn.hutool.core.lang.TypeReference;
 import cn.hutool.http.ContentType;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
@@ -50,6 +49,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import static cn.alphahub.dtt.plus.util.JacksonUtil.readValue;
 import static cn.alphahub.dtt.plus.util.JacksonUtil.toJson;
 import static cn.alphahub.eport.signature.core.CertificateHandler.SING_DATA_METHOD;
 
@@ -126,7 +126,7 @@ public class ChinaEportReportClient {
      * @param messageType CEB311Message|CEB621Message|...
      * @return 推送结果, OK: 表示成功, 报关结果需要自己查询回执
      */
-    public ThirdAbstractResponse<String, String> report(AbstractCebMessage cebMessage, IMessageType messageType) {
+    public ThirdAbstractResponse<MessageRequest, String, String> report(AbstractCebMessage cebMessage, IMessageType messageType) {
         log.info("数据上报海关xml入参: {}, {}", JSONUtil.toJsonStr(cebMessage), messageType.getMessageType());
         MessageRequest messageRequest = buildMessageRequest(cebMessage, messageType);
         String requestServer = Base64.decodeStr(EPORT_CEBMESSAGE_SERVER_ENCODE);
@@ -142,7 +142,8 @@ public class ChinaEportReportClient {
         if (!"OK".equals(responseBody)) {
             log.error("上报海关请求异常, 请求入参: {}\n海关Http响应: {}", requestBody, responseBody);
         }
-        ThirdAbstractResponse<String, String> thirdResponse = ThirdAbstractResponse.getInstance();
+        ThirdAbstractResponse<MessageRequest, String, String> thirdResponse = ThirdAbstractResponse.getInstance();
+        thirdResponse.setPayload(messageRequest);
         thirdResponse.setOriginal(responseBody);
         thirdResponse.setExpected("OK");
         return thirdResponse;
@@ -160,7 +161,7 @@ public class ChinaEportReportClient {
      *     </li>
      * </ul>
      */
-    public ThirdAbstractResponse<String, Capture179DataResponse> capture179Data(Capture179DataRequest request) {
+    public ThirdAbstractResponse<Map<String, Object>, String, Capture179DataResponse> capture179Data(Capture179DataRequest request) {
         log.info("海关 179 数据抓取 {}", JSONUtil.toJsonStr(request));
         Customs179Request customs179Request = new Customs179Request();
         customs179Request.setSessionID(request.getSessionID());
@@ -204,14 +205,12 @@ public class ChinaEportReportClient {
                 .timeout(5 * 1000)
                 .execute();
         log.info("海关 179 数据抓取返回结果 {}", httpResponse.body());
-        Capture179DataResponse capture179DataResponse = new Capture179DataResponse();
-        if (httpResponse.isOk()) {
-            capture179DataResponse = JSONUtil.toBean(httpResponse.body(), new TypeReference<>() {
-            }, true);
-        }
-        ThirdAbstractResponse<String, Capture179DataResponse> thirdResponse = ThirdAbstractResponse.getInstance();
+        Capture179DataResponse expected = readValue("{\"code\":\"10000\",\"message\":\"\",\"serviceTime\":1601282210417}", Capture179DataResponse.class);
+        expected.setServiceTime(Long.parseLong(customs179Request.getServiceTime()));
+        ThirdAbstractResponse<Map<String, Object>, String, Capture179DataResponse> thirdResponse = ThirdAbstractResponse.getInstance();
+        thirdResponse.setPayload(formData);
         thirdResponse.setOriginal(httpResponse.body());
-        thirdResponse.setExpected(capture179DataResponse);
+        thirdResponse.setExpected(expected);
         return thirdResponse;
     }
 

@@ -23,7 +23,11 @@ interface IAbstractResponse extends Serializable {
 @NoArgsConstructor
 @Accessors(chain = true)
 @ToString(callSuper = true)
-public abstract class ThirdAbstractResponse<O, E> implements IAbstractResponse {
+public abstract class ThirdAbstractResponse<P, O, E> implements IAbstractResponse {
+    /**
+     * 请求数据载荷
+     */
+    private P payload;
     /**
      * 三方原始返回
      */
@@ -36,9 +40,10 @@ public abstract class ThirdAbstractResponse<O, E> implements IAbstractResponse {
     /**
      * @param <O> 原始返回类型
      * @param <E> 期望返回类型
+     * @param <P> 请求数据载荷
      * @return Abstract Response
      */
-    public static <O, E> ThirdAbstractResponse<O, E> getInstance() {
+    public static <P, O, E> ThirdAbstractResponse<P, O, E> getInstance() {
         return new ThirdAbstractResponse<>() {
         };
     }

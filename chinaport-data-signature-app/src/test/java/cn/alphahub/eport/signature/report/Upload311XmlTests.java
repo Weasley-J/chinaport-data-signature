@@ -6,6 +6,7 @@ import cn.alphahub.eport.signature.entity.ThirdAbstractResponse;
 import lombok.extern.slf4j.Slf4j;
 import o.github.weasleyj.china.eport.sign.constants.MessageType;
 import o.github.weasleyj.china.eport.sign.model.cebmessage.CEB311Message;
+import o.github.weasleyj.china.eport.sign.model.request.MessageRequest;
 import o.github.weasleyj.china.eport.sign.util.GUIDUtil;
 import o.github.weasleyj.china.eport.sign.util.JAXBUtil;
 import org.junit.jupiter.api.DisplayName;
@@ -94,7 +95,7 @@ class Upload311XmlTests {
         ceb311Message.setVersion("1.0");
         chinaEportReportClient.buildBaseTransfer(ceb311Message.getBaseTransfer());
 
-        ThirdAbstractResponse<String, String> report = chinaEportReportClient.report(ceb311Message, MessageType.CEB311Message);
+        ThirdAbstractResponse<MessageRequest, String, String> report = chinaEportReportClient.report(ceb311Message, MessageType.CEB311Message);
         System.err.println(JacksonUtil.toPrettyJson(report));
     }
 }
