@@ -2,7 +2,7 @@
 
 > **China e-port data signature**
 >
-> 
+>
 >
 > 中国电子口岸海关总署-海口海关`CEBXxxMessage`XML末三段报文和
 > `海关179号公告`报文加签服务，开箱即用，无任何中间件；本项目遵守`GNU 3.0`协议，本项目里面所有到的`x509`
@@ -15,11 +15,10 @@
 >
 > 提示:
 >
-> - 此应用不支持集群部署（原则上一个`u-key`只能连接一台`Windows`电脑作为加签的`Websocket`客户端）
->
 > - 单体应用直接下载[release](https://github.com/Weasley-J/chinaport-data-signature/releases)的二进制文件使用即可（使用较多）
-> - 分布式微服务请切换到`dev-microservice`分支构建（较少使用）
-
+>- 分布式微服务请切换到`dev-microservice`分支构建（较少使用）
+> - 加签用到的`Java`数据模型已上传至`maven`
+    中央仓库[![Maven Central](https://img.shields.io/maven-central/v/io.github.weasley-j/chinaport-data-signature-data-model)](https://search.maven.org/artifact/io.github.weasley-j/chinaport-data-signature-data-model)
 
 
 <u>在第一次提交代码之前，地球上的搜索引擎在**2022-02-14**之前还找不到任何有参价值的信息......</u>
@@ -82,7 +81,8 @@
 
 ## 4 启动脚本介绍
 
-本人已提供好`Windows`环境、`Linux`/`MacOS`的环境下的脚本，企业只需要修改**2**个参数既可**开箱即用**，详细配置`yaml`[参数参考](https://github.com/Weasley-J/chinaport-data-signature/blob/main/src/main/resources/application-dev.yml#L49-L59)。
+本人已提供好`Windows`环境、`Linux`/`MacOS`的环境下的脚本，企业只需要修改**2**个参数既可**开箱即用**
+，详细配置`yaml`[参数参考](https://github.com/Weasley-J/chinaport-data-signature/blob/main/src/main/resources/application-dev.yml#L49-L59)。
 
 启动文件相对的位置:
 
@@ -177,7 +177,9 @@ java ${JAVA_ARGS} -jar ${APP_NAME}.jar \
 
 ## 6 开发文档
 
-启动项目，浏览器访问: http://127.0.0.1:8080 , 会打开以下界面[接口文档](https://github.com/Weasley-J/chinaport-data-signature/blob/main/中国电子口岸报文加签接口文档.md)的H5版本，可直接在页面给ukey发送请求.
+启动项目，浏览器访问: http://127.0.0.1:8080 ,
+会打开以下界面[接口文档](https://github.com/Weasley-J/chinaport-data-signature/blob/main/中国电子口岸报文加签接口文档.md)
+的H5版本，可直接在页面给ukey发送请求.
 
 ![image-20220217013840347](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20220217013840347.png)
 
@@ -221,11 +223,9 @@ java ${JAVA_ARGS} -jar ${APP_NAME}.jar \
 }
 ```
 
-
-
 ## 7 接入企业登记
 
-> 排名不分先后，2023-07-11开始，2023-07-11前尚未统计，有需要的请去`issue`去提，感谢对开源项目的支持。
+> 排名不分先后，2023-07-11开始，2023-07-11前未统计，感谢对开源项目的支持。
 
 - 海南省荣誉进出口贸易有限公司
 - 海南星创互联网医药有限公司
