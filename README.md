@@ -17,8 +17,6 @@
 >
 > - 单体应用直接下载[release](https://github.com/Weasley-J/chinaport-data-signature/releases)的二进制文件使用即可（使用较多）
 >- 分布式微服务请切换到`dev-microservice`分支构建（较少使用）
-> - 加签用到的`Java`数据模型已上传至`maven`中央仓库[![Maven Central](https://img.shields.io/maven-central/v/io.github.weasley-j/chinaport-data-signature-data-model)](https://search.maven.org/artifact/io.github.weasley-j/chinaport-data-signature-data-model)
-
 
 <u>在第一次提交代码之前，地球上的搜索引擎在**2022-02-14**之前还找不到任何有参价值的信息......</u>
 
@@ -224,7 +222,7 @@ java ${JAVA_ARGS} -jar ${APP_NAME}.jar \
 
 ## 7 接入企业登记
 
-> 排名不分先后，2023-07-11开始，2023-07-11前未统计，感谢对开源项目的支持。
+> 排名不分先后，2023-07-11开始，感谢对开源项目的支持
 
 - 海南省荣誉进出口贸易有限公司
 - 海南星创互联网医药有限公司
