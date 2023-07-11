@@ -1,6 +1,6 @@
 package cn.alphahub.eport.signature.controller.rpc;
 
-import cn.alphahub.eport.signature.core.Certificate;
+import cn.alphahub.eport.signature.core.CertificateHandler;
 import cn.alphahub.eport.signature.core.SignHandler;
 import cn.alphahub.eport.signature.entity.UkeyRequest;
 import cn.alphahub.eport.signature.entity.UkeyResponse.Args;
@@ -44,7 +44,7 @@ public class EportCertController {
         response.setContentType("application/x-x509-ca-cert");
         response.setHeader("Content-Disposition", "attachment; filename=\"" + certName + ".cer\"");
         OutputStream stream = response.getOutputStream();
-        stream.write(Certificate.buildX509CertificateWithHeader(certPomOfUkey).getBytes(StandardCharsets.UTF_8));
+        stream.write(CertificateHandler.buildX509CertificateWithHeader(certPomOfUkey).getBytes(StandardCharsets.UTF_8));
         stream.flush();
         stream.close();
     }

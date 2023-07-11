@@ -16,7 +16,7 @@ class SignHandlerTest {
     SignHandler signHandler;
 
     @Resource
-    Certificate certificate;
+    CertificateHandler certificateHandler;
 
 
     @BeforeEach
@@ -98,12 +98,12 @@ class SignHandlerTest {
                 """;
         String dynamicSignDataParameter = signHandler.getSignDataParameter(new SignRequest(xml));
         String method = JSONUtil.parseObj(dynamicSignDataParameter).getStr("_method");
-        String x509Certificate = certificate.getX509Certificate(method);
+        String x509Certificate = certificateHandler.getX509Certificate(method);
         System.err.println("\t\t\t\t" + x509Certificate + "\n");
 
         dynamicSignDataParameter = signHandler.getSignDataParameter(new SignRequest(xml));
         method = JSONUtil.parseObj(dynamicSignDataParameter).getStr("_method");
-        x509Certificate = certificate.getX509Certificate(method);
+        x509Certificate = certificateHandler.getX509Certificate(method);
         System.err.println("\t\t\t\t" + x509Certificate);
     }
 }

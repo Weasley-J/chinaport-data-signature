@@ -211,11 +211,11 @@ public final class SignatureHandler {
      * @apiNote 优先取配置文件的算法值，若无配置，自动推断签名算法兜底
      */
     public static String getSignatureMethodAlgorithm() {
-        Certificate certificate = SpringUtil.getBean(Certificate.class);
+        CertificateHandler certificateHandler = SpringUtil.getBean(CertificateHandler.class);
         SignatureAlgorithmProperties algorithmProperties = SpringUtil.getBean(SignatureAlgorithmProperties.class);
         if (null != algorithmProperties.getAlgorithm()) {
             return algorithmProperties.getAlgorithm().getXmlAlgorithmValue();
         }
-        return certificate.getAlgorithm().getXmlAlgorithmValue();
+        return certificateHandler.getAlgorithm().getXmlAlgorithmValue();
     }
 }

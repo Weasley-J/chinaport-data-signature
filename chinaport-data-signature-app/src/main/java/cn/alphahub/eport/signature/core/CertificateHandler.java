@@ -27,7 +27,7 @@ import static cn.alphahub.eport.signature.config.SignatureAlgorithm.RSA_SHA1;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-public class Certificate implements Serializable {
+public class CertificateHandler implements Serializable {
     /**
      * 从u-key读取含发送推送 X509Certificate 证书对应的加签方法
      */
@@ -98,7 +98,7 @@ public class Certificate implements Serializable {
      */
     public static String buildX509CertificateWithHeader(String certPomFromUkey) {
         return "-----BEGIN CERTIFICATE-----\n"
-                .concat(Certificate.buildX509CertificateWithoutHeader(certPomFromUkey)).concat("\n")
+                .concat(CertificateHandler.buildX509CertificateWithoutHeader(certPomFromUkey)).concat("\n")
                 .concat("-----END CERTIFICATE-----");
     }
 

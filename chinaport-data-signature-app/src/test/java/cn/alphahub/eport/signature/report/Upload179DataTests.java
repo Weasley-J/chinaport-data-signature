@@ -20,7 +20,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static cn.alphahub.dtt.plus.util.JacksonUtil.toJson;
-import static cn.alphahub.eport.signature.core.Certificate.SING_DATA_METHOD;
+import static cn.alphahub.eport.signature.core.CertificateHandler.SING_DATA_METHOD;
 
 @Slf4j
 @SpringBootTest

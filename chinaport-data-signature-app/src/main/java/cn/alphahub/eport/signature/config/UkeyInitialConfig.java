@@ -2,7 +2,7 @@ package cn.alphahub.eport.signature.config;
 
 import cn.alphahub.dtt.plus.util.JacksonUtil;
 import cn.alphahub.dtt.plus.util.SpringUtil;
-import cn.alphahub.eport.signature.core.Certificate;
+import cn.alphahub.eport.signature.core.CertificateHandler;
 import cn.alphahub.eport.signature.core.SignHandler;
 import cn.alphahub.eport.signature.core.WebSocketClientHandler;
 import cn.alphahub.eport.signature.entity.SignRequest;
@@ -41,7 +41,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.LockSupport;
 
-import static cn.alphahub.eport.signature.core.Certificate.SING_DATA_METHOD;
+import static cn.alphahub.eport.signature.core.CertificateHandler.SING_DATA_METHOD;
 import static cn.hutool.json.JSONUtil.toBean;
 import static cn.hutool.json.JSONUtil.toJsonStr;
 
@@ -188,8 +188,8 @@ public class UkeyInitialConfig implements ApplicationRunner {
      */
     @Bean
     @SneakyThrows
-    public Certificate certificateHandler(UkeyProperties ukeyProperties, StandardWebSocketClient standardWebSocketClient) {
-        Certificate certificate = new Certificate();
+    public CertificateHandler certificateHandler(UkeyProperties ukeyProperties, StandardWebSocketClient standardWebSocketClient) {
+        CertificateHandler certificateHandler = new CertificateHandler();
 
         Map<String, String> certMap = new ConcurrentHashMap<>();
         AtomicReference<Thread> reference = new AtomicReference<>();
@@ -243,8 +243,8 @@ public class UkeyInitialConfig implements ApplicationRunner {
                             log.warn("从电子口岸u-key中获取到u-key有效期区间: {}", responseArgs.getData());
                             SpcValidTime validTime = toBean(responseArgs.getData().get(0), new TypeReference<>() {
                             }, true);
-                            certificate.setUkeyValidTimeBegin(validTime.getSzStartTime());
-                            certificate.setUkeyValidTimeEnd(validTime.getSzEndTime());
+                            certificateHandler.setUkeyValidTimeBegin(validTime.getSzStartTime());
+                            certificateHandler.setUkeyValidTimeEnd(validTime.getSzEndTime());
                         }
                     }
                 } catch (Exception e) {
@@ -272,10 +272,10 @@ public class UkeyInitialConfig implements ApplicationRunner {
                     if (Objects.equals(response.get_id(), 1)) {
                         UkeyResponse.Args responseArgs = response.get_args();
                         if (responseArgs.getResult().equals(true) && CollectionUtils.isNotEmpty(responseArgs.getData())) {
-                            String x509Certificate = Certificate.buildX509CertificateWithHeader(responseArgs.getData().get(0));
+                            String x509Certificate = CertificateHandler.buildX509CertificateWithHeader(responseArgs.getData().get(0));
                             X509Certificate certificateByCertText = CertificateParser.parseCertificateByCertText(x509Certificate);
                             if (null != SignatureAlgorithm.getSignatureAlgorithmSigAlgName(certificateByCertText.getSigAlgName())) {
-                                certificate.setAlgorithm(SignatureAlgorithm.getSignatureAlgorithmSigAlgName(certificateByCertText.getSigAlgName()));
+                                certificateHandler.setAlgorithm(SignatureAlgorithm.getSignatureAlgorithmSigAlgName(certificateByCertText.getSigAlgName()));
                             }
                         }
                     }
@@ -288,8 +288,8 @@ public class UkeyInitialConfig implements ApplicationRunner {
         }, ukeyProperties.getWsUrl());
         parkThread(reference, certSignatureAlgorithmManager);
 
-        certificate.setX509Map(certMap);
-        return certificate;
+        certificateHandler.setX509Map(certMap);
+        return certificateHandler;
     }
 
     /**
@@ -297,8 +297,8 @@ public class UkeyInitialConfig implements ApplicationRunner {
      */
     @Bean
     @ConditionalOnMissingBean({WebSocketClientHandler.class})
-    public WebSocketClientHandler webSocketClientHandler(UkeyProperties ukeyProperties, WebSocketWrapper webSocketWrapper, Certificate certificate) {
-        return new WebSocketClientHandler(ukeyProperties, webSocketWrapper, certificate);
+    public WebSocketClientHandler webSocketClientHandler(UkeyProperties ukeyProperties, WebSocketWrapper webSocketWrapper, CertificateHandler certificateHandler) {
+        return new WebSocketClientHandler(ukeyProperties, webSocketWrapper, certificateHandler);
     }
 
 }
