@@ -2,26 +2,21 @@ package cn.alphahub.eport.signature.config;
 
 import cn.alphahub.dtt.plus.util.JacksonUtil;
 import cn.alphahub.dtt.plus.util.SpringUtil;
-import cn.alphahub.eport.signature.core.CertificateHandler;
-import cn.alphahub.eport.signature.core.CertificateParser;
+import cn.alphahub.eport.signature.core.Certificate;
 import cn.alphahub.eport.signature.core.SignHandler;
 import cn.alphahub.eport.signature.core.WebSocketClientHandler;
 import cn.alphahub.eport.signature.entity.SignRequest;
 import cn.alphahub.eport.signature.entity.SpcValidTime;
 import cn.alphahub.eport.signature.entity.UkeyRequest;
 import cn.alphahub.eport.signature.entity.UkeyResponse;
-import cn.alphahub.eport.signature.entity.UkeyResponse.Args;
 import cn.alphahub.eport.signature.entity.WebSocketWrapper;
-import cn.alphahub.eport.signature.util.SysUtil;
-import cn.hutool.core.io.IoUtil;
+import cn.alphahub.eport.signature.support.CertificateParser;
 import cn.hutool.core.lang.TypeReference;
 import lombok.Data;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -30,8 +25,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.lang.Nullable;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.client.WebSocketConnectionManager;
@@ -48,9 +41,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.LockSupport;
 
-import static cn.alphahub.eport.signature.core.CertificateHandler.DATE_TIME_202207;
-import static cn.alphahub.eport.signature.core.CertificateHandler.METHOD_OF_X509_WITHOUT_HASH;
-import static cn.alphahub.eport.signature.core.CertificateHandler.METHOD_OF_X509_WITH_HASH;
+import static cn.alphahub.eport.signature.core.Certificate.SING_DATA_METHOD;
 import static cn.hutool.json.JSONUtil.toBean;
 import static cn.hutool.json.JSONUtil.toJsonStr;
 
@@ -122,40 +113,6 @@ public class UkeyInitialConfig implements ApplicationRunner {
     }
 
     /**
-     * 签名，对原文计算摘要
-     *
-     * @param request CEBXxxMessage加签请求参数
-     * @return SignatureValue的值
-     * @see UkeyInitialConfig#getSHA1DigestAsPEMParams(SignRequest)
-     */
-    public static String getSignDataNoHashAsPEMP(SignRequest request) {
-        String initData = SignHandler.getInitData(request);
-        CertificateHandler certificateHandler = SpringUtil.getBean(CertificateHandler.class);
-        // 对原文计算摘：Digest as a hex string
-        @SuppressWarnings({"all"}) UkeyRequest ukeyRequest4SHA1Digest = new UkeyRequest("cus-sec_SpcSHA1DigestAsPEM", new HashMap<>() {{
-            put("szInfo", initData);
-            put("passwd", ObjectUtils.defaultIfNull(SpringUtil.getBean(UkeyProperties.class).getPassword(), DEFAULT_PASSWORD));
-        }});
-        Args ukeyResponseArgs = SpringUtil.getBean(SignHandler.class).getUkeyResponseArgs(ukeyRequest4SHA1Digest);
-        String digestValueFromUkey = ukeyResponseArgs.getData().get(0);
-        String digestHexValue;
-        if (certificateHandler.getUkeyValidTimeBegin().isAfter(DATE_TIME_202207)) {
-            digestHexValue = DigestUtils.sha512_256Hex(initData);
-        } else {
-            digestHexValue = DigestUtils.sha1Hex(initData);
-        }
-        log.warn("发送给ukey的真正请求入参: {}\n原始报文:\n{}", digestHexValue, request.getData());
-        Map<String, Object> args = new LinkedHashMap<>(2);
-        args.put("inData", digestHexValue);
-        args.put("passwd", ObjectUtils.defaultIfNull(SpringUtil.getBean(UkeyProperties.class).getPassword(), DEFAULT_PASSWORD));
-        UkeyRequest ukeyRequest = new UkeyRequest();
-        ukeyRequest.set_method(METHOD_OF_X509_WITHOUT_HASH);
-        ukeyRequest.set_id(request.getId());
-        ukeyRequest.setArgs(args);
-        return JacksonUtil.toJson(ukeyRequest);
-    }
-
-    /**
      * 使用卡计算摘要,返回PEM格式信息
      *
      * @return ukey响应数据，示例: B959CD298E3BA6DAE360FB8CDB87B68B66D8BD221474046232910DD5FDA54354
@@ -170,28 +127,6 @@ public class UkeyInitialConfig implements ApplicationRunner {
         ukeyRequest.set_method("cus-sec_SpcSHA1DigestAsPEM");
         ukeyRequest.set_id(request.getId());
         ukeyRequest.setArgs(args);
-        return JacksonUtil.toJson(ukeyRequest);
-    }
-
-    /**
-     * 验证签名,不对原文计算摘要,请您自行计算好摘要传入
-     *
-     * @param sourceXml      不带ds:Signature节点的CEBXxxMessage.xml原文
-     * @param signatureValue 签名信息
-     * @param certDataPEM    签名证书,PEM编码格式 可以为空,则取当前插着的卡中的证书
-     * @param uniqueId       uniqueId 唯一id, 用来区分是哪一次发送的消息，int32，最大32位大于0
-     */
-    public static String getVerifySignDataNoHashParameter(String sourceXml, String signatureValue, @Nullable String certDataPEM, Integer uniqueId) {
-        Map<String, Object> argsMap = new LinkedHashMap<>(2);
-        argsMap.put("inData", sourceXml); //原文信息
-        argsMap.put("signData", signatureValue);
-        if (StringUtils.isNotBlank(certDataPEM)) {
-            argsMap.put("certDataPEM", certDataPEM.replace("\n", ""));
-        }
-        UkeyRequest ukeyRequest = new UkeyRequest();
-        ukeyRequest.set_method("cus-sec_SpcVerifySignData");
-        ukeyRequest.set_id(uniqueId);
-        ukeyRequest.setArgs(argsMap);
         return JacksonUtil.toJson(ukeyRequest);
     }
 
@@ -253,40 +188,20 @@ public class UkeyInitialConfig implements ApplicationRunner {
      */
     @Bean
     @SneakyThrows
-    public CertificateHandler certificateHandler(UkeyProperties ukeyProperties, StandardWebSocketClient standardWebSocketClient) {
-        CertificateHandler certificateHandler = new CertificateHandler();
+    public Certificate certificateHandler(UkeyProperties ukeyProperties, StandardWebSocketClient standardWebSocketClient) {
+        Certificate certificate = new Certificate();
 
-        @SuppressWarnings("all") final String[] certificateFromUkey = {""};
-        Map<String, String> x509Map = new ConcurrentHashMap<>(2);
-
-        //Thread.currentThread().getContextClassLoader().getResourceAsStream(ukeyProperties.getCertPath())
-        ClassPathResource resource = new ClassPathResource("/" + ukeyProperties.getCertPath());
-        if (StringUtils.isNotBlank(ukeyProperties.getCertPath()) && resource.exists() || resource.isFile() && resource.isReadable()) {
-            String certificateWithHash = IoUtil.readUtf8(resource.getInputStream());
-            certificateWithHash = certificateWithHash.replace("-----BEGIN CERTIFICATE-----", "");
-            certificateWithHash = certificateWithHash.replace("-----END CERTIFICATE-----", "");
-            if (StringUtils.startsWith(certificateWithHash, SysUtil.getLineSeparator())) {
-                certificateWithHash = StringUtils.removeStart(certificateWithHash, SysUtil.getLineSeparator());
-            }
-            if (certificateWithHash.endsWith(SysUtil.getLineSeparator())) {
-                certificateWithHash = StringUtils.substring(certificateWithHash, 0, certificateWithHash.length() - SysUtil.getLineSeparator().length());
-            }
-            x509Map.put(METHOD_OF_X509_WITH_HASH, certificateWithHash.trim());
-            certificateHandler.setCertExists(true);
-            certificateHandler.setX509Map(x509Map);
-            if (log.isWarnEnabled()) {
-                log.warn("METHOD_OF_X509_WITH_HASH:\n{}", certificateWithHash);
-            }
-        }
-
+        Map<String, String> certMap = new ConcurrentHashMap<>();
         AtomicReference<Thread> reference = new AtomicReference<>();
         reference.set(Thread.currentThread());
 
         // 获取u-key内的证书相关
         WebSocketConnectionManager certManager = new WebSocketConnectionManager(standardWebSocketClient, new TextWebSocketHandler() {
+            final UkeyRequest ukeyRequest = new UkeyRequest("cus-sec_SpcGetSignCertAsPEM", new HashMap<>());
+
             @Override
             public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-                session.sendMessage(new TextMessage(UkeyInitialConfig.getX509CertificateParameter()));
+                session.sendMessage(new TextMessage(JacksonUtil.toJson(ukeyRequest)));
             }
 
             @Override
@@ -297,9 +212,8 @@ public class UkeyInitialConfig implements ApplicationRunner {
                     if (Objects.equals(response.get_id(), 1)) {
                         UkeyResponse.Args responseArgs = response.get_args();
                         if (responseArgs.getResult().equals(true) && CollectionUtils.isNotEmpty(responseArgs.getData())) {
-                            x509Map.put(METHOD_OF_X509_WITHOUT_HASH, responseArgs.getData().get(0));
-                            certificateFromUkey[0] = responseArgs.getData().get(0);
-                            log.warn("已从电子口岸u-key中获取到未经hash算法的x509Certificate证书: {}", JacksonUtil.toJson(x509Map));
+                            certMap.put(SING_DATA_METHOD, responseArgs.getData().get(0));
+                            log.warn("已从电子口岸u-key中获取到未经hash算法的x509Certificate证书: {}", JacksonUtil.toJson(certMap));
                         }
                     }
                 } catch (Exception e) {
@@ -329,8 +243,8 @@ public class UkeyInitialConfig implements ApplicationRunner {
                             log.warn("从电子口岸u-key中获取到u-key有效期区间: {}", responseArgs.getData());
                             SpcValidTime validTime = toBean(responseArgs.getData().get(0), new TypeReference<>() {
                             }, true);
-                            certificateHandler.setUkeyValidTimeBegin(validTime.getSzStartTime());
-                            certificateHandler.setUkeyValidTimeEnd(validTime.getSzEndTime());
+                            certificate.setUkeyValidTimeBegin(validTime.getSzStartTime());
+                            certificate.setUkeyValidTimeEnd(validTime.getSzEndTime());
                         }
                     }
                 } catch (Exception e) {
@@ -358,10 +272,10 @@ public class UkeyInitialConfig implements ApplicationRunner {
                     if (Objects.equals(response.get_id(), 1)) {
                         UkeyResponse.Args responseArgs = response.get_args();
                         if (responseArgs.getResult().equals(true) && CollectionUtils.isNotEmpty(responseArgs.getData())) {
-                            String x509Certificate = CertificateHandler.buildX509CertificateWithHeader(responseArgs.getData().get(0));
+                            String x509Certificate = Certificate.buildX509CertificateWithHeader(responseArgs.getData().get(0));
                             X509Certificate certificateByCertText = CertificateParser.parseCertificateByCertText(x509Certificate);
                             if (null != SignatureAlgorithm.getSignatureAlgorithmSigAlgName(certificateByCertText.getSigAlgName())) {
-                                certificateHandler.setAlgorithm(SignatureAlgorithm.getSignatureAlgorithmSigAlgName(certificateByCertText.getSigAlgName()));
+                                certificate.setAlgorithm(SignatureAlgorithm.getSignatureAlgorithmSigAlgName(certificateByCertText.getSigAlgName()));
                             }
                         }
                     }
@@ -374,8 +288,8 @@ public class UkeyInitialConfig implements ApplicationRunner {
         }, ukeyProperties.getWsUrl());
         parkThread(reference, certSignatureAlgorithmManager);
 
-        certificateHandler.setX509Map(x509Map);
-        return certificateHandler;
+        certificate.setX509Map(certMap);
+        return certificate;
     }
 
     /**
@@ -383,8 +297,8 @@ public class UkeyInitialConfig implements ApplicationRunner {
      */
     @Bean
     @ConditionalOnMissingBean({WebSocketClientHandler.class})
-    public WebSocketClientHandler webSocketClientHandler(UkeyProperties ukeyProperties, WebSocketWrapper webSocketWrapper, CertificateHandler certificateHandler) {
-        return new WebSocketClientHandler(ukeyProperties, webSocketWrapper, certificateHandler);
+    public WebSocketClientHandler webSocketClientHandler(UkeyProperties ukeyProperties, WebSocketWrapper webSocketWrapper, Certificate certificate) {
+        return new WebSocketClientHandler(ukeyProperties, webSocketWrapper, certificate);
     }
 
 }

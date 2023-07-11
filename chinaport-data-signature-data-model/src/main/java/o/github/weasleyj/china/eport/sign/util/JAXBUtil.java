@@ -12,9 +12,16 @@ import java.io.StringWriter;
  * Jaxb XML 工具类
  */
 @Slf4j
-public class JAXBUtil {
+public final class JAXBUtil {
+    private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"%s\"?>\n";
+
+    private JAXBUtil() {
+    }
+
     /**
-     * Bean转换成xml(默认编码UTF-8)
+     * Bean转换成xml()
+     *
+     * @apiNote 默认编码: UTF-8
      */
     public static String toXml(Object obj) {
         return toXml(obj, "UTF-8");
@@ -27,14 +34,11 @@ public class JAXBUtil {
         try {
             JAXBContext context = JAXBContext.newInstance(obj.getClass());
             Marshaller marshaller = context.createMarshaller();
-            // 格式化xml格式
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             marshaller.setProperty(Marshaller.JAXB_ENCODING, encoding);
-            // 去掉生成xml的默认报文头
             marshaller.setProperty(Marshaller.JAXB_FRAGMENT, true);
             StringWriter writer = new StringWriter();
-            // 由于不能优雅的去掉 standalone="yes" 所以只能去掉整个头部，然后手动插入一个符合条件的头部, 该行为不优雅需要进行升级
-            writer.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+            writer.append(String.format(XML_HEADER, encoding));
             marshaller.marshal(obj, writer);
             return writer.toString();
         } catch (Exception e) {

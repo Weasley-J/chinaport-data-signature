@@ -43,7 +43,7 @@ class SignatureHandlerTest {
     @DisplayName("获取CEBXxxMessage的签名值")
     void getSignatureValue() {
         SignRequest request = new SignRequest(sourceXml());
-        String payload = signHandler.getDynamicSignDataParameter(request);
+        String payload = signHandler.getSignDataParameter(request);
         String jsonPrettyStr = JSONUtil.toJsonPrettyStr(payload);
         SignResult sign = signHandler.sign(request, jsonPrettyStr);
         System.err.println("CEBMessage的签名结果: \n" + JSONUtil.toJsonPrettyStr(sign));

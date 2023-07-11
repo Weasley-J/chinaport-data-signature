@@ -38,7 +38,7 @@ public class EportSignController {
      */
     @PostMapping("/signature")
     public Result<SignResult> signature(@RequestBody @Validated SignRequest request) {
-        String payload = signHandler.getDynamicSignDataParameter(request);
+        String payload = signHandler.getSignDataParameter(request);
         SignResult signResult = signHandler.sign(request, payload);
         log.info("加签响应 {}", JSONUtil.toJsonStr(signResult));
         if (signResult.getSuccess().equals(false)) {

@@ -111,7 +111,7 @@ public class EportTestController {
                 </ceb:CEB621Message>
                 """;
         SignRequest request = new SignRequest(sourceXml);
-        String payload = signHandler.getDynamicSignDataParameter(request);
+        String payload = signHandler.getSignDataParameter(request);
         SignResult signed = signHandler.sign(request, payload);
         log.info("加签结果响应体 {}", JSONUtil.toJsonStr(signed));
         if (signed.getSuccess().equals(false)) {
@@ -132,7 +132,7 @@ public class EportTestController {
                 "sessionID":"ad2254-8hewyf32-55616249"||"payExchangeInfoHead":"{"guid":"9D55BA71-22DE-41F4-8B50-C36C83B3B530","initalRequest":"原始请求","initalResponse":"ok","ebpCode":"4404840022","payCode":"312226T001","payTransactionId":"2018121222001354081010726129","totalAmount":100,"currency":"142","verDept":"3","payType":"1","tradingTime":"20181212041803","note":"批量订单，测试订单优化,生成多个so订单"}"||"payExchangeInfoLists":"[{"orderNo":"SO1710301150602574003","goodsInfo":[{"gname":"lhy-gnsku3","itemLink":"http://m.yunjiweidian.com/yunjibuyer/static/vue-buyer/idc/index.html#/detail?itemId=999761&shopId=453"},{"gname":"lhy-gnsku2","itemLink":"http://m.yunjiweidian.com/yunjibuyer/static/vue-buyer/idc/index.html#/detail?itemId=999760&shopId=453"}],"recpAccount":"OSA571908863132601","recpCode":"","recpName":"YUNJIHONGKONGLIMITED"}]"||"serviceTime":"1544519952469"
                 """;
         SignRequest request = new SignRequest(sign179String);
-        String payload = signHandler.getDynamicSignDataParameter(request);
+        String payload = signHandler.getSignDataParameter(request);
         SignResult signed = signHandler.sign(request, payload);
         log.info("加签响应 {}", JSONUtil.toJsonStr(signed));
         if (signed.getSuccess().equals(false)) {

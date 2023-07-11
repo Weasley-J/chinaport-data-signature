@@ -54,7 +54,7 @@ public final class SignatureHandler {
         documentBuilderFactory.setNamespaceAware(true);
         documentBuilderFactory.setValidating(true);
         try {
-            //spring中已在org.springframework.boot.ApplicationRunner子类初始化过，防止普通类调用出错
+            //已在 org.springframework.boot.ApplicationRunner 子类初始化过，防止普通类调用出错
             org.apache.xml.security.Init.init();
             transFormer = TransformerFactory.newInstance().newTransformer();
         } catch (Exception e) {
@@ -74,7 +74,7 @@ public final class SignatureHandler {
      * @see SignatureHandler#getDigestValueOfCEBXxxMessage(String) 不含ds:Signature节点的digestValue的计算方法
      */
     @SneakyThrows
-    public static String getSignatureValueBeforeSend(SignRequest request) {
+    public static String getSignatureNodeBeforeSend(SignRequest request) {
 
         //completely disable external entities declarations:
         documentBuilderFactory.setFeature("http://xml.org/sax/features/external-general-entities", false);
@@ -211,11 +211,11 @@ public final class SignatureHandler {
      * @apiNote 优先取配置文件的算法值，若无配置，自动推断签名算法兜底
      */
     public static String getSignatureMethodAlgorithm() {
-        CertificateHandler certificateHandler = SpringUtil.getBean(CertificateHandler.class);
+        Certificate certificate = SpringUtil.getBean(Certificate.class);
         SignatureAlgorithmProperties algorithmProperties = SpringUtil.getBean(SignatureAlgorithmProperties.class);
         if (null != algorithmProperties.getAlgorithm()) {
             return algorithmProperties.getAlgorithm().getXmlAlgorithmValue();
         }
-        return certificateHandler.getAlgorithm().getXmlAlgorithmValue();
+        return certificate.getAlgorithm().getXmlAlgorithmValue();
     }
 }

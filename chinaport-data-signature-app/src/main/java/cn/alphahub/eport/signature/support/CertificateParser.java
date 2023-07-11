@@ -1,4 +1,4 @@
-package cn.alphahub.eport.signature.core;
+package cn.alphahub.eport.signature.support;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.slf4j.Logger;
@@ -23,6 +23,9 @@ public final class CertificateParser {
 
     static {
         Security.addProvider(new BouncyCastleProvider());
+    }
+
+    private CertificateParser() {
     }
 
     /**

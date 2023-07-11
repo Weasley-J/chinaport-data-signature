@@ -51,7 +51,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import static cn.alphahub.dtt.plus.util.JacksonUtil.toJson;
-import static cn.alphahub.eport.signature.core.CertificateHandler.METHOD_OF_X509_WITH_HASH;
+import static cn.alphahub.eport.signature.core.Certificate.SING_DATA_METHOD;
 
 /**
  * 电子口岸上报客户端
@@ -79,8 +79,6 @@ public class ChinaEportReportClient {
     public static final String REPORT_PROD_ENV_179_URL_ENCODE = "aHR0cHM6Ly9jdXN0b21zLmNoaW5hcG9ydC5nb3YuY24vY2ViMmdyYWIvZ3JhYi9yZWFsVGltZURhdGFVcGxvYWQ=";
     @Autowired
     private SignHandler signHandler;
-    @Autowired
-    private CertificateHandler certificateHandler;
     @Autowired
     private UkeyProperties ukeyProperties;
     @Autowired
@@ -142,7 +140,7 @@ public class ChinaEportReportClient {
         String responseBody = httpResponse.body();
         log.info("数据上报Http响应结果: {}", responseBody);
         if (!"OK".equals(responseBody)) {
-            log.error("\"上报海关请求异常, 请求入参: \" + requestBody + \"\\n海关Http响应: \" + responseBody");
+            log.error("上报海关请求异常, 请求入参: {}\n海关Http响应: {}", requestBody, responseBody);
         }
         ThirdAbstractResponse<String, String> thirdResponse = ThirdAbstractResponse.getInstance();
         thirdResponse.setOriginal(responseBody);
@@ -182,7 +180,7 @@ public class ChinaEportReportClient {
                 "\"payExchangeInfoLists\":\"" + toJson(customs179Request.getPayExchangeInfoLists()) + "\"||" +
                 "\"serviceTime\":" + "\"" + customs179Request.getServiceTime() + "\"";
 
-        @SuppressWarnings("all") UkeyRequest ukeyRequest = new UkeyRequest(METHOD_OF_X509_WITH_HASH, new HashMap<>() {{
+        @SuppressWarnings("all") UkeyRequest ukeyRequest = new UkeyRequest(SING_DATA_METHOD, new HashMap<>() {{
             put("inData", capture179DataUkeyRequest.replace("\"", "\\\""));
             put("passwd", "88888888");
         }});
@@ -224,42 +222,49 @@ public class ChinaEportReportClient {
         if (cebMessage == null) {
             return new MessageRequest();
         }
-        String xmlDataInfo = JAXBUtil.toXml(cebMessage);
+        String sourceXml = JAXBUtil.toXml(cebMessage);
         MessageHead messageHead = new MessageHead();
         messageHead.setMessageType(messageType.getMessageType() + ".xml");
         messageHead.setSendTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-        xmlDataInfo = xmlDataInfo.replaceAll("xmlns:ds=\"http://www.w3.org/2000/09/xmldsig#\"", "");
+        sourceXml = sourceXml.replaceAll("xmlns:ds=\"http://www.w3.org/2000/09/xmldsig#\"", "");
 
         SignRequest ukeyRequest = new SignRequest();
         ukeyRequest.setId(1);
-        ukeyRequest.setData(xmlDataInfo);
+        ukeyRequest.setData(sourceXml);
 
         // 请求签名加密，2次组装数据, 请求加密（包含第1，2段加密）
-        SignResult signResult;
-        Map<String, Object> _args = new HashMap<>();
-        String xml = SignHandler.getInitData(new SignRequest(xmlDataInfo));
-        _args.put("inData", xml);
-        _args.put("passwd", ukeyProperties.getPassword());
-        // 签名,返回PEM格式
-        Args argsRes1 = signHandler.getUkeyResponseArgs(new UkeyRequest("cus-sec_SpcSignDataAsPEM", _args));
-        // 取海关签名证书PEM
-        Args argsRes2 = signHandler.getUkeyResponseArgs(new UkeyRequest("cus-sec_SpcGetSignCertAsPEM", new HashMap<>()));
-
-        String payload = signHandler.getDynamicSignDataParameter(ukeyRequest);
-        signResult = signHandler.sign(ukeyRequest, payload);
-        //signResult.setCertNo(argsRes1.getData().get(1));
-        //signResult.setSignatureValue(argsRes1.getData().get(0));
-        signResult.setX509Certificate(argsRes2.getData().get(0));
-
+        String payload = signHandler.getSignDataParameter(ukeyRequest);
+        SignResult signResult = signHandler.sign(ukeyRequest, payload);
         if (Boolean.FALSE.equals(signResult.getSuccess())) {
             throw new SignException("CebXxxMessage XML数据加签失败, ukey加签入参: " + payload + ", 原始入参: " + toJson(ukeyRequest));
         }
-        String xmlBody = buildXml(signResult, xmlDataInfo, messageType);
+        String xmlBody = buildXml(signResult, sourceXml, messageType);
         // 第3次组装数据, 将加签后的 XM 进行 base64 加密
         String encodedXml = Base64.encode(xmlBody);
         MessageBody messageBody = MessageBody.builder().data(encodedXml).build();
         Message message = Message.builder().MessageBody(messageBody).MessageHead(messageHead).build();
         return new MessageRequest(message);
+    }
+
+    /**
+     * 增强 SignResult, 如果有缺陷: 如: 验签失败等场景
+     *
+     * @param signResult 签名结果
+     * @param sourceXml  原始XML
+     * @return 签名结果
+     * @apiNote 用于 SignHandler#sign 结果出现验签失败时的兜底手段
+     */
+    private SignResult enhanceSignResultIfDefective(SignResult signResult, String sourceXml) {
+        String signatureXml = SignHandler.getInitData(new SignRequest(sourceXml));
+        Map<String, Object> params = new HashMap<>();
+        params.put("inData", signatureXml);
+        params.put("passwd", ukeyProperties.getPassword());
+        Args args1 = signHandler.getUkeyResponseArgs(new UkeyRequest("cus-sec_SpcSignDataAsPEM", params));
+        Args args2 = signHandler.getUkeyResponseArgs(new UkeyRequest("cus-sec_SpcGetSignCertAsPEM", new HashMap<>()));
+        signResult.setCertNo(args1.getData().get(1));
+        signResult.setSignatureValue(args1.getData().get(0));
+        signResult.setX509Certificate(args2.getData().get(0));
+        return signResult;
     }
 
     /**
@@ -293,16 +298,15 @@ public class ChinaEportReportClient {
                 .build();
 
         String signatureNode = JAXBUtil.toXml(signature);
-
         String xmlStart = "</ceb:" + messageType.getMessageType() + ">";
         int index = sourceXml.indexOf(xmlStart);
         StringBuilder builder = new StringBuilder(sourceXml);
-        StringBuilder insert = builder.insert(index, signatureNode.concat("\n"));
-        String finalXml = insert.toString();
+        builder.insert(index, signatureNode.concat("\n"));
+        String finalXml = builder.toString();
         if (finalXml.startsWith("<?xml ")) {
             finalXml = finalXml.replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n", "");
         }
-        log.info("上报海关的XML报文: \n{}", finalXml);
+        log.info("上报海关的XML报文:\n{}", finalXml);
         return finalXml;
     }
 

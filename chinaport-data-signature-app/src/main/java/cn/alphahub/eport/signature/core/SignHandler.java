@@ -1,6 +1,5 @@
 package cn.alphahub.eport.signature.core;
 
-import cn.alphahub.dtt.plus.util.SpringUtil;
 import cn.alphahub.eport.signature.config.UkeyInitialConfig;
 import cn.alphahub.eport.signature.config.UkeyProperties;
 import cn.alphahub.eport.signature.entity.SignRequest;
@@ -10,6 +9,7 @@ import cn.alphahub.eport.signature.entity.UkeyResponse;
 import cn.alphahub.eport.signature.entity.UkeyResponse.Args;
 import cn.alphahub.eport.signature.entity.UkeyResponseArgsWrapper;
 import cn.alphahub.eport.signature.entity.WebSocketWrapper;
+import cn.alphahub.eport.signature.support.XMLValidator;
 import cn.hutool.core.lang.TypeReference;
 import cn.hutool.json.JSONUtil;
 import jakarta.validation.Valid;
@@ -61,7 +61,7 @@ public class SignHandler {
      */
     public static String getInitData(@Valid SignRequest request) {
         if (isSignXml(request)) {
-            return SignatureHandler.getSignatureValueBeforeSend(request);
+            return SignatureHandler.getSignatureNodeBeforeSend(request);
         }
         return request.getData();
     }
@@ -76,31 +76,25 @@ public class SignHandler {
         if (StringUtils.isBlank(request.getData())) {
             throw new IllegalArgumentException("加签数据请求入参能为空!");
         }
-        boolean isXmlSignString = StringUtils.startsWith(request.getData(), "<ceb:CEB") || StringUtils.startsWith(request.getData(), "<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-        boolean is197SignString = StringUtils.startsWith(request.getData(), "\"sessionID\"");
-        if (isXmlSignString && !is197SignString) {
+        boolean isSignXmlString = XMLValidator.isValidXML(request.getData()) || StringUtils.startsWith(request.getData(), "<ceb:CEB");
+        boolean isSign179String = StringUtils.startsWith(request.getData(), "\"sessionID\"");
+        if (isSignXmlString && !isSign179String) {
             return true;
         }
-        if (is197SignString && !isXmlSignString) {
+        if (isSign179String && !isSignXmlString) {
             return false;
         }
         throw new IllegalArgumentException("加签数据请求入参不合法,请检查参数:" + request.getData());
     }
 
     /**
-     * 如果.cer证书不存在时动态切换发送u-key的签名方法
+     * 获取u-key签名参数
      *
      * @return 发送u-key的签名的入参
-     * @apiNote 待验证2022-07后加签xml报文
      * @since 2022-11-27
      */
-    public String getDynamicSignDataParameter(@Valid SignRequest request) {
-        CertificateHandler certificateHandler = SpringUtil.getBean(CertificateHandler.class);
-        if (certificateHandler.getUkeyValidTimeBegin().isAfter(CertificateHandler.DATE_TIME_202207)) {
-            //1. 2022-07-01以后签发的u-key都使用这个签名方式
-            return UkeyInitialConfig.getSignDataAsPEM(request);
-        }
-        return certificateHandler.getCertExists().equals(true) ? UkeyInitialConfig.getSignDataAsPEM(request) : UkeyInitialConfig.getSignDataNoHashAsPEMP(request);
+    public String getSignDataParameter(@Valid SignRequest request) {
+        return UkeyInitialConfig.getSignDataAsPEM(request);
     }
 
     /**

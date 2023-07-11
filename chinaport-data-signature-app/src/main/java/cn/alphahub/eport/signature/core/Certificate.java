@@ -27,15 +27,11 @@ import static cn.alphahub.eport.signature.config.SignatureAlgorithm.RSA_SHA1;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-public class CertificateHandler implements Serializable {
+public class Certificate implements Serializable {
     /**
-     * 从u-key读取含发送推送{@code <ds:X509Certificate>}(经HASH散列过)证书对应的方法
+     * 从u-key读取含发送推送 X509Certificate 证书对应的加签方法
      */
-    public static final String METHOD_OF_X509_WITH_HASH = "cus-sec_SpcSignDataAsPEM";
-    /**
-     * 从u-key读取含发送推送{@code <ds:X509Certificate>}(不经HASH散列，就是一个字符串)证书对应的方法
-     */
-    public static final String METHOD_OF_X509_WITHOUT_HASH = "cus-sec_SpcSignDataNoHashAsPEM";
+    public static final String SING_DATA_METHOD = "cus-sec_SpcSignDataAsPEM";
     /**
      * 暂定2022-07-01为第一个时间分界
      */
@@ -102,7 +98,7 @@ public class CertificateHandler implements Serializable {
      */
     public static String buildX509CertificateWithHeader(String certPomFromUkey) {
         return "-----BEGIN CERTIFICATE-----\n"
-                .concat(CertificateHandler.buildX509CertificateWithoutHeader(certPomFromUkey)).concat("\n")
+                .concat(Certificate.buildX509CertificateWithoutHeader(certPomFromUkey)).concat("\n")
                 .concat("-----END CERTIFICATE-----");
     }
 
@@ -125,8 +121,7 @@ public class CertificateHandler implements Serializable {
      */
     public String getX509Certificate(String method) {
         return switch (method) {
-            case METHOD_OF_X509_WITH_HASH -> this.getX509Map().get(METHOD_OF_X509_WITH_HASH);
-            case METHOD_OF_X509_WITHOUT_HASH -> this.getX509Map().get(METHOD_OF_X509_WITHOUT_HASH);
+            case SING_DATA_METHOD -> this.getX509Map().get(SING_DATA_METHOD);
             default -> throw new IllegalStateException("Unexpected value: " + method);
         };
     }

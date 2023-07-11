@@ -54,7 +54,7 @@ public class WebSocketClientHandler extends TextWebSocketHandler {
      * X509Certificate证书判断
      */
     @Getter
-    private final CertificateHandler certificateHandler;
+    private final Certificate certificate;
     @Autowired
     private UkeyHealthHelper ukeyHealthHelper;
     @Autowired
@@ -62,10 +62,10 @@ public class WebSocketClientHandler extends TextWebSocketHandler {
     @Autowired
     private EmailProperties emailProperties;
 
-    public WebSocketClientHandler(UkeyProperties ukeyProperties, WebSocketWrapper webSocketWrapper, CertificateHandler certificateHandler) {
+    public WebSocketClientHandler(UkeyProperties ukeyProperties, WebSocketWrapper webSocketWrapper, Certificate certificate) {
         this.ukeyProperties = ukeyProperties;
         this.webSocketWrapper = webSocketWrapper;
-        this.certificateHandler = certificateHandler;
+        this.certificate = certificate;
     }
 
     @Override
@@ -90,7 +90,7 @@ public class WebSocketClientHandler extends TextWebSocketHandler {
                     webSocketWrapper.getSignResult().setSignatureValue(responseArgs.getData().get(0));
                     webSocketWrapper.getSignResult().setCertNo(responseArgs.getData().get(1));
                     if (SignHandler.isSignXml(webSocketWrapper.getRequest())) {
-                        webSocketWrapper.getSignResult().setX509Certificate(certificateHandler.getX509Certificate(response.get_method()));
+                        webSocketWrapper.getSignResult().setX509Certificate(certificate.getX509Certificate(response.get_method()));
                     }
                 } else {
                     sendAlertSignFailure(JacksonUtil.toPrettyJson(response));

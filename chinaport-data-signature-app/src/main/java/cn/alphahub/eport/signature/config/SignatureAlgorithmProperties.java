@@ -15,7 +15,7 @@ public class SignatureAlgorithmProperties {
     /**
      * XML签名的算法类型: RSA_SHA1, SM2_SM3
      *
-     * @apiNote 配置文件里面大小写不敏感
+     * @apiNote 配置文件里面大小写不敏感, 不指定时使用程序自动推断的算法
      */
     private SignatureAlgorithm algorithm;
 }

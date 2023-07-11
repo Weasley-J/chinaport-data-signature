@@ -1,5 +1,6 @@
 package cn.alphahub.eport.signature.core;
 
+import cn.alphahub.eport.signature.support.CertificateParser;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
