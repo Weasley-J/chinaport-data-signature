@@ -1,5 +1,6 @@
 package cn.alphahub.eport.signature.core;
 
+import cn.alphahub.dtt.plus.util.SpringUtil;
 import cn.alphahub.eport.signature.config.UkeyInitialConfig;
 import cn.alphahub.eport.signature.config.UkeyProperties;
 import cn.alphahub.eport.signature.entity.SignRequest;
@@ -11,11 +12,13 @@ import cn.alphahub.eport.signature.entity.UkeyResponseArgsWrapper;
 import cn.alphahub.eport.signature.entity.WebSocketWrapper;
 import cn.hutool.core.lang.TypeReference;
 import cn.hutool.json.JSONUtil;
-import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
+import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.socket.TextMessage;
@@ -31,26 +34,23 @@ import java.util.concurrent.locks.LockSupport;
 
 /**
  * <p>电子口岸加签业务核心类</p>
- * <a href='http://tool.qdhuaxun.cn/?signdoc'>华讯云业务帮助文档，签名的不要看，本项目搞定了所有的签名，华讯的文档可以参考，不推荐购买</a>
+ * <a href='http://tool.qdhuaxun.cn/?signdoc'>华讯云业务帮助文档，签名的不要看，本项目搞定了所有的签名，华讯的文档可以参考</a>
  *
  * @author weasley
  * @version 1.0
  * @date 2022/2/12
  */
+@Data
 @Slf4j
 @Service
 @Validated
+@Accessors(chain = true)
 public class SignHandler {
-    @Resource
+    @Autowired
     private UkeyProperties ukeyProperties;
-
-    @Resource
-    private CertificateHandler certificateHandler;
-
-    @Resource
+    @Autowired
     private WebSocketClientHandler webSocketClientHandler;
-
-    @Resource
+    @Autowired
     private StandardWebSocketClient standardWebSocketClient;
 
     /**
@@ -95,6 +95,7 @@ public class SignHandler {
      * @since 2022-11-27
      */
     public String getDynamicSignDataParameter(@Valid SignRequest request) {
+        CertificateHandler certificateHandler = SpringUtil.getBean(CertificateHandler.class);
         if (certificateHandler.getUkeyValidTimeBegin().isAfter(CertificateHandler.DATE_TIME_202207)) {
             //1. 2022-07-01以后签发的u-key都使用这个签名方式
             return UkeyInitialConfig.getSignDataAsPEM(request);
@@ -137,11 +138,13 @@ public class SignHandler {
 
     /**
      * 获取u-key加签返回内层对象（我们要的数据在这里面）
+     *
+     * @apiNote 发送任意数据给ukey，实时响应结果
      */
     public Args getUkeyResponseArgs(UkeyRequest ukeyRequest) {
         AtomicReference<UkeyResponseArgsWrapper> reference = new AtomicReference<>();
         reference.set(new UkeyResponseArgsWrapper(Thread.currentThread(), new Args()));
-        WebSocketConnectionManager certValidTimeManager = new WebSocketConnectionManager(standardWebSocketClient, new TextWebSocketHandler() {
+        WebSocketConnectionManager webSocketConnectionManager = new WebSocketConnectionManager(standardWebSocketClient, new TextWebSocketHandler() {
             @Override
             public void afterConnectionEstablished(WebSocketSession session) throws Exception {
                 session.sendMessage(new TextMessage(JSONUtil.toJsonStr(ukeyRequest)));
@@ -161,13 +164,13 @@ public class SignHandler {
                 }
             }
         }, ukeyProperties.getWsUrl());
-        certValidTimeManager.start();
+        webSocketConnectionManager.start();
         try {
             LockSupport.parkNanos(reference.get().getThread(), 1000 * 1000 * 1000 * 1L);
         } catch (Exception e) {
             log.error("线程自动unpark异常 {}", e.getLocalizedMessage(), e);
         } finally {
-            certValidTimeManager.stop();
+            webSocketConnectionManager.stop();
         }
         return reference.get().getResponseArgs();
     }

@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>o.github.weasleyj.china.eport.sign</groupId>
+    <groupId>io.github.weasley-j</groupId>
     <artifactId>chinaport-data-signature-data-model</artifactId>
     <version>1.0.0</version>
     <name>chinaport-data-signature-data-model</name>
@@ -32,7 +32,7 @@
     </developers>
 
     <scm>
-        <url>https://github.com/Weasley-J/chinaport-data-signature</url>
+        <url>https://github.com/Weasley-J/chinaport-data-signature/tree/main/chinaport-data-signature-data-model</url>
         <connection>https://github.com/Weasley-J/chinaport-data-signature.git</connection>
         <developerConnection>https://github.com/Weasley-J/chinaport-data-signature</developerConnection>
     </scm>
@@ -72,7 +72,19 @@
         </dependency>
     </dependencies>
 
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
     <build>
+        <finalName>${project.artifactId}</finalName>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
@@ -89,7 +101,6 @@
                 <configuration>
                     <source>8</source>
                     <target>8</target>
-                    <compilerVersion>1.8</compilerVersion>
                 </configuration>
             </plugin>
             <plugin>
@@ -109,7 +120,6 @@
                 <executions>
                     <execution>
                         <id>attach-sources</id>
-                        <phase>package</phase>
                         <goals>
                             <goal>jar-no-fork</goal>
                         </goals>
@@ -126,9 +136,6 @@
                     <charset>UTF-8</charset>
                     <encoding>UTF-8</encoding>
                     <docencoding>UTF-8</docencoding>
-                    <additionalJOptions>
-                        <additionalJOption>-Xdoclint:none</additionalJOption>
-                    </additionalJOptions>
                     <tags>
                         <tag>
                             <name>date</name>

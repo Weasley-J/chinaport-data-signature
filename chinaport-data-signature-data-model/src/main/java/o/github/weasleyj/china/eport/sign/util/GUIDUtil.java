@@ -7,7 +7,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 @Slf4j
-public class GUIDUtil {
+public final class GUIDUtil {
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+
     private static final String[] chars = new String[]{
             "a", "b", "c", "d", "e", "f",
             "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s",
@@ -37,9 +39,17 @@ public class GUIDUtil {
      * @return GUID
      */
     public static String getGuid() {
-        String code = shortUUID(6).toUpperCase() + "_" + shortUUID(5).toUpperCase() + "_LWJ_YYDS_";
-        String formatDay = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
-        code = code + formatDay;
-        return code;
+        String first = shortUUID(6).toUpperCase();
+        String second = "WEASLEY";
+        String third = LocalDateTime.now().format(FORMATTER);
+        String forth = shortUUID(6).toUpperCase();
+
+        return first.concat("-")
+                .concat(second)
+                .concat("-")
+                .concat(third)
+                .concat("-")
+                .concat(forth);
     }
+
 }
