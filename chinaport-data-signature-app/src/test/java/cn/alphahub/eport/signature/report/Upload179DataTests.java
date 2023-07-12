@@ -41,10 +41,18 @@ class Upload179DataTests {
      *     "serviceTime": 1688886074467
      * }
      * </pre>
+     * <pre>
+     * {
+     *     "code": "10000",
+     *     "message": "上传成功",
+     *     "total": 0,
+     *     "serviceTime": 1689166903449
+     * }
+     * </pre>
      */
     @Test
     void upload() {
-        String oldJson = """
+        String json1 = """
                 {
                   "sessionID": "fe2374-8fnejf97-32839218",
                   "payExchangeInfoHead": {
@@ -79,15 +87,15 @@ class Upload179DataTests {
                 }
                 """;
 
-        String newJson = """
+        String json2 = """
                 {
                   "sessionID": "032C3F56-0EE6-4558-B548-6C7A3451F07D",
                   "payExchangeInfoHead": {
                     "guid": "E4766021-21AC-1AA2-21DD-E974DF93C11D",
                     "initalRequest": "<xml><appid><![CDATA[xwxwxwxwx112121]]></appid><mch_id>11111111</mch_id><body><![CDATA[测试测试]]></body><nonce_str><![CDATA[ashdgahgdhaghgliqwueyqu1]]></nonce_str><out_trade_no>202009231454212140210352</out_trade_no><total_fee>500</total_fee><spbill_create_ip><![CDATA[192.168.0.1]]></spbill_create_ip><notify_url><![CDATA[https://www.baidu.com]]></notify_url><openid><![CDATA[adasyduiyasdhjxzycua-Q]]></openid><trade_type><![CDATA[JSAPI]]></trade_type><sign><![CDATA[asd1sa56d4545wqe44wq5]]></sign></xml>",
                     "initalResponse": "<xml><appid><![CDATA[xwxwxwxwx112121]]></appid><bank_type><![CDATA[OTHERS]]></bank_type><cash_fee>500</cash_fee><fee_type><![CDATA[CNY]]></fee_type><is_subscribe><![CDATA[N]]></is_subscribe><mch_id>11111111</mch_id><nonce_str><![CDATA[ashdgahgdhaghgliqwueyqu1]]></nonce_str><openid><![CDATA[adasyduiyasdhjxzycua-Q]]></openid><out_trade_no>202009231454212140210352</out_trade_no><result_code><![CDATA[SUCCESS]]></result_code><return_code><![CDATA[SUCCESS]]></return_code><sign><![CDATA[asgdhasgdhasgdhgasgdhasgdh]]></sign><time_end>20200923145426</time_end><total_fee>500</total_fee><trade_type><![CDATA[JSAPI]]></trade_type><transaction_id>4200000681202009235085032319</transaction_id></xml>",
-                    "ebpCode": "请替换",
-                    "payCode": "4403169D3W",
+                    "ebpCode": "46016602EV",
+                    "payCode": "1537923071",
                     "payTransactionId": "4200000681202009235085032319",
                     "totalAmount": 5,
                     "currency": "142",
@@ -105,15 +113,15 @@ class Upload179DataTests {
                           "itemLink": "http://m.yunjiweidian.com/yunjibuyer/static/vue-buyer/idc/index.html#/detail?itemId=999761&shopId=453"
                         }
                       ],
-                      "recpAccount": "请替换",
-                      "recpCode": "请替换",
-                      "recpName": "请替换"
+                      "recpAccount": "46016602EV",
+                      "recpCode": "46016602EV",
+                      "recpName": "海南省荣誉进出口贸易有限公司"
                     }
                   ],
                   "serviceTime": "1601282210417"
                 }
                 """;
-        Customs179Request customs179Request = JSONUtil.toBean(newJson, Customs179Request.class);
+        Customs179Request customs179Request = JSONUtil.toBean(json2, Customs179Request.class);
 
         String guid = GUIDUtil.getGuid();
         customs179Request.setSessionID(guid);
@@ -134,7 +142,7 @@ class Upload179DataTests {
                 "\"serviceTime\":" + "\"" + customs179Request.getServiceTime() + "\"";
 
         UkeyRequest ukeyRequest = new UkeyRequest(SING_DATA_METHOD, new LinkedHashMap<>() {{
-            put("inData", dataInfo179.replace("\"", "\\\""));
+            put("inData", dataInfo179);
             put("passwd", "88888888");
         }});
         String signParams = toJson(ukeyRequest);

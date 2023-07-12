@@ -182,7 +182,7 @@ public class ChinaEportReportClient {
                 "\"serviceTime\":" + "\"" + customs179Request.getServiceTime() + "\"";
 
         @SuppressWarnings("all") UkeyRequest ukeyRequest = new UkeyRequest(SING_DATA_METHOD, new HashMap<>() {{
-            put("inData", capture179DataUkeyRequest.replace("\"", "\\\""));
+            put("inData", capture179DataUkeyRequest);
             put("passwd", "88888888");
         }});
         String signParams = toJson(ukeyRequest);
@@ -205,7 +205,9 @@ public class ChinaEportReportClient {
                 .timeout(5 * 1000)
                 .execute();
         log.info("海关 179 数据抓取返回结果 {}", httpResponse.body());
-        Capture179DataResponse expected = readValue("{\"code\":\"10000\",\"message\":\"\",\"serviceTime\":1601282210417}", Capture179DataResponse.class);
+        Capture179DataResponse expected = readValue("""
+                {"code":"10000","message":"上传成功","total":0,"serviceTime":1689167121210}
+                """, Capture179DataResponse.class);
         expected.setServiceTime(Long.parseLong(customs179Request.getServiceTime()));
         ThirdAbstractResponse<Map<String, Object>, String, Capture179DataResponse> thirdResponse = ThirdAbstractResponse.getInstance();
         thirdResponse.setPayload(formData);
