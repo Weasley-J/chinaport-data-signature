@@ -7,7 +7,7 @@ spring:
     name: chinaport-data-signature
 
   profiles:
-    # 此配置文件是我本机，适当修改激活环境: dev|test|prod
+    # 适当修改激活环境: dev|test|prod
     active: dev
 
   jackson:
