@@ -11,6 +11,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.Security;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
+import java.text.SimpleDateFormat;
 
 /**
  * X509 证书解析器
@@ -19,6 +20,7 @@ import java.security.cert.X509Certificate;
  * @since 1.1.0
  */
 public final class CertificateParser {
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private static final Logger log = LoggerFactory.getLogger(CertificateParser.class);
 
     static {
@@ -76,8 +78,8 @@ public final class CertificateParser {
             log.info("序列号: {}", certificate.getSerialNumber());
             log.info("签发者: {}", certificate.getIssuerX500Principal().getName());
             log.info("主体: {}", certificate.getSubjectX500Principal().getName());
-            log.info("有效期起始日期: {}", certificate.getNotBefore());
-            log.info("有效期结束日期: {}", certificate.getNotAfter());
+            log.info("有效期起始日期: {}", DATE_FORMAT.format(certificate.getNotBefore()));
+            log.info("有效期结束日期: {}", DATE_FORMAT.format(certificate.getNotAfter()));
             log.info("公钥算法: {}", certificate.getPublicKey().getAlgorithm());
             log.info("签名算法: {}", certificate.getSigAlgName());
         }
