@@ -33,8 +33,7 @@
 
 - **Previews of China e-port data signature**
 
-项目开始前我们先了解下海关总署XML报文的加签都在什么价位？百度、CSDN里你能搜索到的仅一个海关179号文件对接，**但唯独没有XML的加签
-**，细品下图:
+项目开始前我们先了解下海关总署XML报文的加签都在什么价位？百度、CSDN里你能搜索到的仅一个海关179号文件对接，**但唯独没有XML的加签**，细品下图:
 
 <img src="https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/IMG_0373-side.jpg" alt="IMG_0373-side"/>
 
