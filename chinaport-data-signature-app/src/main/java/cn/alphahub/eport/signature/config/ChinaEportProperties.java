@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.validation.annotation.Validated;
 
 /**
- * 电子口岸报文传输的企业元数据配置
+ * 电子口岸XML报文传输的企业元数据配置
  *
  * @author weasley
  * @version 1.1.0

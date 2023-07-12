@@ -1,24 +1,27 @@
-# 中国电子口岸海关总署XML报文&海关179数据加签
+# **China E-Port Data Signature**
 
-> **China e-port data signature**
+中国电子口岸海关总署`XML`报文&海关179数据上报加签服务，提供一站式解决方案架构，开箱即用，无任何中间件；本项目遵守`GNU 3.0`
+协议，本项目测试用例中用到的企业信息已经过企业的批准，企业使用`ukey`加签进行业务申报时, 请下载`release`
+文件根据自己的实际情况适当修改运行参数既可。
+
+> 支持:
 >
+> - `CEBXxxMessage.xml`进出口报文
+> - `海关179号公告`数据抓取报文
 >
+> 业务场景:
 >
-> 中国电子口岸海关总署-海口海关`CEBXxxMessage`XML末三段报文和
-> `海关179号公告`报文加签服务，开箱即用，无任何中间件；本项目遵守`GNU 3.0`协议，本项目里面所有到的`x509`
-> 证书不具有任何真实性、合法性，企业应根据自己的情况替换成自己真实的证书，`ukey`加签直接直接下载`release`
-> 运行修改参数运行既可，不需要导出`.cer`证；
->
-> 使用业务场景:
->
-> - 中国境内的跨进电商业务
+> - 中国境内的跨进电商业务, 进出口贸易
 >
 > 提示:
 >
 > - 单体应用直接下载[release](https://github.com/Weasley-J/chinaport-data-signature/releases)的二进制文件使用即可（使用较多）
->- 分布式微服务请切换到`dev-microservice`分支构建（较少使用）
+> - 分布式微服务请切换到`dev-microservice`分支构建（较少使用）
 
-<u>在第一次提交代码之前，地球上的搜索引擎在**2022-02-14**之前还找不到任何有参价值的信息......</u>
+
+
+<u>决定将此项目开源项目的时候，地球上的搜索引擎在**2022-02-14**
+之前还搜索不到任何有价值的信息，ChatGPT在面对这种付费的解决方案时，它能解决吗.....</u>
 
 <table>
     <tr>
@@ -30,14 +33,12 @@
 
 - **Previews of China e-port data signature**
 
-项目开始前我们先了解下海关总署XML报文的加签都在什么价位？顺便说下`海关179数据抓取`加签直接按要求拼参数即可，像百度、CSDN里你能搜索到，
-**但唯独没有XML的加签**，细品下图:
+项目开始前我们先了解下海关总署XML报文的加签都在什么价位？百度、CSDN里你能搜索到的仅一个海关179号文件对接，**但唯独没有XML的加签
+**，细品下图:
 
 <img src="https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/IMG_0373-side.jpg" alt="IMG_0373-side"/>
 
-你没看错：你去找乙方对接，乙方不告诉你加签用到的算法，要你自己开发。
-
-好，那就开发吧！
+你没看错：你去找乙方对接，乙方不告诉你加签用到的算法，需要接入方自己开发。好，那就开发吧！
 
 - [x] 电子口岸的操作员`u-key`长啥样:
 
@@ -53,7 +54,7 @@
 
 ![image-20220219162400840](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20220219162400840.png)
 
-## 1 `sonarqube`代码质量审查
+## 1  代码质量审查
 
 ![image-20220218023508803](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20220218023508803.png)
 
@@ -66,68 +67,35 @@
 | 3  | 硬件性能要求   | > =1核CPU+2G运行内存                                                                                                                                                                                          | 不能比这小了     |
 | 4  | 对技术人员的要求 | 会把电子口岸ukey插入安装好[电子口岸控件]([中国国际贸易单一窗口登录管理 (singlewindow.cn)](https://app.singlewindow.cn/cas/login?service=http%3A%2F%2Fwww.singlewindow.cn%2Fsinglewindow%2Flogin.jspx))Windows电脑上，会改启动脚本里面的参数，会用鼠标双击启动脚本 |            |
 
-## 3 运行参数概况
+## 3 运行参数配置
 
-| 参数名                              | 备注                                                                                                |
-|----------------------------------|---------------------------------------------------------------------------------------------------|
-| `eport.signature.ukey.cert-path` | u-key的`.cer`证书在`classpath`的相对路径，如: `cert/01691fe9.cer`,提示：下载`release`直接运行的不管用这个参数。                |
-| `eport.signature.ukey.ws-url`    | u-key做插`Windows`电脑的`socket`链接`url`,如: `ws://127.0.0.1:61232`,下载`release`直接运行的修改全局配置的`UKEY_HOST`即可 |
-| `eport.signature.ukey.password`  | u-key密码的密码，默认: `88888888`, 如果密码改过，需要指定下，下载`release`直接运行的修改全局配置的`UKEY_PASSWORD`即可                  |
+> 本应用是标准的`springboot`应用，支持`springboot`
+> 的所有配置参数，推荐通过在[线`yaml`转`properties`](https://www.toyaml.com/index.html)将配置元数据复制到命令行参数中按需使用,
 
-其他，本应用是标准的`springboot`应用，支持`springboot`的所有配置参数。
+- [推荐元数据配置示例](https://github.com/Weasley-J/chinaport-data-signature/blob/main/chinaport-data-signature-app/src/main/resources/application-dev.yml#L43-L71)
 
-## 4 启动脚本介绍
+- [加签异常邮件通知配置示例](https://github.com/Weasley-J/chinaport-data-signature/blob/main/chinaport-data-signature-app/src/main/resources/application-dev.yml#L23-L41)
 
-本人已提供好`Windows`环境、`Linux`/`MacOS`的环境下的脚本，企业只需要修改**2**个参数既可**开箱即用**
-，详细配置`yaml`[参数参考](https://github.com/Weasley-J/chinaport-data-signature/blob/main/src/main/resources/application-dev.yml#L49-L59)。
+| 配置参数                                             | 是否必须（Y/N） | 解释                                                                                                                                                                                                                            |
+|--------------------------------------------------|-----------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| eport.signature.algorithm                        | N         | [XML签名的算法类型](https://github.com/Weasley-J/chinaport-data-signature/blob/main/chinaport-data-signature-app/src/main/java/cn/alphahub/eport/signature/config/SignatureAlgorithmProperties.java#L20)，不指定时使用程序自动推断的算法, 推荐使用程序自动推断 |
+| eport.signature.ukey.ws-url                      | Y         | u-key做插`Windows`电脑的`socket`链接`url`,如: `ws://127.0.0.1:61232`,下载`release`直接运行的修改全局配置的`UKEY_HOST`即可                                                                                                                             |
+| eport.signature.ukey.password                    | N         | u-key密码的密码，默认: `88888888`, 如果密码改过，需要指定下，下载`release`直接运行的修改全局配置的`UKEY_PASSWORD`即可                                                                                                                                              |
+| eport.signature.ukey.health.endpoint.client-name | N         | Windows上重启的ukey可执行文件全限定文件名称，不指定将自动查找                                                                                                                                                                                          |
+| eport.signature.auth.enable                      | N         | [是否启用token鉴权](https://github.com/Weasley-J/chinaport-data-signature/blob/main/chinaport-data-signature-app/src/main/java/cn/alphahub/eport/signature/config/AuthenticationProperties.java#L17)，取值：on/off                      |
+| eport.signature.auth.token                       | N         | 客户端请求鉴权token, 默认值: DefaultAuthToken, [请求头](https://github.com/Weasley-J/chinaport-data-signature/blob/main/chinaport-data-signature-app/src/main/java/cn/alphahub/eport/signature/config/AuthenticationProperties.java#L24)   |
+| eport.signature.report.ceb-message.cop-code      | Y         | [电子口岸XML报文](https://github.com/Weasley-J/chinaport-data-signature/blob/main/chinaport-data-signature-app/src/main/java/cn/alphahub/eport/signature/config/ChinaEportProperties.java#L20)传输企业代码                                |
+| eport.signature.report.ceb-message.cop-name      | Y         | 传输企业名称，报文传输的企业名称                                                                                                                                                                                                              |
+| eport.signature.report.ceb-message.dxp-id        | Y         | 文传输编号，向中国电子口岸数据中心申请数据交换平台的用户编号                                                                                                                                                                                                |
+| eport.signature.report.ceb-message.server        | N         | [海关服务器地址](https://github.com/Weasley-J/chinaport-data-signature/blob/main/chinaport-data-signature-app/src/main/java/cn/alphahub/eport/signature/config/ChinaEportProperties.java#L43)，缺省则采用Client中的密文作文默认Server URL          |
+| eport.signature.report.customs179.ebp-code       | Y         | [海关 179 数据上报](https://github.com/Weasley-J/chinaport-data-signature/blob/main/chinaport-data-signature-app/src/main/java/cn/alphahub/eport/signature/config/Customs179Properties.java#L24)的电商平台代码                             |
+| eport.signature.report.customs179.server         | N         | 数据上报服务器URL地址，链接格式: https://域名联系海关/ceb2grab/grab/realTimeDataUpload，没有配置的话采用项目内置的URL密文地址                                                                                                                                       |
 
-启动文件相对的位置:
-
-![image-20220214002812928](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20220214002812928.png)
+## 4 项目启动脚本
 
 #### 4.1 Windows环境
 
-> 运行方式：鼠标双击打开
-
-```bat
-@ECHO OFF
-
-REM ------ 全局参数配置 ------
-
-REM 参数说明:
-REM APP_NAME: jar包名称
-REM UKEY_CERT_PATH: .cer证书在classpath下的相对路径，直接下载release运行的同学不需要配置
-REM UKEY_HOST: 中国电子口岸操作员u-key所连接的Windows PC的主机ip
-REM UKEY_PASSWORD: 中国电子口岸操作员u-key密码，默认: 88888888
-
-set "APP_NAME=chinaport-data-signature"
-set "UKEY_CERT_PATH="
-set "UKEY_HOST=127.0.0.1"
-set "UKEY_PASSWORD=88888888"
-
-REM ------ 全局参数配置 ------
-
-title %APP_NAME%
-
-PUSHD %~DP0 & cd /d "%~dp0"
-%1 %2
-mshta vbscript:createobject("shell.application").shellexecute("%~s0","goto :runas","","runas",1)(window.close)&goto :eof
-:runas
-
-set "APP=%CD%\%APP_NAME%"
-set "JVM_ARGS=-Dfile.encoding=UTF-8 -Xms1g -Xmx1g"
-
-java %JVM_ARGS% -jar %APP%.jar ^
---server.port=8080 ^
---spring.profiles.active=prod ^
---eport.signature.ukey.cert-path=%UKEY_CERT_PATH% ^
---eport.signature.ukey.ws-url=ws://%UKEY_HOST%:61232 ^
---eport.signature.ukey.password=%UKEY_PASSWORD%
-
-echo 按任意键退出.
-pause >nul
-exit
-```
+[正确配置方式](https://github.com/Weasley-J/chinaport-data-signature/blob/main/%E4%BD%BF%E7%94%A8GitBash%E5%8F%B3%E9%94%AE%E8%BF%90%E8%A1%8C%E5%90%AF%E5%8A%A8%E8%84%9A%E6%9C%AC.md)
 
 #### 4.2 Linux/MacOS环境
 
@@ -136,35 +104,62 @@ exit
 ```bash
 #!/bin/bash
 
-# ------ 全局参数配置 ------
-
+# ------ 全局参数配置 start------
 # 参数说明:
 # APP_NAME: jar包名称
-# UKEY_CERT_PATH: .cer证书在classpath下的相对路径，直接下载release运行的同学不需要配置
 # UKEY_HOST: 中国电子口岸操作员u-key所连接的Windows PC的主机ip
 # UKEY_PASSWORD: 中国电子口岸操作员u-key密码，默认: 88888888
 
+#
+# 邮件通知配置，默认：不启用
+#
+#spring.mail.enable=false
+#spring.mail.to=主收件人邮箱
+#spring.mail.cc=抄送箱邮（非必填）,抄送多个收件人箱邮用","隔开
+#
+# 以下发送邮件的客服端参数，使用哪个邮箱发出通知消息
+#
+#spring.mail.host=smtp.189.cn #邮件服务商主机
+#spring.mail.port=465
+#spring.mail.username=host_username
+#spring.mail.password=host_password
+#spring.mail.protocol=smtp #邮件协议
+#spring.mail.properties.mail.smtp.ssl.enable=true
+#spring.mail.properties.mail.debug=false #是否开始debug模式，终端会打印日志
+#
+#eport.sign.ukey.health.endpoint.client-name='Windows上重启的ukey可执行文件SetAccessControl.exe的全限定文件名称'
+# ------ 全局参数配置 end------
+
 APP_NAME="chinaport-data-signature"
-UKEY_CERT_PATH=""
 UKEY_HOST="127.0.0.1"
 UKEY_PASSWORD="88888888"
-JAVA_ARGS="-Dfile.encoding=UTF-8 -Xms1g -Xmx1g"
+JAVA_ARGS="-Xms1g -Xmx1g"
 
 # ------ 全局参数配置 ------
-java ${JAVA_ARGS} -jar ${APP_NAME}.jar \
+java -Dfile.encoding=utf-8 ${JAVA_ARGS} -jar ${APP_NAME}.jar \
   --server.port=8080 \
   --spring.profiles.active=prod \
-  --eport.signature.ukey.cert-path=${UKEY_CERT_PATH} \
   --eport.signature.ukey.ws-url=ws://${UKEY_HOST}:61232 \
-  --eport.signature.ukey.password=${UKEY_PASSWORD}
+  --eport.signature.ukey.password=${UKEY_PASSWORD} \
+  --spring.mail.enable=false \
+  --spring.mail.to='abc@qq.com' \
+  --spring.mail.cc='abc@outlook.com,cbd@qq.com' \
+  --spring.mail.host='smtp.189.cn' \
+  --spring.mail.port=465 \
+  --spring.mail.username='xxx@189.cn' \
+  --spring.mail.password='your_password' \
+  --spring.mail.protocol=smtp \
+  --spring.mail.properties.mail.smtp.ssl.enable=true \
+  --spring.mail.properties.mail.debug=false
+
 ```
 
 ## 5 软件架构
 
 | 类目                             | 版本          | 备注                                                  |
 |--------------------------------|-------------|-----------------------------------------------------|
-| Jdk17                          | 17.0.2 LTS  |                                                     |
-| spring-boot-starter-parent     | 3.0.0-M1    |                                                     |
+| JDK17                          | 17.0.7 LTS  |                                                     |
+| spring-boot                    | 3.1.1       |                                                     |
 | spring-cloud                   | 2022.0.0-M1 |                                                     |
 | smart-doc                      | 2.3.7       | 一个自动化的API文档输出工具，还在用word、rap2、yapi、swagger? 该更新技术栈了。 |
 | sonar                          | 3.9.0.2155  | 一款开源的代码质量分析工具，能编码是规避很多潜在bug                         |
