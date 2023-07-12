@@ -12,6 +12,7 @@ import cn.alphahub.eport.signature.entity.UkeyRequest;
 import cn.alphahub.eport.signature.entity.UkeyResponse.Args;
 import cn.alphahub.eport.signature.entity.UploadCEBMessageRequest;
 import cn.hutool.core.codec.Base64;
+import cn.hutool.core.lang.TypeReference;
 import cn.hutool.http.ContentType;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
@@ -89,22 +90,47 @@ public class ChinaEportReportClient {
      */
     public AbstractCebMessage getCebMessageByMessageType(UploadCEBMessageRequest request) {
         String guid = GUIDUtil.getGuid();
-        return switch (request.getMessageType()) {
-            case CEB311Message -> {
-                CEB311Message ceb311Message = Objects.requireNonNull(JAXBUtil.toBean(request.getCebMessage(), CEB311Message.class));
-                ceb311Message.setGuid(guid);
-                ceb311Message.getOrder().getOrderHead().setGuid(guid);
-                buildBaseTransfer(ceb311Message.getBaseTransfer());
-                yield ceb311Message;
+        switch (request.getDataType()) {
+            case XML -> {
+                return switch (request.getMessageType()) {
+                    case CEB311Message -> {
+                        CEB311Message ceb311Message = Objects.requireNonNull(JAXBUtil.toBean(request.getCebMessage(), CEB311Message.class));
+                        ceb311Message.setGuid(guid);
+                        ceb311Message.getOrder().getOrderHead().setGuid(guid);
+                        buildBaseTransfer(ceb311Message.getBaseTransfer());
+                        yield ceb311Message;
+                    }
+                    case CEB621Message -> {
+                        CEB621Message ceb621Message = Objects.requireNonNull(JAXBUtil.toBean(request.getCebMessage(), CEB621Message.class));
+                        ceb621Message.setGuid(guid);
+                        ceb621Message.getInventory().getInventoryHead().setGuid(guid);
+                        buildBaseTransfer(ceb621Message.getBaseTransfer());
+                        yield ceb621Message;
+                    }
+                };
             }
-            case CEB621Message -> {
-                CEB621Message ceb621Message = Objects.requireNonNull(JAXBUtil.toBean(request.getCebMessage(), CEB621Message.class));
-                ceb621Message.setGuid(guid);
-                ceb621Message.getInventory().getInventoryHead().setGuid(guid);
-                buildBaseTransfer(ceb621Message.getBaseTransfer());
-                yield ceb621Message;
+            case JSON -> {
+                return switch (request.getMessageType()) {
+                    case CEB311Message -> {
+                        CEB311Message ceb311Message = JSONUtil.toBean(request.getCebMessage(), new TypeReference<>() {
+                        }, false);
+                        ceb311Message.setGuid(guid);
+                        ceb311Message.getOrder().getOrderHead().setGuid(guid);
+                        buildBaseTransfer(ceb311Message.getBaseTransfer());
+                        yield ceb311Message;
+                    }
+                    case CEB621Message -> {
+                        CEB621Message ceb621Message = JSONUtil.toBean(request.getCebMessage(), new TypeReference<>() {
+                        }, false);
+                        ceb621Message.setGuid(guid);
+                        ceb621Message.getInventory().getInventoryHead().setGuid(guid);
+                        buildBaseTransfer(ceb621Message.getBaseTransfer());
+                        yield ceb621Message;
+                    }
+                };
             }
-        };
+            default -> throw new IllegalStateException("Unexpected value: " + toJson(request));
+        }
     }
 
     /**
@@ -259,6 +285,7 @@ public class ChinaEportReportClient {
      * @return 签名结果
      * @apiNote 用于 SignHandler#sign 结果出现验签失败时的兜底手段
      */
+    @SuppressWarnings("all")
     private SignResult enhanceSignResultIfDefective(SignResult signResult, String sourceXml) {
         String signatureXml = SignHandler.getInitData(new SignRequest(sourceXml));
         Map<String, Object> params = new HashMap<>();
@@ -269,7 +296,7 @@ public class ChinaEportReportClient {
         signResult.setCertNo(args1.getData().get(1));
         signResult.setSignatureValue(args1.getData().get(0));
         signResult.setX509Certificate(args2.getData().get(0));
-        if (signResult.getSuccess().equals(false)){
+        if (signResult.getSuccess().equals(false)) {
             signResult.setSuccess(true);
         }
         return signResult;

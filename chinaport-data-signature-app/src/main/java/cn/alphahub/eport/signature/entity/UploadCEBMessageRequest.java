@@ -1,5 +1,6 @@
 package cn.alphahub.eport.signature.entity;
 
+import cn.alphahub.eport.signature.base.enums.RequestDataType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -24,14 +25,18 @@ public class UploadCEBMessageRequest implements Serializable {
      */
     @NotNull(message = "消息类型不能为空")
     private MessageType messageType;
-
-    public String getCebMessage() {
-        return cebMessage.trim();
-    }
-
+    /**
+     * 报文的数据类型: JSON, XML
+     */
+    @NotNull(message = "请求报文的数据类型不能为空")
+    private RequestDataType dataType;
     /**
      * 进口单、出口单的底层数据模型
      */
     @NotBlank(message = "进口单、出口单的底层数据模型不能为空")
     private String cebMessage;
+
+    public String getCebMessage() {
+        return cebMessage.trim();
+    }
 }
