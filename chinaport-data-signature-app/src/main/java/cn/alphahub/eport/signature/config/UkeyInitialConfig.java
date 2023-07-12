@@ -55,7 +55,7 @@ import static cn.hutool.json.JSONUtil.toJsonStr;
 @Data
 @Slf4j
 @Configuration
-@EnableConfigurationProperties({UkeyProperties.class, EmailProperties.class, SignatureAlgorithmProperties.class})
+@EnableConfigurationProperties({UkeyProperties.class, EmailProperties.class, SignatureAlgorithmProperties.class, Customs179Properties.class})
 public class UkeyInitialConfig implements ApplicationRunner {
     /**
      * u-key默认密码8个8不要修改

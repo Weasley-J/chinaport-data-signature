@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * 179上报请求
+ * 海关179上报请求
  */
 @Data
 @Builder

@@ -40,13 +40,11 @@ spring:
             enable: true
         debug: false #是否开始debug模式，终端会打印日志
 
-#电子口岸u-key的配置参数
+#中国电子口岸u-key的配置参数
 eport:
   signature:
     algorithm: sm2_sm3
     ukey:
-      # u-key的.cer证书在classpath的相对路径
-      #cert-path: cert/01691fe9.cer
       ws-url: ws://127.0.0.1:61232
       password: 88888888
       health:
@@ -59,8 +57,15 @@ eport:
       token: DefaultAuthToken
     # 报文传输的企业元数据配置（数据上报）
     report:
-      cop-code: '传输企业代码'
-      cop-name: '传输企业名称'
-      dxp-id: '向中国电子口岸数据中心申请数据交换平台的用户编号'
-      # CEMMessage XML数据上报服务器地址，格式: http://ip:port, 可选配置，缺省采用默认
-      server:
+      # CEBMessage XML加签配置
+      ceb-message:
+        cop-code: '传输企业代码'
+        cop-name: '海南省荣誉进出口贸易有限公司'
+        dxp-id: '向中国电子口岸数据中心申请数据交换平台的用户编号'
+        # 数据上报服务器地址，格式: http://ip:port, 缺省将采用默认server
+        server:
+      # 海关 179 数据抓取配置
+      customs179:
+        ebp-code: '电商平台代码'
+        # server可为空，配置文件中指定时，将被优先使用
+        server: https://海关服务器域名不方便公开/ceb2grab/grab/realTimeDataUpload

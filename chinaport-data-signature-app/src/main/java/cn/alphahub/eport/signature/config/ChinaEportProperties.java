@@ -18,7 +18,7 @@ import org.springframework.validation.annotation.Validated;
 @Configuration
 @ConfigurationProperties(prefix = ChinaEportProperties.PREFIX)
 public class ChinaEportProperties {
-    public static final String PREFIX = "eport.signature.report";
+    public static final String PREFIX = "eport.signature.report.ceb-message";
     /**
      * 传输企业代码，报文传输的企业代码(需要与接入客户端的企 业身份一致)
      */

@@ -19,10 +19,6 @@ import static cn.alphahub.eport.signature.config.UkeyProperties.PREFIX;
 public class UkeyProperties {
     public static final String PREFIX = "eport.signature.ukey";
     /**
-     * u-key的.cer证书在classpath的相对路径
-     */
-    private String certPath = "";
-    /**
      * socket链接url
      */
     private String wsUrl = "ws://127.0.0.1:61232";
