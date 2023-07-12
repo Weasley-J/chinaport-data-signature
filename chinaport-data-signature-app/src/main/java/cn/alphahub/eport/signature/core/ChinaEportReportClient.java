@@ -236,7 +236,7 @@ public class ChinaEportReportClient {
         SignResult signResult = signHandler.sign(ukeyRequest, payload);
         // 线程uppark时间可能会失败，增强方法兜底
         if (Boolean.FALSE.equals(signResult.getSuccess())) {
-            signResult = this.enhanceSignResultIfDefective(signResult, sourceXml);
+            this.enhanceSignResultIfDefective(signResult, sourceXml);
         }
         if (Boolean.FALSE.equals(signResult.getSuccess())) {
             throw new SignException("CebXxxMessage XML数据加签失败, ukey加签入参: " + payload + ", 原始入参: " + toJson(ukeyRequest));
