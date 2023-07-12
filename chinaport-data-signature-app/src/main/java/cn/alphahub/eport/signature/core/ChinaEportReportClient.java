@@ -267,6 +267,9 @@ public class ChinaEportReportClient {
         signResult.setCertNo(args1.getData().get(1));
         signResult.setSignatureValue(args1.getData().get(0));
         signResult.setX509Certificate(args2.getData().get(0));
+        if (signResult.getSuccess().equals(false)){
+            signResult.setSuccess(true);
+        }
         return signResult;
     }
 
