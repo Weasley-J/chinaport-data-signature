@@ -6,42 +6,87 @@ api.push({
     list: []
 })
 api[0].list.push({
-    alias: 'UkeyHealthController',
+    alias: 'EportTestController',
     order: '1',
-    link: 'ukey健康controller',
-    desc: 'Ukey健康Controller',
+    link: '电子口岸报文加签测试',
+    desc: '电子口岸报文加签测试',
     list: []
 })
 api[0].list[0].list.push({
+    order: '1',
+    deprecated: 'false',
+    url: 'http://localhost:8080/rpc/eport/test/cebmessage/signature',
+    desc: '海关总署XML数据加签',
+});
+api[0].list[0].list.push({
+    order: '2',
+    deprecated: 'false',
+    url: 'http://localhost:8080/rpc/eport/test/179/signature',
+    desc: '海关179数据抓取加签',
+});
+api[0].list[0].list.push({
+    order: '3',
+    deprecated: 'false',
+    url: 'http://localhost:8080/rpc/eport/test/endpoint/exec',
+    desc: '执行脚本命令',
+});
+api[0].list.push({
+    alias: 'UkeyHealthController',
+    order: '2',
+    link: 'ukey健康状态恢复',
+    desc: 'Ukey健康状态恢复',
+    list: []
+})
+api[0].list[1].list.push({
     order: '1',
     deprecated: 'false',
     url: 'http://localhost:8080/rpc/ukey/health/endpoint/{command}',
     desc: 'ukey健康指令',
 });
 api[0].list.push({
-    alias: 'EportSignController',
-    order: '2',
-    link: '电子口岸报文加签controller',
-    desc: '电子口岸报文加签Controller',
+    alias: 'EportUploadController',
+    order: '3',
+    link: '电子口岸报文推送',
+    desc: '电子口岸报文推送',
     list: []
 })
-api[0].list[1].list.push({
+api[0].list[2].list.push({
+    order: '1',
+    deprecated: 'false',
+    url: 'http://localhost:8080/rpc/eport/upload/CEBMessage',
+    desc: '推送CEBMessage报文',
+});
+api[0].list[2].list.push({
+    order: '2',
+    deprecated: 'false',
+    url: 'http://localhost:8080/rpc/eport/upload/179/data',
+    desc: '推送海关179号数据',
+});
+api[0].list.push({
+    alias: 'EportCertController',
+    order: '4',
+    link: '电子口岸x509证书',
+    desc: '电子口岸X509证书',
+    list: []
+})
+api[0].list[3].list.push({
+    order: '1',
+    deprecated: 'false',
+    url: 'http://localhost:8080/rpc/eport/cert/download',
+    desc: '下载证书',
+});
+api[0].list.push({
+    alias: 'EportSignController',
+    order: '5',
+    link: '电子口岸报文加签',
+    desc: '电子口岸报文加签',
+    list: []
+})
+api[0].list[4].list.push({
     order: '1',
     deprecated: 'false',
     url: 'http://localhost:8080/rpc/eport/signature',
     desc: '海关数据加签',
-});
-api[0].list[1].list.push({
-    order: '2',
-    deprecated: 'false',
-    url: 'http://localhost:8080/rpc/eport/signature/test/ceb',
-    desc: '海关总署XML数据加签（测试）',
-});
-api[0].list[1].list.push({
-    order: '3',
-    deprecated: 'false',
-    url: 'http://localhost:8080/rpc/eport/signature/test/179',
-    desc: '海关179数据抓取加签（测试）',
 });
 document.onkeydown = keyDownSearch;
 function keyDownSearch(e) {

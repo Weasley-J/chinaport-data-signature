@@ -17,7 +17,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
 /**
- * 电子口岸X509证书Controller
+ * 电子口岸X509证书
  *
  * @author lwj
  * @version 1.1.0
@@ -31,7 +31,7 @@ public class EportCertController {
     private SignHandler signHandler;
 
     /**
-     * 下载X509证书
+     * 下载证书
      *
      * @apiNote 证书文件格式: 获取证书编号.cer
      */
