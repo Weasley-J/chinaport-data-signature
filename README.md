@@ -53,7 +53,7 @@
 
 ## 1  项目代码质量
 
-![image-20230713231918946](https://weasley.oss-cn-shanghai.aliyuncs.com/Photos/image-20230713231918946.png)
+![image-20230713234327922](https://weasley.oss-cn-shanghai.aliyuncs.com/Photos/image-20230713234327922.png)
 
 ## 2 软件运行概况
 
