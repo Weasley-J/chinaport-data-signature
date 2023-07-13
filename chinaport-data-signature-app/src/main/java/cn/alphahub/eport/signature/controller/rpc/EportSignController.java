@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 电子口岸报文加签Controller
+ * 电子口岸报文加签
  *
  * @author lwj
  * @version 1.0.0

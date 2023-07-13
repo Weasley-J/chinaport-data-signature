@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * 中国电子口岸加签用用
+ * 中国电子口岸报文加签推送应用
  *
  * @author Weasley J
  * @date 2022-02-13

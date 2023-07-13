@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Ukey健康Controller
+ * Ukey健康状态恢复
  *
  * @author lwj
  * @version 1.0.9
@@ -30,7 +30,7 @@ public class UkeyHealthController {
      *
      * @return 控制太输出
      * @apiNote <ul>
-     * <b>支持command类型</b>
+     * 支持command类型
      * <li>RESTART: 重启控件(较多使用)</li>
      * <li>START: 启动控件</li>
      * <li>STOP: 停止控件</li>

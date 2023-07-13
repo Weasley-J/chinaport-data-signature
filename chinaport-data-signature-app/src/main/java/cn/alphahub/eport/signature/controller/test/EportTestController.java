@@ -23,7 +23,7 @@ import java.util.Set;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 /**
- * 电子口岸报文加签测试接口
+ * 电子口岸报文加签测试
  *
  * @author lwj
  * @version 1.1.0
