@@ -236,11 +236,11 @@ java -Dfile.encoding=utf-8 ${JAVA_ARGS} -jar ${APP_NAME}.jar \
 
   - <div style="display: flex; flex-direction: row;">
     <div>
-      <img src="https://weasley.oss-cn-shanghai.aliyuncs.com/Photos/image-20230713012837745.png" alt="AliPay" width="400" height="400">
+      <img src="https://weasley.oss-cn-shanghai.aliyuncs.com/Photos/image-20230713012837745.png" alt="AliPay" width="300" height="300">
       <p align="center">AliPay</p>
     </div>
     <div>
-      <img src="https://weasley.oss-cn-shanghai.aliyuncs.com/Photos/image-20230713013148459.png" alt="WeChatPay" width="400" height="400">
+      <img src="https://weasley.oss-cn-shanghai.aliyuncs.com/Photos/image-20230713013148459.png" alt="WeChatPay" width="300" height="300">
       <p align="center">WeChatPay</p>
     </div>
     </div>
