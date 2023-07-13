@@ -15,7 +15,7 @@
     <name>chinaport-data-signature-app</name>
     <url>https://github.com/Weasley-J/chinaport-data-signature.git</url>
 
-    <description>China E-Port data signature，中国电子口岸（海口海关CEBXxxMessage）加签服务，写这个项目的时间是2022-02-11，
+    <description>China E-Port data signature，中国电子口岸（海口海关）加签服务，写这个项目的时间是2022-02-11，
         在这之前由于海关官方关于数据加签的资料贫瘠，导致接入很不顺利，我司和海关对接，海关那边不提供加签数据的方法，
         让接入企业在不知道加签算法的前提下自行开发数据加签逻辑，这？？？这......便让付费的加签在开源社区共享，分享给那些需要的接入的企业免费使用。
     </description>
