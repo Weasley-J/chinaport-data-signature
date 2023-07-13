@@ -144,7 +144,7 @@ public class EportTestController {
     /**
      * 执行脚本命令
      *
-     * @apiNote 此接口测试环境、生产环境不对外开放（危险），会在将终端输出同步写给浏览器
+     * @apiNote 此接口测试环境、生产环境不对外开放，会在将终端输出同步写给浏览器
      */
     @GetMapping("/endpoint/exec")
     public void execute(@RequestParam("cmd") String cmd, HttpServletResponse response) throws IOException {

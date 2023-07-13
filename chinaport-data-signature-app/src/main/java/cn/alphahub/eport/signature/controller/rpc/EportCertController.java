@@ -33,7 +33,8 @@ public class EportCertController {
     /**
      * 下载证书
      *
-     * @apiNote 证书文件格式: 获取证书编号.cer
+     * @apiNote 证书文件格式: 证书编号.cer, 遇到项目启动的首页下载证书出现文件名为 unknown.cer 的情况将下载链接复制到浏览器中打开
+     * @download
      */
     @GetMapping("/cert/download")
     public void downloadX509Certificate(HttpServletResponse response) throws IOException {
@@ -41,10 +42,11 @@ public class EportCertController {
         Args certPEMArgs = signHandler.getUkeyResponseArgs(new UkeyRequest("cus-sec_SpcGetSignCertAsPEM", new HashMap<>()));
         String certName = certNoArgs.getData().get(0);
         String certPomOfUkey = certPEMArgs.getData().get(0);
+        String certificate = CertificateHandler.buildX509CertificateWithHeader(certPomOfUkey);
         response.setContentType("application/x-x509-ca-cert");
         response.setHeader("Content-Disposition", "attachment; filename=\"" + certName + ".cer\"");
         OutputStream stream = response.getOutputStream();
-        stream.write(CertificateHandler.buildX509CertificateWithHeader(certPomOfUkey).getBytes(StandardCharsets.UTF_8));
+        stream.write(certificate.getBytes(StandardCharsets.UTF_8));
         stream.flush();
         stream.close();
     }

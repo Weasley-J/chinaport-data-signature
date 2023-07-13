@@ -17,7 +17,7 @@ import org.springframework.validation.annotation.Validated;
 public final class AuthenticationProperties {
     public static final String PREFIX = "eport.signature.auth";
     /**
-     * 客户端加签请求携带的请求头，值必须和配置文件里面配置鉴权token相等
+     * 客户端加签时携带的请求头，值必须和配置文件里面配置鉴权token相等
      *
      * @see AuthenticationProperties#token
      */

@@ -19,7 +19,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public abstract sealed class AbstractResult<T> implements Serializable permits Result {
+public abstract class AbstractResult<T> implements Serializable {
     /**
      * 返回消息
      */

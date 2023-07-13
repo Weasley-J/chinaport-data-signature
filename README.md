@@ -1,6 +1,6 @@
 # **China E-Port Data Signature**
 
-中国电子口岸海关总署`XML`报文&海关179数据上报加签服务，提供一站式解决方案架构，开箱即用，无任何中间件；本项目遵守`GNU 3.0`
+中国电子口岸海关总署`XML`报文&海关179数据上报加签服务，提供一站式的免费解决方案，开箱即用，无中间件；本项目遵守`GNU 3.0`
 协议，本项目测试用例中用到的企业信息已经过企业的批准，企业使用`ukey`加签进行业务申报时, 请下载`release`
 文件根据自己的实际情况适当修改运行参数既可。
 
@@ -45,26 +45,24 @@
 
 - [x] 启动项目：`chinaport-data-signature`
 
-![image-20220219001115869](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20220219001115869.png)
-
 我这是在启动脚本里指定了`u-key`的`ip`为我与我`MacBookPro`处于统一局域网下面的`Windows`电脑的主机`ip`，`Windows`
-上你使用`git bash`也能达到我终端这样的效果（`Windows`小伙伴注意下这里，我这是通过[Git Bash](https://gitforwindows.org/)
-启动的，`Windows`终端汉字会乱码，你可以查看`log`文件避开汉字乱码的问题）。
+上你使用`git bash`也能达到我终端这样的效果（`Windows`小伙伴注意下这里，`Windows`终端汉字会乱码，推荐通过[Git Bash](https://gitforwindows.org/)
+启动）。
 
 ![image-20220219162400840](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20220219162400840.png)
 
 ## 1  项目代码质量
 
-![image-20220218023508803](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20220218023508803.png)
+![image-20230713231918946](https://weasley.oss-cn-shanghai.aliyuncs.com/Photos/image-20230713231918946.png)
 
 ## 2 软件运行概况
 
-| 序号 | 类目       | 版本                                                                                                                                                                                                       | 备注         |
-|----|----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
-| 1  | 软件运行环境   | [Java SE Development Kit 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)                                                                                               | 基础软件最低运行要求 |
-| 2  | 硬件运行环境   | `Windows-10-x64`/`Windows-11-x64`/`Windows-server-x64`/`Linux`(自行解决内网穿透问题,ukey只能插Windows电脑上)                                                                                                             |            |
-| 3  | 硬件性能要求   | > =1核CPU+2G运行内存                                                                                                                                                                                          | 不能比这小了     |
-| 4  | 对技术人员的要求 | 会把电子口岸ukey插入安装好[电子口岸控件]([中国国际贸易单一窗口登录管理 (singlewindow.cn)](https://app.singlewindow.cn/cas/login?service=http%3A%2F%2Fwww.singlewindow.cn%2Fsinglewindow%2Flogin.jspx))Windows电脑上，会改启动脚本里面的参数，会用鼠标双击启动脚本 |            |
+| 序号 | 类目             | 版本                                                         | 备注                 |
+| ---- | ---------------- | ------------------------------------------------------------ | -------------------- |
+| 1    | 软件运行环境     | [Java SE Development Kit 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html) | 基础软件最低运行要求 |
+| 2    | 硬件运行环境     | `Windows-10-x64`/`Windows-11-x64`/`Windows-server-x64`/`Linux`(自行解决内网穿透问题,ukey只能插Windows电脑上) |                      |
+| 3    | 硬件性能要求     | > =1核CPU+2G运行内存                                         | 不能比这小           |
+| 4    | 对技术人员的要求 | 会把电子口岸ukey插入安装好[中国国际贸易单一窗口登录管理 (singlewindow.cn)](https://app.singlewindow.cn/cas/login?service=http%3A%2F%2Fwww.singlewindow.cn%2Fsinglewindow%2Flogin.jspx)Windows电脑上，会改启动脚本里面的参数，会用鼠标双击启动脚本 |                      |
 
 ## 3 运行参数配置
 
@@ -155,26 +153,26 @@ java -Dfile.encoding=utf-8 ${JAVA_ARGS} -jar ${APP_NAME}.jar \
 
 ## 5 软件架构
 
-| 类目                             | 版本          | 备注                                                  |
-|--------------------------------|-------------|-----------------------------------------------------|
-| JDK17                          | 17.0.7 LTS  |                                                     |
-| spring-boot                    | 3.1.1       |                                                     |
-| spring-cloud                   | 2022.0.0-M1 |                                                     |
-| smart-doc                      | 2.3.7       | 一个自动化的API文档输出工具，还在用word、rap2、yapi、swagger? 该更新技术栈了。 |
-| sonar                          | 3.9.0.2155  | 一款开源的代码质量分析工具，能编码是规避很多潜在bug                         |
-| spring-boot-starter-validation | 3.0.0-M1    | spring新一代的参数校验器，替代javax JSR303的工具                   |
+| 类目                           | 版本        | 备注                                                         |
+| ------------------------------ | ----------- | ------------------------------------------------------------ |
+| JDK 17                         | 17.0.7 LTS  |                                                              |
+| spring-boot                    | 3.1.1       |                                                              |
+| spring-cloud                   | 2022.0.0-M1 |                                                              |
+| smart-doc                      | 2.7.2       | 一个自动化的API文档输出工具，还在用word、rap2、swagger? 该升级技术栈了 |
+| sonar                          | 3.9.0.2155  | 一款开源的代码质量分析工具，能编码是规避很多潜在bug          |
+| spring-boot-starter-validation | 3.0.0-M1    | spring新一代的参数校验器，替代javax JSR303的工具             |
 
-单体架构，可直接开箱即用，也可与分布式微服务集成，可拔插注入配置中心，通过远程`RPC`调用加签接口也是可以的。
+单体架构，可直接开箱即用，支持集群部署，也可与分布式微服务集成，可拔插注入配置中心，通过远程`RPC`调用接口加签。有空补全架构图。
+
+
 
 ## 6 开发文档
 
-启动项目，浏览器访问: http://127.0.0.1:8080 ,
-会打开以下界面[接口文档](https://github.com/Weasley-J/chinaport-data-signature/blob/main/中国电子口岸报文加签接口文档.md)
-的H5版本，可直接在页面给ukey发送请求.
+> 本项目支持直接使用`JSON`数据加签上报，告别XML数据、179特殊数据组装那样三拜九叩的繁琐！
 
-![image-20220217013840347](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20220217013840347.png)
+启动项目，浏览器访问: http://127.0.0.1:8080 ,会打开[接口文档](https://github.com/Weasley-J/chinaport-data-signature/blob/main/中国电子口岸报文加签接口文档.md)的H5页面，可直接在页面给ukey发送请求进行调试，注意请求参数的**字符串转义**,
 
-![image-20220218212801220](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20220218212801220.png)
+不分响应数据示例
 
 - **XML加签响应示例**
 
@@ -193,8 +191,6 @@ java -Dfile.encoding=utf-8 ${JAVA_ARGS} -jar ${APP_NAME}.jar \
   }
 }
 ```
-
-![image-20220217014013410](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20220217014013410.png)
 
 - **海关179加签返回示例**
 
@@ -215,6 +211,8 @@ java -Dfile.encoding=utf-8 ${JAVA_ARGS} -jar ${APP_NAME}.jar \
 ```
 
 感谢您使用本开源项目！为了持续改进并为更多企业提供免费的加签解决方案，我们诚恳地邀请您考虑赞助支持我们的项目。您的慷慨赞助将直接帮助我们维护和改进该项目，使其能够为更多企业节省成本、提高效率。
+
+
 
 ## 7 支持赞助
 
@@ -244,7 +242,7 @@ java -Dfile.encoding=utf-8 ${JAVA_ARGS} -jar ${APP_NAME}.jar \
       <p align="center">WeChatPay</p>
     </div>
     </div>
-
+  
     
 
 - **技术贡献**：如果您是开发者，您也可以通过提交代码、报告问题或者提供改进建议等方式来支持我们的项目。

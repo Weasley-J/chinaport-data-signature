@@ -28,7 +28,7 @@
         <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
         <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
         <hutool-all.version>5.8.20</hutool-all.version>
-        <smart-doc.version>2.3.7</smart-doc.version>
+	 <smart-doc.version>2.7.2</smart-doc.version>
         <xmlsec.version>3.0.2</xmlsec.version>
         <lombok.version>1.18.28</lombok.version>
         <snakeyaml.version>2.0</snakeyaml.version>
@@ -38,7 +38,7 @@
         <multiple-email.version>3.0.0</multiple-email.version>
         <signature-data-model.version>1.0.2</signature-data-model.version>
         <jaxb-api.version>2.3.1</jaxb-api.version>
-        <sonar.host.url>http://192.168.31.106:9001</sonar.host.url>
+        <sonar.host.url>http://192.168.31.140:9001</sonar.host.url>
         <sonar.login>admin</sonar.login>
         <sonar.password>123456</sonar.password>
         <sonar.projectKey>${project.groupId}:${project.artifactId}</sonar.projectKey>
@@ -257,23 +257,21 @@
                 <artifactId>smart-doc-maven-plugin</artifactId>
                 <configuration>
                     <configFile>./src/main/resources/smart-doc.json</configFile>
-                    <projectName>${project.artifactId}</projectName>
+                    <projectName>中国电子口岸（海口海关）报文加签API文档</projectName>
                     <excludes>
                         <exclude>com.alibaba:fastjson</exclude>
                     </excludes>
                     <includes>
                         <!--格式为：groupId:artifactId;参考如下-->
-                        <!--<include>cn.alphahub.mall.common:lejing-common-base-public</include>-->
+                        <include>io.github.weasley-j:chinaport-data-signature-data-model</include>
                     </includes>
                 </configuration>
                 <executions>
                     <execution>
-                        <!--如果不需要在执行编译时启动smart-doc，则将phase注释掉-->
-                        <!--先注释掉phase标签，等作者[smart-doc]适配[jdk17]再打开注释，作者正在适配中...-->
-                        <!--<phase>compile</phase>
+                        <phase>compile</phase>
                         <goals>
                             <goal>html</goal>
-                        </goals>-->
+                        </goals>
                     </execution>
                 </executions>
             </plugin>

@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Slf4j
 @RestController
-@RequestMapping("/rpc/ukey/health")
+@RequestMapping("/rpc/eport/ukey")
 public class UkeyHealthController {
 
     @Autowired
@@ -38,7 +38,7 @@ public class UkeyHealthController {
      * </ul>
      * @see Command
      */
-    @PostMapping("/endpoint/{command}")
+    @PostMapping("/health/endpoint/{command}")
     public Result<ConsoleOutput> endpoint(@PathVariable("command") Command command) {
         log.info("执行ukey健康指令: {}", command.getDesc());
         ConsoleOutput consoleOutput = ukeyHealthHelper.fixUkey(command);
