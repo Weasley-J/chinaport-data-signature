@@ -15,6 +15,8 @@ public class PayExchangeInfoHead implements Serializable {
 
     /**
      * 系统唯一序号
+     *
+     * @apiNote 可以不传，系统会自动生成
      */
     private String guid;
 
@@ -30,6 +32,8 @@ public class PayExchangeInfoHead implements Serializable {
 
     /**
      * 电商平台代码
+     *
+     * @apiNote 优先取配置文件中的电商平台代码
      */
     private String ebpCode;
 

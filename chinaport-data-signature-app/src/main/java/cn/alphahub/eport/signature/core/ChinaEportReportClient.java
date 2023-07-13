@@ -2,6 +2,7 @@ package cn.alphahub.eport.signature.core;
 
 import cn.alphahub.eport.signature.base.exception.SignException;
 import cn.alphahub.eport.signature.config.ChinaEportProperties;
+import cn.alphahub.eport.signature.config.Customs179Properties;
 import cn.alphahub.eport.signature.config.UkeyProperties;
 import cn.alphahub.eport.signature.entity.Capture179DataRequest;
 import cn.alphahub.eport.signature.entity.Capture179DataResponse;
@@ -63,7 +64,6 @@ import static cn.alphahub.eport.signature.core.CertificateHandler.SING_DATA_METH
 @Slf4j
 @Component
 public class ChinaEportReportClient {
-
     /**
      * 海关服务器地址，格式: http://ip:port
      *
@@ -83,67 +83,9 @@ public class ChinaEportReportClient {
     @Autowired
     private UkeyProperties ukeyProperties;
     @Autowired
+    private Customs179Properties customs179Properties;
+    @Autowired
     private ChinaEportProperties chinaEportProperties;
-
-    /**
-     * 推断CebMessage的具体的XML入参解析成Java对象
-     */
-    public AbstractCebMessage getCebMessageByMessageType(UploadCEBMessageRequest request) {
-        String guid = GUIDUtil.getGuid();
-        switch (request.getDataType()) {
-            case XML -> {
-                return switch (request.getMessageType()) {
-                    case CEB311Message -> {
-                        CEB311Message ceb311Message = Objects.requireNonNull(JAXBUtil.toBean(request.getCebMessage(), CEB311Message.class));
-                        ceb311Message.setGuid(guid);
-                        ceb311Message.getOrder().getOrderHead().setGuid(guid);
-                        buildBaseTransfer(ceb311Message.getBaseTransfer());
-                        yield ceb311Message;
-                    }
-                    case CEB621Message -> {
-                        CEB621Message ceb621Message = Objects.requireNonNull(JAXBUtil.toBean(request.getCebMessage(), CEB621Message.class));
-                        ceb621Message.setGuid(guid);
-                        ceb621Message.getInventory().getInventoryHead().setGuid(guid);
-                        buildBaseTransfer(ceb621Message.getBaseTransfer());
-                        yield ceb621Message;
-                    }
-                };
-            }
-            case JSON -> {
-                return switch (request.getMessageType()) {
-                    case CEB311Message -> {
-                        CEB311Message ceb311Message = JSONUtil.toBean(request.getCebMessage(), new TypeReference<>() {
-                        }, false);
-                        ceb311Message.setGuid(guid);
-                        ceb311Message.getOrder().getOrderHead().setGuid(guid);
-                        buildBaseTransfer(ceb311Message.getBaseTransfer());
-                        yield ceb311Message;
-                    }
-                    case CEB621Message -> {
-                        CEB621Message ceb621Message = JSONUtil.toBean(request.getCebMessage(), new TypeReference<>() {
-                        }, false);
-                        ceb621Message.setGuid(guid);
-                        ceb621Message.getInventory().getInventoryHead().setGuid(guid);
-                        buildBaseTransfer(ceb621Message.getBaseTransfer());
-                        yield ceb621Message;
-                    }
-                };
-            }
-            default -> throw new IllegalStateException("Unexpected value: " + toJson(request));
-        }
-    }
-
-    /**
-     * Build BaseTransfer XML Node
-     */
-    @SuppressWarnings("all")
-    public BaseTransfer buildBaseTransfer(BaseTransfer baseTransfer) {
-        baseTransfer.setCopCode(StringUtils.defaultIfBlank(baseTransfer.getCopCode(), chinaEportProperties.getCopCode()));
-        baseTransfer.setCopName(StringUtils.defaultIfBlank(baseTransfer.getCopName(), chinaEportProperties.getCopName()));
-        baseTransfer.setDxpId(StringUtils.defaultIfBlank(baseTransfer.getDxpId(), chinaEportProperties.getDxpId()));
-        baseTransfer.setDxpMode(StringUtils.defaultIfBlank(baseTransfer.getDxpMode(), "DXP"));
-        return baseTransfer;
-    }
 
     /**
      * CebXxxMessage数据上报海关
@@ -198,9 +140,11 @@ public class ChinaEportReportClient {
         String guid = GUIDUtil.getGuid();
         customs179Request.setSessionID(guid);
         customs179Request.getPayExchangeInfoHead().setGuid(guid);
+        customs179Request.getPayExchangeInfoHead().setEbpCode(customs179Properties.getEbpCode());
 
-        String REPORT_TEST_SERVER_URL = Base64.decodeStr(REPORT_TEST_ENV_179_URL_ENCODE);
-        String REPORT_PROD_SERVER_URL = Base64.decodeStr(REPORT_PROD_ENV_179_URL_ENCODE);
+        String testEnvServerUrl = Base64.decodeStr(REPORT_TEST_ENV_179_URL_ENCODE);
+        String prodEnvServerUrl = Base64.decodeStr(REPORT_PROD_ENV_179_URL_ENCODE);
+        String requestUrl = StringUtils.defaultIfBlank(customs179Properties.getServer(), prodEnvServerUrl);
 
         String capture179DataUkeyRequest = "\"sessionID\":\"" + customs179Request.getSessionID() + "\"||" +
                 "\"payExchangeInfoHead\":\"" + toJson(customs179Request.getPayExchangeInfoHead()) + "\"||" +
@@ -223,9 +167,9 @@ public class ChinaEportReportClient {
 
         Map<String, Object> formData = new LinkedHashMap<>();
         formData.put("payExInfoStr", toJson(customs179Request));
-        log.info("179数据抓取URL: {}\n开始上报，请求数据：{}", REPORT_PROD_SERVER_URL, toJson(formData));
+        log.info("海关179数据抓取URL: {}\n开始上报，请求数据：{}", requestUrl, toJson(formData));
 
-        HttpResponse httpResponse = HttpUtil.createPost(REPORT_PROD_SERVER_URL)
+        HttpResponse httpResponse = HttpUtil.createPost(requestUrl)
                 .form(formData)
                 .header("Content-Type", "application/x-www-form-urlencoded", true)
                 .timeout(5 * 1000)
@@ -240,6 +184,67 @@ public class ChinaEportReportClient {
         thirdResponse.setOriginal(httpResponse.body());
         thirdResponse.setExpected(expected);
         return thirdResponse;
+    }
+
+    /**
+     * 推断CebMessage的具体的XML入参解析成Java对象
+     */
+    public AbstractCebMessage buildCebMessage(UploadCEBMessageRequest request) {
+        String guid = GUIDUtil.getGuid();
+        String cebMessage = String.valueOf(request.getCebMessage());
+        switch (request.getDataType()) {
+            case XML -> {
+                return switch (request.getMessageType()) {
+                    case CEB311Message -> {
+                        CEB311Message ceb311Message = Objects.requireNonNull(JAXBUtil.toBean(cebMessage, CEB311Message.class));
+                        ceb311Message.setGuid(guid);
+                        ceb311Message.getOrder().getOrderHead().setGuid(guid);
+                        buildBaseTransfer(ceb311Message.getBaseTransfer());
+                        yield ceb311Message;
+                    }
+                    case CEB621Message -> {
+                        CEB621Message ceb621Message = Objects.requireNonNull(JAXBUtil.toBean(cebMessage, CEB621Message.class));
+                        ceb621Message.setGuid(guid);
+                        ceb621Message.getInventory().getInventoryHead().setGuid(guid);
+                        buildBaseTransfer(ceb621Message.getBaseTransfer());
+                        yield ceb621Message;
+                    }
+                };
+            }
+            case JSON -> {
+                return switch (request.getMessageType()) {
+                    case CEB311Message -> {
+                        CEB311Message ceb311Message = JSONUtil.toBean(cebMessage, new TypeReference<>() {
+                        }, false);
+                        ceb311Message.setGuid(guid);
+                        ceb311Message.getOrder().getOrderHead().setGuid(guid);
+                        buildBaseTransfer(ceb311Message.getBaseTransfer());
+                        yield ceb311Message;
+                    }
+                    case CEB621Message -> {
+                        CEB621Message ceb621Message = JSONUtil.toBean(cebMessage, new TypeReference<>() {
+                        }, false);
+                        ceb621Message.setGuid(guid);
+                        ceb621Message.getInventory().getInventoryHead().setGuid(guid);
+                        buildBaseTransfer(ceb621Message.getBaseTransfer());
+                        yield ceb621Message;
+                    }
+                };
+            }
+            default -> throw new IllegalStateException("Unexpected value: " + toJson(request));
+        }
+    }
+
+    /**
+     * Build BaseTransfer XML Node
+     */
+    @SuppressWarnings("all")
+    public BaseTransfer buildBaseTransfer(BaseTransfer baseTransfer) {
+        baseTransfer.setCopCode(StringUtils.defaultIfBlank(baseTransfer.getCopCode(), chinaEportProperties.getCopCode()));
+        baseTransfer.setCopName(StringUtils.defaultIfBlank(baseTransfer.getCopName(), chinaEportProperties.getCopName()));
+        baseTransfer.setDxpId(StringUtils.defaultIfBlank(baseTransfer.getDxpId(), chinaEportProperties.getDxpId()));
+        baseTransfer.setDxpMode(StringUtils.defaultIfBlank(baseTransfer.getDxpMode(), "DXP"));
+        return baseTransfer;
     }
 
     /**
