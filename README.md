@@ -172,7 +172,7 @@ java -Dfile.encoding=utf-8 ${JAVA_ARGS} -jar ${APP_NAME}.jar \
 
 启动项目，浏览器访问: http://127.0.0.1:8080 ,会打开[接口文档](https://github.com/Weasley-J/chinaport-data-signature/blob/main/中国电子口岸报文加签接口文档.md)的H5页面，可直接在页面给ukey发送请求进行调试，注意请求参数的**字符串转义**,
 
-不分响应数据示例
+部分响应数据示例
 
 - **XML加签响应示例**
 
