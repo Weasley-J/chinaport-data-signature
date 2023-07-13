@@ -37,7 +37,7 @@ public class EportTestController {
     private SignHandler signHandler;
 
     /**
-     * 海关总署XML数据加签（测试）
+     * 海关总署XML数据加签
      *
      * @return 签名结果
      * @apiNote 非正式调用API，只为了让你看到海关总署XML加密的数据返回格式
@@ -121,7 +121,7 @@ public class EportTestController {
     }
 
     /**
-     * 海关179数据抓取加签（测试）
+     * 海关179数据抓取加签
      *
      * @return 签名结果
      * @apiNote 非正式调用API，只为了让你看到179加密的数据返回格式
