@@ -262,7 +262,6 @@
                         <exclude>com.alibaba:fastjson</exclude>
                     </excludes>
                     <includes>
-                        <!--格式为：groupId:artifactId;参考如下-->
                         <include>io.github.weasley-j:chinaport-data-signature-data-model</include>
                     </includes>
                 </configuration>

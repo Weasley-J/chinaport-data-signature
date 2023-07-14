@@ -32,13 +32,11 @@ Weasley J（2023-07）
 
 ![image-20230714214252953](https://weasley.oss-cn-shanghai.aliyuncs.com/Photos/image-20230714214252953.png)
 
-[核心功能预览](https://www.processon.com/view/link/64b1518f4edec45c61eb9647)，访问密码: lm32
-
 ![image-20230714225952719](https://weasley.oss-cn-shanghai.aliyuncs.com/Photos/image-20230714225952719.png)
 
-[应用拓扑图](https://www.processon.com/view/link/64b1631e4edec45c61eb9f88)
+[核心功能预览](https://www.processon.com/view/link/64b1518f4edec45c61eb9647)，访问密码: lm32
 
-访问密码：O7Q8
+[应用拓扑图](https://www.processon.com/view/link/64b1631e4edec45c61eb9f88) 访问密码：O7Q8
 
 
 
@@ -175,14 +173,15 @@ java -Dfile.encoding=utf-8 ${JAVA_ARGS} -jar ${APP_NAME}.jar \
 
 ## 5 软件架构
 
-| 类目                           | 版本        | 备注                                                         |
-| ------------------------------ | ----------- | ------------------------------------------------------------ |
-| JDK 17                         | 17.0.7 LTS  |                                                              |
-| spring-boot                    | 3.1.1       |                                                              |
-| spring-cloud                   | 2022.0.0-M1 |                                                              |
-| smart-doc                      | 2.7.2       | 一个自动化的API文档输出工具，还在用word、rap2、swagger? 该升级技术栈了 |
-| sonar                          | 3.9.0.2155  | 一款开源的代码质量分析工具，能编码是规避很多潜在bug          |
-| spring-boot-starter-validation | 3.0.0-M1    | spring新一代的参数校验器，替代javax JSR303的工具             |
+| 类目                           | 版本        | 备注                                                   |
+| ------------------------------ | ----------- | ------------------------------------------------------ |
+| JDK 17                         | 17.0.7 LTS  | 软件运行的最低JDK版本                                  |
+| spring-boot                    | 3.1.1       |                                                        |
+| spring-cloud                   | 2022.0.0-M1 |                                                        |
+| smart-doc                      | 2.7.2       | 一个自动化的API文档输出工具，效率word、rap2、swagger高 |
+| sonar                          | 3.9.0.2155  | 一款开源的代码质量分析工具，能编码是规避很多潜在bug    |
+| spring-boot-starter-validation | 3.1.1       | spring新一代的参数校验器，替代javax JSR303的工具       |
+| spring-boot-starter-websocket  | 3.1.1       | spring官方维护的websocket starter                      |
 
 单体架构，可直接开箱即用，支持集群部署，也可与分布式微服务集成，可拔插注入配置中心，通过远程`RPC`调用接口加签。有空补全架构图。
 
