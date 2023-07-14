@@ -1,6 +1,18 @@
 # **China E-Port Data Signature**
 
-中国电子口岸海关总署`XML`报文&海关179数据上报加签服务，提供一站式的免费解决方案，开箱即用，无中间件；本项目遵守`GNU 3.0`
+中国电子口岸（海口海关）报文加签推送应用
+
+## 前言
+
+After nearly two years of open-source code maintenance and exploration, we have successfully developed an all-in-one solution that offers free access and usage for a wide range of businesses. This solution aims to digitally sign and forward XML messages to the General Administration of Customs at the Chinese Electronic Port (HaiKou Customs), facilitating cross-border e-commerce operations and import-export trade for enterprises.
+
+经过长达近两年的开源代码维护和探索，我们终于成功开发出一站式解决方案，为更多企业提供免费接入和使用。该解决方案的目标是对中国电子口岸海关（海口海关）总署的XML报文进行加签推送，以促进企业的跨境电商业务和进出口贸易。
+
+Weasley J（2023-07-14）
+
+
+
+中国电子口岸海关（海口海关）总署`XML`报文&海关179数据上报加签服务，一站式的免费解决方案，开箱即用，无中间件；本项目遵守`GNU 3.0`
 协议，本项目测试用例中用到的企业信息已经过企业的批准，企业使用`ukey`加签进行业务申报时, 请下载`release`
 文件根据自己的实际情况适当修改运行参数既可。
 
@@ -17,6 +29,16 @@
 >
 > - 单体应用直接下载[release](https://github.com/Weasley-J/chinaport-data-signature/releases)的二进制文件使用即可（使用较多）
 > - 分布式微服务请切换到`dev-microservice`分支构建（较少使用）
+
+![image-20230714214252953](https://weasley.oss-cn-shanghai.aliyuncs.com/Photos/image-20230714214252953.png)
+
+[核心功能预览](https://www.processon.com/view/link/64b1518f4edec45c61eb9647)，访问密码: lm32
+
+![image-20230714225952719](https://weasley.oss-cn-shanghai.aliyuncs.com/Photos/image-20230714225952719.png)
+
+[应用拓扑图](https://www.processon.com/view/link/64b1631e4edec45c61eb9f88)
+
+访问密码：O7Q8
 
 
 

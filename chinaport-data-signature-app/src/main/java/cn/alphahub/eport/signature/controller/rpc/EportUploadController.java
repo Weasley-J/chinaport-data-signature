@@ -54,7 +54,7 @@ public class EportUploadController {
      * 推送海关179号数据
      *
      * @apiNote <ul>
-     * json示例:
+     * JSON示例:
      * <pre>
      * {
      *   "sessionID": "032C3F56-0EE6-4558-B548-6C7A3451F07D",
