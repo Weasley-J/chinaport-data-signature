@@ -8,7 +8,7 @@ After nearly two years of open-source code maintenance and exploration, we have 
 
 经过长达近两年的开源代码维护和探索，我们终于成功开发出一站式解决方案，为更多企业提供免费接入和使用。该解决方案的目标是对中国电子口岸海关（海口海关）总署的XML报文进行加签推送，以促进企业的跨境电商业务和进出口贸易。
 
-Weasley J（2023-07-14）
+Weasley J（2023-07）
 
 
 
