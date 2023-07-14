@@ -32,7 +32,7 @@ Weasley J（2023-07）
 
 ![image-20230714232414059](https://weasley.oss-cn-shanghai.aliyuncs.com/Photos/image-20230714232414059.png)
 
-![image-20230714225952719](https://weasley.oss-cn-shanghai.aliyuncs.com/Photos/image-20230714225952719.png)
+![image-20230715002603102](https://weasley.oss-cn-shanghai.aliyuncs.com/Photos/image-20230715002603102.png)
 
 [系统核心功能预览](https://www.processon.com/view/link/64b1518f4edec45c61eb9647) 访问密码: lm32
 
