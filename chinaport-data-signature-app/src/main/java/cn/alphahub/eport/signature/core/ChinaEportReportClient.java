@@ -153,7 +153,7 @@ public class ChinaEportReportClient {
 
         @SuppressWarnings("all") UkeyRequest ukeyRequest = new UkeyRequest(SING_DATA_METHOD, new HashMap<>() {{
             put("inData", capture179DataUkeyRequest);
-            put("passwd", "88888888");
+            put("passwd", ukeyProperties.getPassword());
         }});
         String signParams = toJson(ukeyRequest);
         SignRequest signRequest = new SignRequest(capture179DataUkeyRequest);

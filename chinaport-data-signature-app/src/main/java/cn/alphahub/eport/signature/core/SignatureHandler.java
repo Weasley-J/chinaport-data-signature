@@ -128,7 +128,7 @@ public final class SignatureHandler {
             log.info("c14n source xml result, sha1: {}, base64: {}", sha1, base64String);
             return base64String;
         } catch (Exception e) {
-            log.error("使用c14n格式化xml异常 {}", e.getMessage(), e);
+            log.error("使用c14n格式化xml异常 {},\n{}", sourceXml, e.getMessage(), e);
             throw new SignException("使用c14n格式化xml异常: " + e.getMessage());
         }
     }

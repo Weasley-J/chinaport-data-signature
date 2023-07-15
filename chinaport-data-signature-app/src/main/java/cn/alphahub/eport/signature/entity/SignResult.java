@@ -44,4 +44,9 @@ public class SignResult implements Serializable {
      * 调用ukey获取的签名值
      */
     private String signatureValue;
+    /**
+     * 签名的XML节点
+     * <li>用来组装{@code <ds:SignedInfo>}节点</li>
+     */
+    private String signatureNode;
 }
