@@ -34,10 +34,7 @@ public class SignResult implements Serializable {
      */
     private String x509Certificate;
     /**
-     * xml的数字摘要，先对不包含Signature节点的原始报文,进行C14n格式化，然后取shal二进制摘要，然后对sha1的值进行base64编码
-     * <ul>
-     *     <li><a href='http://tool.qdhuaxun.cn/ceb/CEB311Message.xml'>待加签报文样例</a></li>
-     * </ul>
+     * XML报文的数字摘要
      */
     private String digestValue;
     /**
@@ -45,8 +42,8 @@ public class SignResult implements Serializable {
      */
     private String signatureValue;
     /**
-     * 签名的XML节点
-     * <li>用来组装{@code <ds:SignedInfo>}节点</li>
+     * XML报文的签名节点
+     * <li>用来组装 ds:SignedInfo 节点</li>
      */
     private String signatureNode;
 }
