@@ -18,6 +18,7 @@ import cn.hutool.http.ContentType;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import o.github.weasleyj.china.eport.sign.AbstractCebMessage;
 import o.github.weasleyj.china.eport.sign.IMessageType;
@@ -41,7 +42,6 @@ import o.github.weasleyj.china.eport.sign.model.signature.X509Data;
 import o.github.weasleyj.china.eport.sign.util.GUIDUtil;
 import o.github.weasleyj.china.eport.sign.util.JAXBUtil;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -63,6 +63,7 @@ import static cn.alphahub.eport.signature.core.CertificateHandler.SING_DATA_METH
  */
 @Slf4j
 @Component
+@AllArgsConstructor
 public class ChinaEportReportClient {
     /**
      * 海关服务器地址，格式: http://ip:port
@@ -78,14 +79,10 @@ public class ChinaEportReportClient {
      * 海关 179 数据抓取生产环境 URL （base64加密，不适合直接公布到外网）
      */
     public static final String REPORT_PROD_ENV_179_URL_ENCODE = "aHR0cHM6Ly9jdXN0b21zLmNoaW5hcG9ydC5nb3YuY24vY2ViMmdyYWIvZ3JhYi9yZWFsVGltZURhdGFVcGxvYWQ=";
-    @Autowired
-    private SignHandler signHandler;
-    @Autowired
-    private UkeyProperties ukeyProperties;
-    @Autowired
-    private Customs179Properties customs179Properties;
-    @Autowired
-    private ChinaEportProperties chinaEportProperties;
+    private final SignHandler signHandler;
+    private final UkeyProperties ukeyProperties;
+    private final Customs179Properties customs179Properties;
+    private final ChinaEportProperties chinaEportProperties;
 
     /**
      * CebXxxMessage数据上报海关
@@ -176,7 +173,7 @@ public class ChinaEportReportClient {
                 .execute();
         log.info("海关 179 数据抓取返回结果 {}", httpResponse.body());
         Capture179DataResponse expected = readValue("""
-                {"code":"10000","message":"上传成功","total":0,"serviceTime":1689167121210}
+                {"code":"10000","message":"上传成功","total":0,"serviceTime":null}
                 """, Capture179DataResponse.class);
         expected.setServiceTime(Long.parseLong(customs179Request.getServiceTime()));
         ThirdAbstractResponse<Map<String, Object>, String, Capture179DataResponse> thirdResponse = ThirdAbstractResponse.getInstance();
@@ -250,7 +247,7 @@ public class ChinaEportReportClient {
     /**
      * 组装最终请求数据，完成末三段加密
      */
-    private MessageRequest buildMessageRequest(AbstractCebMessage cebMessage, IMessageType messageType) {
+    public MessageRequest buildMessageRequest(AbstractCebMessage cebMessage, IMessageType messageType) {
         if (cebMessage == null) {
             return new MessageRequest();
         }

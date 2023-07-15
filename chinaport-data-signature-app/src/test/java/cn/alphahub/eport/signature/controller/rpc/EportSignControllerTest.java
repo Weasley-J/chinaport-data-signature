@@ -1,28 +1,55 @@
 package cn.alphahub.eport.signature.controller.rpc;
 
+import cn.alphahub.eport.signature.config.ChinaEportProperties;
+import cn.alphahub.eport.signature.core.ChinaEportReportClient;
 import cn.alphahub.eport.signature.core.SignHandler;
 import cn.alphahub.eport.signature.entity.SignRequest;
 import cn.alphahub.eport.signature.entity.SignResult;
 import cn.alphahub.eport.signature.entity.UkeyRequest;
 import cn.alphahub.eport.signature.entity.UkeyResponse.Args;
+import cn.hutool.core.codec.Base64;
+import cn.hutool.http.ContentType;
+import cn.hutool.http.HttpResponse;
+import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
+import lombok.extern.slf4j.Slf4j;
+import o.github.weasleyj.china.eport.sign.constants.MessageType;
+import o.github.weasleyj.china.eport.sign.model.cebmessage.CEB311Message;
+import o.github.weasleyj.china.eport.sign.model.request.MessageRequest;
+import o.github.weasleyj.china.eport.sign.util.GUIDUtil;
+import o.github.weasleyj.china.eport.sign.util.JAXBUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+import static cn.alphahub.eport.signature.core.ChinaEportReportClient.EPORT_CEBMESSAGE_SERVER_ENCODE;
 
 /**
  * Eport Sign Controller Test
  */
+@Slf4j
 @SpringBootTest
 class EportSignControllerTest {
     @Autowired
     SignHandler signHandler;
     @Autowired
     EportSignController controller;
+    @Autowired
+    ChinaEportProperties chinaEportProperties;
+    @Autowired
+    ChinaEportReportClient chinaEportReportClient;
+
+    public static void main(String[] args) {
+
+    }
 
     @Test
     @DisplayName("海关XML数据加签+验正签名结果")
@@ -60,5 +87,97 @@ class EportSignControllerTest {
         argsMap.put("certDataPEM", result.getX509Certificate());
         Args args = signHandler.getUkeyResponseArgs(new UkeyRequest("cus-sec_SpcVerifySignData", argsMap));
         System.err.println("验签结果: " + args.getData().get(0));
+    }
+
+    @Test
+    @DisplayName("模拟海关XML数据加签推单")
+    void signAndVerifyXMLSignatureAndPush() throws Exception {
+        String xml = """
+                <?xml version="1.0" encoding="UTF-8"?>
+                <ceb:CEB311Message guid="CEB311_HNZB_HNFX_20230707223752_010" version="1.0" xmlns:ceb="http://www.chinaport.gov.cn/ceb" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                    <ceb:Order>
+                        <ceb:OrderHead>
+                            <ceb:guid>CEB311_HNZB_HNFX_20230707223752_010</ceb:guid>
+                            <ceb:appType>1</ceb:appType>
+                            <ceb:appTime>20230704181028</ceb:appTime>
+                            <ceb:appStatus>2</ceb:appStatus>
+                            <ceb:orderType>I</ceb:orderType>
+                            <ceb:orderNo>T_C5051511332138160010</ceb:orderNo>
+                            <ceb:ebpCode>4601630004</ceb:ebpCode>
+                            <ceb:ebpName>海南省荣誉进出口贸易有限公司</ceb:ebpName>
+                            <ceb:ebcCode>4601630004</ceb:ebcCode>
+                            <ceb:ebcName>海南省荣誉进出口贸易有限公司</ceb:ebcName>
+                            <ceb:goodsValue>0.01</ceb:goodsValue>
+                            <ceb:freight>0</ceb:freight>
+                            <ceb:discount>0</ceb:discount>
+                            <ceb:taxTotal>0</ceb:taxTotal>
+                            <ceb:acturalPaid>0.01</ceb:acturalPaid>
+                            <ceb:currency>142</ceb:currency>
+                            <ceb:buyerRegNo>4</ceb:buyerRegNo>
+                            <ceb:buyerName>袁晓雨</ceb:buyerName>
+                            <ceb:buyerTelephone>13701727375</ceb:buyerTelephone>
+                            <ceb:buyerIdType>1</ceb:buyerIdType>
+                            <ceb:buyerIdNumber>130435200009241538</ceb:buyerIdNumber>
+                            <ceb:consignee>袁晓雨</ceb:consignee>
+                            <ceb:consigneeTelephone>13701727375</ceb:consigneeTelephone>
+                            <ceb:consigneeAddress>北京北京市东城区</ceb:consigneeAddress>
+                            <ceb:note>test</ceb:note>
+                        </ceb:OrderHead>
+                        <ceb:OrderList>
+                            <ceb:gnum>1</ceb:gnum>
+                            <ceb:itemNo>1</ceb:itemNo>
+                            <ceb:itemName>LANNA兰纳</ceb:itemName>
+                            <ceb:gmodel>10片/包</ceb:gmodel>
+                            <ceb:itemDescribe></ceb:itemDescribe>
+                            <ceb:barCode>1</ceb:barCode>
+                            <ceb:unit>011</ceb:unit>
+                            <ceb:qty>1</ceb:qty>
+                            <ceb:price>1</ceb:price>
+                            <ceb:totalPrice>1</ceb:totalPrice>
+                            <ceb:currency>142</ceb:currency>
+                            <ceb:country>136</ceb:country>
+                            <ceb:note>test</ceb:note>
+                        </ceb:OrderList>
+                    </ceb:Order>
+                    <ceb:BaseTransfer>
+                        <ceb:copCode>4601630004</ceb:copCode>
+                        <ceb:copName>海南省荣誉进出口贸易有限公司</ceb:copName>
+                        <ceb:dxpMode>DXP</ceb:dxpMode>
+                        <ceb:dxpId>DXPENT0000530815</ceb:dxpId>
+                        <ceb:note>test</ceb:note>
+                    </ceb:BaseTransfer>
+                </ceb:CEB311Message>
+                """;
+        SignRequest request = new SignRequest(xml);
+        SignResult result = controller.signature(request).getData();
+
+        // 组装数据
+        CEB311Message ceb311Message = JAXBUtil.toBean(xml, CEB311Message.class);
+        String guid = GUIDUtil.getGuid();
+        assert ceb311Message != null;
+        ceb311Message.setGuid(guid);
+        ceb311Message.getOrder().getOrderHead().setGuid(guid);
+        chinaEportReportClient.buildBaseTransfer(ceb311Message.getBaseTransfer());
+        MessageRequest messageRequest = chinaEportReportClient.buildMessageRequest(ceb311Message, MessageType.CEB311Message);
+        String requestServer = StringUtils.defaultIfBlank(chinaEportProperties.getServer(), Base64.decodeStr(EPORT_CEBMESSAGE_SERVER_ENCODE));
+        String requestBody = JSONUtil.toJsonStr(messageRequest);
+        log.info("数据上报海关请求入参 {}\nRequest Server: {}", requestBody, requestServer);
+        HttpResponse httpResponse = HttpUtil.createPost(requestServer + "/cebcmsg")
+                .contentType(ContentType.JSON.getValue())
+                .body(requestBody)
+                .execute();
+        log.info("开始上报，Http响应结果: {}", httpResponse.body());
+
+        // 睡8秒，开始查询回执
+        LocalDateTime uploadTime = LocalDateTime.now();
+        TimeUnit.SECONDS.sleep(8);
+        String url = "http://" + Base64.decodeStr("MzYuMTAxLjIwOC4yMzA=") + ":8090/ceb312msg?" + HttpUtil.toParams(new LinkedHashMap<>() {{
+            put("dxpid", chinaEportProperties.getDxpId());
+            put("qryid", DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(uploadTime));
+        }});
+        HttpResponse receiptResponse = HttpUtil.createGet(url)
+                .execute();
+        log.info("{}", url);
+        log.info("回执结果: {}", receiptResponse.body());
     }
 }

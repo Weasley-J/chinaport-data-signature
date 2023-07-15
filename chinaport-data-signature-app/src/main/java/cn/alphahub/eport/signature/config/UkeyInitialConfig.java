@@ -62,8 +62,6 @@ public class UkeyInitialConfig implements ApplicationRunner {
      */
     private static final String DEFAULT_PASSWORD = "88888888";
 
-    /* *********************** 已下方法的返回值最为参数连接好海关u-key通过socket实例发送给[ws://127.0.0.1:61232] *********************** */
-
     /**
      * 取海关签名证书PEM, X509Certificate证书（未经HASH算法散列过）
      *
@@ -103,7 +101,7 @@ public class UkeyInitialConfig implements ApplicationRunner {
      */
     public static String getSignDataAsPEM(SignRequest request) {
         String initData = SignHandler.getInitData(request);
-        log.warn("发送给ukey的真正请求入参: {}\n原始报文:\n{}", initData, request.getData());
+        log.warn("发送给ukey的真正请求入参: {}\n原始报文: {}", initData, request.getData());
         @SuppressWarnings({"all"}) UkeyRequest ukeyRequest = new UkeyRequest("cus-sec_SpcSignDataAsPEM", new HashMap<>() {{
             put("inData", initData);
             put("passwd", ObjectUtils.defaultIfNull(SpringUtil.getBean(UkeyProperties.class).getPassword(), DEFAULT_PASSWORD));
@@ -129,8 +127,6 @@ public class UkeyInitialConfig implements ApplicationRunner {
         ukeyRequest.setArgs(args);
         return JacksonUtil.toJson(ukeyRequest);
     }
-
-    /* *********************** 获取入参方法结束（这几个方法值，小心修改） *********************** */
 
     /**
      * To park thread

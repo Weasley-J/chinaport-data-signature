@@ -34,7 +34,7 @@ import java.util.concurrent.locks.LockSupport;
 
 /**
  * <p>电子口岸加签业务核心类</p>
- * <a href='http://tool.qdhuaxun.cn/?signdoc'>华讯云业务帮助文档，签名的不要看，本项目搞定了所有的签名，华讯的文档可以参考</a>
+ * <a href='http://tool.qdhuaxun.cn/?signdoc'>华讯云业务帮助文档，签名的不要看误导人，华讯的业务文档可以参考</a>
  *
  * @author weasley
  * @version 1.0
