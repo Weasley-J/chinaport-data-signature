@@ -1,0 +1,27 @@
+server:
+  port: 8080
+  shutdown: graceful
+
+spring:
+  application:
+    name: chinaport-data-signature
+
+  profiles:
+    # 适当修改激活环境: dev|test|prod
+    active: dev
+
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+
+  cache:
+    type: caffeine
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+    format:
+      date-time: yyyy-MM-dd HH:mm:ss
+      date: yyyy-MM-dd
+      time: HH:mm:ss

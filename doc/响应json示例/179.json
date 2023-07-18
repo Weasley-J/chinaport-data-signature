@@ -1,0 +1,18 @@
+{
+  "message": "操作成功",
+  "success": true,
+  "timestamp": "2023-07-12 21:06:44",
+  "code": 200,
+  "data": {
+    "payload": {
+      "payExInfoStr": "{\"sessionID\":\"IHWESX-WEASLEY-20230712210643-X7E4PL\",\"payExchangeInfoHead\":{\"guid\":\"IHWESX-WEASLEY-20230712210643-X7E4PL\",\"initalRequest\":\"<xml><appid><![CDATA[xwxwxwxwx112121]]></appid><mch_id>11111111</mch_id><body><![CDATA[测试测试]]></body><nonce_str><![CDATA[ashdgahgdhaghgliqwueyqu1]]></nonce_str><out_trade_no>202009231454212140210352</out_trade_no><total_fee>500</total_fee><spbill_create_ip><![CDATA[192.168.0.1]]></spbill_create_ip><notify_url><![CDATA[https://www.baidu.com]]></notify_url><openid><![CDATA[adasyduiyasdhjxzycua-Q]]></openid><trade_type><![CDATA[JSAPI]]></trade_type><sign><![CDATA[asd1sa56d4545wqe44wq5]]></sign></xml>\",\"initalResponse\":\"<xml><appid><![CDATA[xwxwxwxwx112121]]></appid><bank_type><![CDATA[OTHERS]]></bank_type><cash_fee>500</cash_fee><fee_type><![CDATA[CNY]]></fee_type><is_subscribe><![CDATA[N]]></is_subscribe><mch_id>11111111</mch_id><nonce_str><![CDATA[ashdgahgdhaghgliqwueyqu1]]></nonce_str><openid><![CDATA[adasyduiyasdhjxzycua-Q]]></openid><out_trade_no>202009231454212140210352</out_trade_no><result_code><![CDATA[SUCCESS]]></result_code><return_code><![CDATA[SUCCESS]]></return_code><sign><![CDATA[asgdhasgdhasgdhgasgdhasgdh]]></sign><time_end>20200923145426</time_end><total_fee>500</total_fee><trade_type><![CDATA[JSAPI]]></trade_type><transaction_id>4200000681202009235085032319</transaction_id></xml>\",\"ebpCode\":\"46016602EV\",\"payCode\":\"1537923071\",\"payTransactionId\":\"4200000681202009235085032319\",\"totalAmount\":5.0,\"currency\":\"142\",\"verDept\":\"3\",\"payType\":\"4\",\"tradingTime\":\"20200923145426\",\"note\":\"\"},\"payExchangeInfoLists\":[{\"orderNo\":\"202009231454218421271832\",\"goodsInfo\":[{\"gname\":\"济州花梨精华面膜\",\"itemLink\":\"http://m.yunjiweidian.com/yunjibuyer/static/vue-buyer/idc/index.html#/detail?itemId=999761&shopId=453\"}],\"recpAccount\":\"46016602EV\",\"recpCode\":\"46016602EV\",\"recpName\":\"海南省荣誉进出口贸易有限公司\"}],\"serviceTime\":\"1601282210417\",\"certNo\":\"03000000000cde6f\",\"signValue\":\"+5rw8h5yeNcbxI6JdfyFhQczzCDre1A+Wv4W17PgnN2AOTtDylr53Eo7a0LiVCdLTHU5xLTADES4y6+tRZAyww==\"}"
+    },
+    "original": "{\"code\":\"10000\",\"message\":\"上传成功\",\"total\":0,\"serviceTime\":1689167204577}",
+    "expected": {
+      "code": "10000",
+      "total": 0,
+      "message": "上传成功",
+      "serviceTime": 1601282210417
+    }
+  }
+}

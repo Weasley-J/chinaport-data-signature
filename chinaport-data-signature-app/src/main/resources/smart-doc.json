@@ -1,0 +1,61 @@
+{
+  "serverUrl": "http://localhost:8080",
+  "isStrict": false,
+  "allInOne": true,
+  "outPath": "src/main/resources/static",
+  "coverOld": true,
+  "createDebugPage": true,
+  "packageFilters": "cn.alphahub.*.controller.*.*Controller",
+  "md5EncryptedHtmlName": false,
+  "style": "xt256",
+  "projectName": "中国电子口岸（海口海关）加签后端接口文档",
+  "skipTransientField": true,
+  "sortByTitle": false,
+  "showAuthor": true,
+  "requestFieldToUnderline": false,
+  "responseFieldToUnderline": false,
+  "inlineEnum": true,
+  "recursionLimit": 7,
+  "allInOneDocFileName": "index.html",
+  "requestExample": "true",
+  "responseExample": "true",
+  "displayActualType": false,
+  "ignoreRequestParams": [
+    "org.springframework.ui.ModelMap"
+  ],
+  "requestHeaders": [
+    {
+      "name": "x-auth-token-eport-sign",
+      "type": "string",
+      "desc": "客户端加签时携带的请求头，token值必须和配置文件里面配置鉴权token相等",
+      "value": "DefaultAuthToken",
+      "required": true,
+      "since": "v1.1.0",
+      "pathPatterns": "/rpc/**",
+      "excludePathPatterns": "/app/login"
+    }
+  ],
+  "revisionLogs": [
+    {
+      "version": "1.0.0",
+      "revisionTime": "2022-02-16 10:30",
+      "status": "创建",
+      "author": "Weasley J",
+      "remarks": "创建API文档"
+    },
+    {
+      "version": "1.0.9",
+      "revisionTime": "2023-06-11 15:36",
+      "status": "编辑",
+      "author": "Weasley J",
+      "remarks": "更新API文档"
+    },
+    {
+      "version": "1.1.0",
+      "revisionTime": "2023-07-15 15:36",
+      "status": "编辑",
+      "author": "Weasley J",
+      "remarks": "补充API文档"
+    }
+  ]
+}
