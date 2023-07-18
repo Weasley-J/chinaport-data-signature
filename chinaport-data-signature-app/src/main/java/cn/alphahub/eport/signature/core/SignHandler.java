@@ -10,8 +10,10 @@ import cn.alphahub.eport.signature.entity.UkeyResponse.Args;
 import cn.alphahub.eport.signature.entity.UkeyResponseArgsWrapper;
 import cn.alphahub.eport.signature.entity.WebSocketWrapper;
 import cn.alphahub.eport.signature.support.XMLValidator;
+import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.lang.TypeReference;
 import cn.hutool.json.JSONUtil;
+import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -27,6 +29,7 @@ import org.springframework.web.socket.client.WebSocketConnectionManager;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.LockSupport;
@@ -52,13 +55,8 @@ public class SignHandler {
     public static final LocalDateTime DATE_TIME_202207 = LocalDateTimeUtil.parse("2022-07-01", "yyyy-MM-dd");
     @Resource
     private UkeyProperties ukeyProperties;
-
     @Resource
     private CertificateHandler certificateHandler;
-
-    @Resource
-    @Autowired
-    private UkeyProperties ukeyProperties;
     @Autowired
     private WebSocketClientHandler webSocketClientHandler;
     @Autowired
