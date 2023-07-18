@@ -77,12 +77,12 @@ Weasley J（2023-07）
 
 ## 2 软件运行概况
 
-| 序号 | 类目             | 版本                                                         | 备注                 |
-| ---- | ---------------- | ------------------------------------------------------------ | -------------------- |
-| 1    | 软件运行环境     | [Java SE Development Kit 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html) | 基础软件最低运行要求 |
-| 2    | 硬件运行环境     | `Windows-10-x64`/`Windows-11-x64`/`Windows-server-x64`/`Linux`(自行解决内网穿透问题,ukey只能插Windows电脑上) |                      |
-| 3    | 硬件性能要求     | > =1核CPU+2G运行内存                                         | 最低配置             |
-| 4    | 对技术人员的要求 | 会把电子口岸ukey插入安装好[中国国际贸易单一窗口登录管理 (singlewindow.cn)](https://app.singlewindow.cn/cas/login?service=http%3A%2F%2Fwww.singlewindow.cn%2Fsinglewindow%2Flogin.jspx)Windows电脑上，会改启动脚本里面的参数，会用鼠标双击启动脚本 |                      |
+| 序号 | 类目             | 版本                                                         | 备注                                                         |
+| ---- | ---------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| 1    | 软件运行环境     | [Java SE Development Kit 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html) | 基础软件最低运行要求                                         |
+| 2    | 硬件运行环境     | `Windows-10-x64`/`Windows-11-x64`/`Windows-server-x64`/`Linux`(自行解决内网穿透问题,ukey只能插Windows电脑上) |                                                              |
+| 3    | 硬件性能要求     | > =1核CPU+2G运行内存                                         | 最低配置                                                     |
+| 4    | 对技术人员的要求 | 会把电子口岸ukey插入安装好[【中国电子口岸C卡/Key客户端控件】](https://app.singlewindow.cn/cas/login?service=http%3A%2F%2Fwww.singlewindow.cn%2Fsinglewindow%2Flogin.jspx)的`Windows`电脑上，会改启动脚本里面的参数，会用鼠标双击启动脚本 | **卡介质登录**可进入【中国电子口岸C卡/Key客户端控件】下载界面![image-20230718230033785](https://weasley.oss-cn-shanghai.aliyuncs.com/Photos/image-20230718230033785.png) |
 
 ## 3 运行参数配置
 
