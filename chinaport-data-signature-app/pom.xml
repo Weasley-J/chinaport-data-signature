@@ -24,20 +24,22 @@
         <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <spring-cloud-alibaba.version>2022.0.0.0-RC2</spring-cloud-alibaba.version>
         <spring-cloud.version>2022.0.3</spring-cloud.version>
         <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
         <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
         <hutool-all.version>5.8.20</hutool-all.version>
-        <smart-doc.version>2.7.2</smart-doc.version>
+        <smart-doc.version>2.3.7</smart-doc.version>
         <xmlsec.version>3.0.2</xmlsec.version>
         <lombok.version>1.18.28</lombok.version>
         <snakeyaml.version>2.0</snakeyaml.version>
+        <jaxb-api.version>2.3.1</jaxb-api.version>
         <jna.version>3.0.9</jna.version>
         <dtt-utils.version>1.4.1</dtt-utils.version>
+        <nacos.version>2.2.3</nacos.version>
         <commons-io.version>2.13.0</commons-io.version>
         <multiple-email.version>3.0.0</multiple-email.version>
         <signature-data-model.version>1.0.2</signature-data-model.version>
-        <jaxb-api.version>2.3.1</jaxb-api.version>
         <sonar.host.url>http://192.168.31.140:9001</sonar.host.url>
         <sonar.login>admin</sonar.login>
         <sonar.password>123456</sonar.password>
@@ -48,6 +50,8 @@
         <sonar.sourceEncoding>${project.build.sourceEncoding}</sonar.sourceEncoding>
         <sonar.exclusions>src/test/**/*,*.js,*.css,*.html,*.vue,*.bat,*.cmd,*.md,*.NET,*.cpp</sonar.exclusions>
         <sonar-maven-plugin.version>3.9.0.2155</sonar-maven-plugin.version>
+        <maven-compiler-plugin.version>3.9.0</maven-compiler-plugin.version>
+        <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
     </properties>
 
     <dependencies>
@@ -124,6 +128,7 @@
             <scope>test</scope>
         </dependency>
 
+        <!--commons-lang3工具包-->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
@@ -140,6 +145,7 @@
             <artifactId>commons-collections4</artifactId>
         </dependency>
 
+        <!-- hutool工具包 -->
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
@@ -170,14 +176,50 @@
             <version>${jaxb-api.version}</version>
         </dependency>
 
+        <!-- 服务注册/发现 -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+        <!-- nacos start -->
+        <dependency>
+            <groupId>com.alibaba.nacos</groupId>
+            <artifactId>nacos-client</artifactId>
+            <version>${nacos.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.nacos</groupId>
+            <artifactId>nacos-api</artifactId>
+            <version>${nacos.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.nacos</groupId>
+            <artifactId>nacos-common</artifactId>
+            <version>${nacos.version}</version>
+        </dependency>
+        <!-- nacos end -->
+
     </dependencies>
 
     <dependencyManagement>
+        <!-- spring-cloud -->
         <dependencies>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
                 <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- spring-cloud-alibaba -->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring-cloud-alibaba.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
