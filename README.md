@@ -71,9 +71,9 @@ Weasley J（2023-07）
 
 ![image-20230718212545995](https://weasley.oss-cn-shanghai.aliyuncs.com/Photos/image-20230718212545995.png)
 
-- GitBash界面启动
+- `sh start.sh` 启动
 
-![image-20230718213023137](https://weasley.oss-cn-shanghai.aliyuncs.com/Photos/image-20230718213023137.png)
+![image-20230718223133242](https://weasley.oss-cn-shanghai.aliyuncs.com/Photos/image-20230718223133242.png)
 
 
 
