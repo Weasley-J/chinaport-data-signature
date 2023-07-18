@@ -19,14 +19,14 @@ import java.util.function.Function;
  * @version 1.2
  * @date 2021年6月30日
  */
-public class ReflectUtil {
-    private static final Logger log = LoggerFactory.getLogger(ReflectUtil.class);
+public class ReflectUtils {
+    private static final Logger log = LoggerFactory.getLogger(ReflectUtils.class);
 
     private static final String IS = "is";
     private static final String GET = "get";
     private static final String SET = "set";
 
-    private ReflectUtil() {
+    private ReflectUtils() {
     }
 
     /**
@@ -45,11 +45,11 @@ public class ReflectUtil {
      * </pre>
      * <b>使用实例:</b>
      * <pre>
-     * ReflectUtil.property(Person::getName)      = name
-     * ReflectUtil.property(Person::getAge)       = age
-     * ReflectUtil.property(Person::getHobby)     = hobby
-     * ReflectUtil.property(Person::getIs)        = is
-     * ReflectUtil.property(Person::getIsEnable)  = isEnable
+     * ReflectUtils.property(Person::getName)      = name
+     * ReflectUtils.property(Person::getAge)       = age
+     * ReflectUtils.property(Person::getHobby)     = hobby
+     * ReflectUtils.property(Person::getIs)        = is
+     * ReflectUtils.property(Person::getIsEnable)  = isEnable
      * </pre>
      *
      * @param domainLambdaExpression 属性名称lambda表达式
@@ -91,10 +91,10 @@ public class ReflectUtil {
      * </pre>
      * <b>使用示例:</b>
      * <pre>
-     * ReflectUtil.propertyToUnderline(SocialUser::getAccessToken) = access_token
-     * ReflectUtil.propertyToUnderline(SocialUser::getExpiresIn)   = expires_in
-     * ReflectUtil.propertyToUnderline(SocialUser::getUid)         = uid
-     * ReflectUtil.propertyToUnderline(SocialUser::getIsRealName)  = is_real_name
+     * ReflectUtils.propertyToUnderline(SocialUser::getAccessToken) = access_token
+     * ReflectUtils.propertyToUnderline(SocialUser::getExpiresIn)   = expires_in
+     * ReflectUtils.propertyToUnderline(SocialUser::getUid)         = uid
+     * ReflectUtils.propertyToUnderline(SocialUser::getIsRealName)  = is_real_name
      * </pre>
      *
      * @param domainLambdaExpression 属性名称lambda表达式

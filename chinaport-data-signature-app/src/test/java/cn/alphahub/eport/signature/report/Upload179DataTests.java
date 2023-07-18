@@ -12,6 +12,7 @@ import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 import o.github.weasleyj.china.eport.sign.model.customs179.Customs179Request;
 import o.github.weasleyj.china.eport.sign.util.GUIDUtil;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -51,6 +52,7 @@ class Upload179DataTests {
      * </pre>
      */
     @Test
+    @DisplayName("海关179号数据加签并上报")
     void upload() {
         String json1 = """
                 {

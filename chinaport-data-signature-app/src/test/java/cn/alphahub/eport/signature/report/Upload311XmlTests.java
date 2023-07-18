@@ -28,7 +28,7 @@ class Upload311XmlTests {
     ChinaEportReportClient chinaEportReportClient;
 
     @Test
-    @DisplayName("311进口单上报测试")
+    @DisplayName("海关311进口单上报测试")
     void upload() {
         String sourceXml = """
                 <?xml version="1.0" encoding="UTF-8"?>

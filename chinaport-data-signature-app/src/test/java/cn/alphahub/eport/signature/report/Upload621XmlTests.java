@@ -34,7 +34,7 @@ class Upload621XmlTests {
     ChinaEportReportClient chinaEportReportClient;
 
     @Test
-    @DisplayName("621进口单上报测试")
+    @DisplayName("海关621进口单上报测试")
     void upload() {
         String sourceXml = """
                 <ceb:CEB621Message guid="CEB621_HNZB_FXJK_20220209104827_0054" version="v1.0" xmlns:ceb="http://www.chinaport.gov.cn/ceb">
