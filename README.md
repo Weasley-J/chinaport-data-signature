@@ -25,7 +25,7 @@ Weasley J（2023-07）
 >提示:
 > 
 >- 单体应用直接下载[release](https://github.com/Weasley-J/chinaport-data-signature/releases)的二进制文件使用即可（使用较多）
-> - 分布式微服务请切换到`dev-microservice`分支构建（较少使用）
+> - 分布式微服务请切换到[feature_microservice](https://github.com/Weasley-J/chinaport-data-signature/tree/feature_microservice)分支构建（较少使用）
 
 
 
