@@ -33,13 +33,13 @@
         <xmlsec.version>3.0.2</xmlsec.version>
         <lombok.version>1.18.28</lombok.version>
         <snakeyaml.version>2.0</snakeyaml.version>
-        <jaxb-api.version>2.3.1</jaxb-api.version>
         <jna.version>3.0.9</jna.version>
         <dtt-utils.version>1.4.1</dtt-utils.version>
         <nacos.version>2.2.4</nacos.version>
         <commons-io.version>2.13.0</commons-io.version>
         <multiple-email.version>3.0.0</multiple-email.version>
         <signature-data-model.version>1.0.4</signature-data-model.version>
+        <jaxb-api.version>2.3.1</jaxb-api.version>
         <sonar.host.url>http://192.168.31.140:9001</sonar.host.url>
         <sonar.login>admin</sonar.login>
         <sonar.password>123456</sonar.password>
