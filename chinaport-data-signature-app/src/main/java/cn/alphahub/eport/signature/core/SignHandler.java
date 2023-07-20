@@ -13,7 +13,6 @@ import cn.alphahub.eport.signature.support.XMLValidator;
 import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.lang.TypeReference;
 import cn.hutool.json.JSONUtil;
-import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -53,9 +52,9 @@ public class SignHandler {
      * 暂定2022-07-01为第一个时间分解
      */
     public static final LocalDateTime DATE_TIME_202207 = LocalDateTimeUtil.parse("2022-07-01", "yyyy-MM-dd");
-    @Resource
+    @Autowired
     private UkeyProperties ukeyProperties;
-    @Resource
+    @Autowired
     private CertificateHandler certificateHandler;
     @Autowired
     private WebSocketClientHandler webSocketClientHandler;

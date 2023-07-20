@@ -19,11 +19,11 @@ interface IAbstractResponse extends Serializable {
  * 三方数据返回封装
  */
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Accessors(chain = true)
 @ToString(callSuper = true)
-public abstract class ThirdAbstractResponse<P, O, E> implements IAbstractResponse {
+public class ThirdAbstractResponse<P, O, E> implements IAbstractResponse {
     /**
      * 请求数据载荷
      */

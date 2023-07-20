@@ -3,7 +3,7 @@ spring:
     name: chinaport-data-signature
   cloud:
     nacos:
-      server-addr: 101.34.184.17:8848
+      server-addr: 192.168.31.140:8848
       config:
         server-addr: ${spring.cloud.nacos.server-addr}
         group: DEFAULT_GROUP

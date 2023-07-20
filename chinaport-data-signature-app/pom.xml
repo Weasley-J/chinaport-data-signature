@@ -36,10 +36,10 @@
         <jaxb-api.version>2.3.1</jaxb-api.version>
         <jna.version>3.0.9</jna.version>
         <dtt-utils.version>1.4.1</dtt-utils.version>
-        <nacos.version>2.2.3</nacos.version>
+        <nacos.version>2.2.4</nacos.version>
         <commons-io.version>2.13.0</commons-io.version>
         <multiple-email.version>3.0.0</multiple-email.version>
-        <signature-data-model.version>1.0.2</signature-data-model.version>
+        <signature-data-model.version>1.0.4</signature-data-model.version>
         <sonar.host.url>http://192.168.31.140:9001</sonar.host.url>
         <sonar.login>admin</sonar.login>
         <sonar.password>123456</sonar.password>
@@ -55,7 +55,7 @@
     </properties>
 
     <dependencies>
-        <!-- 海关179数据抓取，CEB311Message/CEB621Message等数据模型 -->
+        <!-- 数据模型 -->
         <dependency>
             <groupId>io.github.weasley-j</groupId>
             <artifactId>chinaport-data-signature-data-model</artifactId>
@@ -185,6 +185,10 @@
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
         <!-- nacos start -->
         <dependency>
             <groupId>com.alibaba.nacos</groupId>
@@ -206,7 +210,6 @@
     </dependencies>
 
     <dependencyManagement>
-        <!-- spring-cloud -->
         <dependencies>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
@@ -215,7 +218,6 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <!-- spring-cloud-alibaba -->
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-alibaba-dependencies</artifactId>
