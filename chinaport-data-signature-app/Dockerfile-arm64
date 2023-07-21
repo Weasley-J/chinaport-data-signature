@@ -1,0 +1,8 @@
+# ARM 架构
+FROM adoptopenjdk:17-jdk-hotspot-arm64
+WORKDIR /app
+COPY target/chinaport-data-signature-app.jar /app/
+EXPOSE 8080
+ENV JVM_ARGS="-Xmx512m -Xms256m"
+ENV SPRING_ARGS="--spring.profiles.active=prod"
+CMD ["java", "${JVM_ARGS}", "-jar", "chinaport-data-signature-app.jar","${SPRING_ARGS}"]
