@@ -216,7 +216,7 @@ class Upload621XmlTests {
                     </ceb:CEB621Message>
                     """;
 
-            String XmlBase64String = Base64.encode(xml.getBytes(StandardCharsets.UTF_8));
+            String xmlBase64String = Base64.encode(xml.getBytes(StandardCharsets.UTF_8));
             String parameter = """
                     {
                       "Message": {
@@ -229,11 +229,11 @@ class Upload621XmlTests {
                           "Version": "1.0"
                         },
                         "MessageBody": {
-                          "data": "${XmlBase64String}"
+                          "data": "${xmlBase64String}"
                         }
                       }
                     }
-                    """.replace("${XmlBase64String}", XmlBase64String);
+                    """.replace("${xmlBase64String}", xmlBase64String);
 
             String server = Base64.decodeStr("aHR0cDovLzM2LjEwMS4yMDguMjMwOjgwOTA=");
             HttpResponse response = HttpUtil.createPost(server + "/cebcmsg")
