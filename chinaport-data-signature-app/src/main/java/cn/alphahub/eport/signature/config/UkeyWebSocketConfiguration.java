@@ -20,7 +20,7 @@ import java.util.List;
 @Slf4j
 @Configuration
 @AllArgsConstructor
-public class UkeyWebSocketAuthConfiguration implements WebSocketConfigurer {
+public class UkeyWebSocketConfiguration implements WebSocketConfigurer {
     private final UkeyProperties ukeyProperties;
     private final WebSocketWrapper webSocketWrapper;
     private final CertificateHandler certificateHandler;
