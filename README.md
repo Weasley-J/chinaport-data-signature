@@ -25,11 +25,12 @@ Weasley J（2023-07）
 > 业务场景:
 >
 > - 中国境内的跨进电商业务, 进出口贸易
-> 
->提示:
-> 
->- 单体应用直接下载[release](https://github.com/Weasley-J/chinaport-data-signature/releases)的二进制文件使用即可（使用较多）
+>
+> 提示:
+>
+> - 单体应用直接下载[release](https://github.com/Weasley-J/chinaport-data-signature/releases)的二进制文件使用即可（使用较多）
 > - 分布式微服务请切换到[feature_microservice](https://github.com/Weasley-J/chinaport-data-signature/tree/feature_microservice)分支构建（较少使用）
+> - [通过docker镜像快速搭建](https://hub.docker.com/repository/docker/weasleyj/chinaport-data-signature)
 
 
 

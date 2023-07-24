@@ -1,9 +1,11 @@
 #!/bin/bash
+TAG="1.1.0"
 docker stop chinaport-data-signature && docker rm -f chinaport-data-signature
-docker rmi -f weasleyj/chinaport-data-signature:latest
-docker build -t weasleyj/chinaport-data-signature:latest . -f ./Dockerfile
+docker rmi -f weasleyj/chinaport-data-signature:${TAG}
+docker build -t weasleyj/chinaport-data-signature:${TAG} . -f ./Dockerfile
+docker login -u weasleyj
+docker push weasleyj/chinaport-data-signature:${TAG}
 exit 0
-
 # JVM 参数
 JAVA_OPTS="-Xmx512m -Xms512m"
 # 项目启动的Spring-Boot 启动命令行配置参数
