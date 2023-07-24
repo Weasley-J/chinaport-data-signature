@@ -2,6 +2,10 @@
 
 中国电子口岸（海口海关）报文加签推送应用
 
+![Docker Pulls](https://img.shields.io/docker/pulls/weasleyj/chinaport-data-signature)
+![Docker Image Size (tag)](https://img.shields.io/docker/image-size/weasleyj/chinaport-data-signature/latest)
+![Docker Image Version (latest semver)](https://img.shields.io/docker/v/weasleyj/chinaport-data-signature)
+
 ## 前言
 
 After nearly two years of open-source code maintenance and exploration, we have successfully developed an all-in-one solution that offers free access and usage for a wide range of businesses. This solution aims to digitally sign and forward XML messages to the General Administration of Customs at the Chinese Electronic Port (HaiKou Customs), facilitating cross-border e-commerce operations and import-export trade for enterprises.
@@ -21,11 +25,12 @@ Weasley J（2023-07）
 > 业务场景:
 >
 > - 中国境内的跨进电商业务, 进出口贸易
-> 
->提示:
-> 
->- 单体应用直接下载[release](https://github.com/Weasley-J/chinaport-data-signature/releases)的二进制文件使用即可（使用较多）
+>
+> 提示:
+>
+> - 单体应用直接下载[release](https://github.com/Weasley-J/chinaport-data-signature/releases)的二进制文件使用即可（使用较多）
 > - 分布式微服务请切换到[feature_microservice](https://github.com/Weasley-J/chinaport-data-signature/tree/feature_microservice)分支构建（较少使用）
+> - [通过docker镜像快速搭建](https://hub.docker.com/repository/docker/weasleyj/chinaport-data-signature)
 
 
 

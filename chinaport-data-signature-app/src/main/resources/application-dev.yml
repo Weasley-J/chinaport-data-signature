@@ -58,7 +58,7 @@ eport:
           client-name: C:\中国电子口岸客户端控件\SetAccessControl.exe
     # 客户端请求鉴权token, 生产环境不建议使用默认token
     auth:
-      enable: true
+      enable: off
       token: DefaultAuthToken
     # 报文传输的企业元数据配置（数据上报）
     report:
