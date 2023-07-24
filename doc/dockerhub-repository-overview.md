@@ -33,7 +33,7 @@ WORK_DIR="/usr/local/china-eport-data-signature"
 sudo mkdir -pv ${WORK_DIR}/{logs,}
 # JVM 参数
 JAVA_OPTS="-Xmx512m -Xms512m"
-# 项目启动的Spring-Boot 启动命令行配置参数
+# 项目启动的 Spring-Boot 启动命令行配置参数
 SPRING_ARGS="
 --spring.profiles.active=prod \
 --spring.mail.enable=false \
@@ -56,7 +56,7 @@ SPRING_ARGS="
 --eport.signature.report.ceb-message.server='null' \
 --eport.signature.report.customs179.ebp-code='' \
 --eport.signature.report.customs179.server='null'"
-
+# 创建容器
 docker run --name chinaport-data-signature --restart=always \
   -p 8080:8080 \
   -e TZ=Asia/Shanghai \
