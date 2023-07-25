@@ -2,6 +2,10 @@ server:
   port: 8080
   shutdown: graceful
 
+logging:
+  pattern:
+    dateformat: yyyy-MM-dd HH:mm:ss.SSS
+
 spring:
   application:
     name: chinaport-data-signature
