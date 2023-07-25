@@ -40,6 +40,7 @@
         <multiple-email.version>3.0.0</multiple-email.version>
         <signature-data-model.version>1.0.4</signature-data-model.version>
         <jaxb-api.version>2.3.1</jaxb-api.version>
+        <guava.version>32.1.1-jre</guava.version>
         <sonar.host.url>http://192.168.31.140:9001</sonar.host.url>
         <sonar.login>admin</sonar.login>
         <sonar.password>123456</sonar.password>
@@ -207,6 +208,16 @@
         </dependency>
         <!-- nacos end -->
 
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>
