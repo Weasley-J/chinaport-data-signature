@@ -98,7 +98,7 @@ public class CertificateHandler implements Serializable {
      */
     public static String buildX509CertificateWithHeader(String certPomFromUkey) {
         return "-----BEGIN CERTIFICATE-----\n"
-                .concat(CertificateHandler.buildX509CertificateWithoutHeader(certPomFromUkey)).concat("\n")
+                .concat(buildX509CertificateWithoutHeader(certPomFromUkey)).concat("\n")
                 .concat("-----END CERTIFICATE-----");
     }
 
