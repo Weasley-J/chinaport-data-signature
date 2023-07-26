@@ -37,8 +37,10 @@ docker pull weasleyj/chinaport-data-signature:latest
 # Docker宿主机挂载文件夹
 WORK_DIR="/usr/local/china-eport-data-signature"
 sudo mkdir -pv ${WORK_DIR}/{logs,}
+
 # JVM 参数
 JAVA_OPTS="-Xmx512m -Xms512m"
+
 # 项目启动的 Spring-Boot 启动命令行配置参数
 SPRING_ARGS="--spring.profiles.active=prod \
 --spring.mail.enable=false \
@@ -61,6 +63,7 @@ SPRING_ARGS="--spring.profiles.active=prod \
 --eport.signature.report.ceb-message.server='null' \
 --eport.signature.report.customs179.ebp-code='' \
 --eport.signature.report.customs179.server='null'"
+
 # 删除旧容器
 docker stop chinaport-data-signature && docker rm -f chinaport-data-signature
 # 创建容器
@@ -71,7 +74,6 @@ docker run --name chinaport-data-signature --restart=always \
   -e SPRING_ARGS="${SPRING_ARGS}" \
   -v ${WORK_DIR}/logs:/app/logs \
   -d weasleyj/chinaport-data-signature
-
 ```
 
 - 查看容器日志
