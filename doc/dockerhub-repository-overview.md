@@ -10,32 +10,39 @@ forward XML messages to the General Administration of Customs at the Chinese Ele
 facilitating cross-border e-commerce operations and import-export trade for enterprises.
 经过长达近两年的开源代码维护和探索，我们终于成功开发出一站式解决方案，为更多企业提供免费接入和使用。该解决方案的目标是对中国电子口岸海关（海口海关）总署的XML报文进行加签推送，以促进企业的跨境电商业务和进出口贸易。
 
-## GitHub仓库地址
+## GitHub项目链接
+
 https://github.com/Weasley-J/chinaport-data-signature
 
 # 快速开始
 
 - 删除旧容器
+
 ```bash
 docker stop chinaport-data-signature && docker rm -f chinaport-data-signature
 ```
+
 - 拉取镜像
+
 ```bash
 docker pull weasleyj/chinaport-data-signature:latest
 ```
 
 - 设置环境变量创建容器
-> 配置参数请根据自己的实际情况修改，[应用YAML配置详解](https://github.com/Weasley-J/chinaport-data-signature/blob/main/chinaport-data-signature-app/src/main/resources/application-dev.yml#L43-L71)
+
+>
+配置参数请根据自己的实际情况修改，[应用YAML配置参考示例](https://github.com/Weasley-J/chinaport-data-signature/blob/main/chinaport-data-signature-app/src/main/resources/application-dev.yml#L43-L71)
 
 ```bash
 # Docker宿主机挂载文件夹
 WORK_DIR="/usr/local/china-eport-data-signature"
 sudo mkdir -pv ${WORK_DIR}/{logs,}
+
 # JVM 参数
 JAVA_OPTS="-Xmx512m -Xms512m"
+
 # 项目启动的 Spring-Boot 启动命令行配置参数
-SPRING_ARGS="
---spring.profiles.active=prod \
+SPRING_ARGS="--spring.profiles.active=prod \
 --spring.mail.enable=false \
 --spring.mail.to='abc@qq.com' \
 --spring.mail.cc='abc@outlook.com,abc@qq.com' \
@@ -56,6 +63,9 @@ SPRING_ARGS="
 --eport.signature.report.ceb-message.server='null' \
 --eport.signature.report.customs179.ebp-code='' \
 --eport.signature.report.customs179.server='null'"
+
+# 删除旧容器
+docker stop chinaport-data-signature && docker rm -f chinaport-data-signature
 # 创建容器
 docker run --name chinaport-data-signature --restart=always \
   -p 8080:8080 \
@@ -64,7 +74,6 @@ docker run --name chinaport-data-signature --restart=always \
   -e SPRING_ARGS="${SPRING_ARGS}" \
   -v ${WORK_DIR}/logs:/app/logs \
   -d weasleyj/chinaport-data-signature
-
 ```
 
 - 查看容器日志
