@@ -159,7 +159,7 @@ java -Dfile.encoding=utf-8 ${JVM_ARGS} -jar ${APP}.jar \
 | JDK 17                         | 17.0.7 LTS  | 软件运行的最低JDK版本                                  |
 | spring-boot                    | 3.1.1       |                                                        |
 | spring-cloud                   | 2022.0.0-M1 |                                                        |
-| smart-doc                      | 2.7.2       | 一个自动化的API文档输出工具，效率word、rap2、swagger高 |
+| smart-doc                      | 2.7.3       | 一个自动化的API文档输出工具，效率word、rap2、swagger高 |
 | sonar                          | 3.9.0.2155  | 一款开源的代码质量分析工具，能编码是规避很多潜在bug    |
 | spring-boot-starter-validation | 3.1.1       | spring新一代的参数校验器，替代javax JSR303的工具       |
 | spring-boot-starter-websocket  | 3.1.1       | spring官方维护的websocket starter                      |
