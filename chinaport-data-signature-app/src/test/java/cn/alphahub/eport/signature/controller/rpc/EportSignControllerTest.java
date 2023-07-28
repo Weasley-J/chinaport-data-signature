@@ -170,14 +170,16 @@ class EportSignControllerTest {
 
         // 睡8秒，开始查询回执
         LocalDateTime uploadTime = LocalDateTime.now();
-        TimeUnit.SECONDS.sleep(8);
+        int sleepTime = 15;
+        for (int i = sleepTime; i > 0; i--) {
+            log.warn("开始查询推送回执，海关后台正在处理中，线程挂起剩余 {} 秒。", i);
+            TimeUnit.SECONDS.sleep(1);
+        }
         String url = "http://" + Base64.decodeStr("MzYuMTAxLjIwOC4yMzA=") + ":8090/ceb312msg?" + HttpUtil.toParams(new LinkedHashMap<>() {{
             put("dxpid", chinaEportProperties.getDxpId());
             put("qryid", DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(uploadTime));
         }});
-        HttpResponse receiptResponse = HttpUtil.createGet(url)
-                .execute();
-        log.info("{}", url);
-        log.info("回执结果: {}", receiptResponse.body());
+        HttpResponse receiptResponse = HttpUtil.createGet(url).execute();
+        log.info("\n{}\n回执结果: {}", url, receiptResponse.body()); //回执结果: [{org_id=1, instm=1690556389000, re_order_guid=AOF0YM-WEASLEY-20230728225932-6QVICD, returnstatus=-301014, ebpcode=4601630004, returntime2=20230728225949, ebccode=4601630004, trans_dxpid=DXPENT0000530815, returninfo=订单报文处理失败，接收报文为旧报文数据，不做处理;, returntime=1690556377000, orderno=T_C5051511332138160010}]
     }
 }
