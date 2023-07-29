@@ -12,7 +12,7 @@ spring:
 
   profiles:
     # 适当修改激活环境: dev|test|prod
-    active: dev
+    active: lwj
 
   jackson:
     time-zone: GMT+8

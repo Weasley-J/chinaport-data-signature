@@ -47,10 +47,6 @@ class EportSignControllerTest {
     @Autowired
     ChinaEportReportClient chinaEportReportClient;
 
-    public static void main(String[] args) {
-
-    }
-
     @Test
     @DisplayName("海关XML数据加签+验正签名结果")
     void signAndVerifyXMLSignature() {
