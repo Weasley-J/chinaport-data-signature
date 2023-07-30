@@ -28,6 +28,8 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.concurrent.locks.LockSupport;
 
+import static cn.alphahub.eport.signature.util.XMLUtils.removeFirstLineOfSourceXml;
+
 /**
  * 加签websocket客户端基类
  * <ul><li>全参数构造函数注入IOC</li></ul>
@@ -91,7 +93,7 @@ public class WebSocketClientHandler extends TextWebSocketHandler {
                     webSocketWrapper.getSignResult().setCertNo(responseArgs.getData().get(1));
                     if (SignHandler.isSignXml(webSocketWrapper.getRequest())) {
                         webSocketWrapper.getSignResult().setX509Certificate(certificateHandler.getX509Certificate(response.get_method()));
-                        webSocketWrapper.getSignResult().setSignatureNode(ChinaEportReportClient.buildSignedInfoNode(webSocketWrapper.getSignResult()));
+                        webSocketWrapper.getSignResult().setSignatureNode(removeFirstLineOfSourceXml(ChinaEportReportClient.buildSignedInfoNode(webSocketWrapper.getSignResult())));
                     }
                 } else {
                     sendAlertSignFailure(JacksonUtil.toPrettyJson(response));
