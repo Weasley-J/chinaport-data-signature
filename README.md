@@ -79,11 +79,24 @@
 
 
 
-## 1  项目代码质量
+## 1 支持的电子口岸
+
+> [核心加签接口](https://github.com/Weasley-J/chinaport-data-signature/blob/main/%E4%B8%AD%E5%9B%BD%E7%94%B5%E5%AD%90%E5%8F%A3%E5%B2%B8%E6%8A%A5%E6%96%87%E5%8A%A0%E7%AD%BE%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3.md#%E6%B5%B7%E5%85%B3%E6%95%B0%E6%8D%AE%E5%8A%A0%E7%AD%BE)理论上支持中国内地的大部分**地方电子口岸**
+
+| 电子口岸名称 | 是否支持 | 是否验证 |
+| ------------ | -------- | -------- |
+| 海口电子口岸 | ✅        | ✅        |
+| 广州电子口岸 | ✅        | ✅        |
+| 郑州电子口岸 | ✅        | 待验证   |
+| ...          |          |          |
+
+
+
+## 2  项目代码质量
 
 ![image-20230728152146033](https://weasley.oss-cn-shanghai.aliyuncs.com/Photos/image-20230728152146033.png)
 
-## 2 软件运行概况
+## 3 软件运行概况
 
 | 序号 | 类目             | 版本                                                         | 备注                                                         |
 | ---- | ---------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -92,7 +105,7 @@
 | 3    | 硬件性能要求     | > =1核CPU+2G运行内存                                         | 最低配置                                                     |
 | 4    | 对技术人员的要求 | 会把电子口岸ukey插入安装好[【中国电子口岸C卡/Key客户端控件】](https://app.singlewindow.cn/cas/login?service=http%3A%2F%2Fwww.singlewindow.cn%2Fsinglewindow%2Flogin.jspx)的`Windows`电脑上，会改启动脚本里面的参数，会用鼠标双击启动脚本 | **卡介质登录**可进入【中国电子口岸C卡/Key客户端控件】下载界面![image-20230718230033785](https://weasley.oss-cn-shanghai.aliyuncs.com/Photos/image-20230718230033785.png) |
 
-## 3 运行参数配置
+## 4 运行参数配置
 
 > 本应用是标准的`springboot`应用，支持`springboot`
 > 的所有配置参数，推荐通过在[线`yaml`转`properties`](https://www.toyaml.com/index.html)将配置元数据复制到命令行参数中按需使用,
@@ -116,13 +129,13 @@
 | eport.signature.report.customs179.ebp-code       | Y               | [海关 179 数据上报](https://github.com/Weasley-J/chinaport-data-signature/blob/main/chinaport-data-signature-app/src/main/java/cn/alphahub/eport/signature/config/Customs179Properties.java#L24)的电商平台代码 |
 | eport.signature.report.customs179.server         | N               | 数据上报服务器URL地址，链接格式: https://域名联系海关/ceb2grab/grab/realTimeDataUpload，<u>没有配置的话采用项目内置的URL密文地址</u> |
 
-## 4 项目启动脚本
+## 5 项目启动脚本
 
-#### 4.1 Windows环境
+#### 5.1 Windows环境
 
 [正确配置方式](https://github.com/Weasley-J/chinaport-data-signature/blob/main/%E4%BD%BF%E7%94%A8GitBash%E5%8F%B3%E9%94%AE%E8%BF%90%E8%A1%8C%E5%90%AF%E5%8A%A8%E8%84%9A%E6%9C%AC.md)
 
-#### 4.2 Linux/MacOS环境
+#### 5.2 Linux/MacOS环境
 
 > 运行方式：终端执行`sh start.sh`启动程序
 
@@ -152,7 +165,7 @@ java -Dfile.encoding=utf-8 ${JVM_ARGS} -jar ${APP}.jar \
   --spring.mail.properties.mail.debug=false
 ```
 
-## 5 软件架构
+## 6 软件架构
 
 | 类目                           | 版本        | 备注                                                   |
 | ------------------------------ | ----------- | ------------------------------------------------------ |
@@ -168,7 +181,7 @@ java -Dfile.encoding=utf-8 ${JVM_ARGS} -jar ${APP}.jar \
 
 
 
-## 6 开发文档
+## 7 开发文档
 
 > 本项目已支持直接使用`JSON`数据加签上报，告别XML数据、179特殊数据组装那样三拜九叩的繁琐！
 
@@ -219,15 +232,15 @@ java -Dfile.encoding=utf-8 ${JVM_ARGS} -jar ${APP}.jar \
 
 
 
-## 7 支持赞助
+## 支持赞助
 
-### 7.1 为什么赞助
+### 为什么赞助
 
 - **降低企业成本**：我们的项目为企业提供了一站式解决方案，摆脱了每年支付高额费用购买加签设备的负担。您的赞助可以帮助更多企业降低经营成本，提高竞争力。
 - **促进技术共享**：通过开源，我们希望能够促进技术共享和合作。您的赞助将鼓励我们继续开发和分享更多优质的解决方案，使得整个行业都能从中受益。
 - **支持项目发展**：我们致力于不断改进和完善该项目，包括修复漏洞、添加新功能和提供更好的文档支持。您的赞助将直接用于项目的开发、测试和维护，确保项目的持续稳定和可靠性。
 
-### 7.2 如何赞助
+### 如何赞助
 
 我们非常感激您对我们项目的赞助支持！您可以通过以下方式进行赞助：
 
@@ -254,13 +267,13 @@ java -Dfile.encoding=utf-8 ${JVM_ARGS} -jar ${APP}.jar \
 
 - **宣传推广**：如果您无法提供直接的赞助，您还可以通过在社交媒体上宣传、分享我们的项目，帮助我们扩大影响力。
 
-### 7.3 感谢您的支持
+### 感谢您的支持
 
 我们衷心感谢您对我们项目的关注和支持！您的赞助将鼓励我们继续改进和提供更好的解决方案，造福更多的企业和开发者。如果您有任何问题或者疑问，请随时联系我们, 联系邮箱: 1432689025@qq.com
 
 
 
-## 8 接入企业登记
+## 接入企业登记
 
 感谢您对我们项目的赞助支持！为了更好地记录和感谢每一家接入企业，我们在此邀请您在捐赠时留下您的公司名，以便我们将您的公司列入接入企业名单中。您可以在捐赠备注中提供您的公司名，或者在捐赠后通过邮件等方式将公司名发送给我们。
 
@@ -270,7 +283,7 @@ java -Dfile.encoding=utf-8 ${JVM_ARGS} -jar ${APP}.jar \
 
 
 
-## 9 接入企业
+## 接入企业
 
 > 排名不分先后，从2023-07-11开始登记
 
