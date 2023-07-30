@@ -72,6 +72,25 @@ public final class XMLUtils {
     }
 
     /**
+     * 移除XML第一行: <?xml version="1.0" encoding="UTF-8"?>
+     *
+     * @param sourceXml 原始XML
+     * @return 原始XML（移除第一行：<?xml version="1.0" encoding="UTF-8"?>）
+     */
+    public static String removeFirstLineOfSourceXml(String sourceXml) {
+        String firstLine = """
+                <?xml version="1.0" encoding="UTF-8"?>
+                """;
+        if (sourceXml.startsWith(firstLine)) {
+            int index = sourceXml.indexOf('\n');
+            if (index >= 0) {
+                return sourceXml.substring(index + 1);
+            }
+        }
+        return sourceXml;
+    }
+
+    /**
      * 由XML字符串 -> Java对象
      *
      * @param xml    XML字符串
