@@ -77,7 +77,7 @@ class Upload303XmlTests {
                     put("data", data);
                 }}))
                 .execute();
-        System.err.println(JacksonUtil.toPrettyJson(response.body()));
+        System.err.println(response.body());
         Result<SignResult> result = JacksonUtil.readValue(response.body(), new TypeReference<Result<SignResult>>() {
         });
         System.err.println("\n" + result.getData().getSignatureNode());
