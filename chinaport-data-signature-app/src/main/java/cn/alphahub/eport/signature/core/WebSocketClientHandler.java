@@ -56,11 +56,11 @@ public class WebSocketClientHandler extends TextWebSocketHandler {
     @Getter
     private final CertificateHandler certificateHandler;
     @Autowired
-    private UkeyHealthHelper ukeyHealthHelper;
-    @Autowired
     private EmailTemplate emailTemplate;
     @Autowired
     private EmailProperties emailProperties;
+    @Autowired
+    private UkeyHealthHelper ukeyHealthHelper;
 
     public WebSocketClientHandler(UkeyProperties ukeyProperties, WebSocketWrapper webSocketWrapper, CertificateHandler certificateHandler) {
         this.ukeyProperties = ukeyProperties;
@@ -91,6 +91,7 @@ public class WebSocketClientHandler extends TextWebSocketHandler {
                     webSocketWrapper.getSignResult().setCertNo(responseArgs.getData().get(1));
                     if (SignHandler.isSignXml(webSocketWrapper.getRequest())) {
                         webSocketWrapper.getSignResult().setX509Certificate(certificateHandler.getX509Certificate(response.get_method()));
+                        webSocketWrapper.getSignResult().setSignatureNode(ChinaEportReportClient.buildSignedInfoNode(webSocketWrapper.getSignResult()));
                     }
                 } else {
                     sendAlertSignFailure(JacksonUtil.toPrettyJson(response));
