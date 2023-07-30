@@ -26,7 +26,7 @@
 - 对于单体应用，您可以直接下载[release](https://github.com/Weasley-J/chinaport-data-signature/releases)中的二进制文件使用（使用较多），根据您的实际情况适当修改运行参数。
 - 对于分布式微服务，建议切换到[feature_microservice](https://github.com/Weasley-J/chinaport-data-signature/tree/feature_microservice)分支进行构建（较少使用）。
 - 您还可以通过[Docker镜像快速搭建报文加签推送的环境](https://hub.docker.com/repository/docker/weasleyj/chinaport-data-signature)。
-- 如果您的电商后台系统也是使用`Java`语言开发，我们在[Maven仓库中上传了项目中用到的数据模型](https://central.sonatype.com/artifact/io.github.weasley-j/chinaport-data-signature-data-model/1.0.4)，可帮助您的系统与本项目快速集成。您只需要使用这些数据模型填充数据，然后使用`JSON`进行数据交互，从而降低对接成本。
+- 如果您的电商后台系统也是使用`Java`语言开发，我们在[Maven仓库中上传了项目中用到的数据模型](https://central.sonatype.com/artifact/io.github.weasley-j/chinaport-data-signature-data-model)，可帮助您的系统与本项目快速集成。您只需要使用这些数据模型填充数据，然后使用`JSON`进行数据交互，从而降低对接成本。
 
 ### 功能概述
 
@@ -277,6 +277,7 @@ java -Dfile.encoding=utf-8 ${JVM_ARGS} -jar ${APP}.jar \
 感谢以下公司对我们项目的赞助和支持：
 
 - 海南省荣誉进出口贸易有限公司：[官方网站](http://www.hnzrjck.com/)
+- 广州市汇客物流有限公司
 - ...
 
 如果您的公司已赞助我们的项目，但在列表中没有找到，请及时与我们联系，我们将尽快添加您的公司名。
