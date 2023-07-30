@@ -145,8 +145,6 @@ class EportSignControllerTest {
                 </ceb:CEB311Message>
                 """;
         SignRequest request = new SignRequest(xml);
-        SignResult result = controller.signature(request).getData();
-
         // 组装数据
         CEB311Message ceb311Message = JAXBUtil.toBean(xml, CEB311Message.class);
         String guid = GUIDUtil.getGuid();

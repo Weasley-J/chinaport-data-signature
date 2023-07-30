@@ -8,7 +8,11 @@
 
 ### 1.1 海关 179 数据抓取报文
 
-### 1.2 海关总署`xml`报文, 进口单：CEB311Message, CEB621Message
+### 1.2 海关总署`xml`报文
+
+进口单：CEB311Message, CEB621Message,
+
+出口单:  CEB303Message
 
 
 

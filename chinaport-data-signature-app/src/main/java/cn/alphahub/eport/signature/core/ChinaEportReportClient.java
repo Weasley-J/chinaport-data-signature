@@ -25,6 +25,7 @@ import o.github.weasleyj.china.eport.sign.IMessageType;
 import o.github.weasleyj.china.eport.sign.model.cebmessage.BaseTransfer;
 import o.github.weasleyj.china.eport.sign.model.cebmessage.CEB311Message;
 import o.github.weasleyj.china.eport.sign.model.cebmessage.CEB621Message;
+import o.github.weasleyj.china.eport.sign.model.cebmessage.export.CEB303Message;
 import o.github.weasleyj.china.eport.sign.model.customs179.Customs179Request;
 import o.github.weasleyj.china.eport.sign.model.request.Message;
 import o.github.weasleyj.china.eport.sign.model.request.MessageBody;
@@ -83,6 +84,61 @@ public class ChinaEportReportClient {
     private final UkeyProperties ukeyProperties;
     private final Customs179Properties customs179Properties;
     private final ChinaEportProperties chinaEportProperties;
+
+    /**
+     * 构建 ds:Signature 节点
+     *
+     * @param signResult 加签结果
+     * @return ds:Signature 节点
+     */
+    public static String buildSignatureNode(SignResult signResult) {
+        KeyInfo keyInfo = KeyInfo.builder()
+                .keyName(signResult.getCertNo())
+                .x509Data(new X509Data(signResult.getX509Certificate()))
+                .build();
+
+        Reference reference = Reference.builder()
+                .digestMethod(new DigestMethod())
+                .uri("")
+                .transforms(new Transforms())
+                .digestValue(signResult.getDigestValue())
+                .build();
+
+        SignedInfo signedInfo = SignedInfo.builder()
+                .CanonicalizationMethod(new CanonicalizationMethod())
+                .SignatureMethod(new SignatureMethod().setAlgorithm(SignatureHandler.getSignatureMethodAlgorithm()))
+                .reference(reference)
+                .build();
+
+        Signature signature = Signature.builder()
+                .keyInfo(keyInfo)
+                .signatureValue(signResult.getSignatureValue())
+                .signedInfo(signedInfo)
+                .build();
+
+        return JAXBUtil.toXml(signature);
+    }
+
+    /**
+     * 构建 ds:SignedInfo 节点
+     *
+     * @param signResult 加签结果
+     * @return ds:SignedInfo 节点
+     */
+    public static String buildSignedInfoNode(SignResult signResult) {
+        Reference reference = Reference.builder()
+                .digestMethod(new DigestMethod())
+                .uri("")
+                .transforms(new Transforms())
+                .digestValue(signResult.getDigestValue())
+                .build();
+        SignedInfo signedInfo = SignedInfo.builder()
+                .CanonicalizationMethod(new CanonicalizationMethod())
+                .SignatureMethod(new SignatureMethod().setAlgorithm(SignatureHandler.getSignatureMethodAlgorithm()))
+                .reference(reference)
+                .build();
+        return JAXBUtil.toXml(signedInfo);
+    }
 
     /**
      * CebXxxMessage数据上报海关
@@ -206,6 +262,13 @@ public class ChinaEportReportClient {
                         buildBaseTransfer(ceb621Message.getBaseTransfer());
                         yield ceb621Message;
                     }
+                    case CEB303Message -> {
+                        CEB303Message ceb303Message = Objects.requireNonNull(JAXBUtil.toBean(cebMessage, CEB303Message.class));
+                        ceb303Message.setGuid(guid);
+                        ceb303Message.getOrder().getOrderHead().setGuid(guid);
+                        buildBaseTransfer(ceb303Message.getBaseTransfer());
+                        yield ceb303Message;
+                    }
                 };
             }
             case JSON -> {
@@ -225,6 +288,14 @@ public class ChinaEportReportClient {
                         ceb621Message.getInventory().getInventoryHead().setGuid(guid);
                         buildBaseTransfer(ceb621Message.getBaseTransfer());
                         yield ceb621Message;
+                    }
+                    case CEB303Message -> {
+                        CEB303Message ceb303Message = JSONUtil.toBean(cebMessage, new TypeReference<>() {
+                        }, false);
+                        ceb303Message.setGuid(guid);
+                        ceb303Message.getOrder().getOrderHead().setGuid(guid);
+                        buildBaseTransfer(ceb303Message.getBaseTransfer());
+                        yield ceb303Message;
                     }
                 };
             }
@@ -310,31 +381,7 @@ public class ChinaEportReportClient {
      * @param sourceXml 原始XML
      */
     private String buildXml(SignResult signResult, String sourceXml, IMessageType messageType) {
-        KeyInfo keyInfo = KeyInfo.builder()
-                .keyName(signResult.getCertNo())
-                .x509Data(new X509Data(signResult.getX509Certificate()))
-                .build();
-
-        Reference reference = Reference.builder()
-                .digestMethod(new DigestMethod())
-                .uri("")
-                .transforms(new Transforms())
-                .digestValue(signResult.getDigestValue())
-                .build();
-
-        SignedInfo signedInfo = SignedInfo.builder()
-                .CanonicalizationMethod(new CanonicalizationMethod())
-                .SignatureMethod(new SignatureMethod().setAlgorithm(SignatureHandler.getSignatureMethodAlgorithm()))
-                .reference(reference)
-                .build();
-
-        Signature signature = Signature.builder()
-                .keyInfo(keyInfo)
-                .signatureValue(signResult.getSignatureValue())
-                .signedInfo(signedInfo)
-                .build();
-
-        String signatureNode = JAXBUtil.toXml(signature);
+        String signatureNode = buildSignatureNode(signResult);
         String xmlStart = "</ceb:" + messageType.getMessageType() + ">";
         int index = sourceXml.indexOf(xmlStart);
         StringBuilder builder = new StringBuilder(sourceXml);
