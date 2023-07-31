@@ -63,7 +63,7 @@ class EportSignControllerTest {
         argsMap.put("signData", result.getSignatureValue());
         argsMap.put("certDataPEM", result.getX509Certificate());
         Args args = signHandler.getUkeyResponseArgs(new UkeyRequest("cus-sec_SpcVerifySignData", argsMap));
-        System.err.println("验签结果: " + args.getData().get(0));
+        System.err.println("验签结果: " + args.getData().get(0)); //验签结果: 成功!
     }
 
     @Test

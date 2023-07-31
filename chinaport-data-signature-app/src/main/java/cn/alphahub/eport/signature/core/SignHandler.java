@@ -121,6 +121,7 @@ public class SignHandler {
         wrapper.setThreadReference(new AtomicReference<>(Thread.currentThread()));
         if (SignHandler.isSignXml(request)) {
             wrapper.getSignResult().setDigestValue(SignatureHandler.getDigestValueOfCEBXxxMessage(request.getData()));
+            wrapper.getSignResult().setSignatureNode(SignatureHandler.getSignatureNodeBeforeSend(request));
         }
 
         WebSocketConnectionManager manager = new WebSocketConnectionManager(standardWebSocketClient, webSocketClientHandler, ukeyProperties.getWsUrl());
