@@ -214,8 +214,8 @@ public final class SignatureHandler {
         CertificateHandler certificateHandler = SpringUtil.getBean(CertificateHandler.class);
         SignatureAlgorithmProperties algorithmProperties = SpringUtil.getBean(SignatureAlgorithmProperties.class);
         if (null != algorithmProperties.getAlgorithm()) {
-            return algorithmProperties.getAlgorithm().getXmlAlgorithmValue();
+            return algorithmProperties.getAlgorithm().getSignatureMethod();
         }
-        return certificateHandler.getAlgorithm().getXmlAlgorithmValue();
+        return certificateHandler.getAlgorithm().getSignatureMethod();
     }
 }
