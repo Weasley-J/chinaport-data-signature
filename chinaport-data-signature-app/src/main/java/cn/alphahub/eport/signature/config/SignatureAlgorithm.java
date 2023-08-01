@@ -28,14 +28,14 @@ public enum SignatureAlgorithm {
      */
     private final String sigAlgName;
     /**
-     * XML代码段中s:SignatureMethod的算法值
+     * XML代码段中 ds:SignatureMethod 的算法值
      * <p>
      * XML Signature Method:
      * <pre>
      *  {@code <ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#${algorithmType}"/>}
      * </pre>
      */
-    private final String xmlAlgorithmValue;
+    private final String signatureMethod;
 
     public static SignatureAlgorithm getSignatureAlgorithmSigAlgName(String sigAlgName) {
         return Arrays.stream(values())
