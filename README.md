@@ -71,13 +71,11 @@
 
 - 右键启动
 
-![image-20230718212545995](https://weasley.oss-cn-shanghai.aliyuncs.com/Photos/image-20230718212545995.png)
+![image-20230802164628925](https://weasley.oss-cn-shanghai.aliyuncs.com/Photos/image-20230802164628925.png)
 
 - `sh start.sh` 启动
 
-![image-20230718223133242](https://weasley.oss-cn-shanghai.aliyuncs.com/Photos/image-20230718223133242.png)
-
-
+![image-20230802165954038](https://weasley.oss-cn-shanghai.aliyuncs.com/Photos/image-20230802165954038.png)
 
 ## 1 支持的电子口岸
 
