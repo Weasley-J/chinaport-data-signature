@@ -211,7 +211,7 @@ public class UkeyInitialConfig implements ApplicationRunner {
                         UkeyResponse.Args responseArgs = response.get_args();
                         if (responseArgs.getResult().equals(true) && CollectionUtils.isNotEmpty(responseArgs.getData())) {
                             certMap.put(SING_DATA_METHOD, responseArgs.getData().get(0));
-                            log.warn("已从电子口岸u-key中获取到未经hash算法的x509Certificate证书: {}", JacksonUtil.toJson(certMap));
+                            log.warn("已从电子口岸u-key中获取到x509Certificate证书: {}", JacksonUtil.toJson(certMap));
                         }
                     }
                 } catch (Exception e) {
