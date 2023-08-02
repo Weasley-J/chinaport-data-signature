@@ -81,3 +81,7 @@ docker run --name chinaport-data-signature --restart=always \
 ```bash
 docker logs -f chinaport-data-signature
 ```
+
+- 容器启动界面
+
+![image-20230802173020695](https://weasley.oss-cn-shanghai.aliyuncs.com/Photos/image-20230802173020695.png)
