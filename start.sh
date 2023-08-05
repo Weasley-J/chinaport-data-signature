@@ -6,7 +6,7 @@ UKEY_HOST="127.0.0.1"
 UKEY_PASSWORD="88888888"
 JVM_ARGS="-Xms1g -Xmx1g"
 
-java -Dfile.encoding=utf-8 ${JVM_ARGS} -jar ${APP}.jar \
+java -Dfile.encoding=utf-8 "${JVM_ARGS}" -jar ${APP}.jar \
   --server.port=8080 \
   --spring.profiles.active=prod \
   --eport.signature.ukey.ws-url=ws://${UKEY_HOST}:61232 \

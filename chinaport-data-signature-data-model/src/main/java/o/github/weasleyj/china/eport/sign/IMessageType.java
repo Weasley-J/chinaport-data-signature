@@ -9,7 +9,16 @@ import java.io.Serializable;
  */
 public interface IMessageType extends Serializable {
     /**
+     * 进口单报文
+     */
+    String IMPORT_MESSAGE = "进口单报文";
+    /**
+     * 出口单报文
+     */
+    String EXPORT_MESSAGE = "出口单报文";
+
+    /**
      * 消息类型：CEB311Message|CEB621Message|...
      */
-    String getMessageType();
+    String getType();
 }

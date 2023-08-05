@@ -34,7 +34,9 @@ public class BaseTransfer implements Serializable {
      */
     @XmlElement(namespace = NAMESPACE_CEB_URI)
     private String copName;
-
+    /**
+     * 默认为 DXP; 指中国电子口岸数据交换平台
+     */
     @XmlElement(namespace = NAMESPACE_CEB_URI)
     private String dxpMode;
 
