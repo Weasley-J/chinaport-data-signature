@@ -24,9 +24,9 @@ public enum SignatureAlgorithm {
      */
     private final String algorithmType;
     /**
-     * 签名算法
+     * 算法名称
      */
-    private final String sigAlgName;
+    private final String algorithmName;
     /**
      * XML代码段中 ds:SignatureMethod 的算法值
      * <p>
@@ -39,7 +39,7 @@ public enum SignatureAlgorithm {
 
     public static SignatureAlgorithm getSignatureAlgorithmSigAlgName(String sigAlgName) {
         return Arrays.stream(values())
-                .filter(original -> Objects.equals(original.getSigAlgName(), sigAlgName))
+                .filter(original -> Objects.equals(original.getAlgorithmName(), sigAlgName))
                 .findFirst().orElse(null);
     }
 }
