@@ -44,32 +44,36 @@ public class OrderHead implements Serializable {
     @XmlElement(namespace = NAMESPACE_CEB_URI)
     private String appStatus;
     /**
-     * 5-订单类型-orderType-C1-是-电子订单类型：I进口
+     * 订单类型E-B2C出口订单;B-B2B出口 修改字段 订单;W-海外仓订仓单
      */
     @XmlElement(namespace = NAMESPACE_CEB_URI)
     private String orderType;
     /**
-     * 6-订单编号-orderNo-C..60-是-交易平台的订单编号，同一交易平台的订单编号应唯一。订单编号长度不能超过60位。
+     * 电商平台订单编号/海外仓订仓单编号 (唯一不重复)-orderNo-C..60-是-交易平台的订单编号，同一交易平台的订单编号应唯一。订单编号长度不能超过60位。
      */
     @XmlElement(namespace = NAMESPACE_CEB_URI)
     private String orderNo;
     /**
-     * 7-电商平台代码-ebpCode-C..18-是-电商平台的海关注册登记编号；电商平台未在海关注册登记，由电商企业发送订单的，以中国电子口岸发布的电商平台标识编号为准。
+     * 电商平台代码，电商平台海关注册登记编号或统一社会信用代码。境内企业需据实填写海关注册登记编号或统一社会信用代码，境外平台企业如无法提供电商平台代码可填“无”。
      */
     @XmlElement(namespace = NAMESPACE_CEB_URI)
     private String ebpCode;
     /**
-     * 8-电商平台名称-ebpName-C..100-是-电商平台的海关注册登记名称；电商平台未在海关注册登记，由电商企业发送订单的，以中国电子口岸发布的电商平台名称为准。
+     * 电商平台 /海外仓 名称，电商平台登记名称或海外仓名称。
      */
     @XmlElement(namespace = NAMESPACE_CEB_URI)
     private String ebpName;
     /**
-     * 9-电商企业代码-ebcCode-C..18-是-电商企业的海关注册登记编号。
+     * 9-电商企业代码-ebcCode-C..18-是-电商企业的海关注册登记编号
+     *
+     * @apiNote 电商平台海关注册登记编号或统一社会信用代码。境内企业需据实填写海关注册登记编号或统一社会信用代码，境外平台企业如无法提供电商平台代码可填“无”
      */
     @XmlElement(namespace = NAMESPACE_CEB_URI)
     private String ebcCode;
     /**
      * 10-电商企业名称-ebcName-C..100-是-电商企业的海关注册登记名称。
+     *
+     * @apiNote 电商平台登记名称或海外仓名称。
      */
     @XmlElement(namespace = NAMESPACE_CEB_URI)
     private String ebcName;

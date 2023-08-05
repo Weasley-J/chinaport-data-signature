@@ -148,7 +148,7 @@ public class ChinaEportReportClient {
      * @return 推送结果, OK: 表示成功, 报关结果需要自己查询回执
      */
     public ThirdAbstractResponse<MessageRequest, String, String> report(AbstractCebMessage cebMessage, IMessageType messageType) {
-        log.info("数据上报海关xml入参: {}, {}", JSONUtil.toJsonStr(cebMessage), messageType.getMessageType());
+        log.info("数据上报海关xml入参: {}, {}", JSONUtil.toJsonStr(cebMessage), messageType.getType());
         MessageRequest messageRequest = buildMessageRequest(cebMessage, messageType);
         String requestServer = Base64.decodeStr(EPORT_CEBMESSAGE_SERVER_ENCODE);
         requestServer = StringUtils.defaultIfBlank(chinaEportProperties.getServer(), requestServer);
@@ -241,13 +241,17 @@ public class ChinaEportReportClient {
 
     /**
      * 推断CebMessage的具体的XML入参解析成Java对象
+     *
+     * @implNote 已实现: CEB311Message,CEB621Message,CEB303Message
      */
+    @SuppressWarnings("all")
     public AbstractCebMessage buildCebMessage(UploadCEBMessageRequest request) {
         String guid = GUIDUtil.getGuid();
         String cebMessage = String.valueOf(request.getCebMessage());
         switch (request.getDataType()) {
             case XML -> {
                 return switch (request.getMessageType()) {
+                    // 进口单XML报文解析
                     case CEB311Message -> {
                         CEB311Message ceb311Message = Objects.requireNonNull(JAXBUtil.toBean(cebMessage, CEB311Message.class));
                         ceb311Message.setGuid(guid);
@@ -255,6 +259,13 @@ public class ChinaEportReportClient {
                         buildBaseTransfer(ceb311Message.getBaseTransfer());
                         yield ceb311Message;
                     }
+                    case CEB312Message -> null;
+                    case CEB411Message -> null;
+                    case CEB412Message -> null;
+                    case CEB511Message -> null;
+                    case CEB512Message -> null;
+                    case CEB513Message -> null;
+                    case CEB514Message -> null;
                     case CEB621Message -> {
                         CEB621Message ceb621Message = Objects.requireNonNull(JAXBUtil.toBean(cebMessage, CEB621Message.class));
                         ceb621Message.setGuid(guid);
@@ -262,6 +273,17 @@ public class ChinaEportReportClient {
                         buildBaseTransfer(ceb621Message.getBaseTransfer());
                         yield ceb621Message;
                     }
+                    case CEB622Message -> null;
+                    case CEB623Message -> null;
+                    case CEB624Message -> null;
+                    case CEB625Message -> null;
+                    case CEB626Message -> null;
+                    case CEB711Message -> null;
+                    case CEB712Message -> null;
+                    case CEB213Message -> null;
+                    case CEB214Message -> null;
+                    case CEB215Message -> null;
+                    case CEB216Message -> null;
                     case CEB303Message -> {
                         CEB303Message ceb303Message = Objects.requireNonNull(JAXBUtil.toBean(cebMessage, CEB303Message.class));
                         ceb303Message.setGuid(guid);
@@ -269,6 +291,25 @@ public class ChinaEportReportClient {
                         buildBaseTransfer(ceb303Message.getBaseTransfer());
                         yield ceb303Message;
                     }
+                    // 出口单XML报文
+                    case CEB304Message -> null;
+                    case CEB403Message -> null;
+                    case CEB404Message -> null;
+                    case CEB505Message -> null;
+                    case CEB506Message -> null;
+                    case CEB507Message -> null;
+                    case CEB508Message -> null;
+                    case CEB509Message -> null;
+                    case CEB510Message -> null;
+                    case CEB603Message -> null;
+                    case CEB604Message -> null;
+                    case CEB605Message -> null;
+                    case CEB606Message -> null;
+                    case CEB607Message -> null;
+                    case CEB608Message -> null;
+                    case CEB701Message -> null;
+                    case CEB702Message -> null;
+                    case CEB792Message -> null;
                 };
             }
             case JSON -> {
@@ -281,6 +322,14 @@ public class ChinaEportReportClient {
                         buildBaseTransfer(ceb311Message.getBaseTransfer());
                         yield ceb311Message;
                     }
+                    // 进口单JSON报文解析
+                    case CEB312Message -> null;
+                    case CEB411Message -> null;
+                    case CEB412Message -> null;
+                    case CEB511Message -> null;
+                    case CEB512Message -> null;
+                    case CEB513Message -> null;
+                    case CEB514Message -> null;
                     case CEB621Message -> {
                         CEB621Message ceb621Message = JSONUtil.toBean(cebMessage, new TypeReference<>() {
                         }, false);
@@ -289,6 +338,18 @@ public class ChinaEportReportClient {
                         buildBaseTransfer(ceb621Message.getBaseTransfer());
                         yield ceb621Message;
                     }
+                    case CEB622Message -> null;
+                    case CEB623Message -> null;
+                    case CEB624Message -> null;
+                    case CEB625Message -> null;
+                    case CEB626Message -> null;
+                    case CEB711Message -> null;
+                    case CEB712Message -> null;
+                    case CEB213Message -> null;
+                    case CEB214Message -> null;
+                    case CEB215Message -> null;
+                    case CEB216Message -> null;
+                    // 出口单JSON报文解析
                     case CEB303Message -> {
                         CEB303Message ceb303Message = JSONUtil.toBean(cebMessage, new TypeReference<>() {
                         }, false);
@@ -297,6 +358,24 @@ public class ChinaEportReportClient {
                         buildBaseTransfer(ceb303Message.getBaseTransfer());
                         yield ceb303Message;
                     }
+                    case CEB304Message -> null;
+                    case CEB403Message -> null;
+                    case CEB404Message -> null;
+                    case CEB505Message -> null;
+                    case CEB506Message -> null;
+                    case CEB507Message -> null;
+                    case CEB508Message -> null;
+                    case CEB509Message -> null;
+                    case CEB510Message -> null;
+                    case CEB603Message -> null;
+                    case CEB604Message -> null;
+                    case CEB605Message -> null;
+                    case CEB606Message -> null;
+                    case CEB607Message -> null;
+                    case CEB608Message -> null;
+                    case CEB701Message -> null;
+                    case CEB702Message -> null;
+                    case CEB792Message -> null;
                 };
             }
             default -> throw new IllegalStateException("Unexpected value: " + toJson(request));
@@ -324,7 +403,7 @@ public class ChinaEportReportClient {
         }
         String sourceXml = JAXBUtil.toXml(cebMessage);
         MessageHead messageHead = new MessageHead();
-        messageHead.setMessageType(messageType.getMessageType() + ".xml");
+        messageHead.setMessageType(messageType.getType() + ".xml");
         messageHead.setSendTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         sourceXml = sourceXml.replaceAll("xmlns:ds=\"http://www.w3.org/2000/09/xmldsig#\"", "");
 
@@ -382,7 +461,7 @@ public class ChinaEportReportClient {
      */
     private String buildXml(SignResult signResult, String sourceXml, IMessageType messageType) {
         String signatureNode = buildSignatureNode(signResult);
-        String xmlStart = "</ceb:" + messageType.getMessageType() + ">";
+        String xmlStart = "</ceb:" + messageType.getType() + ">";
         int index = sourceXml.indexOf(xmlStart);
         StringBuilder builder = new StringBuilder(sourceXml);
         builder.insert(index, signatureNode.concat("\n"));
