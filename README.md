@@ -81,12 +81,14 @@
 
 > [核心加签接口](https://github.com/Weasley-J/chinaport-data-signature/blob/main/%E4%B8%AD%E5%9B%BD%E7%94%B5%E5%AD%90%E5%8F%A3%E5%B2%B8%E6%8A%A5%E6%96%87%E5%8A%A0%E7%AD%BE%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3.md#%E6%B5%B7%E5%85%B3%E6%95%B0%E6%8D%AE%E5%8A%A0%E7%AD%BE)理论上支持中国内地的大部分**地方电子口岸**
 
-| 电子口岸名称 | 是否支持 | 是否验证 |
-| ------------ | -------- | -------- |
-| 海口电子口岸 | ✅        | ✅        |
-| 广州电子口岸 | ✅        | ✅        |
-| 郑州电子口岸 | ✅        | 待验证   |
-| ...          |          |          |
+| 电子口岸     | 是否支持 | 是否验证 |
+| ------------ | -------- |-----|
+| 海口电子口岸 | ✅        | ✅   |
+| 广州电子口岸 | ✅        | ✅   |
+| 郑州电子口岸 | ✅        | 待验证 |
+| 上海电子口岸 | ✅        | 待验证 |
+| 浙江电子口岸 | ✅        | 待验证  |
+| ...          |          |     |
 
 
 
@@ -98,10 +100,12 @@
 
 | 序号 | 类目             | 版本                                                         | 备注                                                         |
 | ---- | ---------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| 1    | 软件运行环境     | [Java SE Development Kit 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html) | 基础软件最低运行要求                                         |
+| 1    | 软件运行环境     | [Java SE Development Kit 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html) | 基础软件运行的`JDK`环境要求                                  |
 | 2    | 硬件运行环境     | `Windows-10-x64`/`Windows-11-x64`/`Windows-server-x64`/`Linux`(自行解决内网穿透问题,ukey只能插Windows电脑上) |                                                              |
 | 3    | 硬件性能要求     | > =1核CPU+2G运行内存                                         | 最低配置                                                     |
 | 4    | 对技术人员的要求 | 会把电子口岸ukey插入安装好[【中国电子口岸C卡/Key客户端控件】](https://app.singlewindow.cn/cas/login?service=http%3A%2F%2Fwww.singlewindow.cn%2Fsinglewindow%2Flogin.jspx)的`Windows`电脑上，会改启动脚本里面的参数，会用鼠标双击启动脚本 | **卡介质登录**可进入【中国电子口岸C卡/Key客户端控件】下载界面![image-20230718230033785](https://weasley.oss-cn-shanghai.aliyuncs.com/Photos/image-20230718230033785.png) |
+
+> 不推荐使用国产浏览器蓝开以上超链，会出现页面找不到，建议使用：Microsoft Edge、Chrome、Fire Fox
 
 ## 4 运行参数配置
 

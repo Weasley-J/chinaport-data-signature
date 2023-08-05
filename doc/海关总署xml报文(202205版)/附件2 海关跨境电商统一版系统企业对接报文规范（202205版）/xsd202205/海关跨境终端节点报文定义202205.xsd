@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2008 rel. 2 sp2 (http://www.altova.com) by chenguanlin (EPORT) -->
+<xs:schema xmlns:dxp="http://www.chinaport.gov.cn/dxp" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" targetNamespace="http://www.chinaport.gov.cn/dxp" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="xmldsig-core-schema.xsd"/>
+	<xs:element name="DxpMsg">
+		<xs:annotation>
+			<xs:documentation>客户端传输报文</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="TransInfo" type="dxp:TransInfoType">
+					<xs:annotation>
+						<xs:documentation>客户端节点</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Data" type="dxp:Data">
+					<xs:annotation>
+						<xs:documentation>待传输数据</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="AddInfo" type="dxp:AddInfo" minOccurs="0"/>
+				<xs:element ref="ds:Signature" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="ver" type="xs:string" use="required" fixed="1.0"/>
+			<xs:attribute name="Id" type="xs:ID" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DxpRep">
+		<xs:annotation>
+			<xs:documentation>交换平台响应报文</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="RecevierId">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="1"/>
+							<xs:maxLength value="16"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="AdNodeId" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>发送给用户回执时，是否可以把其归属节点信息一并返回？</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="1"/>
+							<xs:maxLength value="8"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Response" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="NodeId" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>产生错误回执的节点id</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="1"/>
+										<xs:maxLength value="8"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="ResponseCode">
+								<xs:annotation>
+									<xs:documentation>报文处理响应码</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="1"/>
+										<xs:maxLength value="9"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="ResponseInfo" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>报文响应信息</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:maxLength value="300"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Results" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>每个接收者的处理回执内容</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Result" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="RecId">
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:minLength value="1"/>
+																<xs:maxLength value="16"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="Code">
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:minLength value="1"/>
+																<xs:maxLength value="9"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="Info" minOccurs="0">
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:maxLength value="300"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="Note" minOccurs="0">
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:maxLength value="500"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="NoticeTime" type="xs:date">
+								<xs:annotation>
+									<xs:documentation>回执产生时间，由服务器生成</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="Note" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>备注</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:maxLength value="500"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="OriHead" type="dxp:TransInfoType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element ref="ds:Signature" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="ver" type="xs:string" use="required" fixed="1.0"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="Data">
+		<xs:simpleContent>
+			<xs:extension base="xs:base64Binary"/>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="TransInfoType">
+		<xs:annotation>
+			<xs:documentation>ClientNode</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="CopMsgId">
+				<xs:annotation>
+					<xs:documentation>原始报文id</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="255"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="SenderId" nillable="false">
+				<xs:annotation>
+					<xs:documentation>发送方id</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="16"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ReceiverIds">
+				<xs:annotation>
+					<xs:documentation>接收方，可支持多个</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ReceiverId" maxOccurs="5">
+							<xs:annotation>
+								<xs:documentation>接收方id</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:maxLength value="16"/>
+									<xs:minLength value="1"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="CreatTime" type="xs:dateTime">
+				<xs:annotation>
+					<xs:documentation>原始报文创建时间</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MsgType">
+				<xs:annotation>
+					<xs:documentation>报文类型</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="30"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AddInfo">
+		<xs:sequence>
+			<xs:element name="FileName" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>原始报文名，可选</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="255"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="IcCard" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>ic卡号</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="13"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="BizKey" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>业务关键字，可选</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Key" maxOccurs="5">
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="dxp:Key">
+										<xs:attribute name="name">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:minLength value="1"/>
+													<xs:maxLength value="32"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:attribute>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="IsText" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>文本标识节点，存在标识为文本，必须说明字符集</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="Encode" use="required">
+						<xs:annotation>
+							<xs:documentation>字符集</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="50"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="RecMapId" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>接收方报文转换ID</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="Key">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="64"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>
