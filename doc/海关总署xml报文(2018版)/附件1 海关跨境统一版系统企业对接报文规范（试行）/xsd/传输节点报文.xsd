@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2008 rel. 2 sp2 (http://www.altova.com) by chenguanlin (EPORT) -->
+<xs:schema xmlns:dxp="http://www.chinaport.gov.cn/dxp" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" targetNamespace="http://www.chinaport.gov.cn/dxp" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:include schemaLocation="终端节点报文.xsd"/>
+	<xs:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="xmldsig-core-schema.xsd"/>
+	<xs:element name="DxpMsgSv">
+		<xs:annotation>
+			<xs:documentation>服务器传输报文</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="SvNo" type="dxp:SvNoType">
+					<xs:annotation>
+						<xs:documentation>服务器节点，都由服务器节点生成</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="dxp:DxpMsg"/>
+				<xs:element ref="ds:Signature" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="ver" type="xs:string" use="required" fixed="1.0"/>
+			<xs:attribute name="Id" type="xs:ID"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="SvNoType">
+		<xs:annotation>
+			<xs:documentation>ServerNode</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="MsgId">
+				<xs:annotation>
+					<xs:documentation>报文在交换平台的唯一id号:8位节点id+时间（yyyymmddhh24mmss）+10位序列
+共32位</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="32"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="SubMsgId" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>分拆报文的报文id，用于多个接收者时</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="SendTime" type="xs:dateTime">
+				<xs:annotation>
+					<xs:documentation>报文处理时间，暂不更新，由接入节点填入</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="EndNode">
+				<xs:annotation>
+					<xs:documentation>报文目的服务器节点</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="8"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="StaNode">
+				<xs:annotation>
+					<xs:documentation>报文接入服务器节点</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="8"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="Ver" type="xs:string" use="required" fixed="1.0">
+			<xs:annotation>
+				<xs:documentation>服务器节点版本</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+</xs:schema>

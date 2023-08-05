@@ -1,0 +1,4542 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v5 rel. 2 U (http://www.xmlspy.com) by 123 (456) -->
+<!-- edited with XMLSpy v2013 (http://www.altova.com) by China E-port Data Centre (China E-port Data Centre) -->
+<xs:schema xmlns:ceb="http://www.chinaport.gov.cn/ceb" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" targetNamespace="http://www.chinaport.gov.cn/ceb" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:annotation>
+		<xs:documentation>跨境贸易电子商务通关服务平台(2018-05) </xs:documentation>
+	</xs:annotation>
+	<!--对接技术规范:CEB(跨境贸易电子商务)-->
+	<xs:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="xmldsig-core-schema.xsd"/>
+	<!--报文命名规范:CEB(Cross-border Electronic Business跨境贸易电子商务)-->
+	<xs:element name="Order">
+		<xs:annotation>
+			<xs:documentation>电子订单数据实体</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ceb:OrderHead"/>
+				<xs:element ref="ceb:OrderList" maxOccurs="100"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="OrderHead">
+		<xs:annotation>
+			<xs:documentation>订单表头</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="guid">
+					<xs:annotation>
+						<xs:documentation>系统唯一序号-企业系统生成36位唯一序号（英文字母大写）</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="36"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="appType">
+					<xs:annotation>
+						<xs:documentation>报送类型-企业报送类型。1-新增 2-变更 3-删除。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="appTime">
+					<xs:annotation>
+						<xs:documentation>报送时间-企业报送时间。格式:YYYYMMDDhhmmss。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="14"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="appStatus" default="2">
+					<xs:annotation>
+						<xs:documentation>报送状态-企业报送状态。1-暂存,2-申报。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="orderType">
+					<xs:annotation>
+						<xs:documentation>订单类型-电商平台的订单类型 I-进口商品订单；E-出口商品订单</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="orderNo">
+					<xs:annotation>
+						<xs:documentation>订单编号-交易平台的订单编号，同一交易平台的订单编号应唯一</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="60"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ebpCode">
+					<xs:annotation>
+						<xs:documentation>电商平台代码-电商平台的海关注册登记编号。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="50"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ebpName">
+					<xs:annotation>
+						<xs:documentation>电商平台名称-电商平台的海关注册登记名称。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="100"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ebcCode">
+					<xs:annotation>
+						<xs:documentation>电商企业代码-电商企业的海关注册登记编号(10位海关编码或18位统一社会信用代码)</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="18"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ebcName">
+					<xs:annotation>
+						<xs:documentation>电商企业名称-电商企业的海关注册登记名称，对应清单的收发货人</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="100"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="goodsValue">
+					<xs:annotation>
+						<xs:documentation>商品金额-商品实际成交价FOB(不含运杂费)，含非现金抵扣金额</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:decimal">
+							<xs:totalDigits value="19"/>
+							<xs:fractionDigits value="5"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="freight" default="0">
+					<xs:annotation>
+						<xs:documentation>运杂费-运杂费，无则填写"0"。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:decimal">
+							<xs:totalDigits value="19"/>
+							<xs:fractionDigits value="5"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="currency">
+					<xs:annotation>
+						<xs:documentation>币制-海关标准的参数代码 《JGS-20 海关业务代码集》- 货币代码</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="3"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="note" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>备注</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="1000"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="OrderList">
+		<xs:annotation>
+			<xs:documentation>订单商品表体</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="gnum">
+					<xs:annotation>
+						<xs:documentation>序号-从1开始的递增序号（与清单的商品项关联对应）</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:totalDigits value="5"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="itemNo">
+					<xs:annotation>
+						<xs:documentation>企业商品货号-企业自定义的商品货号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="30"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="itemName">
+					<xs:annotation>
+						<xs:documentation>企业商品名称-同一类商品的中文名称。任何一种具体商品可以并只能归入表中的一个条目</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="250"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="itemDescribe" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>企业商品描述-电商平台上架的商品描述宣传信息</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="1000"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="barCode" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>条形码-商品条形码一般由前缀部分、制造厂商代码、商品代码和校验码组成。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="50"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="unit">
+					<xs:annotation>
+						<xs:documentation>计量单位-海关标准的参数代码 海关标准的参数代码 《JGS-20 海关业务代码集》，计量单位代码</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="3"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="currency">
+					<xs:annotation>
+						<xs:documentation>币制-海关标准的参数代码 海关标准的参数代码 《JGS-20 海关业务代码集》- 货币代码</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="3"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="qty">
+					<xs:annotation>
+						<xs:documentation>数量</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:decimal">
+							<xs:totalDigits value="19"/>
+							<xs:fractionDigits value="5"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="price">
+					<xs:annotation>
+						<xs:documentation>单价</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:decimal">
+							<xs:totalDigits value="19"/>
+							<xs:fractionDigits value="5"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="totalPrice">
+					<xs:annotation>
+						<xs:documentation>总价</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:decimal">
+							<xs:totalDigits value="19"/>
+							<xs:fractionDigits value="5"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="note" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>备注</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="1000"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="OrderReturn">
+		<xs:annotation>
+			<xs:documentation>电子订单回执实体</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="guid">
+					<xs:annotation>
+						<xs:documentation>系统唯一序号-电子口岸系统生成36位唯一序号（英文字母大写）</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="36"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ebpCode">
+					<xs:annotation>
+						<xs:documentation>电商平台代码-电商平台的海关注册登记编号。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="50"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ebcCode">
+					<xs:annotation>
+						<xs:documentation>电商企业代码-电商企业的海关注册登记编号。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="18"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="orderNo">
+					<xs:annotation>
+						<xs:documentation>订单编号-交易平台的订单编号，同一交易平台的订单编号应唯一。订单编号长度不能超过60位。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="60"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="returnStatus">
+					<xs:annotation>
+						<xs:documentation>回执状态-操作结果（1电子口岸已暂存/2电子口岸申报中/3发送海关成功/4发送海关失败/100海关退单/399海关审结等）,若小于0数字表示处理异常回执</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="10"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="returnTime">
+					<xs:annotation>
+						<xs:documentation>回执时间-操作时间(格式：yyyyMMddHHmmssfff)</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="17"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="returnInfo">
+					<xs:annotation>
+						<xs:documentation>回执信息（如:退单原因）</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="1000"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Receipts">
+		<xs:annotation>
+			<xs:documentation>收款单数据实体</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="guid">
+					<xs:annotation>
+						<xs:documentation>系统唯一序号-企业系统生成36位唯一序号（英文字母大写）</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="36"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="appType">
+					<xs:annotation>
+						<xs:documentation>报送类型-企业报送类型。1-新增 2-变更 3-删除。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="appTime">
+					<xs:annotation>
+						<xs:documentation>报送时间-企业报送时间。格式:YYYYMMDDhhmmss。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="14"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="appStatus" default="2">
+					<xs:annotation>
+						<xs:documentation>报送状态-企业报送状态。1-暂存,2-申报。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ebpCode">
+					<xs:annotation>
+						<xs:documentation>电商平台代码-电商平台的海关注册登记编号。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="50"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ebpName">
+					<xs:annotation>
+						<xs:documentation>电商平台名称-电商平台的海关注册登记名称。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="100"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ebcCode">
+					<xs:annotation>
+						<xs:documentation>电商企业代码-电商企业的海关注册登记编号(10位海关编码或18位统一社会信用代码)</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="18"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ebcName">
+					<xs:annotation>
+						<xs:documentation>电商企业名称-电商企业的海关注册登记名称，对应清单的收发货人</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="100"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="orderNo">
+					<xs:annotation>
+						<xs:documentation>订单编号-电商平台的交易订单编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="60"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="payCode" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>支付企业代码-支付企业的海关编码,国内企业必填。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="18"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="payName">
+					<xs:annotation>
+						<xs:documentation>支付企业名称-支付企业名称,非线上支付填"现金支付"</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="100"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="payNo" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>支付交易编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="60"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="charge">
+					<xs:annotation>
+						<xs:documentation>收款金额-支付企业的订单交易金额</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:decimal">
+							<xs:totalDigits value="19"/>
+							<xs:fractionDigits value="5"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="currency">
+					<xs:annotation>
+						<xs:documentation>币制-海关标准的参数代码</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="3"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="accountingDate">
+					<xs:annotation>
+						<xs:documentation>到账时间 格式:YYYYMMDDhhmmss</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="14"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="note" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>备注</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="1000"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ReceiptsReturn">
+		<xs:annotation>
+			<xs:documentation>收款单回执实体</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="guid">
+					<xs:annotation>
+						<xs:documentation>系统唯一序号-电子口岸系统生成36位唯一序号（英文字母大写）</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="36"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ebcCode">
+					<xs:annotation>
+						<xs:documentation>电商企业代码-电商企业的10位海关代码或者18位信用代码</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="18"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="orderNo">
+					<xs:annotation>
+						<xs:documentation>订单编号-交易平台的订单编号，同一交易平台的订单编号应唯一。订单编号长度不能超过60位。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="60"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="payNo" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>支付交易编号-支付交易编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="60"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="returnStatus">
+					<xs:annotation>
+						<xs:documentation>回执状态-操作结果（1电子口岸已暂存/2电子口岸申报中/3发送海关成功/4发送海关失败/100海关退单/399海关审结等）,若小于0数字表示处理异常回执</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="1"/>
+							<xs:maxLength value="10"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="returnTime">
+					<xs:annotation>
+						<xs:documentation>回执时间-操作时间(格式:yyyyMMddHHmmssfff)</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="17"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="returnInfo">
+					<xs:annotation>
+						<xs:documentation>回执信息（如:退单原因）</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="1000"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Logistics">
+		<xs:annotation>
+			<xs:documentation>物流运单数据实体</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="guid">
+					<xs:annotation>
+						<xs:documentation>系统唯一序号-企业系统生成36位唯一序号（英文字母大写）</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="36"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="appType">
+					<xs:annotation>
+						<xs:documentation>报送类型-企业报送类型。1-新增 2-变更 3-删除。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="appTime">
+					<xs:annotation>
+						<xs:documentation>报送时间-企业报送时间。格式:YYYYMMDDhhmmss。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="14"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="appStatus" default="2">
+					<xs:annotation>
+						<xs:documentation>报送状态-企业报送状态。1-暂存,2-申报。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="logisticsCode">
+					<xs:annotation>
+						<xs:documentation>物流企业代码-物流企业的10位海关代码或者18位统一社会信用代码</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="18"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="logisticsName">
+					<xs:annotation>
+						<xs:documentation>物流企业名称-物流企业的海关登记名称</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="100"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="logisticsNo">
+					<xs:annotation>
+						<xs:documentation>物流运单编号-物流企业的运单包裹面单号（提运单号+运单编号形成唯一编号）</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="80"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="freight">
+					<xs:annotation>
+						<xs:documentation>运费-货物运输费用</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:decimal">
+							<xs:totalDigits value="19"/>
+							<xs:fractionDigits value="5"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="insuredFee">
+					<xs:annotation>
+						<xs:documentation>保价费-货物保险费用</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:decimal">
+							<xs:totalDigits value="19"/>
+							<xs:fractionDigits value="5"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="currency">
+					<xs:annotation>
+						<xs:documentation>币制-海关标准的参数代码 《JGS-20 海关业务代码集》- 货币代码</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="3"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="grossWeight">
+					<xs:annotation>
+						<xs:documentation>毛重-单位为千克</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:decimal">
+							<xs:totalDigits value="19"/>
+							<xs:fractionDigits value="5"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="packNo">
+					<xs:annotation>
+						<xs:documentation>件数-单个运单下包裹数</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:totalDigits value="9"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="goodsInfo">
+					<xs:annotation>
+						<xs:documentation>主要货物信息-物流企业可验视的商品信息</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="200"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ebcCode" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>收发货人代码-电商企业的10位海关代码或者18位信用代码</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="18"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ebcName" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>收发货人名称-电商企业的海关备案名称（电子口岸校验名称）</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="100"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ebcTelephone" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>收发货人电话</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="50"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="note" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>备注</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="1000"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="LogisticsReturn">
+		<xs:annotation>
+			<xs:documentation>物流运单回执实体</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="guid">
+					<xs:annotation>
+						<xs:documentation>系统唯一序号-电子口岸生成36位唯一序号（英文字母大写）</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="36"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="logisticsCode">
+					<xs:annotation>
+						<xs:documentation>物流企业代码-物流企业的海关注册登记编号。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="18"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="logisticsNo">
+					<xs:annotation>
+						<xs:documentation>物流运单编号-物流企业的运单包裹面单号。同一物流企业的运单编号在6个月内不重复。运单编号长度不能超过60位。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="80"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="returnStatus">
+					<xs:annotation>
+						<xs:documentation>回执状态-操作结果（1电子口岸已暂存/2电子口岸申报中/3发送海关成功/4发送海关失败/100海关退单/399海关审结等）,若小于0数字表示处理异常回执</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="1"/>
+							<xs:maxLength value="10"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="returnTime">
+					<xs:annotation>
+						<xs:documentation>回执时间-操作时间(格式:yyyyMMddHHmmssfff)</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="17"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="returnInfo">
+					<xs:annotation>
+						<xs:documentation>回执信息（如:退单原因）</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="1000"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Arrival">
+		<xs:annotation>
+			<xs:documentation>物流运抵单数据实体</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ceb:ArrivalHead"/>
+				<xs:element ref="ceb:ArrivalList" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ArrivalHead">
+		<xs:annotation>
+			<xs:documentation>物流运抵单表头</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="guid">
+					<xs:annotation>
+						<xs:documentation>系统唯一序号-企业系统生成36位唯一序号（英文字母大写）</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="36"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="appType">
+					<xs:annotation>
+						<xs:documentation>报送类型-企业报送类型。1-新增 2-变更 3-删除。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="appTime">
+					<xs:annotation>
+						<xs:documentation>报送时间-企业报送时间。格式:YYYYMMDDhhmmss。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="14"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="appStatus" default="1">
+					<xs:annotation>
+						<xs:documentation>报送状态-企业报送状态。1-暂存,2-申报。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="customsCode">
+					<xs:annotation>
+						<xs:documentation>申报地海关代码-办理通关手续的4位海关编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="4"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="copNo">
+					<xs:annotation>
+						<xs:documentation>企业内部标识单证的编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="30"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="preNo" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>预录入编号-电子口岸标识单证的编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="18"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="operatorCode">
+					<xs:annotation>
+						<xs:documentation>监管场所经营人代码-监管场所经营人在海关注册登记的编号。邮路运输用邮政物流企业</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="18"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="operatorName">
+					<xs:annotation>
+						<xs:documentation>监管场所经营人名称-监管场所经营人在海关注册登记的名称。邮路运输用邮政物流企业</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="100"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="loctNo" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>监管场所代码-同一申报地海关下有多个跨境电子商务的监管场所,需要填写区分</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="10"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ieFlag">
+					<xs:annotation>
+						<xs:documentation>进出口标记-I进口/E出口</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="trafMode">
+					<xs:annotation>
+						<xs:documentation>运输方式-填写海关标准的参数代码，参照《JGS-20 海关业务代码集》- 运输方式代码。直购进口指跨境段物流运输方式。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="billNo" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>提运单号-货物提单或运单的海运提单、空运总单或汽车载货清单。邮路运输方可为空。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="37"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="domesticTrafNo">
+					<xs:annotation>
+						<xs:documentation>境内运输工具编号-运往海关监管场所的运输工具编号，例如车牌号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="100"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="logisticsCode">
+					<xs:annotation>
+						<xs:documentation>物流企业代码-物流企业的海关注册登记编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="18"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="logisticsName">
+					<xs:annotation>
+						<xs:documentation>物流企业名称-物流企业的海关注册登记名称</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="100"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="msgCount">
+					<xs:annotation>
+						<xs:documentation>报文总数-拆分后的报文总数。未拆分的不填，拆分的填实际数量。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:totalDigits value="9"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="msgSeqNo">
+					<xs:annotation>
+						<xs:documentation>报文序号-当前报文序号，以1开始的报文顺序号。未拆分的不填，拆分的报文需要连续编号，不得跳号。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:totalDigits value="9"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="note" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>备注</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="1000"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ArrivalList">
+		<xs:annotation>
+			<xs:documentation>物流运抵单表体（允许为空）</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="gnum">
+					<xs:annotation>
+						<xs:documentation>序号-从1开始的递增序号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:totalDigits value="5"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="logisticsNo">
+					<xs:annotation>
+						<xs:documentation>物流运单编号-物流企业的运单包裹面单号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="80"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="totalPackageNo" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>总包号-物流企业对于一个提运单下含有多个大包的托盘编号（邮件为邮袋号）</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="37"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="note" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>备注</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="1000"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ArrivalReturn">
+		<xs:annotation>
+			<xs:documentation>物流运抵单回执实体</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="guid">
+					<xs:annotation>
+						<xs:documentation>系统唯一序号-电子口岸生成36位唯一序号（英文字母大写）</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="36"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="operatorCode">
+					<xs:annotation>
+						<xs:documentation>监管场所经营人代码-监管场所经营人在海关注册登记的编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="18"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="logisticsCode">
+					<xs:annotation>
+						<xs:documentation>物流企业代码-物流企业的海关注册登记编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="18"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="preNo">
+					<xs:annotation>
+						<xs:documentation>预录入编号-电子口岸标识单证的编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="18"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="copNo">
+					<xs:annotation>
+						<xs:documentation>企业唯一编号-企业唯一标识单证的编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="30"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="billNo">
+					<xs:annotation>
+						<xs:documentation>提运单号-提单或总运单的编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="37"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="msgSeqNo">
+					<xs:annotation>
+						<xs:documentation>报文序号-当前报文序号，以1开始的报文顺序号。未拆分的不填，拆分的报文需要连续编号，不得跳号。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:totalDigits value="9"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="returnStatus">
+					<xs:annotation>
+						<xs:documentation>回执状态-操作结果（1电子口岸已暂存/2电子口岸申报中/3发送海关成功/4发送海关失败/100海关退单/399海关审结等）,若小于0数字表示处理异常回执</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="1"/>
+							<xs:maxLength value="10"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="returnTime">
+					<xs:annotation>
+						<xs:documentation>回执时间-操作时间(格式:yyyyMMddHHmmssfff)</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="17"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="returnInfo">
+					<xs:annotation>
+						<xs:documentation>回执信息（如:退单原因）</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="1000"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Departure">
+		<xs:annotation>
+			<xs:documentation>物流离境单数据</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ceb:DepartureHead"/>
+				<xs:element ref="ceb:DepartureList" maxOccurs="100"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DepartureHead">
+		<xs:annotation>
+			<xs:documentation>物流离境单表头数据</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="guid">
+					<xs:annotation>
+						<xs:documentation>36位系统唯一序号（英文字母大写）</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="36"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="appType">
+					<xs:annotation>
+						<xs:documentation>申报类型:1-新增;2-变更;3-删除，默认为1</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="appTime">
+					<xs:annotation>
+						<xs:documentation>业务时间,格式:YYYYMMDDhhmmss</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="14"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="appStatus">
+					<xs:annotation>
+						<xs:documentation>企业报送状态-企业报送状态。1-暂存,2-申报。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="customsCode">
+					<xs:annotation>
+						<xs:documentation>办理通关手续的4位海关编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="4"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="copNo">
+					<xs:annotation>
+						<xs:documentation>企业唯一编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="30"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="preNo" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>预录入编号-电子口岸标识单证的编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="18"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="logisticsCode">
+					<xs:annotation>
+						<xs:documentation>物流企业代码,10位海关代码或者18位信用代码</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="18"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="logisticsName">
+					<xs:annotation>
+						<xs:documentation>物流企业名称</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="100"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="trafMode">
+					<xs:annotation>
+						<xs:documentation>运输方式</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="trafName" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>运输工具名称</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="100"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="voyageNo" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>航班航次号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="32"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="billNo" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>提运单号,物流企业提供</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="37"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="leaveTime">
+					<xs:annotation>
+						<xs:documentation>离境时间</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="14"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="msgCount">
+					<xs:annotation>
+						<xs:documentation>报文总数-拆分后的报文总数。未拆分的不填，拆分的填实际数量。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:totalDigits value="9"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="msgSeqNo">
+					<xs:annotation>
+						<xs:documentation>报文序号-当前报文序号，以1开始的报文顺序号。未拆分的不填，拆分的报文需要连续编号，不得跳号。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:totalDigits value="9"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="note" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>备注</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="1000"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DepartureList">
+		<xs:annotation>
+			<xs:documentation>物流离境单表体类</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="gnum">
+					<xs:annotation>
+						<xs:documentation>序号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:totalDigits value="5"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="totalPackageNo" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>总包号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="37"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="logisticsNo">
+					<xs:annotation>
+						<xs:documentation>物流运单号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="80"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="note" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>备注</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="1000"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DepartureReturn">
+		<xs:annotation>
+			<xs:documentation>物流离境回执类</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="guid">
+					<xs:annotation>
+						<xs:documentation>36位系统唯一序号（英文字母大写）</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="36"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="logisticsCode">
+					<xs:annotation>
+						<xs:documentation>物流企业代码,10位海关代码或者18位信用代码</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="18"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="copNo">
+					<xs:annotation>
+						<xs:documentation>企业唯一编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="30"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="preNo">
+					<xs:annotation>
+						<xs:documentation>预录入编号-电子口岸标识单证的编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="18"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="msgSeqNo">
+					<xs:annotation>
+						<xs:documentation>报文序号-当前报文序号，以1开始的报文顺序号。未拆分的不填，拆分的报文需要连续编号，不得跳号。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:totalDigits value="9"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="returnStatus">
+					<xs:annotation>
+						<xs:documentation>回执状态</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="10"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="returnTime">
+					<xs:annotation>
+						<xs:documentation>回执时间,格式YYYYMMDDhhmmssfff</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="17"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="returnInfo">
+					<xs:annotation>
+						<xs:documentation>回执信息（如:退单原因）</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="1000"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Inventory">
+		<xs:annotation>
+			<xs:documentation>出口清单类</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ceb:InventoryHead"/>
+				<xs:element ref="ceb:InventoryList" maxOccurs="100"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="InventoryHead">
+		<xs:annotation>
+			<xs:documentation>出口清单表头类</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="guid">
+					<xs:annotation>
+						<xs:documentation>36位系统唯一序号（英文字母大写）</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="36"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="appType">
+					<xs:annotation>
+						<xs:documentation>申报类型:1-新增;2-变更;3-删除，默认为1</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="appTime">
+					<xs:annotation>
+						<xs:documentation>业务时间,格式:YYYYMMDDhhmmss</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="14"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="appStatus">
+					<xs:annotation>
+						<xs:documentation>企业报送状态。1-暂存,2-申报。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="customsCode">
+					<xs:annotation>
+						<xs:documentation>申报海关代码,办理通关手续的4位海关编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="4"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ebpCode">
+					<xs:annotation>
+						<xs:documentation>电商平台代码-电商平台的海关注册登记编号。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="50"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ebpName">
+					<xs:annotation>
+						<xs:documentation>电商平台名称-电商平台的海关注册登记名称。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="100"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="orderNo">
+					<xs:annotation>
+						<xs:documentation>订单编号,电商平台原始订单编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="60"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="logisticsCode">
+					<xs:annotation>
+						<xs:documentation>物流企业代码。10位海关代码或者18位信用代码</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="18"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="logisticsName">
+					<xs:annotation>
+						<xs:documentation>物流企业名称</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="100"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="logisticsNo">
+					<xs:annotation>
+						<xs:documentation>物流运单编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="80"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="copNo">
+					<xs:annotation>
+						<xs:documentation>企业唯一编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="30"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="preNo" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>预录入编号-电子口岸标识单证的编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="18"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="invtNo" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>清单编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="18"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ieFlag">
+					<xs:annotation>
+						<xs:documentation>进出口标志,I/E标志</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="portCode">
+					<xs:annotation>
+						<xs:documentation>出口口岸海关代码,海关参数代码</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="4"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ieDate">
+					<xs:annotation>
+						<xs:documentation>出口日期。时间格式:YYYYMMDD</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="8"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="statisticsFlag">
+					<xs:annotation>
+						<xs:documentation>申报业务类型：A-简化申报;B-汇总申报；若采用A简化申报，则要求商品不涉许可证、不涉出口关税、不涉及出口退税。同时商品编码按税则表前4位填写</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="agentCode">
+					<xs:annotation>
+						<xs:documentation>报关企业代码.10位海关代码或者18位信用代码</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="18"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="agentName">
+					<xs:annotation>
+						<xs:documentation>报关企业名称</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="100"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ebcCode">
+					<xs:annotation>
+						<xs:documentation>收发货人代码。10位海关代码或者18位信用代码</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="18"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ebcName">
+					<xs:annotation>
+						<xs:documentation>收发货人名称。电商企业的海关注册登记名称。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="100"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ownerCode">
+					<xs:annotation>
+						<xs:documentation>生产销售单位代码。实际发货人的企业的10位海关代码或者18位信用代码</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="18"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ownerName">
+					<xs:annotation>
+						<xs:documentation>生产销售单位名称。实际发货人的企业名称。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="100"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="iacCode" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>区内企业代码 特殊区域模式必填</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="18"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="iacName" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>特殊区域内仓储企业代码，特殊区域出口模式必填</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="100"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="emsNo" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>账册编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="30"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="tradeMode">
+					<xs:annotation>
+						<xs:documentation>贸易方式。一般出口为9610,特殊区域出口为1210/1239</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="4"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="trafMode">
+					<xs:annotation>
+						<xs:documentation>运输方式代码。海关标准的参数代码 《JGS-20 海关业务代码集》- 运输方式代码</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="trafName" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>运输工具名称。货物进出境的运输工具的名称或运输工具编号。填报内容应与运输部门向海关申报的载货清单所列相应内容一致。按照关区要求，可以后置申报清单总分单，允许为空。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="100"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="voyageNo" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>航班航次号,物流企业提供</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="32"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="billNo" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>提运单号,物流企业提供</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="37"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="totalPackageNo" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>总包号。对于提运单下含有多个大包的托盘编号（邮件为邮件总包号/邮袋号）。按照关区要求，可以后置申报清单总分单，允许为空。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="60"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="loctNo" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>监管场所代码</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="10"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="licenseNo" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>许可证号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="19"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="country">
+					<xs:annotation>
+						<xs:documentation>运抵国（地区）,海关参数代码</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="3"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="POD">
+					<xs:annotation>
+						<xs:documentation>指运港代码。出口运往境外的最终目的港的标识代码。最终目的港不可预知时，应尽可能按预知的目的港填报</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="3"/>
+							<xs:maxLength value="4"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="freight">
+					<xs:annotation>
+						<xs:documentation>运费</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:decimal">
+							<xs:fractionDigits value="5"/>
+							<xs:totalDigits value="19"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="fCurrency">
+					<xs:annotation>
+						<xs:documentation>运费币制。海关参数代码</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="3"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="fFlag">
+					<xs:annotation>
+						<xs:documentation>运费标志。海关参数代码 1-率，2-单价，3-总价</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="insuredFee">
+					<xs:annotation>
+						<xs:documentation>保费</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:decimal">
+							<xs:fractionDigits value="5"/>
+							<xs:totalDigits value="19"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="iCurrency">
+					<xs:annotation>
+						<xs:documentation>保费币制。海关参数代码</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="3"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="iFlag" >
+					<xs:annotation>
+						<xs:documentation>保费标志.海关参数代码 1-率，2-单价，3-总价</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="wrapType">
+					<xs:annotation>
+						<xs:documentation>包装种类代码</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="packNo">
+					<xs:annotation>
+						<xs:documentation>件数(包裹数)</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:totalDigits value="9"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="grossWeight">
+					<xs:annotation>
+						<xs:documentation>毛重（千克）</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:decimal">
+							<xs:fractionDigits value="5"/>
+							<xs:totalDigits value="19"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="netWeight">
+					<xs:annotation>
+						<xs:documentation>净重（千克）</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:decimal">
+							<xs:fractionDigits value="5"/>
+							<xs:totalDigits value="19"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="note" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>备注</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="1000"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="InventoryList">
+		<xs:annotation>
+			<xs:documentation>出口清单表体项类</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="gnum">
+					<xs:annotation>
+						<xs:documentation>商品项号,从1开始连续序号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:totalDigits value="5"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="itemNo">
+					<xs:annotation>
+						<xs:documentation>企业商品编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="20"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="itemRecordNo" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>保税出口模式必填</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="30"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="itemName" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>企业自定义的商品名称，汇总后用于退税品名</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="250"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="gcode">
+					<xs:annotation>
+						<xs:documentation>海关商品编码（10位）</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="10"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="gname">
+					<xs:annotation>
+						<xs:documentation>商品名称</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="250"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="gmodel">
+					<xs:annotation>
+						<xs:documentation>规格型号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="250"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="barCode">
+					<xs:annotation>
+						<xs:documentation>条形码</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="50"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="country">
+					<xs:annotation>
+						<xs:documentation>最终目的国（地区）代码</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="3"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="currency">
+					<xs:annotation>
+						<xs:documentation>币制代码</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="3"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="qty">
+					<xs:annotation>
+						<xs:documentation>申报数量</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:decimal">
+							<xs:fractionDigits value="5"/>
+							<xs:totalDigits value="19"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="qty1">
+					<xs:annotation>
+						<xs:documentation> 法定数量</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:decimal">
+							<xs:fractionDigits value="5"/>
+							<xs:totalDigits value="19"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="qty2" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>第二数量</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:decimal">
+							<xs:fractionDigits value="5"/>
+							<xs:totalDigits value="19"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="unit">
+					<xs:annotation>
+						<xs:documentation>申报计量单位,海关参数代码</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="3"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="unit1">
+					<xs:annotation>
+						<xs:documentation>法定计量单位,海关参数代码</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="3"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="unit2" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>第二计量单位,海关参数代码</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="3"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="price">
+					<xs:annotation>
+						<xs:documentation>单价</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:decimal">
+							<xs:fractionDigits value="5"/>
+							<xs:totalDigits value="19"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="totalPrice">
+					<xs:annotation>
+						<xs:documentation>总价</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:decimal">
+							<xs:fractionDigits value="5"/>
+							<xs:totalDigits value="19"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="note" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>备注</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="1000"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="InventoryReturn">
+		<xs:annotation>
+			<xs:documentation>出口清单回执类</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="guid">
+					<xs:annotation>
+						<xs:documentation>36位系统唯一序号（英文字母大写）</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="36"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="agentCode">
+					<xs:annotation>
+						<xs:documentation>申报企业代码</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="18"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="copNo">
+					<xs:annotation>
+						<xs:documentation>企业内部生成标识清单的编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="30"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="preNo">
+					<xs:annotation>
+						<xs:documentation>预录入编号-电子口岸标识单证的编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="18"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="invtNo">
+					<xs:annotation>
+						<xs:documentation>出境清单编号,海关审结生成标识清单的编号（4位关区+4位年+1位进出口标记+9位流水号）</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="18"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ebcCode">
+					<xs:annotation>
+						<xs:documentation>收发货人代码-电商（发货）企业的海关注册登记编号(10位海关编码或18位统一社会信用代码)</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="18"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ebpCode">
+					<xs:annotation>
+						<xs:documentation>电商平台代码-电商平台的海关注册登记编号。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="50"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="orderNo">
+					<xs:annotation>
+						<xs:documentation>订单编号-交易平台的订单编号，同一交易平台的订单编号应唯一。订单编号长度不能超过60位。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="60"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="statisticsFlag">
+					<xs:annotation>
+						<xs:documentation>申报业务类型-A-简化申报;B-汇总申报；若采用A简化申报，则要求商品不涉许可证、不涉出口关税、不涉及出口退税。同时商品编码前4位为税则表填写</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="returnStatus">
+					<xs:annotation>
+						<xs:documentation>操作结果（1电子口岸已暂存/2电子口岸申报中/3发送海关成功/4发送海关失败/100海关退单/120海关入库/300人工审核/399海关审结/800放行/899结关等,若小于0数字表示处理异常回执</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="10"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="returnTime">
+					<xs:annotation>
+						<xs:documentation>回执时间,格式YYYYMMDDhhmmssfff</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="17"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="returnInfo">
+					<xs:annotation>
+						<xs:documentation>回执信息（如:退单原因）</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="1000"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="InvtCancel">
+		<xs:annotation>
+			<xs:documentation>撤销申请单类</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="guid">
+					<xs:annotation>
+						<xs:documentation>36位系统唯一序号（英文字母大写）</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="36"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="appType">
+					<xs:annotation>
+						<xs:documentation>申报类型:1-新增;2-变更;3-删除，默认为1</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="appTime">
+					<xs:annotation>
+						<xs:documentation>业务时间,格式:YYYYMMDDhhmmss</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="14"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="appStatus">
+					<xs:annotation>
+						<xs:documentation>企业报送状态。1-暂存,2-申报。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="customsCode">
+					<xs:annotation>
+						<xs:documentation>申报海关代码</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="4"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="copNo">
+					<xs:annotation>
+						<xs:documentation>企业内部生成标识清单的编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="30"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="preNo" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>预录入编号-电子口岸标识单证的编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="18"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="invtNo">
+					<xs:annotation>
+						<xs:documentation>出境清单编号，海关审结生成标识清单的编号（4位关区+4位年+1位进出口标记+9位流水号）</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="18"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="reason">
+					<xs:annotation>
+						<xs:documentation>原因</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="1000"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="agentCode">
+					<xs:annotation>
+						<xs:documentation>申报单位代码,10位海关代码或者18位信用代码</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="18"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="agentName">
+					<xs:annotation>
+						<xs:documentation>申报单位名称</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="100"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ebcCode">
+					<xs:annotation>
+						<xs:documentation>收发货人代码。电商企业的10位海关代码或者18位信用代码。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="18"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ebcName">
+					<xs:annotation>
+						<xs:documentation>收发货人名称。电商企业的海关注册登记名称。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="100"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="note" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>备注</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="1000"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="InvtCancelReturn">
+		<xs:annotation>
+			<xs:documentation>撤销申请单回执类</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="guid">
+					<xs:annotation>
+						<xs:documentation>36位系统唯一序号（英文字母大写）</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="36"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="agentCode">
+					<xs:annotation>
+						<xs:documentation>申报企业代码</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="18"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="copNo">
+					<xs:annotation>
+						<xs:documentation>企业内部生成标识清单的编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="30"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="preNo">
+					<xs:annotation>
+						<xs:documentation>预录入编号-电子口岸标识单证的编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="18"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="invtNo">
+					<xs:annotation>
+						<xs:documentation>出境清单编号,海关审结生成标识清单的编号（4位关区+4位年+1位进出口标记+9位流水号）</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="18"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="returnStatus">
+					<xs:annotation>
+						<xs:documentation>操作结果（1电子口岸已暂存/2电子口岸申报中/3发送海关成功/4发送海关失败/100海关退单/399海关审结等）,若小于0数字表示处理异常回执</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="10"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="returnTime">
+					<xs:annotation>
+						<xs:documentation>回执时间,格式YYYYMMDDhhmmssfff</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="17"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="returnInfo">
+					<xs:annotation>
+						<xs:documentation>回执信息（如:退单原因）</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="1000"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="WayBill">
+		<xs:annotation>
+			<xs:documentation>提运单类</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ceb:WayBillHead"/>
+				<xs:element ref="ceb:WayBillList" maxOccurs="100">
+					<xs:annotation>
+						<xs:documentation>提运单项，申请删除时可不填</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="WayBillHead">
+		<xs:annotation>
+			<xs:documentation>清单总分单数据</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="guid">
+					<xs:annotation>
+						<xs:documentation>36位系统唯一序号（英文字母大写）</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="36"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="appType">
+					<xs:annotation>
+						<xs:documentation>申报类型:1-新增;2-变更;3-删除，默认为1</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="appTime">
+					<xs:annotation>
+						<xs:documentation>业务时间,格式:YYYYMMDDhhmmss</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="14"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="appStatus">
+					<xs:annotation>
+						<xs:documentation>企业报送状态。1-暂存,2-申报,默认为1。填写2时需要业务加签申报即Signature节点必须填写.</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="customsCode">
+					<xs:annotation>
+						<xs:documentation>申报海关代码,办理通关手续的4位海关编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="4"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="copNo">
+					<xs:annotation>
+						<xs:documentation>企业唯一编号-企业生成标识唯一编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="30"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="preNo" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>预录入编号-电子口岸标识单证的编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="18"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="agentCode">
+					<xs:annotation>
+						<xs:documentation>申报企业代码-申报单位的海关注册登记编号或统一社会信用代码</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="18"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="agentName">
+					<xs:annotation>
+						<xs:documentation>申报企业名称</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="100"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="loctNo" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>监管场所代码</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="10"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="trafMode">
+					<xs:annotation>
+						<xs:documentation>运输方式代码,海关参数代码</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="trafName">
+					<xs:annotation>
+						<xs:documentation>运输工具名称</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="100"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="voyageNo">
+					<xs:annotation>
+						<xs:documentation>航班航次号,物流企业提供</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="32"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="billNo">
+					<xs:annotation>
+						<xs:documentation>提运单号,物流企业提供</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="37"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="domesticTrafNo" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>境内运输工具编号-运往海关监管场所的运输工具编号，例如车牌号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="100"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="grossWeight">
+					<xs:annotation>
+						<xs:documentation>毛重（千克）</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:decimal">
+							<xs:fractionDigits value="5"/>
+							<xs:totalDigits value="19"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="logisticsCode">
+					<xs:annotation>
+						<xs:documentation>物流企业代码,10位海关代码或者18位信用代码</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="18"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="logisticsName">
+					<xs:annotation>
+						<xs:documentation>物流企业名称</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="100"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="msgCount">
+					<xs:annotation>
+						<xs:documentation>拆分后的报文数-未拆分的不填，拆分的填实际数量。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:totalDigits value="9"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="msgSeqNo">
+					<xs:annotation>
+						<xs:documentation>报文序号
+以1开始的报文顺序号。未拆分的不填，拆分的报文需要连续编号，不得跳号。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:totalDigits value="9"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="note" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>备注</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="1000"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="WayBillList">
+		<xs:annotation>
+			<xs:documentation>清单总分单表体</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="gnum">
+					<xs:annotation>
+						<xs:documentation>项号,从1开始连续序号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:totalDigits value="5"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="totalPackageNo" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>总包号。物流企业对于一个提运单下含有多个大包的托盘编号（邮件为邮袋号）。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="60"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="logisticsNo">
+					<xs:annotation>
+						<xs:documentation>物流运单编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="80"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="invtNo" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>原出口清单编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="18"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="note" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>备注</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="1000"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="WayBillReturn">
+		<xs:annotation>
+			<xs:documentation>清单总分单回执</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="guid">
+					<xs:annotation>
+						<xs:documentation>36位系统唯一序号（英文字母大写）</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="36"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="agentCode">
+					<xs:annotation>
+						<xs:documentation>申报企业代码-10位海关代码或者18位信用代码</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="18"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="logisticsCode">
+					<xs:annotation>
+						<xs:documentation>物流企业代码,10位海关代码或者18位信用代码</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="18"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="copNo">
+					<xs:annotation>
+						<xs:documentation>企业生成标识唯一编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="30"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="preNo">
+					<xs:annotation>
+						<xs:documentation>预录入编号-电子口岸标识单证的编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="18"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="billNo">
+					<xs:annotation>
+						<xs:documentation>提运单号,提单或总运单的编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="37"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="msgSeqNo">
+					<xs:annotation>
+						<xs:documentation>报文序号-当前报文序号。以1开始的报文顺序号，未拆分的不填，拆分的报文需要连续编号，不得跳号。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:totalDigits value="9"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="returnStatus">
+					<xs:annotation>
+						<xs:documentation>操作结果（1电子口岸已暂存/2电子口岸申报中/3发送海关成功/4发送海关失败/100海关退单/399海关审结等）,若小于0数字表示处理异常回执</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="10"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="returnTime">
+					<xs:annotation>
+						<xs:documentation>回执时间,格式YYYYMMDDhhmmssfff</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="17"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="returnInfo">
+					<xs:annotation>
+						<xs:documentation>回执信息（如:退单原因）</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="1000"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="SummaryApply">
+		<xs:annotation>
+			<xs:documentation>汇总申请单数据实体</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ceb:SummaryApplyHead"/>
+				<xs:element ref="ceb:SummaryApplyList" maxOccurs="100"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="SummaryApplyHead">
+		<xs:annotation>
+			<xs:documentation>汇总申请单表头</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="guid">
+					<xs:annotation>
+						<xs:documentation>系统唯一序号-企业系统生成36位唯一序号（英文字母大写）</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="36"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="appType">
+					<xs:annotation>
+						<xs:documentation>报送类型-企业报送类型。1-新增 2-变更 3-删除。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="appTime">
+					<xs:annotation>
+						<xs:documentation>报送时间-企业报送时间。格式:YYYYMMDDhhmmss。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="14"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="appStatus" default="2">
+					<xs:annotation>
+						<xs:documentation>报送状态-企业报送状态。1-暂存,2-申报。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="customsCode">
+					<xs:annotation>
+						<xs:documentation>申报地海关代码-4位海关编号。《海关关区代码》</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="4"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="copNo">
+					<xs:annotation>
+						<xs:documentation>企业生成标识唯一编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="30"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="preNo" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>预录入编号-电子口岸标识单证的编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="18"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="sumNo" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>汇总申请编号-海关反馈生成的汇总申请编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="18"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="agentCode">
+					<xs:annotation>
+						<xs:documentation>申报单位代码-申报单位的10位海关代码或者18位信用代码</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="18"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="agentName">
+					<xs:annotation>
+						<xs:documentation>申报单位名称-申报单位的海关备案名称</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="100"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ebcCode">
+					<xs:annotation>
+						<xs:documentation>收发货人代码-电商企业的10位海关代码或者18位信用代码</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="18"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ebcName">
+					<xs:annotation>
+						<xs:documentation>收发货人名称-电商企业的海关备案名称</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="100"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="declAgentCode">
+					<xs:annotation>
+						<xs:documentation>报关单位代码-报关单申报单位的10位海关代码或者18位信用代码</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="18"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="declAgentName">
+					<xs:annotation>
+						<xs:documentation>报关单位名称-报关单申报单位的海关备案名称</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="100"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="startTime" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>汇总开始时间-汇总指定时间范围的清单，格式:YYYYMMDDhhmmss。填写须成对，结束时间须大于等于开始时间。如指定时间范围将忽略表体数据。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="14"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="endTime" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>汇总开始时间-汇总指定时间范围的清单，格式:YYYYMMDDhhmmss。填写须成对，结束时间须大于等于开始时间。如指定时间范围将忽略表体数据。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="14"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="loctNo" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>监管场所代码-针对同一申报地海关下有多个跨境电子商务的监管场所,需要填写区分</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="10"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="summaryFlag">
+					<xs:annotation>
+						<xs:documentation>收发货人汇总标志-汇总标志 1:按收发货人单一汇总，2:按收发货人和生产销售单位汇总</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="itemNameFlag">
+					<xs:annotation>
+						<xs:documentation>按商品名汇总标志-按企业商品名汇总标志,填1,按清单原始商品名相同汇总，不填则按商品综合分类名汇总</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="msgCount">
+					<xs:annotation>
+						<xs:documentation>报文总数-拆分后的报文总数。未拆分的不填，拆分的填实际数量。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:totalDigits value="9"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="msgSeqNo">
+					<xs:annotation>
+						<xs:documentation>报文序号-当前报文序号。以1开始的报文顺序号，未拆分的不填，拆分的报文需要连续编号，不得跳号。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:totalDigits value="9"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="note" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>备注</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="1000"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="SummaryApplyList">
+		<xs:annotation>
+			<xs:documentation>汇总申请单数据表体</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="invtNo">
+					<xs:annotation>
+						<xs:documentation>清单编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="18"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="SummaryReturn">
+		<xs:annotation>
+			<xs:documentation>汇总申请单回执实体</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="guid">
+					<xs:annotation>
+						<xs:documentation>系统唯一序号-电子口岸生成36位唯一序号（英文字母大写）</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="36"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="agentCode">
+					<xs:annotation>
+						<xs:documentation>申报企业代码-申报单位的10位海关代码或者18位信用代码</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="18"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ebcCode">
+					<xs:annotation>
+						<xs:documentation>收发货人代码-电商企业的10位海关代码或者18位信用代码</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="18"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="copNo">
+					<xs:annotation>
+						<xs:documentation>企业唯一编号-企业生成标识唯一编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="30"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="preNo">
+					<xs:annotation>
+						<xs:documentation>预录入编号-电子口岸标识单证的编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="18"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="sumNo" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>汇总申请编号-海关反馈生成的汇总申请编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="18"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="msgSeqNo">
+					<xs:annotation>
+						<xs:documentation>报文序号-当前报文序号。以1开始的报文顺序号，未拆分的不填，拆分的报文需要连续编号，不得跳号。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:totalDigits value="9"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="returnStatus">
+					<xs:annotation>
+						<xs:documentation>回执状态-操作结果（1电子口岸已暂存/2电子口岸申报中/3发送海关成功/4发送海关失败/100海关退单/399海关审结等）,若小于0数字表示处理异常回执</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="10"/>
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="returnTime">
+					<xs:annotation>
+						<xs:documentation>回执时间-操作时间(格式:yyyyMMddHHmmssfff)</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="17"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="returnInfo">
+					<xs:annotation>
+						<xs:documentation>回执信息-备注（如不通过原因）</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="1000"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="SummaryResult">
+		<xs:annotation>
+			<xs:documentation>汇总结果单数据实体</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ceb:SummaryResultHead"/>
+				<xs:element ref="ceb:SummaryResultList" minOccurs="0" maxOccurs="100"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="SummaryResultHead">
+		<xs:annotation>
+			<xs:documentation>汇总结果单表头</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="guid">
+					<xs:annotation>
+						<xs:documentation>系统唯一序号-企业系统生成36位唯一序号（英文字母大写）</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="36"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="customsCode">
+					<xs:annotation>
+						<xs:documentation>申报地海关代码-4位海关编号。《海关关区代码》</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="4"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="sumNo">
+					<xs:annotation>
+						<xs:documentation>汇总申请编号-海关生成的汇总申请编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="18"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="opDate">
+					<xs:annotation>
+						<xs:documentation>汇总处理时间-汇总处理时间，格式:YYYYMMDDhhmmssfff。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="17"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="declSeqNo">
+					<xs:annotation>
+						<xs:documentation>汇总统一编号-海关生成唯一对应报关单</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="18"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="decTmpNo" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>报关单暂存编号-电子口岸报关单暂存编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="18"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="decPreNo" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>报关单预录入编号-电子口岸报关单预录入编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="18"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="entryId" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>报关单编号-海关生成的报关单编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="18"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="decState">
+					<xs:annotation>
+						<xs:documentation>报关单状态-报关单状态（具体返回值由海关确定）</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="1"/>
+							<xs:maxLength value="3"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="agentCode">
+					<xs:annotation>
+						<xs:documentation>申报企业代码-申报单位的海关登记编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="18"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="agentName">
+					<xs:annotation>
+						<xs:documentation>申报企业名称-申报单位的海关登记名称</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="100"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ebcCode">
+					<xs:annotation>
+						<xs:documentation>收发货人代码-收发货人（电商企业）的10位海关代码或者18位信用代码</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="18"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="ebcName">
+					<xs:annotation>
+						<xs:documentation>收发货人名称-收发货人（电商企业）的海关备案名称</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="100"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="declAgentCode">
+					<xs:annotation>
+						<xs:documentation>报关单位代码-后续报关单申报单位的海关注册登记编号或统一社会信用代码</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="18"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="declAgentName">
+					<xs:annotation>
+						<xs:documentation>报关单位名称-后续报关单申报单位的登记名称</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="100"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="grossWeight">
+					<xs:annotation>
+						<xs:documentation>毛重（公斤）-货物及其包装材料的重量之和，计量单位为千克</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:decimal">
+							<xs:totalDigits value="19"/>
+							<xs:fractionDigits value="5"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="netWeight">
+					<xs:annotation>
+						<xs:documentation>净重（公斤）-货物的毛重减去外包装材料后的重量，即货物本身的实际重量，计量单位为千克</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:decimal">
+							<xs:totalDigits value="19"/>
+							<xs:fractionDigits value="5"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="msgCount">
+					<xs:annotation>
+						<xs:documentation>报文总数-拆分后的报文总数。未拆分的不填，拆分的填实际数量。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:totalDigits value="9"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="msgSeqNo">
+					<xs:annotation>
+						<xs:documentation>报文序号-当前报文序号，以1开始的报文顺序号。未拆分的不填，拆分的报文需要连续编号，不得跳号。</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:totalDigits value="9"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="note" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>备注</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="1000"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="SummaryResultList">
+		<xs:annotation>
+			<xs:documentation>汇总结果单表体(允许可空)</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="invtNo">
+					<xs:annotation>
+						<xs:documentation>清单编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="18"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="logisticsNo">
+					<xs:annotation>
+						<xs:documentation>物流运单编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="80"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="gnum">
+					<xs:annotation>
+						<xs:documentation>清单商品项的序号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:totalDigits value="5"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="gcode">
+					<xs:annotation>
+						<xs:documentation>清单商品编码</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="10"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="BaseTransfer">
+		<xs:annotation>
+			<xs:documentation>基础报文传输实体（需要与实际客户端传输企业一致）</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="copCode">
+					<xs:annotation>
+						<xs:documentation>报文传输的企业代码（需要与接入客户端的企业身份一致）</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="18"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="copName">
+					<xs:annotation>
+						<xs:documentation>报文传输的企业名称</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="100"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="dxpMode">
+					<xs:annotation>
+						<xs:documentation>默认为DXP；指中国电子口岸数据交换平台</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="3"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="dxpId">
+					<xs:annotation>
+						<xs:documentation>向中国电子口岸数据中心申请数据交换平台的用户编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="30"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="note" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>备注</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="1000"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="BaseSubscribe">
+		<xs:annotation>
+			<xs:documentation>基础回执订阅实体（用于第三方提供数据的订阅下发）</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="status">
+					<xs:annotation>
+						<xs:documentation>用户订阅单证业务状态的信息, ALL-订阅数据和回执,  DATA-只订阅数据,RET- 只订阅回执</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="100"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="dxpMode">
+					<xs:annotation>
+						<xs:documentation>默认为DXP；指中国电子口岸数据交换平台</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:length value="3"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="dxpAddress">
+					<xs:annotation>
+						<xs:documentation>向中国电子口岸数据中心申请数据交换平台的用户编号</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="100"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="note" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>备注</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="1000"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ExtendMessage">
+		<xs:annotation>
+			<xs:documentation>扩展自定义数据实体</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="name">
+					<xs:annotation>
+						<xs:documentation>自定义报文名称</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="30"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="version">
+					<xs:annotation>
+						<xs:documentation>自定义报文版本</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="30"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Message" type="ceb:XMLElement">
+					<xs:annotation>
+						<xs:documentation>自定义报文实体</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="XMLElement">
+		<xs:annotation>
+			<xs:documentation>XML格式字符实体</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:any namespace="##any" processContents="skip" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="CEB303Message">
+		<xs:annotation>
+			<xs:documentation>电子订单数据报文（电商平台）</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ceb:Order" maxOccurs="100"/>
+				<xs:element ref="ceb:BaseTransfer"/>
+				<xs:element ref="ceb:BaseSubscribe" minOccurs="0" maxOccurs="5"/>
+				<xs:element ref="ds:Signature" minOccurs="0"/>
+				<xs:element ref="ceb:ExtendMessage" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="guid" use="required">
+				<xs:annotation>
+					<xs:documentation>报文的36位系统唯一序号（英文字母大写）</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="36"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="version" use="required">
+				<xs:annotation>
+					<xs:documentation>报文版本号 默认1.0</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="10"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CEB304Message">
+		<xs:annotation>
+			<xs:documentation>电子订单回执报文</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ceb:OrderReturn" maxOccurs="100"/>
+			</xs:sequence>
+			<xs:attribute name="guid" use="required">
+				<xs:annotation>
+					<xs:documentation>报文的36位系统唯一序号（英文字母大写）</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="36"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="version" use="required">
+				<xs:annotation>
+					<xs:documentation>报文版本号 默认1.0</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="10"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CEB403Message">
+		<xs:annotation>
+			<xs:documentation>收款单数据报文（支付企业）</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ceb:Receipts" maxOccurs="100"/>
+				<xs:element ref="ceb:BaseTransfer"/>
+				<xs:element ref="ceb:BaseSubscribe" minOccurs="0" maxOccurs="5"/>
+				<xs:element ref="ds:Signature" minOccurs="0"/>
+				<xs:element ref="ceb:ExtendMessage" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="guid" use="required">
+				<xs:annotation>
+					<xs:documentation>报文的36位系统唯一序号（英文字母大写）</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="36"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="version" use="required">
+				<xs:annotation>
+					<xs:documentation>报文版本号 默认1.0</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="10"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CEB404Message">
+		<xs:annotation>
+			<xs:documentation>收款单回执报文</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ceb:ReceiptsReturn" maxOccurs="100"/>
+			</xs:sequence>
+			<xs:attribute name="guid" use="required">
+				<xs:annotation>
+					<xs:documentation>报文的36位系统唯一序号（英文字母大写）</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="36"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="version" use="required">
+				<xs:annotation>
+					<xs:documentation>报文版本号 默认1.0</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="10"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CEB505Message">
+		<xs:annotation>
+			<xs:documentation>物流运单数据报文（物流企业）</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ceb:Logistics" maxOccurs="100"/>
+				<xs:element ref="ceb:BaseTransfer"/>
+				<xs:element ref="ceb:BaseSubscribe" minOccurs="0" maxOccurs="5"/>
+				<xs:element ref="ds:Signature" minOccurs="0"/>
+				<xs:element ref="ceb:ExtendMessage" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="guid" use="required">
+				<xs:annotation>
+					<xs:documentation>报文的36位系统唯一序号（英文字母大写）</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="36"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="version" use="required">
+				<xs:annotation>
+					<xs:documentation>报文版本号 默认1.0</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="10"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CEB506Message">
+		<xs:annotation>
+			<xs:documentation>物流运单回执报文</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ceb:LogisticsReturn" maxOccurs="100"/>
+			</xs:sequence>
+			<xs:attribute name="guid" use="required">
+				<xs:annotation>
+					<xs:documentation>报文的36位系统唯一序号（英文字母大写）</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="36"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="version" use="required">
+				<xs:annotation>
+					<xs:documentation>报文版本号 默认1.0</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="10"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CEB507Message">
+		<xs:annotation>
+			<xs:documentation>物流运单数据报文（物流企业）</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ceb:Arrival" maxOccurs="100"/>
+				<xs:element ref="ceb:BaseTransfer"/>
+				<xs:element ref="ceb:BaseSubscribe" minOccurs="0" maxOccurs="5"/>
+				<xs:element ref="ds:Signature" minOccurs="0"/>
+				<xs:element ref="ceb:ExtendMessage" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="guid" use="required">
+				<xs:annotation>
+					<xs:documentation>报文的36位系统唯一序号（英文字母大写）</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="36"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="version" use="required">
+				<xs:annotation>
+					<xs:documentation>报文版本号 默认1.0</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="10"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CEB508Message">
+		<xs:annotation>
+			<xs:documentation>物流运抵单回执报文</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ceb:ArrivalReturn" maxOccurs="100"/>
+			</xs:sequence>
+			<xs:attribute name="guid" use="required">
+				<xs:annotation>
+					<xs:documentation>报文的36位系统唯一序号（英文字母大写）</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="36"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="version" use="required">
+				<xs:annotation>
+					<xs:documentation>报文版本号 默认1.0</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="10"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CEB509Message">
+		<xs:annotation>
+			<xs:documentation>物流离境单数据</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ceb:Departure" maxOccurs="100"/>
+				<xs:element ref="ceb:BaseTransfer"/>
+				<xs:element ref="ceb:BaseSubscribe" minOccurs="0" maxOccurs="5"/>
+				<xs:element ref="ds:Signature" minOccurs="0"/>
+				<xs:element ref="ceb:ExtendMessage" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="guid" use="required">
+				<xs:annotation>
+					<xs:documentation>报文的36位系统唯一序号（英文字母大写）</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="36"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="version" use="required">
+				<xs:annotation>
+					<xs:documentation>报文版本号 默认1.0</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="10"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CEB510Message">
+		<xs:annotation>
+			<xs:documentation>物流离境单回执</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ceb:DepartureReturn" maxOccurs="100"/>
+			</xs:sequence>
+			<xs:attribute name="guid" use="required">
+				<xs:annotation>
+					<xs:documentation>报文的36位系统唯一序号（英文字母大写）</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="36"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="version" use="required">
+				<xs:annotation>
+					<xs:documentation>报文版本号 默认1.0</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="10"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CEB603Message">
+		<xs:annotation>
+			<xs:documentation>申报清单数据</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ceb:Inventory" maxOccurs="100"/>
+				<xs:element ref="ceb:BaseTransfer"/>
+				<xs:element ref="ceb:BaseSubscribe" minOccurs="0" maxOccurs="5"/>
+				<xs:element ref="ds:Signature" minOccurs="0"/>
+				<xs:element ref="ceb:ExtendMessage" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="guid" use="required">
+				<xs:annotation>
+					<xs:documentation>报文的36位系统唯一序号（英文字母大写）</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="36"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="version" use="required">
+				<xs:annotation>
+					<xs:documentation>报文版本号 默认1.0</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="10"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CEB604Message">
+		<xs:annotation>
+			<xs:documentation>申报清单数据回执</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ceb:InventoryReturn" maxOccurs="100"/>
+			</xs:sequence>
+			<xs:attribute name="guid" use="required">
+				<xs:annotation>
+					<xs:documentation>报文的36位系统唯一序号（英文字母大写）</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="36"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="version" use="required">
+				<xs:annotation>
+					<xs:documentation>报文版本号 默认1.0</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="10"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CEB605Message">
+		<xs:annotation>
+			<xs:documentation>撤销申请单数据</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ceb:InvtCancel" maxOccurs="100"/>
+				<xs:element ref="ceb:BaseTransfer"/>
+				<xs:element ref="ceb:BaseSubscribe" minOccurs="0" maxOccurs="5"/>
+				<xs:element ref="ds:Signature" minOccurs="0"/>
+				<xs:element ref="ceb:ExtendMessage" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="guid" use="required">
+				<xs:annotation>
+					<xs:documentation>报文的36位系统唯一序号（英文字母大写）</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="36"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="version" use="required">
+				<xs:annotation>
+					<xs:documentation>报文版本号 默认1.0</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="10"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CEB606Message">
+		<xs:annotation>
+			<xs:documentation>撤销申请单回执</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ceb:InvtCancelReturn" maxOccurs="100"/>
+			</xs:sequence>
+			<xs:attribute name="guid" use="required">
+				<xs:annotation>
+					<xs:documentation>报文的36位系统唯一序号（英文字母大写）</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="36"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="version" use="required">
+				<xs:annotation>
+					<xs:documentation>报文版本号 默认1.0</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="10"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CEB607Message">
+		<xs:annotation>
+			<xs:documentation>清单总分单数据</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ceb:WayBill" maxOccurs="100"/>
+				<xs:element ref="ceb:BaseTransfer"/>
+				<xs:element ref="ceb:BaseSubscribe" minOccurs="0" maxOccurs="5"/>
+				<xs:element ref="ds:Signature" minOccurs="0"/>
+				<xs:element ref="ceb:ExtendMessage" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="guid" use="required">
+				<xs:annotation>
+					<xs:documentation>报文的36位系统唯一序号（英文字母大写）</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="36"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="version" use="required">
+				<xs:annotation>
+					<xs:documentation>报文版本号 默认1.0</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="10"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CEB608Message">
+		<xs:annotation>
+			<xs:documentation>清单总分单回执</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ceb:WayBillReturn" maxOccurs="100"/>
+			</xs:sequence>
+			<xs:attribute name="guid" use="required">
+				<xs:annotation>
+					<xs:documentation>报文的36位系统唯一序号（英文字母大写）</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="36"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="version" use="required">
+				<xs:annotation>
+					<xs:documentation>报文版本号 默认1.0</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="10"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CEB701Message">
+		<xs:annotation>
+			<xs:documentation>汇总申请单数据报文</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ceb:SummaryApply" maxOccurs="100"/>
+				<xs:element ref="ceb:BaseTransfer"/>
+				<xs:element ref="ceb:BaseSubscribe" minOccurs="0" maxOccurs="5"/>
+				<xs:element ref="ds:Signature" minOccurs="0"/>
+				<xs:element ref="ceb:ExtendMessage" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="guid" use="required">
+				<xs:annotation>
+					<xs:documentation>报文的36位系统唯一序号（英文字母大写）</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="36"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="version" use="required">
+				<xs:annotation>
+					<xs:documentation>报文版本号 默认1.0</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="10"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CEB702Message">
+		<xs:annotation>
+			<xs:documentation>汇总申请单回执报文</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ceb:SummaryReturn" maxOccurs="100"/>
+			</xs:sequence>
+			<xs:attribute name="guid" use="required">
+				<xs:annotation>
+					<xs:documentation>报文的36位系统唯一序号（英文字母大写）</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="36"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="version" use="required">
+				<xs:annotation>
+					<xs:documentation>报文版本号 默认1.0</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="10"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CEB792Message">
+		<xs:annotation>
+			<xs:documentation>汇总结果单数据报文</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ceb:SummaryResult" maxOccurs="100"/>
+			</xs:sequence>
+			<xs:attribute name="guid" use="required">
+				<xs:annotation>
+					<xs:documentation>报文的36位系统唯一序号（英文字母大写）</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="36"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="version" use="required">
+				<xs:annotation>
+					<xs:documentation>报文版本号 默认1.0</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="10"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
