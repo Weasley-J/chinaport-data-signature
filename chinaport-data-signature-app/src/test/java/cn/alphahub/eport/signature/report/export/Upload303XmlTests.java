@@ -8,9 +8,9 @@ import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
+import io.github.weasleyj.china.eport.sign.model.cebmessage.export.CEB303Message;
+import io.github.weasleyj.china.eport.sign.util.JAXBUtil;
 import lombok.extern.slf4j.Slf4j;
-import o.github.weasleyj.china.eport.sign.model.cebmessage.export.CEB303Message;
-import o.github.weasleyj.china.eport.sign.util.JAXBUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 

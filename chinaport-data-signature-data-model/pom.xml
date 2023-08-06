@@ -5,13 +5,11 @@
 
     <groupId>io.github.weasley-j</groupId>
     <artifactId>chinaport-data-signature-data-model</artifactId>
-    <version>1.0.5</version>
+    <version>1.0.6</version>
     <name>chinaport-data-signature-data-model</name>
     <packaging>jar</packaging>
     <url>https://github.com/Weasley-J/chinaport-data-signature/tree/main/chinaport-data-signature-data-model</url>
-    <description>
-        中国电子口岸加签服务数据模型: 1. 海关 179 数据抓取; 2. 海关总署xml报文, 进口单：CEB311Message, CEB621Message;
-    </description>
+    <description>中国电子口岸加签服务数据模型: 1. 海关 179 数据抓取; 2. 海关总署xml报文</description>
 
     <licenses>
         <license>
