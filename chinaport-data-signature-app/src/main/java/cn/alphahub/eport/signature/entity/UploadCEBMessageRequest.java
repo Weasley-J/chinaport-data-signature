@@ -2,11 +2,11 @@ package cn.alphahub.eport.signature.entity;
 
 import cn.alphahub.eport.signature.base.enums.RequestDataType;
 import cn.hutool.json.JSONUtil;
+import io.github.weasleyj.china.eport.sign.constants.MessageType;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import o.github.weasleyj.china.eport.sign.constants.MessageType;
 
 import java.io.Serial;
 import java.io.Serializable;
