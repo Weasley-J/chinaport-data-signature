@@ -1,7 +1,7 @@
 package cn.alphahub.eport.signature.constant;
 
+import io.github.weasleyj.china.eport.sign.constants.MessageType;
 import lombok.extern.slf4j.Slf4j;
-import o.github.weasleyj.china.eport.sign.constants.MessageType;
 import org.junit.jupiter.api.Test;
 
 /**

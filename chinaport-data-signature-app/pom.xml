@@ -35,7 +35,7 @@
         <nacos.version>2.2.4</nacos.version>
         <commons-io.version>2.13.0</commons-io.version>
         <multiple-email.version>3.0.0</multiple-email.version>
-        <signature-data-model.version>1.0.5</signature-data-model.version>
+        <signature-data-model.version>1.0.6</signature-data-model.version>
         <jaxb-api.version>2.3.1</jaxb-api.version>
         <guava.version>32.1.1-jre</guava.version>
         <sonar.host.url>http://192.168.31.140:9001</sonar.host.url>
