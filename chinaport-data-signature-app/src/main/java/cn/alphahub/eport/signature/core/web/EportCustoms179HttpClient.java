@@ -21,6 +21,6 @@ public interface EportCustoms179HttpClient {
      *
      * @param formData 表达数据
      */
-    @PostExchange(value = "/ceb2grab/grab/realTimeDataUpload", contentType = "application/x-www-form-urlencoded")
+    @PostExchange(contentType = "application/x-www-form-urlencoded")
     Mono<Capture179DataResponse> report179Data(@RequestParam Map<String, Object> formData);
 }
