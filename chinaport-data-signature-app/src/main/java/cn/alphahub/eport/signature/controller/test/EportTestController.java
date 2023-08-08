@@ -8,6 +8,7 @@ import cn.alphahub.eport.signature.entity.SignRequest;
 import cn.alphahub.eport.signature.entity.SignResult;
 import cn.alphahub.eport.signature.support.CommandClient;
 import cn.hutool.json.JSONUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
@@ -44,7 +45,7 @@ public class EportTestController {
      * @response {"message":"操作成功","success":true,"timestamp":"2023-07-31 17:42:58","code":200,"data":{"success":true,"certNo":"03000000000cde6f","x509Certificate":"MIIEoDCCBESgAwIBAgIIAwAAAAAM3m8wDAYIKoEcz1UBg3UFADCBmDELMAkGA1UEBhMCQ04xDzANBgNVBAgMBuWMl+S6rDEPMA0GA1UEBwwG5YyX5LqsMRswGQYDVQQKDBLkuK3lm73nlLXlrZDlj6PlsrgxGzAZBgNVBAsMEuivgeS5pueuoeeQhuS4reW/gzEtMCsGA1UEAwwk5Lit5Zu955S15a2Q5Lia5Yqh6K+B5Lmm566h55CG5Lit5b+DMB4XDTIzMDMyOTAwMDAwMFoXDTMzMDMyOTAwMDAwMFowVjELMAkGA1UEBhMCQ04xMzAxBgNVBAsMKua1t+WNl+ecgeiNo+iqiei/m+WHuuWPo+i0uOaYk+aciemZkOWFrOWPuDESMBAGA1UEAwwJ5p2o5aaC6YeRMFkwEwYHKoZIzj0CAQYIKoEcz1UBgi0DQgAE0vOQmplAr9igPZrA8F1msqnFd0U++6G6NhG5rNuIUWft0BwQn7eSJkt5/fvSSoe7pUg2/awHUWPnzkeeQc7oVqOCArUwggKxMBEGCWCGSAGG+EIBAQQEAwIFoDAOBgNVHQ8BAf8EBAMCBsAwCQYDVR0TBAIwADApBgNVHSUEIjAgBggrBgEFBQcDAgYIKwYBBQUHAwQGCisGAQQBgjcUAgIwHwYDVR0jBBgwFoAURCQxt0wEvoAVXmuo4N1bjKXTh0UwHQYDVR0OBBYEFAytGob5L0WqhOCZ5l6Lf2jUdNrAMGgGA1UdIARhMF8wXQYEVR0gADBVMFMGCCsGAQUFBwIBFkdodHRwczovL3d3dy5jaGluYXBvcnQuZ292LmNuL3RjbXNmaWxlL3UvY21zL3d3dy8yMDIyMDQvMTIxMzI5NDh4dDZwLnBkZjB/BgNVHR8EeDB2MHSgcqBwhm5sZGFwOi8vbGRhcC5jaGluYXBvcnQuZ292LmNuOjM4OS9jbj1jcmwwMzAwMDAsb3U9Y3JsMDAsb3U9Y3JsLGM9Y24/Y2VydGlmaWNhdGVSZXZvY2F0aW9uTGlzdD9iYXNlP2NuPWNybDAzMDAwMDA+BggrBgEFBQcBAQQyMDAwLgYIKwYBBQUHMAGGImh0dHA6Ly9vY3NwLmNoaW5hcG9ydC5nb3YuY246ODgwMC8wOgYKKwYBBAGpQ2QFAQQsDCrmtbfljZfnnIHojaPoqonov5vlh7rlj6PotLjmmJPmnInpmZDlhazlj7gwEgYKKwYBBAGpQ2QFAwQEDAIwMTAiBgorBgEEAalDZAUIBBQMEjUxMjMyNDE5NjQxMDE3Mjk3WDAgBgorBgEEAalDZAUJBBIMEDAzLUpKMEc5MDAyMjA3NTIwGQYKKwYBBAGpQ2QFCwQLDAlNQTVUTkZHWTkwEgYKKwYBBAGpQ2QFDAQEDAIwMDASBgorBgEEAalDZAIBBAQMAjEyMBIGCisGAQQBqUNkAgQEBAwCMTQwDAYIKoEcz1UBg3UFAANIADBFAiBM4OVAc8aaCZU4XFfcVMkC7bWIIenRnPLxrnwVeYO3CQIhANQ767YIurkJCoLtwyqQPbUZe/+3BjGZcIWqB1mAl9T+","digestValue":"/uy5whbEnIhnrSkF7hSAJNm8ISI=","signatureValue":"lziAtii3Ibn4UaHMAZ5MI90PLlQvn8Qm7m06gjRM/TcCI5pCtCbBGsZ+UoMmjbSjk4KP90wugL5DV5PXKVwYlA==","signatureNode":"<ds:SignedInfo xmlns:ceb=\"http://www.chinaport.gov.cn/ceb\" xmlns:ds=\"http://www.w3.org/2000/09/xmldsig#\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><ds:CanonicalizationMethod Algorithm=\"http://www.w3.org/TR/2001/REC-xml-c14n-20010315\"></ds:CanonicalizationMethod><ds:SignatureMethod Algorithm=\"http://www.w3.org/2000/09/xmldsig#sm2-sm3\"></ds:SignatureMethod><ds:Reference URI=\"\"><ds:Transforms><ds:Transform Algorithm=\"http://www.w3.org/2000/09/xmldsig#enveloped-signature\"></ds:Transform></ds:Transforms><ds:DigestMethod Algorithm=\"http://www.w3.org/2000/09/xmldsig#sha1\"></ds:DigestMethod><ds:DigestValue>/uy5whbEnIhnrSkF7hSAJNm8ISI=</ds:DigestValue></ds:Reference></ds:SignedInfo>"}}
      */
     @GetMapping("/cebmessage/signature")
-    public Result<SignResult> signCebMessage() {
+    public Result<SignResult> signCebMessage(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         @SuppressWarnings({"all"}) String sourceXml = "<ceb:CEB621Message xmlns:ceb=\"http://www.chinaport.gov.cn/ceb\" guid=\"CEB621_HNZB_FXJK_20220208175054_0035\" version=\"v1.0\">\n" +
                 "    <ceb:Inventory>\n" +
                 "        <ceb:InventoryHead>\n" +
@@ -137,7 +138,7 @@ public class EportTestController {
      * }
      */
     @GetMapping("/179/signature")
-    public Result<SignResult> sign179Report() {
+    public Result<SignResult> sign179Report(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         String sign179String = "\"sessionID\":\"ad2254-8hewyf32-55616249\"||\"payExchangeInfoHead\":\"{\"guid\":\"9D55BA71-22DE-41F4-8B50-C36C83B3B530\",\"initalRequest\":\"原始请求\",\"initalResponse\":\"ok\",\"ebpCode\":\"4404840022\",\"payCode\":\"312226T001\",\"payTransactionId\":\"2018121222001354081010726129\",\"totalAmount\":100,\"currency\":\"142\",\"verDept\":\"3\",\"payType\":\"1\",\"tradingTime\":\"20181212041803\",\"note\":\"批量订单，测试订单优化,生成多个so订单\"}\"||\"payExchangeInfoLists\":\"[{\"orderNo\":\"SO1710301150602574003\",\"goodsInfo\":[{\"gname\":\"lhy-gnsku3\",\"itemLink\":\"http://m.yunjiweidian.com/yunjibuyer/static/vue-buyer/idc/index.html#/detail?itemId=999761&shopId=453\"},{\"gname\":\"lhy-gnsku2\",\"itemLink\":\"http://m.yunjiweidian.com/yunjibuyer/static/vue-buyer/idc/index.html#/detail?itemId=999760&shopId=453\"}],\"recpAccount\":\"OSA571908863132601\",\"recpCode\":\"\",\"recpName\":\"YUNJIHONGKONGLIMITED\"}]\"||\"serviceTime\":\"1544519952469\"";
         SignRequest request = new SignRequest(sign179String);
         String payload = signHandler.getSignDataParameter(request);
