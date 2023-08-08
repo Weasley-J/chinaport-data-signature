@@ -3,12 +3,12 @@ package cn.alphahub.eport.signature.controller.rpc;
 import cn.alphahub.eport.signature.config.ChinaEportProperties;
 import cn.alphahub.eport.signature.core.ChinaEportReportClient;
 import cn.alphahub.eport.signature.core.SignHandler;
+import cn.alphahub.eport.signature.core.web.EportCebMessageHttpClient;
 import cn.alphahub.eport.signature.entity.SignRequest;
 import cn.alphahub.eport.signature.entity.SignResult;
 import cn.alphahub.eport.signature.entity.UkeyRequest;
 import cn.alphahub.eport.signature.entity.UkeyResponse.Args;
 import cn.hutool.core.codec.Base64;
-import cn.hutool.http.ContentType;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
@@ -18,7 +18,6 @@ import io.github.weasleyj.china.eport.sign.model.request.MessageRequest;
 import io.github.weasleyj.china.eport.sign.util.GUIDUtil;
 import io.github.weasleyj.china.eport.sign.util.JAXBUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +28,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-
-import static cn.alphahub.eport.signature.core.ChinaEportReportClient.EPORT_CEBMESSAGE_SERVER_ENCODE;
 
 /**
  * Eport Sign Controller Test
@@ -46,6 +43,8 @@ class EportSignControllerTest {
     ChinaEportProperties chinaEportProperties;
     @Autowired
     ChinaEportReportClient chinaEportReportClient;
+    @Autowired
+    EportCebMessageHttpClient cebMessageHttpClient;
 
     @Test
     @DisplayName("海关XML数据加签+验正签名结果")
@@ -153,6 +152,7 @@ class EportSignControllerTest {
         ceb311Message.getOrder().getOrderHead().setGuid(guid);
         chinaEportReportClient.buildBaseTransfer(ceb311Message.getBaseTransfer());
         MessageRequest messageRequest = chinaEportReportClient.buildMessageRequest(ceb311Message, MessageType.CEB311Message);
+       /*
         String requestServer = StringUtils.defaultIfBlank(chinaEportProperties.getServer(), Base64.decodeStr(EPORT_CEBMESSAGE_SERVER_ENCODE));
         String requestBody = JSONUtil.toJsonStr(messageRequest);
         log.info("数据上报海关请求入参 {}\nRequest Server: {}", requestBody, requestServer);
@@ -161,6 +161,10 @@ class EportSignControllerTest {
                 .body(requestBody)
                 .execute();
         log.info("开始上报，Http响应结果: {}", httpResponse.body());
+        */
+        cebMessageHttpClient.reportCebMessage(messageRequest).subscribe(data -> {
+            log.info("开始申报数据，Http响应结果: {}", data);
+        });
 
         // 睡8秒，开始查询回执
         LocalDateTime uploadTime = LocalDateTime.now();
