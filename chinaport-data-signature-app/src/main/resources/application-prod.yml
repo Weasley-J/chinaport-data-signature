@@ -40,15 +40,15 @@ spring:
   mail:
     enable: false
     #主收件人邮箱
-    to: "abc@qq.com"
+    to: abc@qq.com
     #抄送箱邮（非必填）,抄送多个收件人箱邮用","隔开
-    cc: 'abc@outlook.com,cbd@qq.com'
+    cc: abc@outlook.com,cbd@qq.com
     #以下发送邮件的客服端参数，使用哪个邮箱发出通知消息
-    host: "smtp.189.cn" #邮件服务商主机
+    host: smtp.189.cn #邮件服务商主机
     port: 465 #端口号
-    username: "xxx@189.cn"
-    password: "your_password"
-    protocol: "smtp" #协议
+    username: xxx@189.cn
+    password: your_password
+    protocol: smtp #协议
     properties:
       mail:
         smtp:
@@ -78,13 +78,13 @@ eport:
     report:
       # CEBMessage XML加签配置
       ceb-message:
-        cop-code: '传输企业代码'
-        cop-name: '海南省荣誉进出口贸易有限公司'
-        dxp-id: '向中国电子口岸数据中心申请数据交换平台的用户编号'
+        cop-code: 传输企业代码
+        cop-name: 海南省荣誉进出口贸易有限公司
+        dxp-id: 向中国电子口岸数据中心申请数据交换平台的用户编号
         # 数据上报服务器地址，格式: http://ip:port, 缺省将采用默认server
         server:
       # 海关 179 数据抓取配置
       customs179:
-        ebp-code: '电商平台代码'
+        ebp-code: 电商平台代码
         # server可为空，配置文件中指定时，将被优先使用
         server: https://海关服务器域名不方便公开/ceb2grab/grab/realTimeDataUpload
