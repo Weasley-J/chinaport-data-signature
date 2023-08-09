@@ -40,13 +40,13 @@ api[0].list.push({
 api[0].list[1].list.push({
     order: '1',
     deprecated: 'false',
-    url: 'http://localhost:8080/rpc/eport/report/result/ceb312msg',
+    url: 'http://localhost:8080/rpc/eport/result/ceb312msg',
     desc: '查询311进口单申报结果',
 });
 api[0].list[1].list.push({
     order: '2',
     deprecated: 'false',
-    url: 'http://localhost:8080/rpc/eport/report/result/ceb622msg',
+    url: 'http://localhost:8080/rpc/eport/result/ceb622msg',
     desc: '查询621进口单申报结果',
 });
 api[0].list.push({
