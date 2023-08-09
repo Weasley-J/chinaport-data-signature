@@ -89,15 +89,16 @@ public class WebClientConfiguration {
      * @return A proxy bean of EportReportResultHttpClient
      */
     @Bean
-    public EportReportResultHttpClient eportReportResultHttpClient() {
+    public EportReportResultHttpClient eportReportResultHttpClient(ChinaEportProperties chinaEportProperties) {
+        String baseUrl = StringUtils.defaultIfBlank(chinaEportProperties.getServer(), new String(Base64.decodeBase64(EPORT_CEBMESSAGE_SERVER_ENCODE)));
         WebClient webClient = WebClient.builder()
                 .filter(logRequest())
                 .filter(logResponse())
                 .defaultStatusHandler(HttpStatusCode::isError, resp -> Mono.just(new EportWebClientException("Web Client 调用发生异常!")))
-                .baseUrl("http://" + new String(Base64.decodeBase64("MzYuMTAxLjIwOC4yMzA=")) + ":8090")
+                .baseUrl(baseUrl)
                 .build();
-        HttpServiceProxyFactory httpServiceProxyFactory = HttpServiceProxyFactory.builder(WebClientAdapter.forClient(webClient)).build();
-        return httpServiceProxyFactory.createClient(EportReportResultHttpClient.class);
+        return HttpServiceProxyFactory.builder(WebClientAdapter.forClient(webClient)).build()
+                .createClient(EportReportResultHttpClient.class);
     }
 
     /**

@@ -1,8 +1,10 @@
 package cn.alphahub.eport.signature.core.web;
 
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.service.annotation.GetExchange;
 import org.springframework.web.service.annotation.HttpExchange;
+import reactor.core.publisher.Mono;
 
 /**
  * 查询CEB Message申报回执Http客户端
@@ -41,8 +43,8 @@ public interface EportReportResultHttpClient {
      * @param qryid 查询时间，日期时间格式：yyyyMMddHHmmss
      * @apiNote 查询此时间点之后的数据，必须在当前时间点之前
      */
-    @GetExchange(value = "/ceb312msg")
-    String getCeb312msgResult(@RequestParam String dxpid, @RequestParam String qryid);
+    @GetExchange(value = "/ceb312msg", accept = {MediaType.TEXT_PLAIN_VALUE})
+    Mono<String> getCeb312msgResult(@RequestParam String dxpid, @RequestParam String qryid);
 
     /**
      * 查询 621 申报回执
@@ -51,6 +53,6 @@ public interface EportReportResultHttpClient {
      * @param qryid 查询时间，日期时间格式：yyyyMMddHHmmss
      * @apiNote 查询此时间点之后的数据，必须在当前时间点之前
      */
-    @GetExchange(value = "/ceb622msg")
-    String getCe622msgResult(@RequestParam String dxpid, @RequestParam String qryid);
+    @GetExchange(value = "/ceb622msg", accept = {MediaType.TEXT_PLAIN_VALUE})
+    Mono<String> getCe622msgResult(@RequestParam String dxpid, @RequestParam String qryid);
 }
