@@ -25,7 +25,7 @@ import java.time.format.DateTimeFormatter;
  */
 @Slf4j
 @RestController
-@RequestMapping("/rpc/eport/report/result")
+@RequestMapping("/rpc/eport/result")
 public class EportReportResultController {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
     @Autowired
