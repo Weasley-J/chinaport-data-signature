@@ -8,8 +8,8 @@ api.push({
 api[0].list.push({
     alias: 'EportTestController',
     order: '1',
-    link: '电子口岸报文加签测试',
-    desc: '电子口岸报文加签测试',
+    link: '电子口岸报文加签（测试）',
+    desc: '电子口岸报文加签（测试）',
     list: []
 })
 api[0].list[0].list.push({
@@ -31,13 +31,32 @@ api[0].list[0].list.push({
     desc: '执行脚本命令',
 });
 api[0].list.push({
-    alias: 'UkeyHealthController',
+    alias: 'EportReportResultController',
     order: '2',
+    link: '查询申报回执结果',
+    desc: '查询申报回执结果',
+    list: []
+})
+api[0].list[1].list.push({
+    order: '1',
+    deprecated: 'false',
+    url: 'http://localhost:8080/rpc/eport/report/result/ceb312msg',
+    desc: '查询311进口单申报结果',
+});
+api[0].list[1].list.push({
+    order: '2',
+    deprecated: 'false',
+    url: 'http://localhost:8080/rpc/eport/report/result/ceb622msg',
+    desc: '查询621进口单申报结果',
+});
+api[0].list.push({
+    alias: 'UkeyHealthController',
+    order: '3',
     link: 'ukey健康状态恢复',
     desc: 'Ukey健康状态恢复',
     list: []
 })
-api[0].list[1].list.push({
+api[0].list[2].list.push({
     order: '1',
     deprecated: 'false',
     url: 'http://localhost:8080/rpc/eport/ukey/health/endpoint/{command}',
@@ -45,18 +64,18 @@ api[0].list[1].list.push({
 });
 api[0].list.push({
     alias: 'EportUploadController',
-    order: '3',
+    order: '4',
     link: '电子口岸报文推送',
     desc: '电子口岸报文推送',
     list: []
 })
-api[0].list[2].list.push({
+api[0].list[3].list.push({
     order: '1',
     deprecated: 'false',
     url: 'http://localhost:8080/rpc/eport/upload/CEBMessage',
     desc: '推送CEBMessage报文',
 });
-api[0].list[2].list.push({
+api[0].list[3].list.push({
     order: '2',
     deprecated: 'false',
     url: 'http://localhost:8080/rpc/eport/upload/179/data',
@@ -64,12 +83,12 @@ api[0].list[2].list.push({
 });
 api[0].list.push({
     alias: 'EportCertController',
-    order: '4',
+    order: '5',
     link: '电子口岸x509证书',
     desc: '电子口岸X509证书',
     list: []
 })
-api[0].list[3].list.push({
+api[0].list[4].list.push({
     order: '1',
     deprecated: 'false',
     url: 'http://localhost:8080/rpc/eport/cert/download',
@@ -77,12 +96,12 @@ api[0].list[3].list.push({
 });
 api[0].list.push({
     alias: 'EportSignController',
-    order: '5',
+    order: '6',
     link: '电子口岸报文加签',
     desc: '电子口岸报文加签',
     list: []
 })
-api[0].list[4].list.push({
+api[0].list[5].list.push({
     order: '1',
     deprecated: 'false',
     url: 'http://localhost:8080/rpc/eport/signature',

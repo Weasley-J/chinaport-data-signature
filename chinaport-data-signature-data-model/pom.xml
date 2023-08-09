@@ -5,7 +5,7 @@
 
     <groupId>io.github.weasley-j</groupId>
     <artifactId>chinaport-data-signature-data-model</artifactId>
-    <version>1.0.6</version>
+    <version>1.0.7</version>
     <name>chinaport-data-signature-data-model</name>
     <packaging>jar</packaging>
     <url>https://github.com/Weasley-J/chinaport-data-signature/tree/main/chinaport-data-signature-data-model</url>
@@ -38,7 +38,8 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <lombok.version>1.18.28</lombok.version>
         <slf4j-api.version>2.0.7</slf4j-api.version>
-        <jaxb-api.version>2.3.1</jaxb-api.version>
+        <jaxb-api.version>2.4.0-b180830.0359</jaxb-api.version>
+        <jaxb-runtime.version>2.3.8</jaxb-runtime.version>
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
         <nexus-staging.version>1.6.13</nexus-staging.version>
         <maven-javadoc.version>3.4.0</maven-javadoc.version>
@@ -64,7 +65,7 @@
         <dependency>
             <groupId>org.glassfish.jaxb</groupId>
             <artifactId>jaxb-runtime</artifactId>
-            <version>${jaxb-api.version}</version>
+            <version>${jaxb-runtime.version}</version>
         </dependency>
     </dependencies>
 
