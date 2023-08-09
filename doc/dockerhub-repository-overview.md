@@ -60,7 +60,7 @@ SPRING_ARGS="--spring.profiles.active=prod \
 --eport.signature.report.ceb-message.cop-code=报文传输的企业代码 \
 --eport.signature.report.ceb-message.cop-name=报文传输的企业名称 \
 --eport.signature.report.ceb-message.dxp-id=向中国电子口岸数据中心申请数据交换平台的用户编号 \
---eport.signature.report.ceb-message.server=海关服务器地址格式 \
+--eport.signature.report.ceb-message.server=海关服务器URL地址 \
 --eport.signature.report.customs179.ebp-code=电商平台代码 \
 --eport.signature.report.customs179.server=数据上报服务器URL地址"
 
