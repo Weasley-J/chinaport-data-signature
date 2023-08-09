@@ -11,6 +11,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import io.github.weasleyj.china.eport.sign.model.cebmessage.export.CEB303Message;
 import io.github.weasleyj.china.eport.sign.util.JAXBUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -27,6 +28,7 @@ import java.util.HashMap;
 class Upload303XmlTests {
 
     @Test
+    @DisplayName("303进口单加签测试")
     void sign() {
         final String data = """
                 <?xml version="1.0" encoding="utf-8" standalone="no"?>
