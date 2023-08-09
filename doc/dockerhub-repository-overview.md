@@ -44,12 +44,12 @@ JAVA_OPTS="-Xmx512m -Xms512m"
 # 项目启动的 Spring-Boot 启动命令行配置参数
 SPRING_ARGS="--spring.profiles.active=prod \
 --spring.mail.enable=false \
---spring.mail.to='abc@qq.com' \
---spring.mail.cc='abc@outlook.com,abc@qq.com' \
---spring.mail.host='smtp.189.cn' \
+--spring.mail.to=abc@qq.com \
+--spring.mail.cc=abc@outlook.com,abc@qq.com \
+--spring.mail.host=smtp.189.cn \
 --spring.mail.port=465 \
---spring.mail.username='xxx@189.cn' \
---spring.mail.password='' \
+--spring.mail.username=发件人邮箱 \
+--spring.mail.password=发件人邮箱密码 \
 --spring.mail.protocol=smtp \
 --spring.mail.properties.mail.smtp.ssl.enable=true \
 --spring.mail.properties.mail.debug=false \
@@ -57,12 +57,12 @@ SPRING_ARGS="--spring.profiles.active=prod \
 --eport.signature.ukey.password=88888888 \
 --eport.signature.auth.enable=on \
 --eport.signature.auth.token=DefaultAuthToken \
---eport.signature.report.ceb-message.cop-code='' \
---eport.signature.report.ceb-message.cop-name='' \
---eport.signature.report.ceb-message.dxp-id='' \
---eport.signature.report.ceb-message.server='null' \
---eport.signature.report.customs179.ebp-code='' \
---eport.signature.report.customs179.server='null'"
+--eport.signature.report.ceb-message.cop-code=报文传输的企业代码 \
+--eport.signature.report.ceb-message.cop-name=报文传输的企业名称 \
+--eport.signature.report.ceb-message.dxp-id=向中国电子口岸数据中心申请数据交换平台的用户编号 \
+--eport.signature.report.ceb-message.server=海关服务器地址格式 \
+--eport.signature.report.customs179.ebp-code=电商平台代码 \
+--eport.signature.report.customs179.server=数据上报服务器URL地址"
 
 # 删除旧容器
 docker stop chinaport-data-signature && docker rm -f chinaport-data-signature
@@ -74,6 +74,7 @@ docker run --name chinaport-data-signature --restart=always \
   -e SPRING_ARGS="${SPRING_ARGS}" \
   -v ${WORK_DIR}/logs:/app/logs \
   -d weasleyj/chinaport-data-signature
+
 ```
 
 - 查看容器日志

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -48,10 +49,10 @@ public class EportReportResultController {
      */
     @GetMapping("/ceb312msg")
     public Result<String> getCeb312msgResult(@RequestParam(required = false) @DateTimeFormat(pattern = "yyyyMMddHHmmss") LocalDateTime qryId) {
-        qryId = ObjectUtils.defaultIfNull(qryId, LocalDateTime.now().plusSeconds(15));
-        log.info("开始查询311申报回执结果 {}", FORMATTER.format(qryId));
-        String ceb312msgResult = eportReportResultHttpClient.getCeb312msgResult(chinaEportProperties.getDxpId(), FORMATTER.format(qryId));
-        return Result.ok(ceb312msgResult);
+        qryId = ObjectUtils.defaultIfNull(qryId, LocalDateTime.now().minusSeconds(15));
+        log.info("开始查询311申报回执结果, qryId {}", FORMATTER.format(qryId));
+        Mono<String> msgResult = eportReportResultHttpClient.getCeb312msgResult(chinaEportProperties.getDxpId(), FORMATTER.format(qryId));
+        return Result.ok(msgResult.block());
     }
 
     /**
@@ -70,10 +71,10 @@ public class EportReportResultController {
      */
     @GetMapping("/ceb622msg")
     public Result<String> getCe622msgResult(@RequestParam(required = false) @DateTimeFormat(pattern = "yyyyMMddHHmmss") LocalDateTime qryId) {
-        qryId = ObjectUtils.defaultIfNull(qryId, LocalDateTime.now().plusSeconds(15));
-        log.info("开始查询621进口单申报回执结果 {}", FORMATTER.format(qryId));
-        String ceb622msgResult = eportReportResultHttpClient.getCe622msgResult(chinaEportProperties.getDxpId(), FORMATTER.format(qryId));
-        return Result.ok(ceb622msgResult);
+        qryId = ObjectUtils.defaultIfNull(qryId, LocalDateTime.now().minusSeconds(15));
+        log.info("开始查询621进口单申报回执结果, qryId {}", FORMATTER.format(qryId));
+        Mono<String> msgResult = eportReportResultHttpClient.getCe622msgResult(chinaEportProperties.getDxpId(), FORMATTER.format(qryId));
+        return Result.ok(msgResult.block());
     }
 
 }
