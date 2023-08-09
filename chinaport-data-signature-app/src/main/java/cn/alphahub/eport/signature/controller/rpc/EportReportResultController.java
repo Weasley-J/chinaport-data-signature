@@ -43,7 +43,7 @@ public class EportReportResultController {
      * "code": 200,
      * "data": "[{org_id=1, instm=1691397836000, re_order_guid=NWIVQA-WEASLEY-20230807164347-GCVZ4S, returnstatus=2, ebpcode=46016602EV, returntime2=20230807164356, ebccode=46016602EV, trans_dxpid=DXPENT0000530815, returninfo=新增申报成功[NWIVQA-WEASLEY-20230807164347-GCVZ4S], returntime=1691397830000, orderno=JO_D8079556739228400022}]"
      * }
-     * @apiNote 默认查询当前时间前15秒的申报数据，当前时间：20230806144417，则 qryId=20230806144401，不传的情况适用于刚刚申报成功查询回执结果，海关的处理时间间隔约为15秒
+     * @apiNote 查询此时间点之后的数据，必须在当前时间点之前，默认查询当前时间前15秒的申报数据，当前时间：20230806144417，则 qryId=20230806144401，不传的情况适用于刚刚申报成功查询回执结果，海关的处理时间间隔约为15秒
      * @since 1.1.1
      */
     @GetMapping("/ceb312msg")
@@ -65,7 +65,7 @@ public class EportReportResultController {
      * "code": 200,
      * "data": "[{org_id=1, instm=1691397837000, agentcode=46016602EV, re_elist_guid_cus=9422f96b-ccbc-4a69-a899-6d9dd583d501, returnstatus=2, ebpcode=46016602EV, preno=B20230807570793612, returntime2=20230807164357, ebccode=46016602EV, createtime=20230807164351, trans_dxpid=DXPENT0000530815, returninfo=清单新增申报成功[3CQHDG-WEASLEY-20230807164348-7KYRQN][电商企业编码：46016602EV订单编号：JO_D8079556739228400022], returntime=1691397830000, re_elist_guid=3CQHDG-WEASLEY-20230807164348-7KYRQN, customscode=6409}, {org_id=1, instm=1691397847000, agentcode=46016602EV, re_elist_guid_cus=9422f96b-ccbc-4a69-a899-6d9dd583d501, returnstatus=120, ebpcode=46016602EV, preno=B20230807570793612, returntime2=20230807164407, ebccode=46016602EV, createtime=20230807164355, trans_dxpid=DXPENT0000530815, returninfo=[Code:1800;Desc:逻辑校验通过], returntime=1691397831000, re_elist_guid=4e7a2dab-064b-410b-9ce6-e322c590ae3d, customscode=6409, invtno=64092023I000722460}, {org_id=1, instm=1691397847000, agentcode=46016602EV, re_elist_guid_cus=9422f96b-ccbc-4a69-a899-6d9dd583d501, returnstatus=800, ebpcode=46016602EV, preno=B20230807570793612, returntime2=20230807164407, ebccode=46016602EV, createtime=20230807164355, trans_dxpid=DXPENT0000530815, returninfo=[Code:2600;Desc:放行], returntime=1691397832000, re_elist_guid=4e7a2dab-064b-410b-9ce6-e322c590ae3d, customscode=6409, invtno=64092023I000722460}]"
      * }
-     * @apiNote 默认查询当前时间前15秒的申报数据，当前时间：20230806144417，则 qryId=20230806144401，不传的情况适用于刚刚申报成功查询回执结果，海关的处理时间间隔约为15秒
+     * @apiNote 查询此时间点之后的数据，必须在当前时间点之前，默认查询当前时间前15秒的申报数据，当前时间：20230806144417，则 qryId=20230806144401，不传的情况适用于刚刚申报成功查询回执结果，海关的处理时间间隔约为15秒
      * @since 1.1.1
      */
     @GetMapping("/ceb622msg")

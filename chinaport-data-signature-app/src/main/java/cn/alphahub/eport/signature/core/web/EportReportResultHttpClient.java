@@ -39,6 +39,7 @@ public interface EportReportResultHttpClient {
      *
      * @param dxpid 向中国电子口岸数据中心申请数据交换平台的用户编号
      * @param qryid 查询时间，日期时间格式：yyyyMMddHHmmss
+     * @apiNote 查询此时间点之后的数据，必须在当前时间点之前
      */
     @GetExchange(value = "/ceb312msg")
     String getCeb312msgResult(@RequestParam String dxpid, @RequestParam String qryid);
@@ -48,6 +49,7 @@ public interface EportReportResultHttpClient {
      *
      * @param dxpid 向中国电子口岸数据中心申请数据交换平台的用户编号
      * @param qryid 查询时间，日期时间格式：yyyyMMddHHmmss
+     * @apiNote 查询此时间点之后的数据，必须在当前时间点之前
      */
     @GetExchange(value = "/ceb622msg")
     String getCe622msgResult(@RequestParam String dxpid, @RequestParam String qryid);
