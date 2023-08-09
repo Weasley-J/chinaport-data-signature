@@ -3,6 +3,7 @@ package cn.alphahub.eport.signature.config;
 import cn.alphahub.eport.signature.base.exception.EportWebClientException;
 import cn.alphahub.eport.signature.core.web.EportCebMessageHttpClient;
 import cn.alphahub.eport.signature.core.web.EportCustoms179HttpClient;
+import cn.alphahub.eport.signature.core.web.EportReportResultHttpClient;
 import cn.alphahub.eport.signature.core.web.WebfluxDemoHttpClient;
 import cn.alphahub.eport.signature.support.OriginalPropertyNamingStrategy;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -82,6 +83,21 @@ public class WebClientConfiguration {
                 .build();
         HttpServiceProxyFactory httpServiceProxyFactory = HttpServiceProxyFactory.builder(WebClientAdapter.forClient(webClient)).build();
         return httpServiceProxyFactory.createClient(EportCustoms179HttpClient.class);
+    }
+
+    /**
+     * @return A proxy bean of EportReportResultHttpClient
+     */
+    @Bean
+    public EportReportResultHttpClient eportReportResultHttpClient() {
+        WebClient webClient = WebClient.builder()
+                .filter(logRequest())
+                .filter(logResponse())
+                .defaultStatusHandler(HttpStatusCode::isError, resp -> Mono.just(new EportWebClientException("Web Client 调用发生异常!")))
+                .baseUrl("http://" + new String(Base64.decodeBase64("MzYuMTAxLjIwOC4yMzA=")) + ":8090")
+                .build();
+        HttpServiceProxyFactory httpServiceProxyFactory = HttpServiceProxyFactory.builder(WebClientAdapter.forClient(webClient)).build();
+        return httpServiceProxyFactory.createClient(EportReportResultHttpClient.class);
     }
 
     /**

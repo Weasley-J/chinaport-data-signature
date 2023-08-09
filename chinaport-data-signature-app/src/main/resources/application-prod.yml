@@ -15,6 +15,9 @@ logging:
     jdbc.sqltiming: debug
     com.alibaba.cloud.nacos.client: error
     com.alibaba.nacos: error
+    org.springframework.web.reactive.function.client.ExchangeFunctions: trace
+    reactor.netty.http.client.HttpClient: DEBUG
+
   file:
     path: ./logs/
     name: ${logging.file.path}/${spring.application.name}.log
@@ -49,6 +52,9 @@ spring:
             enable: true
         debug: false #是否开始debug模式，终端会打印日志
 
+  mvc:
+    log-request-details: on
+
 #中国电子口岸u-key的配置参数
 eport:
   signature:
@@ -64,7 +70,7 @@ eport:
     auth:
       enable: true
       token: DefaultAuthToken
-    # 报文传输的企业元数据配置（数据上报）
+    # 报文传输企业的元数据配置（数据上报）
     report:
       # CEBMessage XML加签配置
       ceb-message:
