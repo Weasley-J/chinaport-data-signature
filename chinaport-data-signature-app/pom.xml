@@ -11,7 +11,7 @@
 
     <groupId>cn.alphahub.eport.signature</groupId>
     <artifactId>chinaport-data-signature-app</artifactId>
-    <version>1.1.0</version>
+    <version>1.0.0</version>
     <name>chinaport-data-signature-app</name>
     <url>https://github.com/Weasley-J/chinaport-data-signature.git</url>
 
@@ -292,7 +292,7 @@
                 <artifactId>smart-doc-maven-plugin</artifactId>
                 <configuration>
                     <configFile>./src/main/resources/smart-doc.json</configFile>
-                    <projectName>中国电子口岸（海口海关）报文加签API文档</projectName>
+                    <projectName>中国电子口岸报文加签API文档</projectName>
                     <excludes>
                         <exclude>com.alibaba:fastjson</exclude>
                     </excludes>
