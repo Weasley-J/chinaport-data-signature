@@ -64,13 +64,13 @@ eport:
     report:
       # CEBMessage XML加签配置
       ceb-message:
-        cop-code: '传输企业代码'
-        cop-name: '海南省荣誉进出口贸易有限公司'
-        dxp-id: '向中国电子口岸数据中心申请数据交换平台的用户编号'
+        cop-code: 传输企业代码
+        cop-name: 海南省荣誉进出口贸易有限公司
+        dxp-id: 向中国电子口岸数据中心申请数据交换平台的用户编号
         # 数据上报服务器地址，格式: http://ip:port, 缺省将采用默认server
         server:
       # 海关 179 数据抓取配置
       customs179:
-        ebp-code: '电商平台代码'
+        ebp-code: 电商平台代码
         # server可为空，配置文件中指定时，将被优先使用
         server: https://海关服务器域名不方便公开/ceb2grab/grab/realTimeDataUpload
