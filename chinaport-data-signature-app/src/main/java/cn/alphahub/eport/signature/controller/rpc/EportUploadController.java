@@ -22,7 +22,7 @@ import java.util.Map;
  * 电子口岸报文推送
  *
  * @author weasley
- * @version 1.0.0
+ * @version 1.1.0
  */
 @Slf4j
 @RestController
@@ -38,9 +38,10 @@ public class EportUploadController {
      * @param request CEBMessage报文
      * @return 结果，OK 表示已推送
      * @apiNote <ul>
-     * <b>支持JSON报文和XML报文</b>
+     * 支持JSON报文和XML报文
      * <li>JSON报文: 无需组装XML结构报文</li>
      * <li>XML报文: 需组装XML结构的报文</li>
+     * (已实现的CEBMessage报文: 311/621)
      * </ul>
      */
     @PostMapping("/CEBMessage")
