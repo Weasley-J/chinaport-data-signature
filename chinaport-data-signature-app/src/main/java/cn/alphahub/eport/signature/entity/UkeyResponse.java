@@ -7,7 +7,8 @@ import java.util.Objects;
 
 /**
  * u-key加签返回结果包装类
- * <p>以下对象模型禁止修改</p>
+ * <p>
+ * 以下对象模型禁止修改
  *
  * @author Weasley
  * @date 2022-02-12 19:7:6
