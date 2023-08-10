@@ -13,6 +13,7 @@ import cn.alphahub.multiple.email.EmailTemplate.SimpleMailMessageDomain;
 import cn.alphahub.multiple.email.annotation.Email;
 import cn.hutool.core.lang.TypeReference;
 import cn.hutool.json.JSONUtil;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -37,23 +38,21 @@ import java.util.concurrent.locks.LockSupport;
  * @date 2022/2/15
  */
 @Slf4j
+@Getter
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public class WebSocketClientHandler extends TextWebSocketHandler {
     /**
      * 电子口岸u-key的配置参数
      */
-    @Getter
     private final UkeyProperties ukeyProperties;
     /**
      * WebSocket包装类
      */
-    @Getter
     private final WebSocketWrapper webSocketWrapper;
     /**
      * X509Certificate证书判断
      */
-    @Getter
     private final CertificateHandler certificateHandler;
     @Autowired
     private EmailTemplate emailTemplate;
@@ -79,21 +78,21 @@ public class WebSocketClientHandler extends TextWebSocketHandler {
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         super.handleTextMessage(session, message);
         log.warn("收到ukey响应数据: {}", message.getPayload());
-        UkeyResponse response = JSONUtil.toBean(message.getPayload(), new TypeReference<>() {
+        UkeyResponse ukeyResponse = JSONUtil.toBean(message.getPayload(), new TypeReference<>() {
         }, true);
-        if (Objects.equals(response.get_id(), webSocketWrapper.getRequest().getId())) {
+        if (Objects.equals(ukeyResponse.get_id(), webSocketWrapper.getRequest().getId())) {
             try {
-                UkeyResponse.Args responseArgs = response.get_args();
+                UkeyResponse.Args responseArgs = ukeyResponse.get_args();
                 if (responseArgs.getResult().equals(true) && CollectionUtils.isNotEmpty(responseArgs.getData())) {
                     log.warn("电子口岸u-key加签数据成功：{}", JacksonUtil.toJson(responseArgs));
                     webSocketWrapper.getSignResult().setSuccess(true);
                     webSocketWrapper.getSignResult().setSignatureValue(responseArgs.getData().get(0));
                     webSocketWrapper.getSignResult().setCertNo(responseArgs.getData().get(1));
                     if (SignHandler.isSignXml(webSocketWrapper.getRequest())) {
-                        webSocketWrapper.getSignResult().setX509Certificate(certificateHandler.getX509Certificate(response.get_method()));
+                        webSocketWrapper.getSignResult().setX509Certificate(certificateHandler.getX509Certificate(ukeyResponse.get_method()));
                     }
                 } else {
-                    sendAlertSignFailure(JacksonUtil.toPrettyJson(response));
+                    sendAlertSignFailure(ukeyResponse, message.getPayload());
                 }
             } catch (Exception e) {
                 webSocketWrapper.getSignResult().setSuccess(false);
@@ -115,31 +114,61 @@ public class WebSocketClientHandler extends TextWebSocketHandler {
      *     "Result": false,
      *     "Data": [],
      *     "Error": [
-     *       "[读卡器底层库]复位读卡器失败:错误码\u003d50070",
+     *       "[读卡器底层库]复位读卡器失败:错误码：50070",
      *       "Err:Custom50070"
      *     ]
      *   }
      * }
      * </pre>
+     * <p>
+     * <figure>
+     * <img src="https://weasley.oss-cn-shanghai.aliyuncs.com/Photos/iShot_2023-08-10_13.56.34.png" alt="邮件通知效果">
+     * <figcaption>加签失败邮件通知</figcaption>
+     * </figure>
+     * </p>
      *
-     * @param errorMessage error message
+     * @param ukeyResponse   error response
+     * @param messagePayload 消息负载
      * @implNote [读卡器底层库]复位读卡器失败会自动重启u-key的Windows进程，希望能提升自我容灾机制
      * @since 2023-06-10
      */
     @Email
-    public void sendAlertSignFailure(String errorMessage) {
+    public void sendAlertSignFailure(UkeyResponse ukeyResponse, String messagePayload) {
+        String errorMessage = JacksonUtil.toPrettyJson(ukeyResponse);
+        String subject = "电子口岸 u-key 加签失败提醒";
+        String payload = StringUtils.defaultIfBlank(messagePayload, "");
         if (emailProperties.getEnable().equals(true)) {
             log.warn("电子口岸u-key加签数据失败：{}", errorMessage);
             SimpleMailMessageDomain message = new SimpleMailMessageDomain();
             message.setTo(emailProperties.getTo());
             message.setCc(StringUtils.split(emailProperties.getCc(), ","));
             message.setSentDate(LocalDateTime.now());
-            message.setSubject("电子口岸u-key加签失败");
-            if (errorMessage.contains("[读卡器底层库]复位读卡器失败")) {
-                message.setText("电子口岸u-key加签失败，原因：\n" + errorMessage + "\n\n如遇：“[读卡器底层库]复位读卡器失败”等错误，请手动重启加签exe客户端程序。");
-                restartWindowsWebsocketClient(message);
+            message.setSubject(subject);
+            message.setText("");
+            boolean shouldBreak = false;
+            boolean existsError = false;
+            if (CollectionUtils.isNotEmpty(ukeyResponse.get_args().getError())) {
+                for (String errorText : ukeyResponse.get_args().getError()) {
+                    for (UkeyError ukeyError : UkeyError.values()) {
+                        if (StringUtils.containsIgnoreCase(errorText, ukeyError.getErr())) {
+                            restartUkeyWindowsWebsocketClient(message);
+                            shouldBreak = true;
+                            existsError = true;
+                            break;
+                        }
+                    }
+                    if (shouldBreak) {
+                        break;
+                    }
+                }
+            }
+            StringBuilder text = new StringBuilder()
+                    .append("原始错误：\n").append(errorMessage).append("\n")
+                    .append("数据载荷：\n").append(payload).append("\n");
+            if (existsError) {
+                message.setText(text.append("提示，如遇 “[读卡器底层库]复位读卡器失败” 等错误，程序自动重启客户端后如果还是不能加签，请手动重启加签exe客户端程序。").toString());
             } else {
-                message.setText("电子口岸u-key加签失败，原因：\n" + errorMessage);
+                message.setText(text.toString());
             }
             emailTemplate.send(message);
         }
@@ -150,12 +179,35 @@ public class WebSocketClientHandler extends TextWebSocketHandler {
      *
      * @since 1.0.9
      */
-    public void restartWindowsWebsocketClient(SimpleMailMessageDomain message) {
+    public void restartUkeyWindowsWebsocketClient(SimpleMailMessageDomain message) {
         ConsoleOutput output = ukeyHealthHelper.fixUkey(Command.RESTART);
         String restartLog = message.getText()
                 .concat("\n\n加签程序【chinaport-data-signature】重启Windows Websocket客户端，cmd终端信息:\n")
-                .concat(JacksonUtil.toJson(output));
+                .concat(StringUtils.defaultIfBlank(JacksonUtil.toJson(output), ""));
         message.setText(restartLog);
+    }
+
+    /**
+     * 电子口岸 u-key 发生错误，需要重启“客户端控件”的情况
+     */
+    @Getter
+    @AllArgsConstructor
+    private enum UkeyError {
+        RESETTING_CARD_READER_FAILED(50070, "[读卡器底层库]复位读卡器失败:错误码=50070", "Custom50070"),
+        OPEN_THE_CARD_READER_FAILED(50200, "[读卡器底层库]打开读卡器失败：错误码=50200", "Custom50200"),
+        ;
+        /**
+         * 错误码
+         */
+        private final int code;
+        /**
+         * 描述
+         */
+        private final String desc;
+        /**
+         * Err
+         */
+        private final String err;
     }
 
 }

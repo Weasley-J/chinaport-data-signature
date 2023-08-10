@@ -77,6 +77,17 @@
 
 ![image-20230802165954038](https://weasley.oss-cn-shanghai.aliyuncs.com/Photos/image-20230802165954038.png)
 
+-  加签失败邮件通知告警
+
+  > [此功能需手动开启](https://github.com/Weasley-J/chinaport-data-signature/blob/main/chinaport-data-signature-app/src/main/resources/application-dev.yml#L25-L43)，开关属性: `spring.mail.enable`, 取值: `on/off`
+
+  <figure>
+   <img src="https://weasley.oss-cn-shanghai.aliyuncs.com/Photos/iShot_2023-08-10_13.56.34.png" alt="邮件通知效果">
+  <figcaption>加签失败邮件通知</figcaption>
+  </figure>
+
+  
+
 ## 1 支持的电子口岸
 
 > [核心加签接口](https://github.com/Weasley-J/chinaport-data-signature/blob/main/%E4%B8%AD%E5%9B%BD%E7%94%B5%E5%AD%90%E5%8F%A3%E5%B2%B8%E6%8A%A5%E6%96%87%E5%8A%A0%E7%AD%BE%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3.md#%E6%B5%B7%E5%85%B3%E6%95%B0%E6%8D%AE%E5%8A%A0%E7%AD%BE)理论上支持中国内地的大部分**地方电子口岸**
