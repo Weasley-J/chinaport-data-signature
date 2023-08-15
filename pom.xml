@@ -13,7 +13,7 @@
     <description>China E-Port data signature， 中国电子口岸报文加签推送应用，2022年2月11日开源此解决方案</description>
 
     <modules>
-        <module>chinaport-data-signature-app</module>
+        <module>chinaport-data-signature-webapp</module>
         <module>chinaport-data-signature-data-model</module>
     </modules>
 
