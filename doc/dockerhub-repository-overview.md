@@ -31,7 +31,7 @@ docker pull weasleyj/chinaport-data-signature:latest
 - 设置环境变量创建容器
 
 >
-配置参数请根据自己的实际情况修改，[应用YAML配置参考示例](https://github.com/Weasley-J/chinaport-data-signature/blob/main/chinaport-data-signature-app/src/main/resources/application-dev.yml#L43-L71)
+配置参数请根据自己的实际情况修改，[应用YAML配置参考示例](https://github.com/Weasley-J/chinaport-data-signature/blob/main/chinaport-data-signature-webapp/src/main/resources/application-dev.yml#L43-L71)
 
 ```bash
 # Docker宿主机挂载文件夹

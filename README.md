@@ -77,31 +77,30 @@
 
 ![image-20230802165954038](https://weasley.oss-cn-shanghai.aliyuncs.com/Photos/image-20230802165954038.png)
 
--  加签失败邮件通知告警
+-  加签失败邮件告警
 
-  > [此功能需手动开启](https://github.com/Weasley-J/chinaport-data-signature/blob/main/chinaport-data-signature-app/src/main/resources/application-dev.yml#L25-L43)，开关属性: `spring.mail.enable`, 取值: `on/off`
+  > [此功能需手动开启](https://github.com/Weasley-J/chinaport-data-signature/blob/main/chinaport-data-signature-webapp/src/main/resources/application-dev.yml#L25-L43)，开关属性: `spring.mail.enable`, 取值: `on/off`，也可以告警消息接入企业微信、钉钉、飞书、Discord等企业沟通软件。
 
   <figure>
    <img src="https://weasley.oss-cn-shanghai.aliyuncs.com/Photos/iShot_2023-08-10_13.56.34.png" alt="邮件通知效果">
   <figcaption>加签失败邮件通知</figcaption>
   </figure>
 
-  
+
 
 ## 1 支持的电子口岸
 
-> [核心加签接口](https://github.com/Weasley-J/chinaport-data-signature/blob/main/%E4%B8%AD%E5%9B%BD%E7%94%B5%E5%AD%90%E5%8F%A3%E5%B2%B8%E6%8A%A5%E6%96%87%E5%8A%A0%E7%AD%BE%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3.md#%E6%B5%B7%E5%85%B3%E6%95%B0%E6%8D%AE%E5%8A%A0%E7%AD%BE)理论上支持中国内地的大部分**地方电子口岸**
+> [核心加签接口](https://github.com/Weasley-J/chinaport-data-signature/blob/main/%E4%B8%AD%E5%9B%BD%E7%94%B5%E5%AD%90%E5%8F%A3%E5%B2%B8%E6%8A%A5%E6%96%87%E5%8A%A0%E7%AD%BE%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3.md#%E6%B5%B7%E5%85%B3%E6%95%B0%E6%8D%AE%E5%8A%A0%E7%AD%BE)
+> 理论上支持中国内地的大部分**地方电子口岸**
 
-| 电子口岸     | 是否支持 | 是否验证 |
-| ------------ | -------- |-----|
-| 海口电子口岸 | ✅        | ✅   |
-| 广州电子口岸 | ✅        | ✅   |
-| 郑州电子口岸 | ✅        | 待验证 |
-| 上海电子口岸 | ✅        | 待验证 |
-| 浙江电子口岸 | ✅        | 待验证  |
-| ...          |          |     |
-
-
+| 电子口岸   | 是否支持 | 是否验证 |
+|--------|------|------|
+| 海口电子口岸 | ✅    | ✅    |
+| 广州电子口岸 | ✅    | ✅    |
+| 郑州电子口岸 | ✅    | 待验证  |
+| 上海电子口岸 | ✅    | 待验证  |
+| 杭州电子口岸 | ✅    | 待验证  |
+| ...    |      |      |
 
 ## 2  项目代码质量
 
@@ -123,23 +122,23 @@
 > 本应用是标准的`springboot`应用，支持`springboot`
 > 的所有配置参数，推荐通过在[线`yaml`转`properties`](https://www.toyaml.com/index.html)将配置元数据复制到命令行参数中按需使用,
 
-- [推荐元数据配置示例](https://github.com/Weasley-J/chinaport-data-signature/blob/main/chinaport-data-signature-app/src/main/resources/application-dev.yml#L43-L71)
+- [推荐元数据配置示例](https://github.com/Weasley-J/chinaport-data-signature/blob/main/chinaport-data-signature-webapp/src/main/resources/application-dev.yml#L43-L71)
 
-- [加签异常邮件通知配置示例](https://github.com/Weasley-J/chinaport-data-signature/blob/main/chinaport-data-signature-app/src/main/resources/application-dev.yml#L23-L41)
+- [加签异常邮件通知配置示例](https://github.com/Weasley-J/chinaport-data-signature/blob/main/chinaport-data-signature-webapp/src/main/resources/application-dev.yml#L23-L41)
 
 | 配置参数                                         | 是否必须（Y/N） | 解释                                                         |
 | ------------------------------------------------ | --------------- | ------------------------------------------------------------ |
-| eport.signature.algorithm                        | N               | [XML签名的算法类型](https://github.com/Weasley-J/chinaport-data-signature/blob/main/chinaport-data-signature-app/src/main/java/cn/alphahub/eport/signature/config/SignatureAlgorithmProperties.java#L20)，不指定时使用程序自动推断的算法, 推荐使用程序自动推断的算法 |
+| eport.signature.algorithm                        | N               | [XML签名的算法类型](https://github.com/Weasley-J/chinaport-data-signature/blob/main/chinaport-data-signature-webapp/src/main/java/cn/alphahub/eport/signature/config/SignatureAlgorithmProperties.java#L20)，不指定时使用程序自动推断的算法, 推荐使用程序自动推断的算法 |
 | eport.signature.ukey.ws-url                      | Y               | `u-key`所连接的`Windows`电脑的`socket`链接`url`,如: `ws://127.0.0.1:61232`,下载`release`直接运行的修改全局配置的`UKEY_HOST`即可 |
 | eport.signature.ukey.password                    | N               | u-key密码的密码，默认: `88888888`, 如果密码改过，需要指定下，下载`release`直接运行的修改全局配置的`UKEY_PASSWORD`即可 |
 | eport.signature.ukey.health.endpoint.client-name | N               | Windows上重启的ukey可执行文件全限定文件名称，不指定将自动查找（将程序安装到Windows平台上会生效，Linux、Uni环境无效） |
-| eport.signature.auth.enable                      | N               | [是否启用token鉴权](https://github.com/Weasley-J/chinaport-data-signature/blob/main/chinaport-data-signature-app/src/main/java/cn/alphahub/eport/signature/config/AuthenticationProperties.java#L17)，取值：<u>on/off</u>，生产环境建议开启 |
-| eport.signature.auth.token                       | N               | 客户端请求鉴权token, 默认值: DefaultAuthToken, [请求头](https://github.com/Weasley-J/chinaport-data-signature/blob/main/chinaport-data-signature-app/src/main/java/cn/alphahub/eport/signature/config/AuthenticationProperties.java#L24)，<u>生产环境不建议使用默认值</u> |
-| eport.signature.report.ceb-message.cop-code      | Y               | [电子口岸XML报文](https://github.com/Weasley-J/chinaport-data-signature/blob/main/chinaport-data-signature-app/src/main/java/cn/alphahub/eport/signature/config/ChinaEportProperties.java#L20)传输企业代码 |
+| eport.signature.auth.enable                      | N               | [是否启用token鉴权](https://github.com/Weasley-J/chinaport-data-signature/blob/main/chinaport-data-signature-webapp/src/main/java/cn/alphahub/eport/signature/config/AuthenticationProperties.java#L17)，取值：<u>on/off</u>，生产环境建议开启 |
+| eport.signature.auth.token                       | N               | 客户端请求鉴权token, 默认值: DefaultAuthToken, [请求头](https://github.com/Weasley-J/chinaport-data-signature/blob/main/chinaport-data-signature-webapp/src/main/java/cn/alphahub/eport/signature/config/AuthenticationProperties.java#L24)，<u>生产环境不建议使用默认值</u> |
+| eport.signature.report.ceb-message.cop-code      | Y               | [电子口岸XML报文](https://github.com/Weasley-J/chinaport-data-signature/blob/main/chinaport-data-signature-webapp/src/main/java/cn/alphahub/eport/signature/config/ChinaEportProperties.java#L20)传输企业代码 |
 | eport.signature.report.ceb-message.cop-name      | Y               | 传输企业名称，报文传输的企业名称                             |
 | eport.signature.report.ceb-message.dxp-id        | Y               | 文传输编号，向中国电子口岸数据中心申请数据交换平台的用户编号 |
-| eport.signature.report.ceb-message.server        | N               | [海关服务器地址](https://github.com/Weasley-J/chinaport-data-signature/blob/main/chinaport-data-signature-app/src/main/java/cn/alphahub/eport/signature/config/ChinaEportProperties.java#L43)，<u>缺省则采用Client中的密文作文默认Server URL</u> |
-| eport.signature.report.customs179.ebp-code       | Y               | [海关 179 数据上报](https://github.com/Weasley-J/chinaport-data-signature/blob/main/chinaport-data-signature-app/src/main/java/cn/alphahub/eport/signature/config/Customs179Properties.java#L24)的电商平台代码 |
+| eport.signature.report.ceb-message.server        | N               | [海关服务器地址](https://github.com/Weasley-J/chinaport-data-signature/blob/main/chinaport-data-signature-webapp/src/main/java/cn/alphahub/eport/signature/config/ChinaEportProperties.java#L43)，<u>缺省则采用Client中的密文作文默认Server URL</u> |
+| eport.signature.report.customs179.ebp-code       | Y               | [海关 179 数据上报](https://github.com/Weasley-J/chinaport-data-signature/blob/main/chinaport-data-signature-webapp/src/main/java/cn/alphahub/eport/signature/config/Customs179Properties.java#L24)的电商平台代码 |
 | eport.signature.report.customs179.server         | N               | 数据上报服务器URL地址，链接格式: https://域名联系海关/ceb2grab/grab/realTimeDataUpload，<u>没有配置的话采用项目内置的URL密文地址</u> |
 
 ## 5 项目启动脚本
@@ -156,7 +155,7 @@
 #!/bin/bash
 
 # Environment args
-APP="chinaport-data-signature-app"
+APP="chinaport-data-signature-webapp"
 UKEY_HOST="127.0.0.1"
 UKEY_PASSWORD="88888888"
 JVM_ARGS="-Xms1g -Xmx1g"

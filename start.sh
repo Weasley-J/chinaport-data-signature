@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Environment args
-APP="chinaport-data-signature-app"
+APP="chinaport-data-signature-webapp"
 UKEY_HOST="127.0.0.1"
 UKEY_PASSWORD="88888888"
 JVM_ARGS="-Xms1g -Xmx1g"
