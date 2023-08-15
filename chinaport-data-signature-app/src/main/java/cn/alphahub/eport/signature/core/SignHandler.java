@@ -10,7 +10,6 @@ import cn.alphahub.eport.signature.entity.UkeyResponse.Args;
 import cn.alphahub.eport.signature.entity.UkeyResponseArgsWrapper;
 import cn.alphahub.eport.signature.entity.WebSocketWrapper;
 import cn.alphahub.eport.signature.support.XMLValidator;
-import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.lang.TypeReference;
 import cn.hutool.json.JSONUtil;
 import jakarta.validation.Valid;
@@ -28,11 +27,9 @@ import org.springframework.web.socket.client.WebSocketConnectionManager;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.LockSupport;
-
 
 /**
  * <p>电子口岸加签业务核心类</p>
@@ -48,14 +45,8 @@ import java.util.concurrent.locks.LockSupport;
 @Validated
 @Accessors(chain = true)
 public class SignHandler {
-    /**
-     * 暂定2022-07-01为第一个时间分解
-     */
-    public static final LocalDateTime DATE_TIME_202207 = LocalDateTimeUtil.parse("2022-07-01", "yyyy-MM-dd");
     @Autowired
     private UkeyProperties ukeyProperties;
-    @Autowired
-    private CertificateHandler certificateHandler;
     @Autowired
     private WebSocketClientHandler webSocketClientHandler;
     @Autowired

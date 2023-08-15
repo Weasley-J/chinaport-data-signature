@@ -22,6 +22,7 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
@@ -31,7 +32,6 @@ import org.springframework.web.socket.client.WebSocketConnectionManager;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-import java.io.IOException;
 import java.security.cert.X509Certificate;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -148,7 +148,7 @@ public class UkeyInitialConfig implements ApplicationRunner {
      * @param args incoming application arguments
      */
     @Override
-    public void run(ApplicationArguments args) throws IOException {
+    public void run(ApplicationArguments args) {
         org.apache.xml.security.Init.init();
         if (log.isDebugEnabled()) {
             log.debug("XMl output format with C14n Initial Succeed.");
@@ -184,6 +184,7 @@ public class UkeyInitialConfig implements ApplicationRunner {
      */
     @Bean
     @SneakyThrows
+    @RefreshScope
     public CertificateHandler certificateHandler(UkeyProperties ukeyProperties, StandardWebSocketClient standardWebSocketClient) {
         CertificateHandler certificateHandler = new CertificateHandler();
 
@@ -292,9 +293,9 @@ public class UkeyInitialConfig implements ApplicationRunner {
      * @return An instance of WebSocketClientHandler
      */
     @Bean
+    @RefreshScope
     @ConditionalOnMissingBean({WebSocketClientHandler.class})
     public WebSocketClientHandler webSocketClientHandler(UkeyProperties ukeyProperties, WebSocketWrapper webSocketWrapper, CertificateHandler certificateHandler) {
         return new WebSocketClientHandler(ukeyProperties, webSocketWrapper, certificateHandler);
     }
-
 }
