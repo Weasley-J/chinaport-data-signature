@@ -2,16 +2,16 @@ package cn.alphahub.eport.signature.core;
 
 import cn.alphahub.eport.signature.config.SignatureAlgorithm;
 import cn.hutool.core.date.LocalDateTimeUtil;
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
-
-import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.Map;
 
 import static cn.alphahub.eport.signature.config.SignatureAlgorithm.RSA_SHA1;
 
@@ -52,6 +52,7 @@ public class CertificateHandler implements Serializable {
      *     <li>value -> 从u-key读取<ds:SignatureValue>的方法名对应的X509Certificate证书</li>
      * </ul>
      */
+    @Setter
     @Getter
     private Map<String, String> x509Map;
     /**
@@ -97,6 +98,7 @@ public class CertificateHandler implements Serializable {
      * @apiNote 带Header
      */
     public static String buildX509CertificateWithHeader(String certPomFromUkey) {
+        // TODO 待验证换行符，Windows 和其他平台有差异
         return "-----BEGIN CERTIFICATE-----\n"
                 .concat(buildX509CertificateWithoutHeader(certPomFromUkey)).concat("\n")
                 .concat("-----END CERTIFICATE-----");
@@ -107,10 +109,6 @@ public class CertificateHandler implements Serializable {
             return LocalDateTime.now();
         }
         return ukeyValidTimeBegin;
-    }
-
-    public void setX509Map(Map<String, String> x509Map) {
-        this.x509Map = x509Map;
     }
 
     /**
