@@ -12,6 +12,15 @@ import cn.alphahub.eport.signature.entity.UkeyResponse;
 import cn.alphahub.eport.signature.entity.WebSocketWrapper;
 import cn.alphahub.eport.signature.support.CertificateParser;
 import cn.hutool.core.lang.TypeReference;
+import java.io.IOException;
+import java.security.cert.X509Certificate;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.locks.LockSupport;
 import lombok.Data;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -192,7 +201,7 @@ public class UkeyInitialConfig implements ApplicationRunner {
         AtomicReference<Thread> reference = new AtomicReference<>();
         reference.set(Thread.currentThread());
 
-        // 获取u-key内的证书相关
+        // 获取u-key内的证书
         WebSocketConnectionManager certManager = new WebSocketConnectionManager(standardWebSocketClient, new TextWebSocketHandler() {
             final UkeyRequest ukeyRequest = new UkeyRequest("cus-sec_SpcGetSignCertAsPEM", new HashMap<>());
 
