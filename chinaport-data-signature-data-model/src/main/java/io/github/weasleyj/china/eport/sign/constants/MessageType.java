@@ -8,6 +8,7 @@ import lombok.Getter;
  *
  * @author weasley
  * @version 1.0.0
+ * @apiNote 进口单报文类型：16 类，出口单报文类型：23 类
  */
 @SuppressWarnings("all")
 public enum MessageType implements IMessageType {
