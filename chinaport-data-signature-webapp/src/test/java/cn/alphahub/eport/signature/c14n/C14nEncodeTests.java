@@ -1,9 +1,7 @@
-package cn.alphahub.eport.signature.c14;
-
+package cn.alphahub.eport.signature.c14n;
 
 import cn.alphahub.eport.signature.core.SignatureHandler;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 /**
  * Sign CEB311Message With C14n
@@ -13,7 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
  * @version 1.0
  * @date 2022-01-11 14:23
  */
-@SpringBootTest
+
 class C14nEncodeTests {
 
     @Test
