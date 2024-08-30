@@ -7,6 +7,8 @@ import cn.alphahub.eport.signature.core.web.EportReportResultHttpClient;
 import cn.alphahub.eport.signature.core.web.WebfluxDemoHttpClient;
 import cn.alphahub.eport.signature.support.OriginalPropertyNamingStrategy;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Objects;
+import java.util.function.Consumer;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.tomcat.util.codec.binary.Base64;
@@ -24,9 +26,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.support.WebClientAdapter;
 import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 import reactor.core.publisher.Mono;
-
-import java.util.Objects;
-import java.util.function.Consumer;
 
 import static cn.alphahub.eport.signature.core.ChinaEportReportClient.EPORT_CEBMESSAGE_SERVER_ENCODE;
 import static cn.alphahub.eport.signature.core.ChinaEportReportClient.REPORT_PROD_ENV_179_URL_ENCODE;
@@ -170,11 +169,11 @@ public class WebClientConfiguration {
     private ExchangeFilterFunction logRequest() {
         return ExchangeFilterFunction.ofRequestProcessor(clientRequest -> {
             if (log.isInfoEnabled()) {
-                log.info("Request URL: " + clientRequest.url());
-                log.info("Request Method: " + clientRequest.method());
-                log.info("Request Headers: " + clientRequest.headers());
+                log.info("Request URL: {}", clientRequest.url());
+                log.info("Request Method: {}", clientRequest.method());
+                log.info("Request Headers: {}", clientRequest.headers());
                 if (clientRequest.method() == HttpMethod.POST || clientRequest.method() == HttpMethod.PUT) {
-                    log.info("Request Body: " + clientRequest.body());
+                    log.info("Request Body: {}", clientRequest.body());
                 }
             }
             return Mono.just(clientRequest);
