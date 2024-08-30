@@ -1,8 +1,5 @@
 package cn.alphahub.eport.signature.support;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,6 +8,8 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 命令行客户端工具类
@@ -209,7 +208,7 @@ class RedirectOutputStreamWrapper implements Runnable {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
             if ((line = br.readLine()) != null) {
                 do {
-                    outputStream.write(line.concat(System.getProperty("line.separator")).getBytes(StandardCharsets.UTF_8));
+                    outputStream.write(line.concat(System.lineSeparator()).getBytes(StandardCharsets.UTF_8));
                     outputStream.flush();
                 } while ((line = br.readLine()) != null);
             }
