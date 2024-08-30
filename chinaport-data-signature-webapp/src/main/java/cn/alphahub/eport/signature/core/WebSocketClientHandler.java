@@ -13,6 +13,9 @@ import cn.alphahub.multiple.email.EmailTemplate.SimpleMailMessageDomain;
 import cn.alphahub.multiple.email.annotation.Email;
 import cn.hutool.core.lang.TypeReference;
 import cn.hutool.json.JSONUtil;
+import java.time.LocalDateTime;
+import java.util.Objects;
+import java.util.concurrent.locks.LockSupport;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -24,10 +27,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
-
-import java.time.LocalDateTime;
-import java.util.Objects;
-import java.util.concurrent.locks.LockSupport;
 
 /**
  * 加签websocket客户端基类
@@ -133,6 +132,7 @@ public class WebSocketClientHandler extends TextWebSocketHandler {
      * @since 2023-06-10
      */
     @Email
+    @SuppressWarnings({"all"})
     public void sendAlertSignFailure(UkeyResponse ukeyResponse, String messagePayload) {
         String errorMessage = JacksonUtil.toPrettyJson(ukeyResponse);
         String subject = "电子口岸 u-key 加签失败提醒";
