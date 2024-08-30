@@ -141,7 +141,7 @@ public class WebSocketClientHandler extends TextWebSocketHandler {
             log.warn("电子口岸u-key加签数据失败：{}", errorMessage);
             SimpleMailMessageDomain message = new SimpleMailMessageDomain();
             message.setTo(emailProperties.getTo());
-            message.setCc(StringUtils.split(emailProperties.getCc(), ","));
+            message.setCc(emailProperties.getCcEmails());
             message.setSentDate(LocalDateTime.now());
             message.setSubject(subject);
             message.setText("");
