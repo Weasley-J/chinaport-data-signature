@@ -1,6 +1,5 @@
 package cn.alphahub.eport.signature.controller.rpc;
 
-import cn.alphahub.eport.signature.core.CertificateHandler;
 import cn.alphahub.eport.signature.core.SignHandler;
 import cn.alphahub.eport.signature.entity.UkeyRequest;
 import cn.alphahub.eport.signature.entity.UkeyResponse.Args;
@@ -10,13 +9,10 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import static cn.alphahub.eport.signature.core.CertificateHandler.SING_DATA_METHOD;
 
 /**
  * 电子口岸X509证书
@@ -31,8 +27,6 @@ public class EportCertController {
 
     @Autowired
     private SignHandler signHandler;
-    @Autowired
-    private CertificateHandler certificateHandler;
 
     /**
      * 下载证书
@@ -43,11 +37,8 @@ public class EportCertController {
      */
     @GetMapping("/cert/download")
     public void downloadX509Certificate(HttpServletResponse response) throws IOException {
-        String x509Certificate = certificateHandler.getX509Certificate(SING_DATA_METHOD);
-        if (StringUtils.isBlank(x509Certificate)) {
-            Args certPEMArgs = signHandler.getUkeyResponseArgs(new UkeyRequest("cus-sec_SpcGetEnvCertAsPEM", new HashMap<>()));
-            x509Certificate = certPEMArgs.getData().get(0);
-        }
+        Args certPEMArgs = signHandler.getUkeyResponseArgs(new UkeyRequest("cus-sec_SpcGetEnvCertAsPEM", new HashMap<>()));
+        String x509Certificate = certPEMArgs.getData().get(0);
         Args certNoArgs = signHandler.getUkeyResponseArgs(new UkeyRequest("cus-sec_SpcGetCertNo", new HashMap<>()));
         String certName = certNoArgs.getData().get(0);
         response.setContentType("application/x-x509-ca-cert");
