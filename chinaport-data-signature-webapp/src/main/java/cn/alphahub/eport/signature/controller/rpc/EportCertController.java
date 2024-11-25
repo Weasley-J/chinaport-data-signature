@@ -39,22 +39,21 @@ public class EportCertController {
      *
      * @apiNote 证书文件格式: 证书编号.cer, 遇到项目启动的首页下载证书出现文件名为 unknown.cer 的情况将下载链接复制到浏览器中打开，有公司反馈x509证书导出还存在问题， <a href="http://tool.qdhuaxun.cn/">先去这里导</a> ：海关179号公告对接 => ukey证书导出工具
      * @download
-     * @since 20240926
+     * @since 20241115
      */
     @GetMapping("/cert/download")
     public void downloadX509Certificate(HttpServletResponse response) throws IOException {
         String x509Certificate = certificateHandler.getX509Certificate(SING_DATA_METHOD);
         if (StringUtils.isBlank(x509Certificate)) {
-            Args certPEMArgs = signHandler.getUkeyResponseArgs(new UkeyRequest("cus-sec_SpcGetSignCertAsPEM", new HashMap<>()));
+            Args certPEMArgs = signHandler.getUkeyResponseArgs(new UkeyRequest("cus-sec_SpcGetEnvCertAsPEM", new HashMap<>()));
             x509Certificate = certPEMArgs.getData().get(0);
         }
         Args certNoArgs = signHandler.getUkeyResponseArgs(new UkeyRequest("cus-sec_SpcGetCertNo", new HashMap<>()));
         String certName = certNoArgs.getData().get(0);
-        String certificate = CertificateHandler.buildX509CertificateWithHeader(x509Certificate);
         response.setContentType("application/x-x509-ca-cert");
         response.setHeader("Content-Disposition", "attachment; filename=\"" + certName + ".cer\"");
         OutputStream stream = response.getOutputStream();
-        stream.write(certificate.getBytes(StandardCharsets.UTF_8));
+        stream.write(x509Certificate.getBytes(StandardCharsets.UTF_8));
         stream.flush();
         stream.close();
     }
